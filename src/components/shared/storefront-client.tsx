@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
 import {
@@ -585,7 +585,12 @@ export function StorefrontClient({ categories: initialCategories, products: init
   // Sync hash routing
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash || '#home'
+      let hash = window.location.hash || '#home'
+      // Đồng bộ hóa hash #merch từ tempi gốc với tab #merchandise của React
+      if (hash === '#merch') {
+        hash = '#merchandise'
+      }
+      
       if (hash.startsWith('#blog-detail/')) {
         const slug = hash.replace('#blog-detail/', '')
         const found = blogItems.find(item => item.slug === slug)

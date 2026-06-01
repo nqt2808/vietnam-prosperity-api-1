@@ -12,7 +12,9 @@ export function Header() {
     setMounted(true)
 
     const handleHashChange = () => {
-      setActiveHash(window.location.hash || '#home')
+      // Chuẩn hóa hash về chữ thường
+      const hash = window.location.hash || '#home'
+      setActiveHash(hash)
     }
     
     window.addEventListener('hashchange', handleHashChange)
@@ -30,20 +32,18 @@ export function Header() {
   return (
     <header className="site-header">
       <div className="container header-inner">
-        {/* High-Fidelity Dual Logo Block */}
+        {/* Brand Block */}
         <div className="brand" onClick={() => handleNav('home')}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <img 
-              className="brand-logo vpc" 
-              src="https://res.cloudinary.com/dojibbcof/image/upload/v1779774653/vpc-removebg-preview_h74zpx.png" 
-              alt="Vietnam Prosperity Coffee Logo" 
-            />
-            <img 
-              className="brand-logo tn" 
-              src="https://res.cloudinary.com/dojibbcof/image/upload/v1779774577/z7667468160241_2e65fa10d3f27cb8fa134d19335ef00a_no4b9r.jpg" 
-              alt="Trung Nguyên Legend Logo" 
-            />
-          </div>
+          <img 
+            className="brand-logo vpc" 
+            src="https://drive.google.com/thumbnail?id=1_hzgMfrnLJU9w1-xF3b8D9tT_cyddse5&sz=w600" 
+            alt="Vietnam Prosperity Coffee Logo" 
+          />
+          <img 
+            className="brand-logo tn" 
+            src="https://drive.google.com/thumbnail?id=1pUy1triN4IzzM2X9oEs5WSL7zL9eVEMh&sz=w600" 
+            alt="Trung Nguyên Legend Logo" 
+          />
           <div className="brand-text">
             <strong>Vietnam Prosperity Coffee</strong>
             <span>Trung Nguyên Legend Âu Lạc</span>
@@ -53,20 +53,14 @@ export function Header() {
         {/* Navigation Menu */}
         <nav className="main-nav">
           <button 
-            className={`nav-btn ${activeHash === '#home' ? 'active' : ''}`} 
-            onClick={() => handleNav('home')}
-          >
-            Trang chủ
-          </button>
-          <button 
             className={`nav-btn ${activeHash === '#menu' ? 'active' : ''}`} 
             onClick={() => handleNav('menu')}
           >
             Menu đồ uống
           </button>
           <button 
-            className={`nav-btn ${activeHash === '#merchandise' ? 'active' : ''}`} 
-            onClick={() => handleNav('merchandise')}
+            className={`nav-btn ${activeHash === '#merch' || activeHash === '#merchandise' ? 'active' : ''}`} 
+            onClick={() => handleNav('merch')}
           >
             Vật phẩm
           </button>
@@ -76,23 +70,13 @@ export function Header() {
           >
             Bài viết
           </button>
+          
           <button 
-            className={`nav-btn ${activeHash === '#contact' ? 'active' : ''}`} 
-            onClick={() => handleNav('contact')}
-          >
-            Liên hệ
-          </button>
-          <button 
-            className={`nav-btn ${activeHash === '#lookup' ? 'active' : ''}`} 
-            onClick={() => handleNav('lookup')}
-          >
-            Tra cứu đơn
-          </button>
-          <button 
-            className={`nav-btn ${activeHash === '#cart' ? 'active' : ''}`} 
+            className={`nav-btn cart-icon-btn ${activeHash === '#cart' ? 'active' : ''}`} 
             onClick={() => handleNav('cart')}
+            aria-label="Giỏ hàng"
           >
-            🛒 Giỏ hàng
+            <span className="cart-icon">🛒</span>
             {mounted && (
               <span className="cart-count" id="cartCount">
                 {getTotalItems()}
