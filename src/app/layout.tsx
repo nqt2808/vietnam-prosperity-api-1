@@ -1,28 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
-  title: "VPC Store - Thiết Bị Công Nghệ & Chiếu Sáng Thông Minh Cao Cấp",
-  description: "Khám phá các thiết bị chiếu sáng thông minh RGBIC, tai nghe ANC cao cấp, bàn phím cơ custom, và các giải pháp góc làm việc công nghệ đỉnh cao tại VPC Store.",
+  title: "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc",
+  description: "Trải nghiệm hương vị cà phê năng lượng đích thực cùng 3 nền văn minh cà phê thế giới tại Trung Nguyên Legend Âu Lạc Huế.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://website-vpc.vercel.app'),
   openGraph: {
-    title: "VPC Store - Thiết Bị Công Nghệ Cao Cấp",
-    description: "Nhà cung cấp thiết bị chiếu sáng thông minh, âm thanh đỉnh cao và góc làm việc công thái học số 1.",
+    title: "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc",
+    description: "Không gian cà phê năng lượng, tỉnh thức và hội tụ tinh hoa 3 nền văn minh cà phê thế giới tại Huế.",
     url: "/",
-    siteName: "VPC Store",
+    siteName: "Vietnam Prosperity Coffee",
     locale: "vi_VN",
     type: "website"
   }
@@ -34,15 +21,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="vi"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-zinc-50 text-zinc-950 dark:bg-[#030303] dark:text-zinc-50 transition-colors duration-300">
-        <Header />
-        <main className="flex-1 flex flex-col pt-[122px] max-[980px]:pt-[88px] max-[520px]:pt-[68px]">{children}</main>
-        <Footer />
+    <html lang="vi" className="h-full antialiased">
+      <body className="min-h-full">
+        {children}
       </body>
     </html>
   );
 }
+

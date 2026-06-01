@@ -1,6 +1,8 @@
 import React from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { StorefrontClient } from '@/components/shared/storefront-client'
+import { Header } from '@/components/layout/header'
+import { Footer } from '@/components/layout/footer'
 
 export const revalidate = 0 // Keep it fully dynamic for checkout/payment SPA views
 
@@ -98,6 +100,11 @@ export default async function Home() {
   }
 
   return (
-    <StorefrontClient categories={categories} products={products} />
+    <>
+      <Header />
+      <StorefrontClient categories={categories} products={products} />
+      <Footer />
+    </>
   )
 }
+
