@@ -1,0 +1,103 @@
+=== DIFF REPORT (Workspace vs Desktop) ===
+Workspace total lines: 5575
+Desktop total lines: 5519
+
+=== UNIQUE LINES IN WORKSPACE (Missing in Desktop) ===
+Line 2403: <p>Khám phá các món cà phê, trà, đá xay, nước ép và bánh ngọt tại <strong>Trung Nguyên Legend Âu Lạc</strong>.
+Line 2421: <p>Các sản phẩm cà phê, dụng cụ pha chế, ly tách, bộ quà tặng và vật phẩm thương hiệu của <strong>Trung Nguyên
+Line 2422: Legend</strong>.
+Line 2445: <p>Cập nhật tin tức, sự kiện, ưu đãi và những khoảnh khắc đáng nhớ của <strong>Trung Nguyên Legend Âu
+Line 2446: Lạc</strong>.</p>
+Line 2664: <p><strong>Vietnam Prosperity Coffee</strong> là đơn vị sở hữu và vận hành website hỗ trợ khách hàng kết nối với
+Line 2665: <strong>Trung Nguyên Legend Âu Lạc</strong>.</p>
+Line 2673: style="font-size: 38px; text-align: center; color: var(--coffee-dark); font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;">
+Line 2674: VỀ CHÚNG TÔI</h2>
+Line 2677: <div class="about-row"
+Line 2678: style="background: #fffcf8; border: 1px solid rgba(58, 33, 20, 0.08); border-radius: 24px; box-shadow: 0 10px 30px rgba(58, 33, 20, 0.04); display: flex; flex-direction: column; align-items: center; width: 100%;">
+Line 2687: <strong>Vietnam Prosperity Coffee Company Limited</strong>, hay còn được biết đến với tên gọi
+Line 2688: <strong>Vietnam Prosperity Coffee</strong>, được thành lập vào năm 2025 với định hướng hoạt động trong
+Line 2689: lĩnh vực dịch vụ phục vụ đồ uống, phát triển không gian cà phê hiện đại và mang đến những trải nghiệm
+Line 2690: thưởng thức chất lượng dành cho khách hàng tại Thành phố Huế.
+Line 2693: Công ty được đồng sở hữu bởi Ông <strong>Nguyễn Minh Đức</strong> (Tổng giám đốc công ty) và Bà
+Line 2694: <strong>Nguyễn Thị Tuyết Mai</strong> (Chủ đầu tư). Xuất phát từ niềm yêu thích dành cho cà phê, sản phẩm
+Line 2695: Trung Nguyên và những giá trị trải nghiệm mà thương hiệu <strong>Trung Nguyên Legend</strong> mang lại,
+Line 2696: hai nhà sáng lập cùng hướng đến việc xây dựng một điểm đến cà phê chuyên nghiệp, tiện lợi và giàu cảm hứng
+Line 2697: cho khách hàng tại khu vực <strong>Âu Lạc</strong> nói riêng và Thành phố Huế nói chung.
+Line 2703: <div class="about-row"
+Line 2704: style="background: #fffcf8; border: 1px solid rgba(58, 33, 20, 0.08); border-radius: 24px; box-shadow: 0 10px 30px rgba(58, 33, 20, 0.04); display: flex; flex-direction: column; align-items: center; width: 100%;">
+Line 2707: Với vai trò là đơn vị vận hành cửa hàng và website hỗ trợ khách hàng kết nối với <strong>Trung Nguyên
+Line 2708: Legend Âu Lạc</strong>, <strong>Vietnam Prosperity Coffee</strong> không chỉ tập trung vào việc phục vụ
+Line 2709: đồ uống chất lượng, mà còn chú trọng xây dựng một không gian phù hợp để khách hàng gặp gỡ, học tập, làm
+Line 2710: việc, thư giãn và tận hưởng những khoảnh khắc ý nghĩa bên ly cà phê.
+Line 2713: Chúng tôi tin rằng cà phê không chỉ là một thức uống quen thuộc trong đời sống hằng ngày, mà còn là nguồn
+Line 2714: năng lượng, cảm hứng và sự kết nối. Vì vậy, mỗi sản phẩm và dịch vụ tại <strong>Trung Nguyên Legend Âu
+Line 2715: Lạc</strong> đều được hướng đến sự chỉn chu, tiện lợi và thân thiện, nhằm mang lại trải nghiệm tốt hơn
+Line 2716: cho từng khách hàng khi ghé thăm hoặc đặt hàng trực tuyến.
+Line 2728: <div class="about-row"
+Line 2729: style="background: #fffcf8; border: 1px solid rgba(58, 33, 20, 0.08); border-radius: 24px; box-shadow: 0 10px 30px rgba(58, 33, 20, 0.04); display: flex; flex-direction: column; align-items: center; width: 100%;">
+Line 2736: <div class="about-text"
+Line 2737: style="display: flex; flex-direction: column; gap: 20px; align-items: flex-start; flex: 1;">
+Line 2739: Thông qua website này, <strong>Vietnam Prosperity Coffee</strong> mong muốn mang đến một kênh hỗ trợ nhanh
+Line 2740: chóng và thuận tiện, giúp khách hàng dễ dàng xem menu đồ uống, lựa chọn món yêu thích, đặt hàng, theo dõi
+Line 2741: đơn hàng và tìm hiểu thêm về các sản phẩm cà phê, dụng cụ pha chế, ly tách, bộ quà tặng cùng các vật phẩm
+Line 2742: thương hiệu của <strong>Trung Nguyên Legend</strong> đang được cung cấp tại cửa hàng <strong>Âu
+Line 2743: Lạc</strong>.
+Line 2746: Trong quá trình phát triển, <strong>Vietnam Prosperity Coffee</strong> luôn hướng đến tinh thần chuyên
+Line 2747: nghiệp, tận tâm và không ngừng hoàn thiện. Chúng tôi kỳ vọng website này sẽ trở thành cầu nối hiệu quả
+Line 2748: giữa khách hàng và <strong>Trung Nguyên Legend Âu Lạc</strong>, đồng thời góp phần lan tỏa giá trị của cà
+Line 2749: phê năng lượng, không gian truyền cảm hứng và phong cách phục vụ hiện đại đến cộng đồng yêu cà phê tại
+Line 2752: <button class="btn btn-primary" onclick="showPage('contact')" style="margin-top: 10px;">Liên hệ
+Line 2753: ngay</button>
+Line 2772: <div class="contact-card"
+Line 2773: style="width: 100%; max-width: 600px; box-shadow: var(--shadow); background: white; padding: 36px; border-radius: var(--radius); border: 1px solid rgba(58, 33, 20, 0.08);">
+Line 2775: style="text-align: center; margin-bottom: 24px; color: var(--coffee-dark); font-size: 26px; font-weight: 900;">
+Line 2776: Gửi liên hệ</h3>
+Line 2779: <label style="font-weight: 700; color: var(--coffee-dark); margin-bottom: 6px; display: block;">Họ
+Line 2780: tên</label>
+Line 2781: <input required placeholder="Nhập họ tên"
+Line 2782: style="width: 100%; padding: 12px; border: 1px solid rgba(58,33,20,0.15); border-radius: 8px; font-family: inherit; font-size: 14px;" />
+Line 2786: <label style="font-weight: 700; color: var(--coffee-dark); margin-bottom: 6px; display: block;">Số điện
+Line 2787: thoại</label>
+Line 2788: <input required placeholder="Nhập số điện thoại"
+Line 2789: style="width: 100%; padding: 12px; border: 1px solid rgba(58,33,20,0.15); border-radius: 8px; font-family: inherit; font-size: 14px;" />
+Line 2793: <label style="font-weight: 700; color: var(--coffee-dark); margin-bottom: 6px; display: block;">Nội
+Line 2794: dung</label>
+Line 2795: <textarea required placeholder="Bạn cần hỗ trợ gì?"
+Line 2796: style="width: 100%; padding: 12px; border: 1px solid rgba(58,33,20,0.15); border-radius: 8px; min-height: 120px; font-family: inherit; font-size: 14px;"></textarea>
+Line 2800: <button class="btn btn-primary" type="submit" style="width: 100%; max-width: 240px; font-weight: 900;">Gửi
+Line 2801: thông tin liên hệ</button>
+Line 2827: <p style="margin-bottom: 24px;">Đơn vị vận hành cửa hàng và website <strong>Trung Nguyên Legend Âu
+Line 2828: Lạc</strong>.</p>
+Line 2909: Xin chào! Mình là Trang, trợ lý tư vấn món của <strong>Trung Nguyên Legend Âu Lạc</strong>. Bạn muốn mình gợi
+Line 2910: ý theo khẩu vị
+Total: 67 unique lines in Workspace.
+
+=== UNIQUE LINES IN DESKTOP (Missing in Workspace) ===
+Line 2392: <p>Khám phá các món cà phê, trà, đá xay, nước ép và bánh ngọt tại <strong>Trung Nguyên Legend Âu Lạc</strong>.</p>
+Line 2409: <p>Các sản phẩm cà phê, dụng cụ pha chế, ly tách, bộ quà tặng và vật phẩm thương hiệu của <strong>Trung Nguyên Legend</strong>.
+Line 2432: <p>Cập nhật tin tức, sự kiện, ưu đãi và những khoảnh khắc đáng nhớ của <strong>Trung Nguyên Legend Âu Lạc</strong>.</p>
+Line 2650: <p><strong>Vietnam Prosperity Coffee</strong> là đơn vị sở hữu và vận hành website hỗ trợ khách hàng kết nối với <strong>Trung Nguyên Legend Âu Lạc</strong>.</p>
+Line 2657: <h2 style="font-size: 38px; text-align: center; color: var(--coffee-dark); font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;">VỀ CHÚNG TÔI</h2>
+Line 2660: <div class="about-row" style="background: #fffcf8; border: 1px solid rgba(58, 33, 20, 0.08); border-radius: 24px; box-shadow: 0 10px 30px rgba(58, 33, 20, 0.04); display: flex; flex-direction: column; align-items: center; width: 100%;">
+Line 2669: <strong>Vietnam Prosperity Coffee Company Limited</strong>, hay còn được biết đến với tên gọi <strong>Vietnam Prosperity Coffee</strong>, được thành lập vào năm 2025 với định hướng hoạt động trong lĩnh vực dịch vụ phục vụ đồ uống, phát triển không gian cà phê hiện đại và mang đến những trải nghiệm thưởng thức chất lượng dành cho khách hàng tại Thành phố Huế.
+Line 2672: Công ty được đồng sở hữu bởi Ông <strong>Nguyễn Minh Đức</strong> (Tổng giám đốc công ty) và Bà <strong>Nguyễn Thị Tuyết Mai</strong> (Chủ đầu tư). Xuất phát từ niềm yêu thích dành cho cà phê, sản phẩm Trung Nguyên và những giá trị trải nghiệm mà thương hiệu <strong>Trung Nguyên Legend</strong> mang lại, hai nhà sáng lập cùng hướng đến việc xây dựng một điểm đến cà phê chuyên nghiệp, tiện lợi và giàu cảm hứng cho khách hàng tại khu vực <strong>Âu Lạc</strong> nói riêng và Thành phố Huế nói chung.
+Line 2678: <div class="about-row" style="background: #fffcf8; border: 1px solid rgba(58, 33, 20, 0.08); border-radius: 24px; box-shadow: 0 10px 30px rgba(58, 33, 20, 0.04); display: flex; flex-direction: column; align-items: center; width: 100%;">
+Line 2681: Với vai trò là đơn vị vận hành cửa hàng và website hỗ trợ khách hàng kết nối với <strong>Trung Nguyên Legend Âu Lạc</strong>, <strong>Vietnam Prosperity Coffee</strong> không chỉ tập trung vào việc phục vụ đồ uống chất lượng, mà còn chú trọng xây dựng một không gian phù hợp để khách hàng gặp gỡ, học tập, làm việc, thư giãn và tận hưởng những khoảnh khắc ý nghĩa bên ly cà phê.
+Line 2684: Chúng tôi tin rằng cà phê không chỉ là một thức uống quen thuộc trong đời sống hằng ngày, mà còn là nguồn năng lượng, cảm hứng và sự kết nối. Vì vậy, mỗi sản phẩm và dịch vụ tại <strong>Trung Nguyên Legend Âu Lạc</strong> đều được hướng đến sự chỉn chu, tiện lợi và thân thiện, nhằm mang lại trải nghiệm tốt hơn cho từng khách hàng khi ghé thăm hoặc đặt hàng trực tuyến.
+Line 2696: <div class="about-row" style="background: #fffcf8; border: 1px solid rgba(58, 33, 20, 0.08); border-radius: 24px; box-shadow: 0 10px 30px rgba(58, 33, 20, 0.04); display: flex; flex-direction: column; align-items: center; width: 100%;">
+Line 2703: <div class="about-text" style="display: flex; flex-direction: column; gap: 20px; align-items: flex-start; flex: 1;">
+Line 2705: Thông qua website này, <strong>Vietnam Prosperity Coffee</strong> mong muốn mang đến một kênh hỗ trợ nhanh chóng và thuận tiện, giúp khách hàng dễ dàng xem menu đồ uống, lựa chọn món yêu thích, đặt hàng, theo dõi đơn hàng và tìm hiểu thêm về các sản phẩm cà phê, dụng cụ pha chế, ly tách, bộ quà tặng cùng các vật phẩm thương hiệu của <strong>Trung Nguyên Legend</strong> đang được cung cấp tại cửa hàng <strong>Âu Lạc</strong>.
+Line 2708: Trong quá trình phát triển, <strong>Vietnam Prosperity Coffee</strong> luôn hướng đến tinh thần chuyên nghiệp, tận tâm và không ngừng hoàn thiện. Chúng tôi kỳ vọng website này sẽ trở thành cầu nối hiệu quả giữa khách hàng và <strong>Trung Nguyên Legend Âu Lạc</strong>, đồng thời góp phần lan tỏa giá trị của cà phê năng lượng, không gian truyền cảm hứng và phong cách phục vụ hiện đại đến cộng đồng yêu cà phê tại Huế.
+Line 2710: <button class="btn btn-primary" onclick="showPage('contact')" style="margin-top: 10px;">Liên hệ ngay</button>
+Line 2729: <div class="contact-card" style="width: 100%; max-width: 600px; box-shadow: var(--shadow); background: white; padding: 36px; border-radius: var(--radius); border: 1px solid rgba(58, 33, 20, 0.08);">
+Line 2730: <h3 style="text-align: center; margin-bottom: 24px; color: var(--coffee-dark); font-size: 26px; font-weight: 900;">Gửi liên hệ</h3>
+Line 2733: <label style="font-weight: 700; color: var(--coffee-dark); margin-bottom: 6px; display: block;">Họ tên</label>
+Line 2734: <input required placeholder="Nhập họ tên" style="width: 100%; padding: 12px; border: 1px solid rgba(58,33,20,0.15); border-radius: 8px; font-family: inherit; font-size: 14px;" />
+Line 2738: <label style="font-weight: 700; color: var(--coffee-dark); margin-bottom: 6px; display: block;">Số điện thoại</label>
+Line 2739: <input required placeholder="Nhập số điện thoại" style="width: 100%; padding: 12px; border: 1px solid rgba(58,33,20,0.15); border-radius: 8px; font-family: inherit; font-size: 14px;" />
+Line 2743: <label style="font-weight: 700; color: var(--coffee-dark); margin-bottom: 6px; display: block;">Nội dung</label>
+Line 2744: <textarea required placeholder="Bạn cần hỗ trợ gì?" style="width: 100%; padding: 12px; border: 1px solid rgba(58,33,20,0.15); border-radius: 8px; min-height: 120px; font-family: inherit; font-size: 14px;"></textarea>
+Line 2748: <button class="btn btn-primary" type="submit" style="width: 100%; max-width: 240px; font-weight: 900;">Gửi thông tin liên hệ</button>
+Line 2774: <p style="margin-bottom: 24px;">Đơn vị vận hành cửa hàng và website <strong>Trung Nguyên Legend Âu Lạc</strong>.</p>
+Line 2855: Xin chào! Mình là Trang, trợ lý tư vấn món của <strong>Trung Nguyên Legend Âu Lạc</strong>. Bạn muốn mình gợi ý theo khẩu vị
+Total: 27 unique lines in Desktop.

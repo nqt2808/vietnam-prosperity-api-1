@@ -1,0 +1,2516 @@
+﻿'use client'
+
+import React, { useState, useEffect, useRef } from 'react'
+import {
+  Coffee,
+  ShoppingBag,
+  Phone,
+  MapPin,
+  Mail,
+  ArrowRight,
+  Sparkles,
+  Zap,
+  Flame,
+  ShieldCheck,
+  Plus,
+  Minus,
+  Trash2,
+  Clock,
+  Compass,
+  Heart,
+  Search,
+  Award,
+  CheckCircle2,
+  MessageSquare,
+  Send,
+  X,
+  ChevronRight,
+  Map,
+  Share2,
+  Calendar,
+  User,
+  AlertTriangle,
+  RotateCcw
+} from 'lucide-react'
+
+const Facebook = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+  </svg>
+)
+
+const TikTok = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+)
+
+import { useCartStore } from '@/features/cart/cart-store'
+import { cn } from '@/lib/utils'
+import { createClient as createBrowserClient } from '@/lib/supabase/client'
+import { createOrderAction, updateOrderStatusAction, getOrderStatusAction } from '@/app/actions/order-actions'
+
+// ====== ProductCard Sub-component ======
+// Pháº£i tÃ¡ch ra Ä‘á»ƒ dÃ¹ng useState há»£p lá»‡ theo Rules of Hooks
+interface ProductCardProps {
+  prod: any
+  onAddItem: (item: { id: string; name: string; slug: string; price: number; imageUrl: string; stockQuantity: number }, qty: number) => void
+}
+
+function ProductCard({ prod, onAddItem }: ProductCardProps) {
+  // Kiá»ƒm tra cÃ³ 2 biáº¿n thá»ƒ giÃ¡ (Ä‘en Ä‘Ã¡ / sá»¯a Ä‘Ã¡) khÃ´ng
+  const hasVariants = !!(prod.gia_den && prod.gia_sua)
+  const [selectedVariant, setSelectedVariant] = useState<'den' | 'sua'>('den')
+
+  const displayPrice = hasVariants
+    ? (selectedVariant === 'den' ? prod.gia_den : prod.gia_sua)
+    : (prod.price || prod.gia || 0)
+
+  const imageObj = prod.product_images && prod.product_images.length > 0 ? prod.product_images[0] : null
+  const imageUrl = imageObj
+    ? (typeof imageObj === 'string' ? imageObj : imageObj.url)
+    : 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=700&q=80'
+
+  const handleAdd = () => {
+    const nameSuffix = hasVariants ? (selectedVariant === 'den' ? ' (Äen ÄÃ¡)' : ' (Sá»¯a ÄÃ¡)') : ''
+    onAddItem({
+      id: hasVariants ? `${prod.id}-${selectedVariant}` : prod.id,
+      name: `${prod.name}${nameSuffix}`,
+      slug: prod.slug,
+      price: displayPrice,
+      imageUrl: imageUrl,
+      stockQuantity: prod.stock_quantity || 100
+    }, 1)
+  }
+
+  return (
+    <div className="bg-white dark:bg-[#2b1810] border border-[#decdb9] dark:border-[#3a2114] rounded-3xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group">
+      <div className="relative aspect-square overflow-hidden bg-orange-50/50">
+        <img
+          src={imageUrl}
+          alt={prod.name}
+          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+        />
+        {prod.is_featured && (
+          <span className="absolute top-4 left-4 bg-[#c89b3c] text-[#1f120b] text-[10px] uppercase font-black tracking-widest px-3 py-1 rounded-full shadow-md z-10 flex items-center gap-1">
+            <Flame className="w-3 h-3 fill-current" />
+            Ná»•i báº­t
+          </span>
+        )}
+      </div>
+
+      <div className="p-6 flex flex-col flex-1 space-y-4">
+        <div className="space-y-1">
+          <h4 className="text-lg font-extrabold text-[#2b1810] dark:text-[#f7efe3] leading-snug group-hover:text-[#c89b3c] transition-colors">
+            {prod.name}
+          </h4>
+          <p className="text-xs text-[#78675d] dark:text-[#a89882] line-clamp-2 leading-relaxed h-8">
+            {prod.short_description}
+          </p>
+        </div>
+
+        {/* Chá»n biáº¿n thá»ƒ Äen ÄÃ¡ / Sá»¯a ÄÃ¡ */}
+        {hasVariants && (
+          <div className="flex gap-2 p-1 bg-[#f7efe3] dark:bg-[#1f120b] rounded-xl border border-[#decdb9]/40 dark:border-[#3a2114]/40">
+            <button
+              type="button"
+              onClick={() => setSelectedVariant('den')}
+              className={cn(
+                "flex-1 text-center py-1.5 px-2 rounded-lg text-xs font-bold transition-all",
+                selectedVariant === 'den'
+                  ? "bg-[#c89b3c] text-[#1f120b]"
+                  : "text-[#78675d] dark:text-[#e2d4c0] hover:text-[#c89b3c]"
+              )}
+            >
+              Äen ÄÃ¡
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedVariant('sua')}
+              className={cn(
+                "flex-1 text-center py-1.5 px-2 rounded-lg text-xs font-bold transition-all",
+                selectedVariant === 'sua'
+                  ? "bg-[#c89b3c] text-[#1f120b]"
+                  : "text-[#78675d] dark:text-[#e2d4c0] hover:text-[#c89b3c]"
+              )}
+            >
+              Sá»¯a ÄÃ¡
+            </button>
+          </div>
+        )}
+
+        <div className="flex items-center justify-between pt-2 mt-auto border-t border-[#f7efe3] dark:border-[#1f120b]">
+          <span className="text-lg font-black text-[#c89b3c]">
+            {displayPrice.toLocaleString('vi-VN')}Ä‘
+          </span>
+          <button
+            onClick={handleAdd}
+            className="px-4 py-2.5 rounded-xl font-bold bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all hover:shadow-md hover:-translate-y-0.5 text-xs uppercase tracking-wider flex items-center gap-1.5"
+          >
+            <Plus className="w-3.5 h-3.5 stroke-[3]" />
+            ThÃªm
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// High-fidelity blog posts data from Trung Nguyen Legend Ã‚u Láº¡c Huáº¿
+const blogItems = [
+  {
+    slug: "mua-1-duoc-2-chill-he-cuc-da",
+    title: "Mua 1 Ä‘Æ°á»£c 2 â€“ Chill hÃ¨ cá»±c Ä‘Ã£!",
+    desc: "Æ¯u Ä‘Ã£i mua 1 Ä‘Æ°á»£c 2 táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c, Ã¡p dá»¥ng tá»« 14:00 Ä‘áº¿n 21:30, tá»« 19/05 Ä‘áº¿n 30/06.",
+    thumbnail: "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/704546850_122111883836884434_407848279318371067_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&oh=00_Af5J1SgbRfeV_2Umey84IMK9PAxXxvrHfcgc4obgZ1RC7g&oe=6A1373F7",
+    images: [
+      "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/704546850_122111883836884434_407848279318371067_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&oh=00_Af5J1SgbRfeV_2Umey84IMK9PAxXxvrHfcgc4obgZ1RC7g&oe=6A1373F7"
+    ],
+    videos: [],
+    date: "19/05/2026",
+    content: `
+      <p class="mb-4"><strong>â˜•ï¸ Mua 1 Ä‘Æ°á»£c 2 â€“ Chill hÃ¨ cá»±c Ä‘Ã£!</strong></p>
+      <p class="mb-4"><strong>ðŸ“ Äá»‹a Ä‘iá»ƒm:</strong> Khu TÄC ÄÃ´ng Nam Thá»§y An, PhÆ°á»ng An Cá»±u, TP Huáº¿</p>
+      <p class="mb-4"><strong>ðŸ•‘ Khung giá» Ã¡p dá»¥ng:</strong> 14:00 â€“ 21:30</p>
+      <p class="mb-4"><strong>ðŸ“… Thá»i gian:</strong> Tá»« 19/05 Ä‘áº¿n 30/06</p>
+      <p class="mb-4">ðŸ”¥ Rá»§ báº¡n Ä‘áº¿n há»c bÃ i, lÃ m viá»‡c, trÃ¡nh nÃ³ng cÃ¹ng loáº¡t thá»©c uá»‘ng mÃ¡t láº¡nh táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c.</p>
+      <p class="mb-4">KhÃ´ng gian cÃ  phÃª nÄƒng lÆ°á»£ng mÃ¡t máº» cÃ¹ng há»‡ thá»‘ng Ä‘iá»u hÃ²a hiá»‡n Ä‘áº¡i, internet tá»‘c Ä‘á»™ cao sáºµn sÃ ng chÃ o Ä‘Ã³n báº¡n vÃ  nhÃ³m chiáº¿n há»¯u Ä‘áº¿n tá»¥ há»p, sÃ¡ng táº¡o Ã½ tÆ°á»Ÿng má»›i.</p>
+    `
+  },
+  {
+    slug: "trua-he-nong-buc-ghe-trung-nguyen-legend",
+    title: "TrÆ°a hÃ¨ nÃ³ng bá»©c â€“ GhÃ© Trung NguyÃªn Legend Ã‚u Láº¡c Huáº¿",
+    desc: "KhÃ´ng gian mÃ¡t láº¡nh, chill há»c bÃ i vÃ  thÆ°á»Ÿng thá»©c cÃ  phÃª táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c Huáº¿.",
+    thumbnail: "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/701445719_122111738540884434_8176951810572622203_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&oh=00_Af5PmRV0XlaAQiZlOVpVED9sPvFO2EK64B8xNedF-lbTow&oe=6A134ACE",
+    images: [
+      "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/701445719_122111738540884434_8176951810572622203_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&oh=00_Af5PmRV0XlaAQiZlOVpVED9sPvFO2EK64B8xNedF-lbTow&oe=6A134ACE"
+    ],
+    videos: [],
+    date: "15/05/2026",
+    content: `
+      <p class="mb-4"><strong>â˜€ï¸ TrÆ°a hÃ¨ nÃ³ng bá»©c</strong></p>
+      <p class="mb-4">ðŸ“š Äi Ä‘Ã¢u cho háº¿t ná»±c?</p>
+      <p class="mb-4">GhÃ© <strong>Trung NguyÃªn Legend Ã‚u Láº¡c Huáº¿</strong> vá»«a mÃ¡t láº¡nh, vá»«a chill há»c bÃ i nha ðŸ¤Žâ˜•</p>
+      <p class="mb-4">Vá»›i kiáº¿n trÃºc mang Ä‘áº­m dáº¥u áº¥n vÄƒn hÃ³a cÃ  phÃª, káº¿t há»£p cÃ¢y xanh mÃ¡t máº», Ä‘Ã¢y lÃ  Ä‘iá»ƒm trá»‘n nÃ³ng hoÃ n háº£o giá»¯a lÃ²ng Cá»‘ ÄÃ´. ThÆ°á»Ÿng thá»©c má»™t ly CÃ  phÃª muá»‘i Legend hay Cappuccino Yáº¿n Máº¡ch mÃ¡t láº¡nh Ä‘á»ƒ tiáº¿p thÃªm nÄƒng lÆ°á»£ng tÆ° duy Ä‘á»™t phÃ¡.</p>
+    `
+  },
+  {
+    slug: "don-tiep-nghe-si-nhat-cuong",
+    title: "Nghá»‡ sÄ© Nháº­t CÆ°á»ng ghÃ© thÄƒm khÃ´ng gian Trung NguyÃªn Legend Huáº¿ â˜•âœ¨",
+    desc: "Giá»¯a nhá»‹p sá»‘ng nháº¹ nhÃ ng cá»§a Cá»‘ Ä‘Ã´, hÃ nh trÃ¬nh thÆ°á»Ÿng thá»©c cÃ  phÃª trá»Ÿ nÃªn Ä‘áº·c biá»‡t hÆ¡n qua nhá»¯ng khoáº£nh kháº¯c giao lÆ°u Ä‘áº§y cáº£m há»©ng cÃ¹ng nghá»‡ sÄ© Nháº­t CÆ°á»ng táº¡i Trung NguyÃªn Legend Huáº¿.",
+    thumbnail: "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/674069481_122106871616884434_4197620687631812932_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&oh=00_Af6KGmJ7_cqKYnYij_BIUHs-ik4iJIQ1cndhZuNNUD2r1g&oe=6A136B60",
+    images: [],
+    videos: [
+      "https://www.facebook.com/plugins/video.php?height=746&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1321336266180825&show_text=false&width=420&t=0"
+    ],
+    date: "10/05/2026",
+    content: `
+      <p class="mb-4">â˜•âœ¨ <strong>Nghá»‡ sÄ© Nháº­t CÆ°á»ng ghÃ© thÄƒm khÃ´ng gian Trung NguyÃªn Legend Huáº¿</strong></p>
+      <p class="mb-4">Giá»¯a nhá»‹p sá»‘ng nháº¹ nhÃ ng cá»§a Cá»‘ Ä‘Ã´, hÃ nh trÃ¬nh thÆ°á»Ÿng thá»©c cÃ  phÃª trá»Ÿ nÃªn Ä‘áº·c biá»‡t hÆ¡n qua nhá»¯ng khoáº£nh kháº¯c giao lÆ°u Ä‘áº§y cáº£m há»©ng cÃ¹ng nghá»‡ sÄ© Nháº­t CÆ°á»ng táº¡i Trung NguyÃªn Legend Huáº¿.</p>
+      <p class="mb-4">KhÃ´ng chá»‰ lÃ  Ä‘iá»ƒm dá»«ng chÃ¢n thÆ°á»Ÿng thá»©c cÃ  phÃª nÄƒng lÆ°á»£ng, nÆ¡i Ä‘Ã¢y cÃ²n lÃ  khÃ´ng gian káº¿t ná»‘i vÄƒn hÃ³a, nghá»‡ thuáº­t vÃ  cáº£m há»©ng sá»‘ng tá»‰nh thá»©c.</p>
+    `
+  },
+  {
+    slug: "su-kien-lai-thu-vinfast-the-he-moi",
+    title: "Sá»± kiá»‡n lÃ¡i thá»­ VinFast Tháº¿ Há»‡ Má»›i táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c",
+    desc: "Sá»± kiá»‡n lÃ¡i thá»­ VinFast Tháº¿ Há»‡ Má»›i trong khÃ´ng gian hiá»‡n Ä‘áº¡i vÃ  yÃªn tÄ©nh cá»§a Trung NguyÃªn Legend.",
+    thumbnail: "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/386999900_715169523974576_5274279206438518417_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&oh=00_Af4WEefOxxcq4DJ4BdOlAYlrg0kJCO-bUf8wqaiQltdI1w&oe=6A137C4B",
+    images: [
+      "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/386999900_715169523974576_5274279206438518417_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&oh=00_Af4WEefOxxcq4DJ4BdOlAYlrg0kJCO-bUf8wqaiQltdI1w&oe=6A137C4B"
+    ],
+    videos: [],
+    date: "08/05/2026",
+    content: `
+      <p class="mb-4">âœ¨ Thá»© 7 nÃ y báº¡n Ä‘Ã£ cÃ³ háº¹n chÆ°a?</p>
+      <p class="mb-4">Cuá»‘i tuáº§n nÃ y, hÃ£y cÃ¹ng gia Ä‘Ã¬nh vÃ  báº¡n bÃ¨ Ä‘áº¿n tham gia sá»± kiá»‡n lÃ¡i thá»­ Ä‘áº·c biá»‡t cá»§a VinFast Tháº¿ Há»‡ Má»›i tá»• chá»©c táº¡i khÃ´ng gian sang trá»ng vÃ  yÃªn tÄ©nh cá»§a Trung NguyÃªn Legend.</p>
+      <p class="mb-4">ðŸ“ Äá»‹a Ä‘iá»ƒm: Cafe Trung NguyÃªn Legend Khu TÄC ÄÃ´ng Nam Thá»§y An, PhÆ°á»ng An Cá»±u, TP. Huáº¿ (Äá»‘i diá»‡n Aeon Mall Huáº¿).</p>
+      <p class="mb-4">ðŸ“… Thá»i gian: Thá»© 7 tuáº§n nÃ y (16/05/2026).</p>
+      <p class="mb-4">ðŸ”¥ Äáº¿n vá»›i sá»± kiá»‡n, quÃ½ khÃ¡ch sáº½ cÃ³ cÆ¡ há»™i:</p>
+      <p class="mb-2">âœ… Trá»±c tiáº¿p tráº£i nghiá»‡m cÃ¡c dÃ²ng xe Ä‘iá»‡n ná»•i báº­t tá»« VF3, VF5, VF6, VF7 Ä‘áº¿n VF8.</p>
+      <p class="mb-2">âœ… KhÃ¡m phÃ¡ nhá»¯ng máº«u xe má»›i ra máº¯t cá»±c HOT.</p>
+      <p class="mb-4">ðŸŽ Äáº·c biá»‡t nháº­n nhiá»u pháº§n quÃ  háº¥p dáº«n tá»« VinFast vÃ  thÆ°á»Ÿng thá»©c cafe miá»…n phÃ­ trong khÃ´ng gian thÆ° giÃ£n, hiá»‡n Ä‘áº¡i.</p>
+    `
+  },
+  {
+    slug: "mega-livestream-deal-hot-mua-he",
+    title: "Mega Livestream: Deal hot mÃ¹a hÃ¨ â€“ SÄƒn ly sá»© Trung NguyÃªn Legend giÃ¡ tá»‘t",
+    desc: "KhÃ¡m phÃ¡ cÃ¡c dÃ²ng ly sá»© tinh táº¿, voucher thá»©c uá»‘ng vÃ  Æ°u Ä‘Ã£i váº­t pháº©m háº¥p dáº«n.",
+    thumbnail: "https://scontent.fsgn2-10.fna.fbcdn.net/v/t39.30808-6/699469039_1413851977439657_474118911255709124_n.jpg?stp=dst-jpg_p590x590_tt6&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&oh=00_Af6d97DNwQ09NoiOUeU4WrtL4dO83DU8I2fyUr5lBU31Lg&oe=6A136C6D",
+    images: [
+      "https://scontent.fsgn2-10.fna.fbcdn.net/v/t39.30808-6/699469039_1413851977439657_474118911255709124_n.jpg?stp=dst-jpg_p590x590_tt6&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&oh=00_Af6d97DNwQ09NoiOUeU4WrtL4dO83DU8I2fyUr5lBU31Lg&oe=6A136C6D"
+    ],
+    videos: [],
+    date: "01/05/2026",
+    content: `
+      <p class="mb-4">Mega Livestream mang Ä‘áº¿n nhiá»u Æ°u Ä‘Ã£i háº¥p dáº«n dÃ nh cho khÃ¡ch hÃ ng yÃªu thÃ­ch sáº£n pháº©m lÆ°u niá»‡m Trung NguyÃªn Legend.</p>
+      <p class="mb-4">CÃ¡c sáº£n pháº©m nhÆ° ly sá»© cao cáº¥p in slogan tri thá»©c, bá»™ phin nhÃ´m hoa vÄƒn Trá»‘ng Ä‘á»“ng vÃ  voucher thá»©c uá»‘ng Ä‘á»“ng giÃ¡ Ä‘Æ°á»£c giá»›i thiá»‡u vá»›i má»©c giÃ¡ cá»±c ká»³ Æ°u Ä‘Ã£i trong chÆ°Æ¡ng trÃ¬nh phÃ¡t sÃ³ng trá»±c tiáº¿p.</p>
+    `
+  },
+  {
+    slug: "mung-dai-le-30-4-1-5",
+    title: "Má»«ng Äáº¡i lá»… 30/4 - 01/05 cÃ¹ng Trung NguyÃªn Legend CafÃ©",
+    desc: "KhÃ´ng gian cÃ  phÃª nÄƒng lÆ°á»£ng Ä‘á»“ng hÃ nh cÃ¹ng khÃ¡ch hÃ ng trong ká»³ nghá»‰ lá»….",
+    thumbnail: "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/682455395_122108896268884434_1334038689435078096_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&oh=00_Af5eLqlQW0NjKVHL2ECJ71__apYAoSc2Cw3MOrhcUl1Vfg&oe=6A135EDE",
+    images: [
+      "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/682455395_122108896268884434_1334038689435078096_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&oh=00_Af5eLqlQW0NjKVHL2ECJ71__apYAoSc2Cw3MOrhcUl1Vfg&oe=6A135EDE"
+    ],
+    videos: [],
+    date: "28/04/2026",
+    content: `
+      <p class="mb-4">Má»ªNG Äáº I Lá»„ 30/4 - 01/05 ðŸŽ‰</p>
+      <p class="mb-4">Ká»· niá»‡m ngÃ y giáº£i phÃ³ng miá»n Nam vÃ  Quá»‘c táº¿ lao Ä‘á»™ng, Trung NguyÃªn Legend Ã‚u Láº¡c kÃ­nh chÃºc quÃ½ khÃ¡ch má»™t ká»³ nghá»‰ lá»… trÃ n Ä‘áº§y nÄƒng lÆ°á»£ng tÆ°Æ¡i má»›i bÃªn gia Ä‘Ã¬nh.</p>
+      <p class="mb-4">ChÃºng tÃ´i váº«n má»Ÿ cá»­a phá»¥c vá»¥ bÃ¬nh thÆ°á»ng xuyÃªn suá»‘t ká»³ nghá»‰ lá»… tá»« 06:30 Ä‘áº¿n 21:30 má»—i ngÃ y Ä‘á»ƒ Ä‘á»“ng hÃ nh cÃ¹ng nhá»¯ng buá»•i há»p máº·t áº¥m cÃºng cá»§a báº¡n.</p>
+    `
+  }
+]
+
+interface ChatbotIntent {
+  name: string
+  keywords: string[]
+  reply: string
+}
+
+const chatbotIntents: ChatbotIntent[] = [
+  {
+    "name": "shipping",
+    "keywords": [
+      "ship",
+      "giao hÃ ng",
+      "váº­n chuyá»ƒn",
+      "khoáº£ng cÃ¡ch",
+      "phÃ­ ship",
+      "phÃ­ giao",
+      "km",
+      "nÆ¡i",
+      "táº­n nhÃ ",
+      "táº­n nÆ¡i",
+      "giao nÆ°á»›c",
+      "delivery"
+    ],
+    "reply": "<strong>ðŸšš ChÃ­nh sÃ¡ch giao hÃ ng cá»§a Trung NguyÃªn Legend Ã‚u Láº¡c:</strong><br>\nâ€¢ <strong>Miá»…n phÃ­ ship (Free ship):</strong> Cho má»i Ä‘Æ¡n hÃ ng nÆ°á»›c trong bÃ¡n kÃ­nh dÆ°á»›i <strong>2km</strong>.<br>\nâ€¢ <strong>BÃ¡n kÃ­nh tá»« 3km trá»Ÿ lÃªn:</strong> PhÃ­ ship cá»±c ráº» chá»‰ <strong>5.000Ä‘/km</strong>.<br>\nâ€¢ <strong>Pháº¡m vi tá»‘i Ä‘a:</strong> ChÃºng tÃ´i chá»‰ nháº­n giao hÃ ng dÆ°á»›i <strong>10km</strong> Ä‘á»ƒ Ä‘áº£m báº£o Ä‘á»“ uá»‘ng luÃ´n mÃ¡t láº¡nh vÃ  giá»¯ trá»n hÆ°Æ¡ng vá»‹ tuyá»‡t háº£o nháº¥t! â˜•ï¸"
+  },
+  {
+    "name": "location",
+    "keywords": [
+      "Ä‘á»‹a chá»‰",
+      "á»Ÿ Ä‘Ã¢u",
+      "quÃ¡n",
+      "vá»‹ trÃ­",
+      "Ä‘Æ°á»ng",
+      "Ä‘á»‘i diá»‡n",
+      "báº£n Ä‘á»“",
+      "map",
+      "tÃ¬m",
+      "Ä‘áº¿n",
+      "an cá»±u",
+      "thá»§y an",
+      "huáº¿",
+      "aeon",
+      "Ä‘á»‹a Ä‘iá»ƒm",
+      "má»Ÿ cá»­a"
+    ],
+    "reply": "<strong>ðŸ“ Vá»‹ trÃ­ & Giá» hoáº¡t Ä‘á»™ng cá»§a quÃ¡n:</strong><br>\nâ€¢ <strong>Äá»‹a chá»‰:</strong> Khu TÄC ÄÃ´ng Nam Thá»§y An, PhÆ°á»ng An Cá»±u, TP Huáº¿ (náº±m ngay Ä‘á»‘i diá»‡n siÃªu thá»‹ <strong>Aeon Mall Huáº¿</strong> ðŸ¬).<br>\nâ€¢ <strong>Giá» má»Ÿ cá»­a:</strong> <strong>06:30 AM - 09:30 PM</strong> hÃ ng ngÃ y (ká»ƒ cáº£ cuá»‘i tuáº§n vÃ  ngÃ y lá»…).<br>\nâ€¢ Ráº¥t hÃ¢n háº¡nh Ä‘Æ°á»£c Ä‘Ã³n tiáº¿p quÃ½ khÃ¡ch ghÃ© thÄƒm Ä‘á»ƒ táº­n hÆ°á»Ÿng khÃ´ng gian mÃ¡t láº¡nh, yÃªn tÄ©nh lÃ½ tÆ°á»Ÿng Ä‘á»ƒ há»c táº­p vÃ  lÃ m viá»‡c! ðŸ¤Ž"
+  },
+  {
+    "name": "coffee",
+    "keywords": [
+      "cÃ  phÃª",
+      "cafe",
+      "coffee",
+      "phin",
+      "Ä‘en",
+      "sá»¯a",
+      "nÄƒng lÆ°á»£ng",
+      "espresso",
+      "americano",
+      "latte",
+      "cappuccino",
+      "muá»‘i",
+      "dá»«a",
+      "báº¡c xá»‰u",
+      "trá»©ng",
+      "cold brew",
+      "gá»£i Ã½ cÃ  phÃª"
+    ],
+    "reply": "<strong>â˜•ï¸ Gá»£i Ã½ CÃ  phÃª nÄƒng lÆ°á»£ng Ä‘áº·c trÆ°ng cá»§a quÃ¡n:</strong><br>\nâ€¢ <strong>CÃ  phÃª truyá»n thá»‘ng:</strong> HÃ£y thá»­ ngay dÃ²ng <i>CÃ  phÃª phin nÄƒng lÆ°á»£ng</i> hoáº·c <i>Success sá»¯a Ä‘Ã¡/Ä‘Ã¡ viÃªn</i> Ä‘áº­m Ä‘Ã  nguyÃªn báº£n.<br>\nâ€¢ <strong>MÃ³n uá»‘ng hiá»‡n Ä‘áº¡i (Signature):</strong> <strong style=\"color: #c89b3c;\">CÃ  phÃª muá»‘i Legend</strong> hoáº·c <strong style=\"color: #c89b3c;\">CÃ  phÃª cá»‘t dá»«a</strong> bÃ©o ngáº­y ngá»t ngÃ o cá»±c ká»³ Ä‘Æ°á»£c yÃªu thÃ­ch!<br>\nâ€¢ <strong>Ã vá»‹ phÆ°Æ¡ng TÃ¢y:</strong> Latte, Cappuccino, Americano thanh lá»‹ch.<br>\nðŸ‘‰ Báº¥m vÃ o má»¥c <strong>Menu Äá»“ Uá»‘ng</strong> phÃ­a trÃªn Ä‘á»ƒ chá»n mÃ³n ngay nhÃ©!"
+  },
+  {
+    "name": "cold_drinks",
+    "keywords": [
+      "trÃ ",
+      "matcha",
+      "nÆ°á»›c Ã©p",
+      "sinh tá»‘",
+      "Ä‘Ã¡ xay",
+      "hibiscus",
+      "thanh nhiá»‡t",
+      "giáº£i nhiá»‡t",
+      "hoa cÃºc",
+      "Ä‘Ã o",
+      "sen",
+      "sá»¯a tÆ°Æ¡i",
+      "cacao",
+      "chanh dÃ¢y",
+      "cam váº¯t",
+      "dá»«a tÆ°Æ¡i",
+      "thanh mÃ¡t"
+    ],
+    "reply": "<strong>ðŸ¹ CÃ¡c mÃ³n trÃ  & nÆ°á»›c giáº£i nhiá»‡t thanh mÃ¡t:</strong><br>\nâ€¢ <strong>TrÃ  tháº£o má»™c:</strong> <i>TrÃ  lÃ  náº¿p sen vÃ ng</i> bÃ¹i bÃ¹i thÆ¡m mÃ¡t, <i>TrÃ  Ä‘Ã o cam sáº£</i> sáº£ng khoÃ¡i hoáº·c <i>TrÃ  hoa cÃºc Chamomile</i> nháº¹ nhÃ ng.<br>\nâ€¢ <strong>Thanh nhiá»‡t ngÃ y hÃ¨:</strong> <i>Chanh sáº£ gá»«ng háº¡t chia</i>, <i>Hibiscus chanh dÃ¢y háº¡t chia</i> chua ngá»t giáº£i nhiá»‡t cá»±c Ä‘á»‰nh.<br>\nâ€¢ <strong>ÄÃ¡ xay & Sinh tá»‘:</strong> TrÃ  xanh Ä‘Ã¡ xay thÆ¡m má»‹n hay Kim quáº¥t Ä‘Ã¡ xay mÃ¡t láº¡nh.<br>\nðŸ‘‰ HÃ£y lá»±a chá»n mÃ³n yÃªu thÃ­ch cá»§a báº¡n trong menu Ä‘á»ƒ thanh lá»c cÆ¡ thá»ƒ ngay hÃ´m nay!"
+  },
+  {
+    "name": "merchandise",
+    "keywords": [
+      "váº­t pháº©m",
+      "merch",
+      "ly",
+      "tÃ¡ch",
+      "phin nhÃ´m",
+      "tÃºi canvas",
+      "g7",
+      "sÃ¡ch",
+      "dá»¥ng cá»¥",
+      "háº¡t",
+      "bá»™t",
+      "sÃ¡ng táº¡o",
+      "drip",
+      "phá»¥ kiá»‡n",
+      "gift",
+      "quÃ  táº·ng",
+      "canvas"
+    ],
+    "reply": "<strong>ðŸŽ ChuyÃªn má»¥c Váº­t pháº©m & CÃ  phÃª Ä‘Ã³ng gÃ³i Trung NguyÃªn Legend:</strong><br>\nâ€¢ <strong>CÃ  phÃª Ä‘Ã³ng gÃ³i:</strong> CÃ  phÃª phin giáº¥y Drip (1, 2, 4, 5), CÃ  phÃª SÃ¡ng táº¡o (1, 2, 3, 4, 5, 8), G7 hÃ²a tan, Legend Special Edition.<br>\nâ€¢ <strong>Dá»¥ng cá»¥ pha cháº¿:</strong> Phin nhÃ´m hoa vÄƒn cá»• Ä‘iá»ƒn, Phin inox cao cáº¥p.<br>\nâ€¢ <strong>Váº­t pháº©m thÆ°Æ¡ng hiá»‡u:</strong> Ly sá»© Legend VIP Ä‘en sang trá»ng, Bá»™ tÃ¡ch Ä‘Ä©a, BÃ¬nh giá»¯ nhiá»‡t, TÃºi canvas cao cáº¥p.<br>\nðŸ‘‰ KÃ©o xuá»‘ng má»¥c <strong>Váº­t Pháº©m CÃ  PhÃª</strong> Ä‘á»ƒ chá»n mua lÃ m quÃ  táº·ng Ã½ nghÄ©a cho ngÆ°á»i thÃ¢n vÃ  Ä‘á»‘i tÃ¡c!"
+  },
+  {
+    "name": "promotions",
+    "keywords": ["khuyáº¿n mÃ£i", "Æ°u Ä‘Ã£i", "happy hour", "happy lunch", "giáº£m giÃ¡", "sale", "táº·ng", "mua 1 táº·ng 1", "khuyen mai", "uu dai", "happyhours", "happylunch"],
+    "reply": "<strong>ðŸ”¥ CHÆ¯Æ NG TRÃŒNH KHUYáº¾N MÃƒI SIÃŠU HOT Táº I TRUNG NGUYÃŠN LEGEND Ã‚U Láº C</strong><br><strong>ðŸ“ Äá»‹a chá»‰:</strong> Khu TÄC ÄÃ´ng Nam Thá»§y An â€“ PhÆ°á»ng An Cá»±u, TP. Huáº¿ (Äá»‘i diá»‡n Aeon Mall Huáº¿)<br><br>VPC hÃ¢n háº¡nh mang Ä‘áº¿n cho QuÃ½ khÃ¡ch hÃ ng cÃ¡c chÆ°Æ¡ng trÃ¬nh Æ°u Ä‘Ã£i Ä‘áº·c sáº¯c diá»…n ra tá»« ngÃ y <strong>19/05 Ä‘áº¿n háº¿t 30/06/2026</strong>:<br><br><strong>â˜€ï¸ 1. HAPPY LUNCH â€“ GIáº¢M NGAY 15% Tá»”NG HÃ“A ÄÆ N Äá»’ Uá»NG</strong><br>â€¢ <strong>Khung giá» vÃ ng:</strong> 12:00 â€“ 14:00 hÃ ng ngÃ y (ká»ƒ cáº£ Thá»© Báº£y vÃ  Chá»§ Nháº­t).<br>â€¢ <strong>Ná»™i dung:</strong> Giáº£m giÃ¡ trá»±c tiáº¿p 15% cho táº¥t cáº£ cÃ¡c mÃ³n nÆ°á»›c trong thá»±c Ä‘Æ¡n khi QuÃ½ khÃ¡ch ghÃ© quÃ¡n thÆ°á»Ÿng thá»©c hoáº·c Ä‘áº·t trá»±c tuyáº¿n trong khung giá» trÆ°a.<br>â€¢ <strong>Má»¥c Ä‘Ã­ch:</strong> Mang láº¡i khÃ´ng gian thÆ° giÃ£n mÃ¡t máº», yÃªn tÄ©nh Ä‘á»ƒ QuÃ½ khÃ¡ch náº¡p nÄƒng lÆ°á»£ng tiáº¿p tá»¥c lÃ m viá»‡c vÃ  há»c táº­p buá»•i chiá»u.<br><br><strong>ðŸŒ™ 2. HAPPY HOURS â€“ MUA 1 Táº¶NG 1 (MUA 1 ÄÆ¯á»¢C 2 Cá»°C ÄÃƒ)</strong><br>â€¢ <strong>Khung giá» vÃ ng:</strong> 14:00 â€“ 22:00 hÃ ng ngÃ y (Thá»© Báº£y & Chá»§ Nháº­t má»Ÿ rá»™ng Ä‘áº¿n 22:30).<br>â€¢ <strong>Ná»™i dung:</strong> Khi mua 1 ly nÆ°á»›c báº¥t ká»³ trong thá»±c Ä‘Æ¡n Æ°u Ä‘Ã£i, QuÃ½ khÃ¡ch sáº½ Ä‘Æ°á»£c <strong>Táº¶NG NGAY 1 ly cÃ¹ng loáº¡i hoáº·c tÃ¹y chá»n</strong> trong danh má»¥c thá»©c uá»‘ng Ä‘Æ°á»£c Ã¡p dá»¥ng.<br>â€¢ <strong>Danh má»¥c thá»©c uá»‘ng Ã¡p dá»¥ng Mua 1 Táº·ng 1:</strong><br>&nbsp;&nbsp;+ <i>TrÃ  Váº£i Hoa Há»“ng</i> (ThÆ¡m ngá»t kiá»u diá»…m)<br>&nbsp;&nbsp;+ <i>TrÃ  ÄÃ o Cam Sáº£</i> (Thanh mÃ¡t giáº£i nhiá»‡t HÃ¨)<br>&nbsp;&nbsp;+ <i>TrÃ  LÃ¡ Náº¿p Sen VÃ ng</i> (BÃ¹i bÃ©o, giÃ²n cá»§ nÄƒng sáº§n sáº­t)<br>&nbsp;&nbsp;+ <i>TrÃ  Xanh Tháº¡ch CÃ  PhÃª</i> (Tá»‰nh thá»©c má»›i láº¡)<br>&nbsp;&nbsp;+ <i>CÃ  phÃª NÄƒng LÆ°á»£ng TÆ° Duy</i> (Äáº­m Ä‘Ã  truyá»n thá»‘ng)<br>â€¢ <strong>LÆ°u Ã½:</strong> ChÆ°Æ¡ng trÃ¬nh Ã¡p dá»¥ng cho cáº£ thÆ°á»Ÿng thá»©c táº¡i quÃ¡n, mua mang Ä‘i (Take-away) vÃ  Ä‘áº·t giao hÃ ng táº­n nÆ¡i qua website!<br><br>ðŸ‘‰ Nhanh tay rá»§ báº¡n bÃ¨, Ä‘á»“ng nghiá»‡p ghÃ© ngay Trung NguyÃªn Legend Ã‚u Láº¡c trá»‘n nÃ³ng vÃ  táº­n hÆ°á»Ÿng Æ°u Ä‘Ã£i cá»±c há»i nhÃ© áº¡! ðŸ¹"
+  },
+  {
+    "name": "civilizations",
+    "keywords": ["vÄƒn minh", "van minh", "ottoman", "roman", "thiá»n", "thien", "3 ná»n vÄƒn minh", "ná»n vÄƒn minh", "lá»‹ch sá»­"],
+    "reply": `<strong>ðŸ›ï¸ KHÃM PHÃ 3 Ná»€N VÄ‚N MINH CÃ€ PHÃŠ THáº¾ GIá»šI</strong><br><br><strong><strong>TRUNG NGUYÃŠN LEGEND</strong> â€“ HÃ nh trÃ¬nh tá»« cÃ  phÃª Ä‘áº¿n vÄƒn hÃ³a vÃ  lá»‘i sá»‘ng</strong><br><br><strong>TRUNG NGUYÃŠN LEGEND</strong> khÃ´ng chá»‰ mang Ä‘áº¿n nhá»¯ng ly cÃ  phÃª Ä‘áº·c biá»‡t, mÃ  cÃ²n tÃ¡i hiá»‡n tinh hoa cá»§a 3 ná»n vÄƒn minh cÃ  phÃª tiÃªu biá»ƒu cá»§a nhÃ¢n loáº¡i: Ottoman â€“ Roman â€“ Thiá»n.<br><br><strong>â˜• VÄƒn minh cÃ  phÃª Ottoman:</strong><br>Äáº¡i diá»‡n cho chiá»u sÃ¢u phÆ°Æ¡ng ÄÃ´ng huyá»n bÃ­, nÆ¡i cÃ  phÃª trá»Ÿ thÃ nh biá»ƒu tÆ°á»£ng cá»§a sá»± káº¿t ná»‘i, trÃ² chuyá»‡n vÃ  chiÃªm nghiá»‡m. KhÃ´ng gian cÃ  phÃª Ottoman mang tinh tháº§n thÆ° thÃ¡i, nghá»‡ thuáº­t vÃ  cáº£m xÃºc sÃ¢u láº¯ng.<br><br><strong>â˜• VÄƒn minh cÃ  phÃª Roman:</strong><br>Tinh tháº§n phÆ°Æ¡ng TÃ¢y hiá»‡n Ä‘áº¡i, sÃ¡ng táº¡o vÃ  Ä‘áº§y nÄƒng lÆ°á»£ng. Tá»« Espresso Ä‘áº¿n Cappuccino, vÄƒn minh Roman tÃ´n vinh phong cÃ¡ch sá»‘ng nÄƒng Ä‘á»™ng, tinh táº¿ vÃ  cáº£m há»©ng sÃ¡ng táº¡o khÃ´ng ngá»«ng.<br><br><strong>â˜• VÄƒn minh cÃ  phÃª Thiá»n:</strong><br>Tinh tháº§n cÃ  phÃª Ä‘áº·c trÆ°ng do <strong>TRUNG NGUYÃŠN LEGEND</strong> kiáº¿n táº¡o. KhÃ´ng chá»‰ thÆ°á»Ÿng thá»©c cÃ  phÃª, Ä‘Ã¢y cÃ²n lÃ  hÃ nh trÃ¬nh tÃ¬m vá» sá»± cÃ¢n báº±ng, tá»‰nh thá»©c vÃ  bÃ¬nh an trong nhá»‹p sá»‘ng hiá»‡n Ä‘áº¡i.<br><br>âœ¨ Má»—i ly cÃ  phÃª táº¡i <strong>TRUNG NGUYÃŠN LEGEND</strong> lÃ  sá»± giao thoa giá»¯a vÄƒn hÃ³a, nghá»‡ thuáº­t vÃ  triáº¿t lÃ½ sá»‘ng.`
+  },
+  {
+    "name": "membership",
+    "keywords": ["thÃ nh viÃªn", "thanh vien", "tÃ­ch Ä‘iá»ƒm", "tich diem", "silver", "gold", "platinum", "vip", "tháº»", "the", "nÃ¢ng háº¡ng", "háº¡ng", "Ä‘iá»ƒm thÆ°á»Ÿng", "quyá»n lá»£i tháº»"],
+    "reply": `<strong>ðŸ’³ QUYá»€N Lá»¢I THáºº KHÃCH HÃ€NG THÃ‚N THIáº¾T â€“ TRUNG NGUYÃŠN LEGEND</strong><br><strong>TÃ­ch Ä‘iá»ƒm â€“ NÃ¢ng háº¡ng â€“ Nháº­n Ä‘áº·c quyá»n Ä‘áº³ng cáº¥p</strong><br><br>ðŸ… <strong>Tá»· lá»‡ tÃ­ch Ä‘iá»ƒm:</strong> Chi tiÃªu <strong>30.000Ä‘ = 1 Ä‘iá»ƒm</strong> (Ã¡p dá»¥ng cho táº¥t cáº£ hÃ³a Ä‘Æ¡n táº¡i quÃ¡n vÃ  online).<br><br><strong>â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€</strong><br><strong>ðŸ¥ˆ Háº¡ng SILVER</strong><br>â€¢ <strong>CÃ¡ch tham gia:</strong> CÃ³ hÃ³a Ä‘Æ¡n tá»« <strong>70.000Ä‘</strong> trá»Ÿ lÃªn lÃ  tá»± Ä‘á»™ng kÃ­ch hoáº¡t.<br>â€¢ <strong>Æ¯u Ä‘Ã£i chiáº¿t kháº¥u:</strong> ChÆ°a Ã¡p dá»¥ng giáº£m giÃ¡ trá»±c tiáº¿p.<br>â€¢ <strong>Æ¯u Ä‘Ã£i sinh nháº­t:</strong> ChÆ°a cÃ³.<br>â€¢ <strong>Thanh toÃ¡n báº±ng Ä‘iá»ƒm:</strong> âŒ KhÃ´ng.<br>â€¢ Nháº­n thÃ´ng tin Æ°u Ä‘Ã£i & chÆ°Æ¡ng trÃ¬nh Ä‘áº·c biá»‡t sá»›m nháº¥t qua App.<br><br><strong>â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€</strong><br><strong>ðŸ¥‡ Háº¡ng GOLD</strong><br>â€¢ <strong>CÃ¡ch tham gia:</strong> TÃ­ch lÅ©y Ä‘á»§ <strong>100 Ä‘iá»ƒm</strong> (tÆ°Æ¡ng Ä‘Æ°Æ¡ng chi tiÃªu 3.000.000Ä‘).<br>â€¢ <strong>Æ¯u Ä‘Ã£i chiáº¿t kháº¥u:</strong> Giáº£m ngay <strong>10%</strong> toÃ n bá»™ thá»©c Äƒn & thá»©c uá»‘ng.<br>â€¢ <strong>Æ¯u Ä‘Ã£i sinh nháº­t:</strong> âœ… QuÃ  táº·ng hoáº·c mÃ£ Æ°u Ä‘Ã£i Ä‘áº·c biá»‡t.<br>â€¢ <strong>Thanh toÃ¡n báº±ng Ä‘iá»ƒm:</strong> âœ… CÃ³.<br><br><strong>â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€</strong><br><strong>ðŸ’Ž Háº¡ng PLATINUM</strong><br>â€¢ <strong>CÃ¡ch tham gia:</strong> TÃ­ch lÅ©y Ä‘á»§ <strong>300 Ä‘iá»ƒm</strong> (tÆ°Æ¡ng Ä‘Æ°Æ¡ng chi tiÃªu 9.000.000Ä‘).<br>â€¢ <strong>Æ¯u Ä‘Ã£i chiáº¿t kháº¥u:</strong> Giáº£m ngay <strong>15%</strong> toÃ n bá»™ thá»©c Äƒn & thá»©c uá»‘ng.<br>â€¢ <strong>Æ¯u Ä‘Ã£i sinh nháº­t:</strong> âœ… QuÃ  táº·ng hoáº·c mÃ£ Æ°u Ä‘Ã£i Ä‘áº·c biá»‡t.<br>â€¢ <strong>Thanh toÃ¡n báº±ng Ä‘iá»ƒm:</strong> âœ… CÃ³.<br>â€¢ Æ¯u tiÃªn phá»¥c vá»¥ nhanh & nháº­n vÃ© workshop tri thá»©c miá»…n phÃ­.<br><br>ðŸ“± <strong>ÄÄƒng kÃ½:</strong> QuÃ©t mÃ£ QR táº¡i quáº§y hoáº·c táº£i App <strong>Trung NguyÃªn Legend</strong> (App Store / Google Play) â†’ Ä‘Äƒng kÃ½ báº±ng sá»‘ Ä‘iá»‡n thoáº¡i â†’ báº¯t Ä‘áº§u tÃ­ch Ä‘iá»ƒm ngay! ðŸŽ‰`
+  },
+  {
+    "name": "vinfast_event",
+    "keywords": [
+      "vinfast",
+      "xe Ä‘iá»‡n",
+      "vf3",
+      "vf5",
+      "vf6",
+      "vf7",
+      "vf8",
+      "lÃ¡i thá»­",
+      "sá»± kiá»‡n vinfast"
+    ],
+    "reply": "<strong>ðŸš— Sá»± kiá»‡n lÃ¡i thá»­ VinFast Tháº¿ Há»‡ Má»›i táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c:</strong><br>\nâ€¢ Trung NguyÃªn Legend Ã‚u Láº¡c hÃ¢n háº¡nh lÃ  Ä‘á»‹a Ä‘iá»ƒm tá»• chá»©c sá»± kiá»‡n lÃ¡i thá»­ xe Ä‘iá»‡n <strong>VinFast Tháº¿ Há»‡ Má»›i</strong> Ä‘áº·c sáº¯c.<br>\nâ€¢ <strong>Äá»‹a Ä‘iá»ƒm:</strong> Khu TÄC ÄÃ´ng Nam Thá»§y An, PhÆ°á»ng An Cá»±u, TP. Huáº¿ (Äá»‘i diá»‡n Aeon Mall Huáº¿).<br>\nâ€¢ <strong>CÃ¡c dÃ²ng xe:</strong> VF3, VF5, VF6, VF7, VF8 â€“ tráº£i nghiá»‡m thá»±c táº¿ trá»±c tiáº¿p.<br>\nâ€¢ <strong>Æ¯u Ä‘Ã£i:</strong> ThÆ°á»Ÿng thá»©c cÃ  phÃª miá»…n phÃ­ trong khÃ´ng gian sang trá»ng & nháº­n nhiá»u quÃ  háº¥p dáº«n tá»« VinFast.<br>\nðŸ‘‰ ÄÃ¢y lÃ  dá»‹p tuyá»‡t vá»i Ä‘á»ƒ khÃ¡m phÃ¡ cÃ´ng nghá»‡ xe Ä‘iá»‡n hiá»‡n Ä‘áº¡i káº¿t há»£p thÆ° giÃ£n cÃ¹ng ly cÃ  phÃª nÄƒng lÆ°á»£ng chÃ­nh hiá»‡u!"
+  },
+  {
+    "name": "nhat_cuong",
+    "keywords": [
+      "nháº­t cÆ°á»ng",
+      "nghá»‡ sÄ©",
+      "hÃ i",
+      "giao lÆ°u",
+      "diá»…n viÃªn"
+    ],
+    "reply": "<strong>ðŸŽ­ ÄÃ³n tiáº¿p Nghá»‡ sÄ© hÃ i Nháº­t CÆ°á»ng ghÃ© thÄƒm quÃ¡n:</strong><br>\nâ€¢ KhÃ´ng gian nÄƒng lÆ°á»£ng cá»§a Trung NguyÃªn Legend Ã‚u Láº¡c ráº¥t vinh háº¡nh Ä‘Æ°á»£c tiáº¿p Ä‘Ã³n vÃ  phá»¥c vá»¥ nghá»‡ sÄ© hÃ i danh tiáº¿ng <strong>Nháº­t CÆ°á»ng</strong> ghÃ© thÄƒm.<br>\nâ€¢ Nghá»‡ sÄ© Ä‘Ã£ dÃ nh thá»i gian thÆ°á»Ÿng thá»©c ly cÃ  phÃª phin nÄƒng lÆ°á»£ng truyá»n thá»‘ng Ä‘áº­m Ä‘Ã  cá»§a quÃ¡n, bÃ y tá» sá»± yÃªu thÃ­ch Ä‘áº·c biá»‡t vá»›i khÃ´ng gian bÃ i trÃ­ sÃ¡ch tri thá»©c vÃ  giao lÆ°u áº¥m Ã¡p, chá»¥p hÃ¬nh lÆ°u niá»‡m cÃ¹ng toÃ n thá»ƒ khÃ¡n giáº£ vÃ  ngÆ°á»i hÃ¢m má»™ táº¡i Huáº¿."
+  },
+  {
+    "name": "livestream",
+    "keywords": [
+      "livestream",
+      "live",
+      "mega live",
+      "sÄƒn deal",
+      "bÃ¡n ly"
+    ],
+    "reply": "<strong>ðŸ“º Sá»± kiá»‡n Mega Livestream SÄƒn Deal HÃ¨ cá»±c cháº¥t:</strong><br>\nâ€¢ Sá»± kiá»‡n phÃ¡t sÃ³ng trá»±c tiáº¿p Ä‘áº·c biá»‡t giá»›i thiá»‡u cÃ¡c dÃ²ng sáº£n pháº©m quÃ  táº·ng cao cáº¥p: cÃ¡c máº«u ly sá»© Legend VIP Ä‘en huyá»n thoáº¡i, bÃ¬nh giá»¯ nhiá»‡t Trung NguyÃªn Legend chá»‰n chu vÃ  cÃ¡c gÃ³i quÃ  táº·ng sang trá»ng.<br>\nâ€¢ Trong phiÃªn live, hÃ ng loáº¡t <strong>Voucher Ä‘á»“ uá»‘ng cá»±c sá»‘c</strong> vÃ  Æ°u Ä‘Ã£i giáº£m giÃ¡ Ä‘á»™c quyá»n Ä‘Ã£ Ä‘Æ°á»£c gá»­i táº·ng Ä‘á»ƒ tri Ã¢n khÃ¡ch hÃ ng trá»±c tuyáº¿n."
+  },
+  {
+    "name": "payment",
+    "keywords": [
+      "thanh toÃ¡n",
+      "chuyá»ƒn khoáº£n",
+      "vietqr",
+      "qr",
+      "ngÃ¢n hÃ ng",
+      "mÃ£ qr",
+      "vcb",
+      "1041623574",
+      "quá»³nh trang",
+      "tiá»n máº·t",
+      "cod",
+      "tÃ i khoáº£n"
+    ],
+    "reply": "<strong>ðŸ’³ HÆ°á»›ng dáº«n Thanh toÃ¡n & Chuyá»ƒn khoáº£n VietQR tá»± Ä‘á»™ng thÃ´ng minh:</strong><br>\nâ€¢ <strong>1. QuÃ©t mÃ£ VietQR Ä‘á»™ng:</strong> Khi báº¡n tiáº¿n hÃ nh Ä‘áº·t Ä‘Æ¡n vÃ  chá»n <i>Chuyá»ƒn khoáº£n</i>, mÃ n hÃ¬nh sáº½ hiá»ƒn thá»‹ mÃ£ VietQR Ä‘Æ°á»£c táº¡o tá»± Ä‘á»™ng chá»©a chÃ­nh xÃ¡c sá»‘ tiá»n Ä‘Æ¡n hÃ ng vÃ  ná»™i dung chuyá»ƒn khoáº£n lÃ  mÃ£ Ä‘Æ¡n hÃ ng cá»§a báº¡n (vÃ­ dá»¥: VPC-DH-...).<br>\nâ€¢ <strong>2. Tá»± Ä‘á»™ng xÃ¡c thá»±c Realtime:</strong> Há»‡ thá»‘ng sá»­ dá»¥ng Realtime Payment Listener káº¿t ná»‘i vá»›i Supabase Ä‘á»ƒ phÃ¡t hiá»‡n giao dá»‹ch thÃ nh cÃ´ng ngay láº­p tá»©c (chá»‰ sau 2-5 giÃ¢y) vÃ  gá»­i Ä‘Æ¡n Ä‘áº¿n quáº§y Barista. Báº¡n <strong>khÃ´ng cáº§n</strong> pháº£i chá»¥p áº£nh mÃ n hÃ¬nh chuyá»ƒn khoáº£n gá»­i cho quÃ¡n!<br>\nâ€¢ <strong>3. Thanh toÃ¡n Tiá»n máº·t (COD):</strong> Báº¡n cÅ©ng cÃ³ thá»ƒ chá»n tráº£ tiá»n máº·t trá»±c tiáº¿p cho Shipper khi nháº­n nÆ°á»›c.<br>\nâ€¢ <strong>ThÃ´ng tin tÃ i khoáº£n:</strong> NgÃ´ Quá»³nh Trang (Vietcombank: <code>1041623574</code>)."
+  },
+  {
+    "name": "about_us",
+    "keywords": [
+      "vietnam prosperity coffee",
+      "tuyáº¿t mai",
+      "minh Ä‘á»©c",
+      "quáº£n lÃ½",
+      "sá»Ÿ há»¯u",
+      "thÃ nh láº­p",
+      "nguyá»…n minh Ä‘á»©c",
+      "nguyá»…n thá»‹ tuyáº¿t mai",
+      "ngo quynh trang",
+      "ai sá»Ÿ há»¯u",
+      "ai quáº£n lÃ½",
+      "chá»§ quÃ¡n",
+      "chá»§ sá»Ÿ há»¯u",
+      "lá»‹ch sá»­",
+      "nÄƒm thÃ nh láº­p",
+      "ngÃ´ quá»³nh trang",
+      "quá»³nh trang"
+    ],
+    "reply": "<strong>ðŸ›ï¸ Vá» VIETNAM PROSPERITY COFFEE & NhÃ  sÃ¡ng láº­p:</strong><br>\nâ€¢ <strong>Lá»‹ch sá»­ & Váº­n hÃ nh:</strong> <strong>VIETNAM PROSPERITY COFFEE</strong> Ä‘Æ°á»£c thÃ nh láº­p vÃ o nÄƒm 2025 vá»›i Ä‘á»‹nh hÆ°á»›ng hoáº¡t Ä‘á»™ng trong lÄ©nh vá»±c dá»‹ch vá»¥ phá»¥c vá»¥ Ä‘á»“ uá»‘ng vÃ  lÃ  Ä‘Æ¡n vá»‹ nhÆ°á»£ng quyá»n, váº­n hÃ nh chÃ­nh thá»©c cá»­a hÃ ng & website há»— trá»£ khÃ¡ch hÃ ng káº¿t ná»‘i vá»›i <strong>TRUNG NGUYÃŠN LEGEND Ã‚U Láº C</strong> táº¡i Huáº¿.<br>\nâ€¢ <strong>Äá»“ng sá»Ÿ há»¯u:</strong> CÃ´ng ty Ä‘Æ°á»£c Ä‘á»“ng sÃ¡ng láº­p bá»Ÿi <strong>Ã”NG NGUYá»„N MINH Äá»¨C</strong> vÃ  <strong>BÃ€ NGUYá»„N THá»Š TUYáº¾T MAI</strong>, hÆ°á»›ng Ä‘áº¿n viá»‡c xÃ¢y dá»±ng má»™t Ä‘iá»ƒm Ä‘áº¿n cÃ  phÃª chuyÃªn nghiá»‡p, tiá»‡n lá»£i vÃ  giÃ u cáº£m há»©ng sá»‘ má»™t táº¡i Huáº¿.<br>\nâ€¢ <strong>ThÃ´ng tin thanh toÃ¡n:</strong> TÃ i khoáº£n Ä‘áº¡i diá»‡n giao dá»‹ch lÃ  BÃ  <strong>NgÃ´ Quá»³nh Trang</strong> (Vietcombank: <code>1041623574</code>)."
+  },
+  {
+    "name": "april30_event",
+    "keywords": [
+      "30/4", "Ä‘áº¡i lá»…", "lá»… 30", "giáº£i phÃ³ng", "30 thÃ¡ng 4", "má»«ng Ä‘áº¡i lá»…", "1/5", "ngÃ y lá»…", "lá»… quá»‘c gia", "nghá»‰ lá»…"
+    ],
+    "reply": "<strong>ðŸŽ† Sá»± kiá»‡n Má»«ng Äáº¡i Lá»… 30/4 & 1/5 táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c:</strong><br>\nâ€¢ NhÃ¢n dá»‹p ká»· niá»‡m NgÃ y Giáº£i phÃ³ng miá»n Nam Thá»‘ng nháº¥t Ä‘áº¥t nÆ°á»›c 30/4 vÃ  Quá»‘c táº¿ Lao Ä‘á»™ng 1/5, quÃ¡n tá»• chá»©c chÆ°Æ¡ng trÃ¬nh Æ°u Ä‘Ã£i Ä‘áº·c biá»‡t tri Ã¢n khÃ¡ch hÃ ng.<br>\nâ€¢ <strong>KhÃ´ng gian quÃ¡n:</strong> ÄÆ°á»£c trang trÃ­ vá»›i cá» hoa rá»±c rá»¡, mang khÃ´ng khÃ­ lá»… há»™i tÆ°Æ¡i vui vÃ  Ä‘oÃ n káº¿t dÃ¢n tá»™c.<br>\nâ€¢ <strong>Æ¯u Ä‘Ã£i ngÃ y lá»…:</strong> Nhiá»u chÆ°Æ¡ng trÃ¬nh khuyáº¿n mÃ£i vÃ  quÃ  táº·ng háº¥p dáº«n Ä‘Æ°á»£c Ã¡p dá»¥ng trong cÃ¡c ngÃ y nghá»‰ lá»…. ðŸ‡»ðŸ‡³<br>\nðŸ‘‰ GhÃ© thÄƒm quÃ¡n trong dá»‹p lá»… Ä‘á»ƒ cÃ¹ng chia sáº» niá»m vui vÃ  thÆ°á»Ÿng thá»©c cÃ  phÃª nÄƒng lÆ°á»£ng chÃ­nh hiá»‡u!"
+  },
+  {
+    "name": "study_cafe",
+    "keywords": [
+      "há»c bÃ i", "lÃ m viá»‡c", "work", "study", "wifi", "trÃ¡nh nÃ³ng", "mÃ¹a hÃ¨", "Ã´n thi", "há»c", "yÃªn tÄ©nh", "khÃ´ng gian há»c", "ngá»“i há»c", "á»• Ä‘iá»‡n", "sáº¡c mÃ¡y"
+    ],
+    "reply": "<strong>ðŸ“š KhÃ´ng gian há»c táº­p & lÃ m viá»‡c lÃ½ tÆ°á»Ÿng táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c:</strong><br>\nâ€¢ <strong>KhÃ´ng gian mÃ¡t láº¡nh, yÃªn tÄ©nh:</strong> Äiá»u hÃ²a 24/7, Ã¡nh sÃ¡ng dá»‹u nháº¹, hoÃ n toÃ n phÃ¹ há»£p cho viá»‡c há»c táº­p, lÃ m viá»‡c vÃ  Ã´n thi hiá»‡u quáº£.<br>\nâ€¢ <strong>WiFi miá»…n phÃ­:</strong> Káº¿t ná»‘i nhanh vÃ  á»•n Ä‘á»‹nh, khÃ´ng giá»›i háº¡n thá»i gian sá»­ dá»¥ng.<br>\nâ€¢ <strong>á»” cáº¯m Ä‘iá»‡n:</strong> ÄÆ°á»£c bá»‘ trÃ­ táº¡i nhiá»u vá»‹ trÃ­ bÃ n Ä‘á»ƒ báº¡n thoáº£i mÃ¡i sáº¡c mÃ¡y tÃ­nh vÃ  Ä‘iá»‡n thoáº¡i.<br>\nâ€¢ <strong>CÃ  phÃª nÄƒng lÆ°á»£ng:</strong> Uá»‘ng cÃ  phÃª Trung NguyÃªn Legend vá»«a giáº£i nhiá»‡t vá»«a tÄƒng sá»©c táº­p trung tuyá»‡t vá»i! â˜•ðŸ§ <br>\nðŸ‘‰ GhÃ© quÃ¡n báº¥t cá»© lÃºc nÃ o tá»« <strong>06:30 - 21:30</strong> Ä‘á»ƒ cÃ³ má»™t buá»•i há»c/lÃ m viá»‡c tháº­t hiá»‡u quáº£!"
+  },
+  {
+    "name": "order_guide",
+    "keywords": [
+      "Ä‘áº·t hÃ ng", "Ä‘áº·t Ä‘Æ¡n", "cÃ¡ch Ä‘áº·t", "order", "mua", "gá»i mÃ³n", "Ä‘áº·t nÆ°á»›c", "Ä‘áº·t Ä‘á»“ uá»‘ng", "lÃ m sao Ä‘áº·t", "hÆ°á»›ng dáº«n"
+    ],
+    "reply": "<strong>ðŸ“± HÆ°á»›ng dáº«n Ä‘áº·t hÃ ng nhanh táº¡i website:</strong><br>\nâ€¢ <strong>BÆ°á»›c 1:</strong> Báº¥m vÃ o má»¥c <strong>Menu Äá»“ Uá»‘ng</strong> hoáº·c <strong>Váº­t Pháº©m CÃ  PhÃª</strong> á»Ÿ thanh Ä‘iá»u hÆ°á»›ng phÃ­a trÃªn.<br>\nâ€¢ <strong>BÆ°á»›c 2:</strong> Chá»n mÃ³n yÃªu thÃ­ch, Ä‘iá»u chá»‰nh sá»‘ lÆ°á»£ng vÃ  báº¥m <strong>ThÃªm vÃ o giá» hÃ ng</strong>.<br>\nâ€¢ <strong>BÆ°á»›c 3:</strong> Báº¥m icon ðŸ›’ Giá» hÃ ng â†’ Äiá»n thÃ´ng tin giao hÃ ng.<br>\nâ€¢ <strong>BÆ°á»›c 4:</strong> Chá»n hÃ¬nh thá»©c thanh toÃ¡n (Chuyá»ƒn khoáº£n VietQR hoáº·c Tiá»n máº·t COD) â†’ XÃ¡c nháº­n Ä‘áº·t hÃ ng.<br>\nâ€¢ <strong>BÆ°á»›c 5:</strong> Nháº­n mÃ£ Ä‘Æ¡n hÃ ng vÃ  theo dÃµi tÃ¬nh tráº¡ng pha cháº¿ qua má»¥c <strong>Tra cá»©u Ä‘Æ¡n</strong> nhÃ©! ðŸ“¦"
+  }
+]
+interface StorefrontClientProps {
+  categories: any[]
+  products: any[]
+}
+
+export function StorefrontClient({ categories: initialCategories, products: initialProducts }: StorefrontClientProps) {
+  // Client tabs routing matching window hash
+  const [activeTab, setActiveTab] = useState<string>('#home')
+  const [selectedArticle, setSelectedArticle] = useState<any>(null)
+  
+  // Dynamic categories and products
+  const [categories, setCategories] = useState<any[]>(initialCategories || [])
+  const [products, setProducts] = useState<any[]>(initialProducts || [])
+  
+  // UI filter states
+  const [menuTab, setMenuTab] = useState<string>('ca-phe-phin')
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  
+  // Checkout cart states & steps
+  const [checkoutStep, setCheckoutStep] = useState<1 | 2>(1)
+  const [fullName, setFullName] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [email, setEmail] = useState('')
+  const [note, setNote] = useState('')
+  const [deliveryType, setDeliveryType] = useState<'pickup' | 'delivery'>('delivery')
+  const [address, setAddress] = useState('')
+  const [distance, setDistance] = useState<number | ''>('')
+  const [paymentMethod, setPaymentMethod] = useState<'cash' | 'bank'>('bank')
+  const [shippingFee, setShippingFee] = useState<number>(0)
+  const [orderCode, setOrderCode] = useState<string>('')
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Zustand stores
+  const cartItems = useCartStore((state) => state.items)
+  const addItem = useCartStore((state) => state.addItem)
+  const removeItem = useCartStore((state) => state.removeItem)
+  const updateQuantity = useCartStore((state) => state.updateQuantity)
+  const clearCart = useCartStore((state) => state.clearCart)
+  const getTotalPrice = useCartStore((state) => state.getTotalPrice)
+  const getTotalItems = useCartStore((state) => state.getTotalItems)
+
+  // Nominatim OpenStreetMap Geocoder States
+  const [isGeocoding, setIsGeocoding] = useState(false)
+  const [distanceError, setDistanceError] = useState('')
+
+  // Order Lookup Panel States
+  const [lookupCode, setLookupCode] = useState('')
+  const [lookupResult, setLookupResult] = useState<any>(null)
+  const [lookupError, setLookupError] = useState('')
+  const [isLookingUp, setIsLookingUp] = useState(false)
+
+  // Chatbot state
+  const [isChatOpen, setIsChatOpen] = useState(false)
+  const [chatInput, setChatInput] = useState('')
+  const [chatMessages, setChatMessages] = useState<Array<{ sender: 'user' | 'bot'; text: string; time: string }>>([
+    {
+      sender: 'bot',
+      text: 'KÃ­nh chÃ o quÃ½ khÃ¡ch! TÃ´i lÃ  Barista áº£o cá»§a Trung NguyÃªn Legend Ã‚u Láº¡c Huáº¿. QuÃ½ khÃ¡ch cáº§n tÆ° váº¥n mÃ³n ngon hay tÃ¬m hiá»ƒu Æ°u Ä‘Ã£i gÃ¬ hÃ´m nay áº¡? â˜•ï¸',
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    }
+  ])
+  const [isTyping, setIsTyping] = useState(false)
+  const chatBottomRef = useRef<HTMLDivElement>(null)
+
+  // Sync hash routing
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash || '#home'
+      if (hash.startsWith('#blog-detail/')) {
+        const slug = hash.replace('#blog-detail/', '')
+        const found = blogItems.find(item => item.slug === slug)
+        if (found) {
+          setSelectedArticle(found)
+          setActiveTab('#blog-detail')
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+          return
+        }
+      }
+      
+      if (['#home', '#menu', '#merchandise', '#blog', '#about', '#contact', '#cart', '#payment', '#lookup'].includes(hash)) {
+        setActiveTab(hash)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }
+    
+    window.addEventListener('hashchange', handleHashChange)
+    handleHashChange() // initial check
+    
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
+
+  // Tá»± Ä‘á»™ng chá»n tab danh má»¥c Ä‘áº§u tiÃªn (khÃ´ng pháº£i merchandise) náº¿u 'ca-phe-phin' khÃ´ng tá»“n táº¡i
+  useEffect(() => {
+    if (categories.length > 0) {
+      const drinkCats = categories.filter(c => c.slug !== 'merchandise')
+      if (drinkCats.length > 0) {
+        const hasDefault = drinkCats.some(c => c.slug === menuTab)
+        if (!hasDefault) {
+          setMenuTab(drinkCats[0].slug)
+        }
+      }
+    }
+  }, [categories])
+
+  // Auto-scroll chatbot
+  useEffect(() => {
+    if (chatBottomRef.current) {
+      chatBottomRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [chatMessages, isTyping])
+
+  // Realtime payment listener for dynamic VietQR and automatic success confirmation
+  useEffect(() => {
+    if (!orderCode || activeTab !== '#payment') return
+
+    const supabase = createBrowserClient()
+    console.log("ðŸ“¡ Listening for realtime payment updates:", orderCode)
+
+    const channel = supabase
+      .channel('public:don_hang')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'don_hang',
+          filter: `ma_don_hang=eq.${orderCode}`
+        },
+        (payload) => {
+          console.log("ðŸ”„ Realtime update received:", payload)
+          const newStatus = payload.new.trang_thai
+          if (newStatus === 'da_chuyen_khoan' || newStatus === 'da_thanh_toan' || newStatus === 'dang_lam_don') {
+            clearCart()
+            setIsSuccessModalOpen(true)
+          }
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [orderCode, activeTab])
+
+  // OpenStreetMap Nominatim Geocoder & Haversine Distance Checker
+  const checkOSMDistance = async (userAddress: string) => {
+    if (!userAddress.trim()) return
+    setIsGeocoding(true)
+    setDistanceError('')
+    
+    try {
+      // Append Huáº¿, Viá»‡t Nam to make the search local and highly accurate
+      const query = `${userAddress}, Thá»«a ThiÃªn Huáº¿, Viá»‡t Nam`
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(query)}`, {
+        headers: {
+          'Accept-Language': 'vi'
+        }
+      })
+      const data = await response.json()
+      
+      if (data && data.length > 0) {
+        const lat = parseFloat(data[0].lat)
+        const lon = parseFloat(data[0].lon)
+        
+        // Shop coordinates: 16.4512061, 107.6117266 (Trung NguyÃªn Legend Ã‚u Láº¡c Huáº¿)
+        const shopLat = 16.4512061
+        const shopLon = 107.6117266
+        
+        // Calculate Haversine distance
+        const R = 6371 // km
+        const dLat = (lat - shopLat) * Math.PI / 180
+        const dLon = (lon - shopLon) * Math.PI / 180
+        const a = 
+          Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(shopLat * Math.PI / 180) * Math.cos(lat * Math.PI / 180) * 
+          Math.sin(dLon/2) * Math.sin(dLon/2)
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+        const computedDistance = parseFloat((R * c).toFixed(1)) // 1 decimal place
+        
+        setDistance(computedDistance)
+        
+        if (computedDistance > 10) {
+          setDistanceError(`Vui lÃ²ng kiá»ƒm tra láº¡i Ä‘á»‹a chá»‰ Ä‘Ã£ nháº­p. Khoáº£ng cÃ¡ch quÃ¡ xa (${computedDistance}km > 10km) nÃªn cá»­a hÃ ng khÃ´ng thá»ƒ nháº­n Ä‘Æ¡n cá»§a báº¡n. Cáº£m Æ¡n vÃ¬ Ä‘Ã£ quan tÃ¢m Ä‘áº¿n Trung NguyÃªn Legend Ã‚u Láº¡c. Báº¡n cÃ³ thá»ƒ Ä‘áº·t nÆ°á»›c á»Ÿ chi nhÃ¡nh gáº§n nháº¥t áº¡. Cáº£m Æ¡n khÃ¡ch yÃªu áº¡.`)
+          setShippingFee(0)
+        } else {
+          setDistanceError('')
+          // Calculate shipping fee: free <= 2km, else 5,000Ä‘/km
+          if (computedDistance <= 2) {
+            setShippingFee(0)
+          } else {
+            setShippingFee(Math.round(computedDistance * 5000))
+          }
+        }
+      } else {
+        setDistanceError('KhÃ´ng tÃ¬m tháº¥y Ä‘á»‹a chá»‰ cá»§a báº¡n táº¡i Thá»«a ThiÃªn Huáº¿. Vui lÃ²ng nháº­p Ä‘á»‹a chá»‰ cá»¥ thá»ƒ hÆ¡n (vÃ­ dá»¥: 12 Báº¿n NghÃ©, Huáº¿) Ä‘á»ƒ kiá»ƒm tra khoáº£ng cÃ¡ch giao hÃ ng.')
+        setDistance('')
+        setShippingFee(0)
+      }
+    } catch (err) {
+      console.error("OSM Geocoding Error:", err)
+      setDistanceError('CÃ³ lá»—i xáº£y ra khi kiá»ƒm tra Ä‘á»‹a chá»‰. Vui lÃ²ng thá»­ láº¡i sau.')
+    } finally {
+      setIsGeocoding(false)
+    }
+  }
+
+  // Shipping cost calculator fallback synchronizer
+  useEffect(() => {
+    if (deliveryType === 'pickup') {
+      setShippingFee(0)
+      setDistanceError('')
+    } else if (distance !== '') {
+      const d = Number(distance)
+      if (d > 10) {
+        setDistanceError(`Vui lÃ²ng kiá»ƒm tra láº¡i Ä‘á»‹a chá»‰ Ä‘Ã£ nháº­p. Khoáº£ng cÃ¡ch quÃ¡ xa (${d}km > 10km) nÃªn cá»­a hÃ ng khÃ´ng thá»ƒ nháº­n Ä‘Æ¡n cá»§a báº¡n. Cáº£m Æ¡n vÃ¬ Ä‘Ã£ quan tÃ¢m Ä‘áº¿n Trung NguyÃªn Legend Ã‚u Láº¡c. Báº¡n cÃ³ thá»ƒ Ä‘áº·t nÆ°á»›c á»Ÿ chi nhÃ¡nh gáº§n nháº¥t áº¡. Cáº£m Æ¡n khÃ¡ch yÃªu áº¡.`)
+        setShippingFee(0)
+      } else {
+        setDistanceError('')
+        if (d <= 2) {
+          setShippingFee(0)
+        } else {
+          setShippingFee(Math.round(d * 5000))
+        }
+      }
+    }
+  }, [deliveryType, distance])
+
+  // Handle chatbot automatic responses
+  const handleChatQuestion = (question: string, reply: string) => {
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    setChatMessages(prev => [...prev, { sender: 'user', text: question, time }])
+    setIsTyping(true)
+    
+    setTimeout(() => {
+      setIsTyping(false)
+      setChatMessages(prev => [...prev, { sender: 'bot', text: reply, time }])
+    }, 800)
+  }
+
+  const handleChatSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!chatInput.trim()) return
+    
+    const text = chatInput.trim()
+    setChatInput('')
+    
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    setChatMessages(prev => [...prev, { sender: 'user', text, time }])
+    setIsTyping(true)
+
+    // So khá»›p tÄ©nh trÆ°á»›c (Rule-based) Ä‘á»ƒ pháº£n há»“i nhanh vÃ  chÃ­nh xÃ¡c cÃ¡c chá»§ Ä‘á» cÆ¡ báº£n
+    const lower = text.toLowerCase()
+    let bestIntent: ChatbotIntent | null = null
+    let maxScore = 0
+
+    chatbotIntents.forEach(intent => {
+      let score = 0
+      intent.keywords.forEach(keyword => {
+        const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        const regex = new RegExp(`\\b${escapedKeyword}\\b`, 'i')
+
+        if (regex.test(lower)) {
+          score += 3 // Khá»›p nguyÃªn tá»«
+        } else if (lower.includes(keyword)) {
+          score += 1 // Khá»›p má»™t pháº§n
+        }
+      })
+
+      if (score > maxScore) {
+        maxScore = score
+        bestIntent = intent
+      }
+    })
+
+    if (maxScore > 0 && bestIntent) {
+      // Giáº£ láº­p thá»i gian gÃµ chá»¯ cá»§a chatbot Ä‘á»ƒ tá»± nhiÃªn
+      setTimeout(() => {
+        setIsTyping(false)
+        const reply = (bestIntent as ChatbotIntent).reply
+        setChatMessages(prev => [...prev, { sender: 'bot', text: reply, time }])
+      }, 600)
+    } else {
+      // Náº¿u khÃ´ng khá»›p ká»‹ch báº£n tÄ©nh -> Gá»i lÃªn API Route cá»§a Gemini AI kÃ¨m Ngá»¯ cáº£nh Ä‘á»™ng
+      try {
+        // Chuáº©n bá»‹ ngá»¯ cáº£nh sáº£n pháº©m tá»« props vÃ  bÃ i viáº¿t tá»« blogItems
+        const currentProducts = (products || []).map((p: any) => ({
+          ten: p.name,
+          gia: p.price,
+          mo_ta: p.short_description || p.description
+        }))
+
+        const currentArticles = (blogItems || []).map((item: any) => ({
+          tieu_de: item.title,
+          tom_tat: item.desc
+        }))
+
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            message: text,
+            context: {
+              products: currentProducts,
+              articles: currentArticles
+            }
+          })
+        })
+
+        if (!response.ok) {
+          throw new Error('API Route returned error status')
+        }
+
+        const data = await response.json()
+        setIsTyping(false)
+        setChatMessages(prev => [...prev, { sender: 'bot', text: data.reply, time }])
+      } catch (err) {
+        console.error("VPC AI Chatbot Error:", err)
+        setIsTyping(false)
+        // Fallback tÄ©nh khi gáº·p sá»± cá»‘ káº¿t ná»‘i AI
+        const fallbackReply = `Dáº¡, trá»£ lÃ½ áº£o VPC Ä‘ang gáº·p chÃºt giÃ¡n Ä‘oáº¡n káº¿t ná»‘i AI. Báº¡n cÃ³ thá»ƒ há»i VPC vá» cÃ¡c chá»§ Ä‘á» sau nhÃ©:<br><br>
+â€¢ â˜•ï¸ <strong>CÃ  phÃª & Äá»“ uá»‘ng</strong> (vÃ­ dá»¥: "CÃ³ cÃ  phÃª muá»‘i khÃ´ng?")<br>
+â€¢ ðŸŽ <strong>Váº­t pháº©m quÃ  táº·ng</strong> (vÃ­ dá»¥: "Mua ly sá»©")<br>
+â€¢ ðŸšš <strong>Giao nháº­n & Ship hÃ ng</strong> (vÃ­ dá»¥: "PhÃ­ ship bao nhiÃªu?")<br>
+â€¢ ðŸ“ <strong>Äá»‹a chá»‰ & Giá» má»Ÿ cá»­a</strong><br>
+â€¢ ðŸ“ž Hoáº·c liÃªn há»‡ Hotline: <strong>0935.20.1993</strong> Ä‘á»ƒ Ä‘Æ°á»£c há»— trá»£ tá»©c thÃ¬ áº¡!`
+        setChatMessages(prev => [...prev, { sender: 'bot', text: fallbackReply, time }])
+      }
+    }
+  }
+
+  // Handle order lookup submit
+  const handleLookupSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!lookupCode.trim()) return
+    setIsLookingUp(true)
+    setLookupError('')
+    setLookupResult(null)
+    try {
+      const result = await getOrderStatusAction(lookupCode.trim())
+      if (result.success && result.data) {
+        setLookupResult(result.data)
+      } else {
+        setLookupError(result.error || 'KhÃ´ng tÃ¬m tháº¥y Ä‘Æ¡n hÃ ng nÃ y trong há»‡ thá»‘ng. Vui lÃ²ng kiá»ƒm tra láº¡i mÃ£ Ä‘Æ¡n hÃ ng.')
+      }
+    } catch (err) {
+      console.error(err)
+      setLookupError('CÃ³ lá»—i xáº£y ra khi káº¿t ná»‘i há»‡ thá»‘ng. Vui lÃ²ng thá»­ láº¡i sau.')
+    } finally {
+      setIsLookingUp(false)
+    }
+  }
+
+  // Handle order checkout
+  const handleOrderSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!fullName.trim() || !phoneNumber.trim()) {
+      alert("Vui lÃ²ng Ä‘iá»n Ä‘áº§y Ä‘á»§ há» tÃªn vÃ  sá»‘ Ä‘iá»‡n thoáº¡i liÃªn há»‡.")
+      return
+    }
+    
+    if (deliveryType === 'delivery') {
+      if (!address.trim()) {
+        alert("Vui lÃ²ng nháº­p Ä‘á»‹a chá»‰ nháº­n hÃ ng.")
+        return
+      }
+      if (distance === '') {
+        await checkOSMDistance(address)
+      }
+      const d = Number(distance)
+      if (!d || isNaN(d) || d <= 0) {
+        alert("Vui lÃ²ng xÃ¡c thá»±c khoáº£ng cÃ¡ch giao hÃ ng trÆ°á»›c.")
+        return
+      }
+      if (d > 10) {
+        alert("Khoáº£ng cÃ¡ch giao hÃ ng quÃ¡ xa (>10km), cá»­a hÃ ng khÃ´ng thá»ƒ giao hÃ ng. Vui lÃ²ng kiá»ƒm tra láº¡i Ä‘á»‹a chá»‰.")
+        return
+      }
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      const mappedNote = email ? `[Email: ${email}] ${note}` : note
+
+      const orderDataInput = {
+        fullName,
+        phoneNumber,
+        address: deliveryType === 'delivery' ? address : 'Nháº­n táº¡i cá»­a hÃ ng',
+        note: mappedNote,
+        deliveryType,
+        distance: deliveryType === 'delivery' ? Number(distance) : 0,
+        paymentMethod,
+        subtotal: totalCartPrice,
+        shippingFee,
+        total: finalPayPrice,
+        items: cartItems.map(item => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          imageUrl: item.imageUrl
+        }))
+      }
+
+      const result = await createOrderAction(orderDataInput)
+
+      if (result.success && result.data) {
+        setOrderCode(result.data.orderNumber)
+        if (paymentMethod === 'bank') {
+          window.location.hash = '#payment'
+        } else {
+          clearCart()
+          setIsSuccessModalOpen(true)
+        }
+      } else {
+        alert("KhÃ´ng thá»ƒ Ä‘áº·t hÃ ng: " + (result.error || "Lá»—i há»‡ thá»‘ng"))
+      }
+    } catch (err: any) {
+      console.error("Submit order error:", err)
+      alert("CÃ³ lá»—i xáº£y ra khi gá»­i Ä‘Æ¡n hÃ ng. Vui lÃ²ng thá»­ láº¡i sau.")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleFinishCashOrder = () => {
+    setIsSuccessModalOpen(false)
+    setFullName('')
+    setPhoneNumber('')
+    setEmail('')
+    setNote('')
+    setAddress('')
+    setDistance('')
+    setCheckoutStep(1)
+    window.location.hash = '#home'
+  }
+
+  const renderLookupProgress = (status: string, order?: any) => {
+    // --- Barista messages theo tá»«ng tráº¡ng thÃ¡i ---
+    const baristaMessages: Record<string, { icon: string; title: string; msg: string; color: string }> = {
+      'da_dat_don':         { icon: 'ðŸ“‹', color: 'amber', title: 'ÄÆ¡n vá»«a Ä‘Æ°á»£c ghi nháº­n', msg: 'Cáº£m Æ¡n báº¡n Ä‘Ã£ Ä‘áº·t hÃ ng! ChÃºng mÃ¬nh Ä‘ang chá» xÃ¡c nháº­n thanh toÃ¡n Ä‘á»ƒ báº¯t Ä‘áº§u pha cháº¿ nhÃ©. â˜•' },
+      'cho_chuyen_khoan':   { icon: 'â³', color: 'amber', title: 'Chá» thanh toÃ¡n', msg: 'Báº¡n vui lÃ²ng hoÃ n táº¥t chuyá»ƒn khoáº£n Ä‘á»ƒ Barista báº¯t Ä‘áº§u pha ngay! Há»‡ thá»‘ng tá»± Ä‘á»™ng xÃ¡c nháº­n sau 2-5 giÃ¢y.' },
+      'cho_xac_nhan_chuyen_khoan': { icon: 'ðŸ”', color: 'amber', title: 'Äang xÃ¡c nháº­n giao dá»‹ch', msg: 'ChÃºng mÃ¬nh Ä‘Ã£ nháº­n Ä‘Æ°á»£c thÃ´ng bÃ¡o vÃ  Ä‘ang xÃ¡c nháº­n giao dá»‹ch cá»§a báº¡n. Sáº¯p pha ngay thÃ´i! ðŸ¤Ž' },
+      'khach_bao_da_chuyen_khoan': { icon: 'ðŸ””', color: 'amber', title: 'ÄÃ£ bÃ¡o chuyá»ƒn khoáº£n', msg: 'Cáº£m Æ¡n báº¡n Ä‘Ã£ bÃ¡o! QuÃ¡n Ä‘ang kiá»ƒm tra vÃ  xÃ¡c nháº­n giao dá»‹ch. Vui lÃ²ng chá» má»™t chÃºt nhÃ©.' },
+      'da_chuyen_khoan':    { icon: 'âœ…', color: 'emerald', title: 'Thanh toÃ¡n thÃ nh cÃ´ng', msg: 'Tuyá»‡t vá»i! Barista Ä‘Ã£ nháº­n Ä‘Æ°á»£c thÃ´ng bÃ¡o vÃ  Ä‘ang chuáº©n bá»‹ pha cháº¿ cho báº¡n. ðŸŽ‰' },
+      'da_thanh_toan':      { icon: 'âœ…', color: 'emerald', title: 'Thanh toÃ¡n xÃ¡c nháº­n', msg: 'Thanh toÃ¡n Ä‘Ã£ Ä‘Æ°á»£c xÃ¡c nháº­n! Barista Ä‘ang sáºµn sÃ ng báº¯t Ä‘áº§u pha cháº¿ Ä‘Æ¡n cá»§a báº¡n. ðŸ¤Ž' },
+      'da_nhan_don':        { icon: 'ðŸ‘¨â€ðŸ³', color: 'emerald', title: 'Barista tiáº¿p nháº­n', msg: 'Barista Ä‘Ã£ nháº­n Ä‘Æ¡n vÃ  Ä‘ang chuáº©n bá»‹ nguyÃªn liá»‡u. Äá»“ uá»‘ng cá»§a báº¡n sáº¯p Ä‘Æ°á»£c pha cháº¿ ngon lÃ nh rá»“i!' },
+      'dang_lam_don':       { icon: 'âš—ï¸', color: 'emerald', title: 'Äang pha cháº¿', msg: 'Barista Ä‘ang tá»‰ má»‰ pha cháº¿ tá»«ng ly theo Ä‘Ãºng tiÃªu chuáº©n Trung NguyÃªn Legend. Chá» chÃºt nhÃ©! â˜•âœ¨' },
+      'da_giao_shipper':    { icon: 'ðŸ›µ', color: 'blue', title: 'Äang trÃªn Ä‘Æ°á»ng giao', msg: 'Shipper Ä‘Ã£ láº¥y Ä‘Æ¡n vÃ  Ä‘ang trÃªn Ä‘Æ°á»ng Ä‘áº¿n báº¡n! Má»Ÿ cá»­a Ä‘Ã³n nÆ°á»›c thÃ´i nÃ o. Khoáº£ng 15-30 phÃºt nhÃ© ðŸš€' },
+      'hoan_thanh':         { icon: 'ðŸŽŠ', color: 'emerald', title: 'Giao hÃ ng thÃ nh cÃ´ng', msg: 'ÄÆ¡n hÃ ng Ä‘Ã£ hoÃ n thÃ nh! Cáº£m Æ¡n báº¡n ráº¥t nhiá»u. ChÃºc báº¡n thÆ°á»Ÿng thá»©c tháº­t ngon miá»‡ng! Háº¹n gáº·p láº¡i báº¡n sá»›m nhÃ©. ðŸ¤' },
+    }
+    const bInfo = baristaMessages[status] || { icon: 'ðŸ“¦', color: 'amber', title: 'Äang xá»­ lÃ½', msg: 'ÄÆ¡n hÃ ng Ä‘ang Ä‘Æ°á»£c xá»­ lÃ½. Cáº£m Æ¡n báº¡n Ä‘Ã£ kiÃªn nháº«n chá» Ä‘á»£i!' }
+
+    const steps = [
+      { key: 'init', label: 'Tiáº¿p nháº­n', icon: 'ðŸ“‹', desc: 'ÄÆ¡n hÃ ng má»›i / Chá» xÃ¡c nháº­n', activeCodes: ['da_dat_don', 'cho_chuyen_khoan', 'cho_xac_nhan_chuyen_khoan', 'khach_bao_da_chuyen_khoan'] },
+      { key: 'prepare', label: 'Pha cháº¿', icon: 'âš—ï¸', desc: 'Barista Ä‘ang chuáº©n bá»‹', activeCodes: ['da_thanh_toan', 'da_nhan_don', 'dang_lam_don', 'da_chuyen_khoan'] },
+      { key: 'shipping', label: 'Äang giao', icon: 'ðŸ›µ', desc: 'Shipper Ä‘ang trÃªn Ä‘Æ°á»ng', activeCodes: ['da_giao_shipper'] },
+      { key: 'done', label: 'HoÃ n thÃ nh', icon: 'âœ…', desc: 'ÄÃ£ giao thÃ nh cÃ´ng', activeCodes: ['hoan_thanh'] }
+    ]
+
+    if (status === 'tu_choi_don') {
+      return (
+        <div className="space-y-4">
+          <div className="p-4 bg-rose-950/20 border border-rose-800/40 rounded-xl flex items-center gap-3">
+            <AlertTriangle className="w-5 h-5 text-rose-500 font-bold shrink-0" />
+            <div>
+              <h5 className="font-bold text-rose-500 text-sm">ÄÆ¢N HÃ€NG ÄÃƒ Bá»Š Há»¦Y</h5>
+              <p className="text-[11px] text-[#a89882]">ÄÆ¡n hÃ ng nÃ y Ä‘Ã£ bá»‹ tá»« chá»‘i hoáº·c há»§y bá»Ÿi cá»­a hÃ ng. Xin lá»—i vÃ¬ sá»± báº¥t tiá»‡n nÃ y.</p>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    let currentStepIdx = 0
+    if (steps[0].activeCodes.includes(status)) currentStepIdx = 0
+    else if (steps[1].activeCodes.includes(status)) currentStepIdx = 1
+    else if (steps[2].activeCodes.includes(status)) currentStepIdx = 2
+    else if (steps[3].activeCodes.includes(status)) currentStepIdx = 3
+
+    return (
+      <div className="space-y-5">
+        {/* Barista Message */}
+        <div className="flex gap-3 items-start p-4 bg-gradient-to-r from-[#1c120c] to-[#1f140d] border border-[#c89b3c]/20 rounded-2xl">
+          <span className="text-2xl leading-none shrink-0 mt-0.5">{bInfo.icon}</span>
+          <div>
+            <div className="font-black text-[#c89b3c] text-sm mb-1">{bInfo.title}</div>
+            <div className="text-xs text-[#d4b896] leading-relaxed">{bInfo.msg}</div>
+          </div>
+        </div>
+
+        {/* Progress Tracker */}
+        <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pt-4">
+          {/* Line connector for MD screen */}
+          <div className="absolute top-5 left-6 right-6 h-0.5 bg-zinc-800 hidden md:block z-0" />
+          <div 
+            className="absolute top-5 left-6 h-0.5 bg-[#c89b3c] hidden md:block z-0 transition-all duration-500" 
+            style={{ width: `${(currentStepIdx / (steps.length - 1)) * 90}%` }}
+          />
+
+          {steps.map((step, idx) => {
+            const isCompleted = idx < currentStepIdx
+            const isActive = idx === currentStepIdx
+            const isUpcoming = idx > currentStepIdx
+
+            return (
+              <div key={step.key} className="flex md:flex-col items-center md:text-center gap-3 md:gap-2.5 z-10 flex-1 relative w-full">
+                <div 
+                  className={cn(
+                    "w-10 h-10 rounded-full flex items-center justify-center border font-black text-sm transition-all duration-300 shrink-0",
+                    isCompleted && "bg-[#c89b3c] border-[#c89b3c] text-[#1f120b]",
+                    isActive && "bg-[#1c120c] border-[#c89b3c] text-[#c89b3c] scale-110 shadow-lg shadow-[#c89b3c]/20 ring-4 ring-[#c89b3c]/10",
+                    isUpcoming && "bg-[#170e0a] border-zinc-800 text-zinc-600"
+                  )}
+                >
+                  {isCompleted ? 'âœ“' : step.icon}
+                </div>
+                <div className="text-left md:text-center">
+                  <h5 className={cn("text-xs font-black uppercase tracking-wider", isActive || isCompleted ? "text-[#c89b3c]" : "text-zinc-600")}>
+                    {step.label}
+                  </h5>
+                  <p className="text-[10px] text-[#a89882] mt-0.5">
+                    {isActive ? step.desc : (isCompleted ? 'ÄÃ£ hoÃ n táº¥t âœ“' : 'Chá» xá»­ lÃ½')}
+                  </p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
+  const totalCartPrice = getTotalPrice()
+  const finalPayPrice = totalCartPrice + shippingFee
+
+  // renderProductCard Ä‘Ã£ Ä‘Æ°á»£c tÃ¡ch thÃ nh ProductCard component á»Ÿ trÃªn file
+  // Ä‘á»ƒ tuÃ¢n thá»§ React Rules of Hooks
+
+  // Filter Menu Items
+  const filteredProducts = products.filter(prod => {
+    // Lá»c bá» CÃ  phÃª SÃ¡ng táº¡o 1 - 250gr vÃ  G7 Gu máº¡nh 12 sticks theo yÃªu cáº§u cá»§a user
+    if (prod.slug === 'ca-phe-sang-tao-1-250gr' || prod.slug === 'g7-gu-manh-12-sticks') {
+      return false
+    }
+
+    if (activeTab === '#merchandise') {
+      return prod.category_id === categories.find(c => c.slug === 'merchandise')?.id
+    }
+    const currentCategory = categories.find(c => c.slug === menuTab)
+    const matchesCategory = currentCategory ? prod.category_id === currentCategory.id : false
+    const matchesSearch = prod.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          (prod.short_description && prod.short_description.toLowerCase().includes(searchQuery.toLowerCase()))
+    return matchesCategory && matchesSearch
+  })
+
+  return (
+    <div className="w-full flex flex-col min-h-screen">
+      {/* 9 SPA Views container */}
+      <main className="flex-1 w-full pb-20">
+        
+        {/* ==================== 1. HOME VIEW ==================== */}
+        {activeTab === '#home' && (
+          <div className="space-y-24 bg-[#170e0a]">
+            {/* HERO SECTION - HIGH FIDELITY LAYOUT */}
+            <section className="relative overflow-hidden min-h-[580px] flex items-center justify-center text-white py-20 px-4 max-[520px]:px-2">
+              {/* Background Shop Image with Premium Dark Glassmorphism Overlay */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-10000 hover:scale-105"
+                style={{ 
+                  backgroundImage: `url('https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/674069481_122106871616884434_4197620687631812932_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&oh=00_Af6KGmJ7_cqKYnYij_BIUHs-ik4iJIQ1cndhZuNNUD2r1g&oe=6A136B60')` 
+                }}
+              />
+              <div className="absolute inset-0 bg-black/65 backdrop-blur-[1px] relative z-10" />
+
+              {/* Coffee Smoke Background Glows */}
+              <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-[#c89b3c]/20 blur-[120px] pointer-events-none z-20" />
+              <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 rounded-full bg-[#1f120b]/40 blur-[150px] pointer-events-none z-20" />
+
+              <div className="max-w-4xl mx-auto text-center relative z-20 space-y-7 animate-in fade-in slide-in-from-bottom-6 duration-700">
+                <span className="text-[#c89b3c] text-xs font-black tracking-[0.25em] uppercase block">
+                  TRUNG NGUYÃŠN LEGEND Ã‚U Láº C
+                </span>
+                
+                <h1 className="text-5xl md:text-7.5xl font-black tracking-tight leading-[1.05] text-white">
+                  Vietnam Prosperity<br />Coffee
+                </h1>
+                
+                <h2 className="text-xl md:text-3.5xl font-extrabold text-[#fff8ed]/90 tracking-wide">
+                  Trung NguyÃªn Legend Ã‚u Láº¡c
+                </h2>
+
+                <p className="text-[#c89b3c] text-xl md:text-2.5xl italic font-serif font-extrabold tracking-wide py-2">
+                  â€œCÃ  phÃª nÄƒng lÆ°á»£ng â€“ CÃ  phÃª Ä‘á»•i Ä‘á»iâ€
+                </p>
+                
+                <p className="text-[#e2d4c0] text-xs md:text-sm tracking-widest uppercase font-bold max-w-xl mx-auto opacity-90 leading-relaxed">
+                  Äáº·t Ä‘á»“ uá»‘ng, mua cÃ  phÃª phin, cÃ  phÃª háº¡t vÃ  Merchandise táº¡i Ä‘Ã¢y.
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+                  <a
+                    href="#menu"
+                    className="flex items-center justify-center gap-2 w-full sm:w-auto px-9 py-4 rounded-full font-black text-xs uppercase tracking-widest bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all hover:shadow-lg hover:-translate-y-0.5"
+                  >
+                    Menu Ä‘á»“ uá»‘ng
+                  </a>
+                  <a
+                    href="#merchandise"
+                    className="flex items-center justify-center w-full sm:w-auto px-9 py-4 rounded-full font-black text-xs uppercase tracking-widest border-2 border-[#c89b3c] text-white hover:bg-[#c89b3c]/15 transition-all"
+                  >
+                    Merchandise
+                  </a>
+                </div>
+              </div>
+            </section>
+
+            {/* FEATURED CATEGORIES ("MÃ³n ná»•i báº­t") - EXACTLY AS SHOWN IN SCREENSHOTS */}
+            <section className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-12">
+              <div className="text-center max-w-xl mx-auto space-y-3">
+                <h2 className="text-4.5xl font-black text-white tracking-tight">MÃ³n ná»•i báº­t</h2>
+                <p className="text-[#a89882] text-xs uppercase tracking-widest font-extrabold">
+                  Nhá»¯ng thá»©c uá»‘ng Ä‘áº·c trÆ°ng Ä‘Æ°á»£c yÃªu thÃ­ch táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c.
+                </p>
+              </div>
+
+              {/* Grid of 8 Featured Products styled like the screenshots */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {products.filter(p => p.is_featured).slice(0, 8).map((prod) => {
+                  const imageObj = prod.product_images && prod.product_images.length > 0 ? prod.product_images[0] : null
+                  const imageUrl = imageObj ? (typeof imageObj === 'string' ? imageObj : imageObj.url) : 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=700&q=80'
+
+                  return (
+                    <div 
+                      key={prod.id} 
+                      className="bg-[#1c120c] border border-[#decdb9]/10 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group"
+                    >
+                      {/* Product Image */}
+                      <div className="relative aspect-[4/3] overflow-hidden bg-[#241710] p-4.5 flex items-center justify-center">
+                        <img
+                          src={imageUrl}
+                          alt={prod.name}
+                          className="object-contain h-full w-auto max-h-[140px] group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+
+                      {/* Product Content */}
+                      <div className="p-6 flex flex-col flex-1 justify-between space-y-4">
+                        <div className="space-y-1.5">
+                          <h4 className="text-sm font-extrabold text-[#fff8ed] leading-snug group-hover:text-[#c89b3c] transition-colors">
+                            {prod.name}
+                          </h4>
+                          <p className="text-[11px] text-[#a89882] line-clamp-3 leading-relaxed h-11">
+                            {prod.short_description}
+                          </p>
+                        </div>
+
+                        {/* Price & Action */}
+                        <div className="flex items-center justify-between pt-3 border-t border-[#decdb9]/10 mt-auto">
+                          <span className="text-sm font-black text-[#c89b3c]">
+                            {prod.price.toLocaleString('vi-VN')}Ä‘
+                          </span>
+                          <button
+                            onClick={() => {
+                              addItem({
+                                id: prod.id,
+                                name: prod.name,
+                                slug: prod.slug,
+                                price: prod.price,
+                                imageUrl: imageUrl,
+                                stockQuantity: prod.stock_quantity || 100
+                              }, 1)
+                              window.location.hash = '#cart'
+                            }}
+                            className="px-3.5 py-1.5 rounded-full font-bold bg-[#170e0a] border border-[#c89b3c]/40 hover:bg-[#c89b3c] text-[#c89b3c] hover:text-[#1c120c] transition-all text-[10px] uppercase tracking-wider"
+                          >
+                            Äáº·t mÃ³n
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </section>
+
+            {/* MENU & MERCHANDISE QUICK NAV SECTION (IMAGE 4) */}
+            <section className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                {/* Left Side: Table & Chair Image */}
+                <div className="lg:col-span-5 rounded-3xl overflow-hidden shadow-xl border border-[#decdb9]/10 bg-[#1c120c]">
+                  <img
+                    src="https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/701445719_122111738540884434_8176951810572622203_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&oh=00_Af5PmRV0XlaAQiZlOVpVED9sPvFO2EK64B8xNedF-lbTow&oe=6A134ACE"
+                    alt="KhÃ´ng gian gÃ³c bÃ n trÃ²n"
+                    className="w-full h-full object-cover min-h-[350px] hover:scale-102 transition-transform duration-500"
+                  />
+                </div>
+
+                {/* Right Side: Double Cards */}
+                <div className="lg:col-span-7 flex flex-col justify-between gap-6">
+                  {/* Card 1: Menu Äá»“ Uá»‘ng */}
+                  <div className="p-8 md:p-10 rounded-3xl bg-[#1c120c] border border-[#decdb9]/10 shadow-lg flex flex-col justify-between items-start space-y-4.5 flex-1">
+                    <div className="space-y-2">
+                      <h3 className="text-xl md:text-2xl font-black text-[#c89b3c]">Menu Ä‘á»“ uá»‘ng</h3>
+                      <p className="text-xs md:text-sm text-[#e2d4c0] leading-relaxed">
+                        CÃ  phÃª phin, cÃ  phÃª mÃ¡y, cÃ  phÃª pha cháº¿, trÃ , Ä‘Ã¡ xay, nÆ°á»›c Ã©p, bÃ¡nh vÃ  cÃ¡c mÃ³n extra.
+                      </p>
+                    </div>
+                    <a
+                      href="#menu"
+                      className="px-6 py-3 rounded-full font-black text-[10px] uppercase tracking-widest bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all"
+                    >
+                      Xem menu
+                    </a>
+                  </div>
+
+                  {/* Card 2: Merchandise */}
+                  <div className="p-8 md:p-10 rounded-3xl bg-[#1c120c] border border-[#decdb9]/10 shadow-lg flex flex-col justify-between items-start space-y-4.5 flex-1">
+                    <div className="space-y-2">
+                      <h3 className="text-xl md:text-2xl font-black text-[#c89b3c]">Merchandise</h3>
+                      <p className="text-xs md:text-sm text-[#e2d4c0] leading-relaxed">
+                        CÃ¡c sáº£n pháº©m cÃ  phÃª, dá»¥ng cá»¥ pha cháº¿, ly tÃ¡ch, bá»™ quÃ  táº·ng vÃ  váº­t pháº©m thÆ°Æ¡ng hiá»‡u cá»§a Trung NguyÃªn Legend.
+                      </p>
+                    </div>
+                    <a
+                      href="#merchandise"
+                      className="px-6 py-3 rounded-full font-black text-[10px] uppercase tracking-widest bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all"
+                    >
+                      Xem sáº£n pháº©m
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* GALLERY "KHÃ”NG GIAN QUÃN" (IMAGES 5 & 6) */}
+            <section className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-12">
+              <div className="text-center max-w-xl mx-auto space-y-3">
+                <h2 className="text-4xl font-black text-white tracking-tight">KhÃ´ng gian quÃ¡n</h2>
+                <p className="text-[#a89882] text-xs uppercase tracking-widest font-extrabold leading-relaxed">
+                  KhÃ´ng gian hiá»‡n Ä‘áº¡i, yÃªn tÄ©nh, phÃ¹ há»£p Ä‘á»ƒ gáº·p gá»¡, lÃ m viá»‡c vÃ  thÆ°á»Ÿng thá»©c cÃ  phÃª.
+                </p>
+              </div>
+
+              {/* Grid of 8 images with rounded corners */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {[
+                  // 1. Exterior
+                  "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/386999900_715169523974576_5274279206438518417_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&oh=00_Af4WEefOxxcq4DJ4BdOlAYlrg0kJCO-bUf8wqaiQltdI1w&oe=6A137C4B",
+                  // 2. Interior Arch Bookshelf
+                  "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/674069481_122106871616884434_4197620687631812932_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&oh=00_Af6KGmJ7_cqKYnYij_BIUHs-ik4iJIQ1cndhZuNNUD2r1g&oe=6A136B60",
+                  // 3. Round Table Cozy Cozy
+                  "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/701445719_122111738540884434_8176951810572622203_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&oh=00_Af5PmRV0XlaAQiZlOVpVED9sPvFO2EK64B8xNedF-lbTow&oe=6A134ACE",
+                  // 4. Barista Counters / Blog Cover
+                  "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/704546850_122111883836884434_407848279318371067_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&oh=00_Af5J1SgbRfeV_2Umey84IMK9PAxXxvrHfcgc4obgZ1RC7g&oe=6A1373F7",
+                  // 5. Gift shop corner
+                  "https://scontent.fsgn2-10.fna.fbcdn.net/v/t39.30808-6/699469039_1413851977439657_474118911255709124_n.jpg?stp=dst-jpg_p590x590_tt6&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&oh=00_Af6d97DNwQ09NoiOUeU4WrtL4dO83DU8I2fyUr5lBU31Lg&oe=6A136C6D",
+                  // 6. Bench sofa sitting
+                  "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/682455395_122108896268884434_1334038689435078096_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&oh=00_Af5eLqlQW0NjKVHL2ECJ71__apYAoSc2Cw3MOrhcUl1Vfg&oe=6A135EDE",
+                  // 7. Beautiful high-angle table
+                  "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80",
+                  // 8. Elegant arched view
+                  "https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=800&q=80"
+                ].map((imgUrl, idx) => (
+                  <div 
+                    key={idx} 
+                    className="aspect-square rounded-3xl overflow-hidden shadow-lg border border-[#decdb9]/10 bg-[#1c120c] group relative"
+                  >
+                    <img
+                      src={imgUrl}
+                      alt={`KhÃ´ng gian Ã‚u Láº¡c ${idx + 1}`}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+        )}
+
+
+
+        {/* ==================== 2. MENU VIEW ==================== */}
+        {activeTab === '#menu' && (
+          <div className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-12 pt-10">
+            <div className="text-center max-w-xl mx-auto space-y-3">
+              <h2 className="text-3.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight">Thá»±c ÄÆ¡n Äá»“ Uá»‘ng</h2>
+              <p className="text-[#78675d] dark:text-[#a89882] text-sm leading-relaxed">
+                NÆ¡i khÆ¡i gá»£i tinh tháº§n sÃ¡ng táº¡o vá»›i cÃ¡c dÃ²ng cÃ  phÃª phin tinh tÃºy, nÆ°á»›c thanh lá»c thanh nhiá»‡t bá»• dÆ°á»¡ng vÃ  bÃ¡nh thá»±c dÆ°á»¡ng.
+              </p>
+            </div>
+
+            {/* Menu Tabs Navigation & Search */}
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-6 border-b border-[#decdb9]/60 dark:border-[#3a2114]/60 pb-6">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+                {categories.filter(c => c.slug !== 'merchandise').map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setMenuTab(cat.slug)}
+                    className={cn(
+                      "px-4 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition-all",
+                      menuTab === cat.slug
+                        ? "bg-[#c89b3c] text-[#1f120b] shadow-md shadow-[#c89b3c]/20"
+                        : "text-[#78675d] dark:text-[#e2d4c0] hover:bg-[#decdb9]/20 dark:hover:bg-[#3a2114]/30"
+                    )}
+                  >
+                    {cat.name}
+                  </button>
+                ))}
+              </div>
+
+              {/* Search Bar */}
+              <div className="relative w-full lg:w-72">
+                <Search className="w-4 h-4 text-[#78675d] absolute top-1/2 left-3.5 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="TÃ¬m mÃ³n ngon..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 rounded-full border border-[#decdb9] dark:border-[#3a2114] bg-white dark:bg-[#2b1810] text-[#2b1810] dark:text-[#f7efe3] placeholder-[#78675d] text-sm focus:outline-none focus:ring-2 focus:ring-[#c89b3c]/40"
+                />
+              </div>
+            </div>
+
+            {/* Drink Grid */}
+            {filteredProducts.length === 0 ? (
+              <div className="text-center py-20 bg-white dark:bg-[#2b1810] border border-[#decdb9] dark:border-[#3a2114] rounded-3xl">
+                <Coffee className="w-12 h-12 text-[#decdb9] mx-auto mb-3" />
+                <p className="text-[#78675d] dark:text-[#a89882] text-sm">
+                  KhÃ´ng tÃ¬m tháº¥y thá»©c uá»‘ng nÃ o phÃ¹ há»£p. Vui lÃ²ng thá»­ láº¡i.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {filteredProducts.map((prod) => (
+                  <ProductCard key={prod.id} prod={prod} onAddItem={addItem} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ==================== 3. MERCHANDISE VIEW ==================== */}
+        {activeTab === '#merchandise' && (
+          <div className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-12 pt-10">
+            <div className="text-center max-w-xl mx-auto space-y-3">
+              <h2 className="text-3.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight">CÃ  PhÃª & Váº­t Pháº©m QuÃ  Táº·ng</h2>
+              <p className="text-[#78675d] dark:text-[#a89882] text-sm leading-relaxed">
+                Nhá»¯ng dá»¥ng cá»¥ pha cháº¿ truyá»n thá»‘ng, phin nhÃ´m in hoa vÄƒn Trá»‘ng Ä‘á»“ng sáº¯c sáº£o cÃ¹ng cÃ¡c há»™p quÃ  táº·ng cÃ  phÃª Ä‘áº·c sáº£n cao cáº¥p nháº¥t.
+              </p>
+            </div>
+
+            {filteredProducts.length === 0 ? (
+              <div className="text-center py-20 bg-white/40 dark:bg-[#2b1810]/40 border border-[#decdb9]/60 rounded-3xl">
+                <p className="text-[#78675d]">Danh sÃ¡ch váº­t pháº©m Ä‘ang Ä‘Æ°á»£c cáº­p nháº­t thÃªm.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredProducts.map((prod) => (
+                  <ProductCard key={prod.id} prod={prod} onAddItem={addItem} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ==================== 4. BLOG VIEW ==================== */}
+        {activeTab === '#blog' && (
+          <div className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-12 pt-10">
+            <div className="text-center max-w-xl mx-auto space-y-3">
+              <h2 className="text-3.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight">Tin Tá»©c & Sá»± Kiá»‡n Ná»•i Báº­t</h2>
+              <p className="text-[#78675d] dark:text-[#a89882] text-sm leading-relaxed">
+                KhÃ¡m phÃ¡ nhá»¯ng khoáº£nh kháº¯c nghá»‡ sÄ© ghÃ© quÃ¡n, sá»± kiá»‡n khai trÆ°Æ¡ng cÃ¹ng cÃ¡c tin tá»©c Æ°u Ä‘Ã£i hot nháº¥t táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c Huáº¿.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {blogItems.map((article) => (
+                <div key={article.slug} className="bg-white dark:bg-[#2b1810] border border-[#decdb9] dark:border-[#3a2114] rounded-3xl overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col group">
+                  <div className="relative aspect-video overflow-hidden">
+                    <img
+                      src={article.thumbnail}
+                      alt={article.title}
+                      className="object-cover w-full h-full group-hover:scale-103 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="p-6 flex flex-col flex-1 justify-between">
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 text-xs text-[#78675d] dark:text-[#a89882] font-semibold">
+                        <Calendar className="w-3.5 h-3.5 text-[#c89b3c]" />
+                        {article.date}
+                      </div>
+                      <h3 className="text-lg font-extrabold text-[#2b1810] dark:text-[#f7efe3] line-clamp-2 group-hover:text-[#c89b3c] transition-colors leading-snug">
+                        {article.title}
+                      </h3>
+                      <p className="text-xs text-[#78675d] dark:text-[#a89882] line-clamp-2 leading-relaxed">
+                        {article.desc}
+                      </p>
+                    </div>
+                    <div className="pt-4 border-t border-[#f7efe3] dark:border-[#1f120b] mt-5 flex justify-center">
+                      <a
+                        href={`#blog-detail/${article.slug}`}
+                        className="inline-flex items-center gap-1 text-xs font-black text-[#c89b3c] hover:underline uppercase tracking-wider"
+                      >
+                        Xem chi tiáº¿t bÃ i viáº¿t
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ==================== 5. ARTICLE DETAIL VIEW ==================== */}
+        {activeTab === '#blog-detail' && selectedArticle && (
+          <div className="max-w-4xl mx-auto px-4 max-[520px]:px-2 pt-10 space-y-8">
+            <div className="flex justify-center w-full">
+              <a
+                href="#blog"
+                className="inline-flex items-center gap-1.5 text-xs font-black text-[#c89b3c] hover:underline uppercase tracking-widest"
+              >
+                â† Quay láº¡i danh sÃ¡ch tin tá»©c
+              </a>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 text-xs text-[#78675d] dark:text-[#a89882]">
+                <Calendar className="w-4 h-4 text-[#c89b3c]" />
+                <span>ÄÄƒng ngÃ y: {selectedArticle.date}</span>
+                <span className="mx-2">â€¢</span>
+                <User className="w-4 h-4 text-[#c89b3c]" />
+                <span>Ban biÃªn táº­p Ã‚u Láº¡c</span>
+              </div>
+              <h1 className="text-3xl md:text-4.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight leading-tight">
+                {selectedArticle.title}
+              </h1>
+              <p className="text-[#78675d] dark:text-[#a89882] text-sm md:text-base leading-relaxed italic border-l-4 border-[#c89b3c] pl-4">
+                {selectedArticle.desc}
+              </p>
+            </div>
+
+            {/* YouTube or Video Embed */}
+            {selectedArticle.videos && selectedArticle.videos.length > 0 && (
+              <div className="aspect-[9/16] w-full max-w-[420px] mx-auto rounded-2xl overflow-hidden border border-[#decdb9]/60 shadow-lg bg-black">
+                <iframe
+                  src={selectedArticle.videos[0]}
+                  title="Embedded Video"
+                  className="w-full h-full border-none"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            )}
+
+            {/* Primary Featured Image */}
+            {(!selectedArticle.videos || selectedArticle.videos.length === 0) && (
+              <div className="w-full rounded-2xl overflow-hidden border border-[#decdb9]/60 shadow-md">
+                <img
+                  src={selectedArticle.images[0]}
+                  alt={selectedArticle.title}
+                  className="w-full h-auto object-cover max-h-[500px]"
+                />
+              </div>
+            )}
+
+            {/* Content Body */}
+            <div
+              className="prose prose-orange max-w-none text-[#2b1810] dark:text-[#f7efe3] leading-relaxed text-sm md:text-base space-y-4"
+              dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
+            />
+
+            {/* Embed Gallery Images if multiple */}
+            {selectedArticle.images.length > 1 && (
+              <div className="grid grid-cols-2 gap-4 pt-6">
+                {selectedArticle.images.slice(1).map((imgUrl: string, idx: number) => (
+                  <div key={idx} className="rounded-xl overflow-hidden border border-[#decdb9]/50">
+                    <img src={imgUrl} alt={`Gallery detail ${idx + 1}`} className="w-full h-auto object-cover" />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="border-t border-[#decdb9] dark:border-[#3a2114] pt-6 flex items-center justify-between">
+              <span className="text-xs text-[#78675d] dark:text-[#a89882]">
+                Tag: #TrungNguyenLegend #AuLacHue #CaPheNangLuong
+              </span>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href)
+                  alert("ÄÃ£ sao chÃ©p liÃªn káº¿t bÃ i viáº¿t!")
+                }}
+                className="flex items-center gap-1.5 text-xs font-bold text-[#c89b3c] hover:underline uppercase tracking-wider"
+              >
+                <Share2 className="w-4 h-4" />
+                Chia sáº» bÃ i viáº¿t
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ==================== 6. CART VIEW (2-STEP CHECKOUT WIZARD) ==================== */}
+        {activeTab === '#cart' && (
+          <div className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 pt-10">
+            {/* Step indicator header */}
+            <div className="flex items-center justify-center gap-4 mb-10 max-w-lg mx-auto">
+              <div className="flex items-center gap-2">
+                <span className={cn(
+                  "w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs border transition-all",
+                  checkoutStep === 1
+                    ? "bg-[#c89b3c] border-[#c89b3c] text-[#1f120b]"
+                    : "bg-zinc-800 border-zinc-700 text-zinc-400"
+                )}>
+                  1
+                </span>
+                <span className={cn("text-xs font-black uppercase tracking-wider", checkoutStep === 1 ? "text-[#c89b3c]" : "text-zinc-500")}>
+                  Giá» hÃ ng
+                </span>
+              </div>
+              <div className="w-12 h-0.5 bg-zinc-800" />
+              <div className="flex items-center gap-2">
+                <span className={cn(
+                  "w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs border transition-all",
+                  checkoutStep === 2
+                    ? "bg-[#c89b3c] border-[#c89b3c] text-[#1f120b]"
+                    : "bg-zinc-800 border-zinc-700 text-zinc-400"
+                )}>
+                  2
+                </span>
+                <span className={cn("text-xs font-black uppercase tracking-wider", checkoutStep === 2 ? "text-[#c89b3c]" : "text-zinc-500")}>
+                  ThÃ´ng tin giao nháº­n
+                </span>
+              </div>
+            </div>
+
+            {/* STEP 1: GIá»Ž HÃ€NG */}
+            {checkoutStep === 1 && (
+              <div className="max-w-4xl mx-auto space-y-6">
+                <div className="flex items-center justify-between border-b border-[#decdb9]/20 pb-4">
+                  <h2 className="text-2xl font-black text-white tracking-tight">
+                    Giá» HÃ ng Cá»§a Báº¡n
+                  </h2>
+                  <span className="text-xs font-extrabold px-3 py-1 rounded-full bg-[#c89b3c]/20 text-[#c89b3c] border border-[#c89b3c]/40">
+                    {getTotalItems()} sáº£n pháº©m
+                  </span>
+                </div>
+
+                {cartItems.length === 0 ? (
+                  <div className="text-center py-20 bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl">
+                    <ShoppingBag className="w-12 h-12 text-[#decdb9]/25 mx-auto mb-3" />
+                    <p className="text-[#a89882] text-sm mb-5">
+                      Giá» hÃ ng cá»§a báº¡n Ä‘ang trá»‘ng rá»—ng. HÃ£y ghÃ© thá»±c Ä‘Æ¡n Ä‘á»ƒ chá»n mÃ³n nÆ°á»›c yÃªu thÃ­ch!
+                    </p>
+                    <a
+                      href="#menu"
+                      className="inline-flex items-center gap-1.5 px-6 py-3 rounded-full font-bold bg-[#c89b3c] text-[#1f120b] hover:bg-[#f4d17b] transition-all text-[10px] uppercase tracking-wider"
+                    >
+                      Äáº·t mÃ³n ngay
+                    </a>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    <div className="space-y-4">
+                      {cartItems.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex items-center gap-4 bg-[#1c120c] border border-[#decdb9]/10 p-4.5 rounded-2xl shadow-md"
+                        >
+                          <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 bg-[#241710] p-1.5 flex items-center justify-center">
+                            <img src={item.imageUrl} alt={item.name} className="object-contain h-full w-auto" />
+                          </div>
+                          
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-sm font-extrabold text-[#fff8ed] truncate">
+                              {item.name}
+                            </h4>
+                            <span className="text-xs text-[#c89b3c] font-black">
+                              {item.price.toLocaleString('vi-VN')}Ä‘
+                            </span>
+                          </div>
+
+                          {/* Quantity controls */}
+                          <div className="flex items-center border border-[#decdb9]/10 rounded-xl overflow-hidden bg-[#170e0a]">
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              className="p-2 text-[#a89882] hover:text-[#c89b3c] transition-colors"
+                            >
+                              <Minus className="w-3.5 h-3.5" />
+                            </button>
+                            <span className="px-3 text-xs font-black text-white">
+                              {item.quantity}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              className="p-2 text-[#a89882] hover:text-[#c89b3c] transition-colors"
+                            >
+                              <Plus className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+
+                          {/* Remove Button */}
+                          <button
+                            onClick={() => removeItem(item.id)}
+                            className="p-2 text-rose-500 hover:bg-rose-950/20 rounded-xl shrink-0 transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="pt-2 flex justify-between items-center">
+                      <button
+                        onClick={clearCart}
+                        className="text-[10px] font-extrabold text-rose-500 hover:underline uppercase tracking-wider"
+                      >
+                        XÃ³a toÃ n bá»™ giá» hÃ ng
+                      </button>
+                      <span className="text-xs text-[#a89882]">
+                        Táº¡m tÃ­nh: <strong className="text-white text-base">{totalCartPrice.toLocaleString('vi-VN')}Ä‘</strong>
+                      </span>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-4 pt-6">
+                      <a
+                        href="#menu"
+                        className="flex-1 py-4 text-center rounded-full font-black text-[10px] uppercase tracking-widest border-2 border-zinc-800 text-white hover:bg-zinc-800/40 transition-all"
+                      >
+                        Chá»n thÃªm sáº£n pháº©m
+                      </a>
+                      <button
+                        onClick={() => setCheckoutStep(2)}
+                        className="flex-1 py-4 rounded-full font-black text-[10px] uppercase tracking-widest bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all hover:shadow-lg"
+                      >
+                        Tiáº¿p tá»¥c
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* STEP 2: THÃ”NG TIN GIAO NHáº¬N */}
+            {checkoutStep === 2 && (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-6xl mx-auto">
+                
+                {/* Form column (Left) */}
+                <div className="lg:col-span-7 bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl p-8 shadow-xl space-y-6">
+                  <div className="flex items-center justify-between border-b border-[#decdb9]/10 pb-4">
+                    <h3 className="text-lg font-black text-[#c89b3c] uppercase tracking-wide">
+                      ThÃ´ng Tin KhÃ¡ch HÃ ng
+                    </h3>
+                    <button
+                      onClick={() => setCheckoutStep(1)}
+                      className="text-[10px] font-bold text-[#a89882] hover:text-white uppercase tracking-wider transition-colors"
+                    >
+                      â† Quay láº¡i giá» hÃ ng
+                    </button>
+                  </div>
+
+                  <form onSubmit={handleOrderSubmit} className="space-y-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-extrabold text-[#a89882] uppercase tracking-wider">
+                          Há» vÃ  TÃªn KhÃ¡ch HÃ ng *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Nguyá»…n VÄƒn A"
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl border border-[#decdb9]/15 bg-[#170e0a] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#c89b3c]/40"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-extrabold text-[#a89882] uppercase tracking-wider">
+                          Sá»‘ Äiá»‡n Thoáº¡i *
+                        </label>
+                        <input
+                          type="tel"
+                          required
+                          placeholder="0901234567"
+                          value={phoneNumber}
+                          onChange={(e) => setPhoneNumber(e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl border border-[#decdb9]/15 bg-[#170e0a] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#c89b3c]/40"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-extrabold text-[#a89882] uppercase tracking-wider">
+                          Email (KhÃ´ng báº¯t buá»™c)
+                        </label>
+                        <input
+                          type="email"
+                          placeholder="khachyeu@gmail.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl border border-[#decdb9]/15 bg-[#170e0a] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#c89b3c]/40"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-extrabold text-[#a89882] uppercase tracking-wider">
+                          Ghi ChÃº ÄÆ¡n HÃ ng
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Ãt ngá»t, nhiá»u Ä‘Ã¡, giao giá» hÃ nh chÃ­nh..."
+                          value={note}
+                          onChange={(e) => setNote(e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl border border-[#decdb9]/15 bg-[#170e0a] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#c89b3c]/40"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Delivery Options */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-extrabold text-[#a89882] uppercase tracking-wider block">
+                        HÃ¬nh Thá»©c Nháº­n HÃ ng *
+                      </label>
+                      <div className="flex gap-4">
+                        <button
+                          type="button"
+                          onClick={() => setDeliveryType('delivery')}
+                          className={cn(
+                            "flex-1 py-3 px-4 rounded-xl text-xs font-bold border transition-all",
+                            deliveryType === 'delivery'
+                              ? "bg-[#c89b3c] text-[#1f120b] border-[#c89b3c]"
+                              : "border-zinc-800 text-[#a89882] hover:bg-zinc-800/30"
+                          )}
+                        >
+                          ðŸ›µ Giao hÃ ng táº­n nÆ¡i
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDeliveryType('pickup')}
+                          className={cn(
+                            "flex-1 py-3 px-4 rounded-xl text-xs font-bold border transition-all",
+                            deliveryType === 'pickup'
+                              ? "bg-[#c89b3c] text-[#1f120b] border-[#c89b3c]"
+                              : "border-zinc-800 text-[#a89882] hover:bg-zinc-800/30"
+                          )}
+                        >
+                          ðŸ›ï¸ Tá»± láº¥y táº¡i cá»­a hÃ ng
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Geolocation Section (Only for delivery) */}
+                    {deliveryType === 'delivery' && (
+                      <div className="space-y-4 p-4.5 bg-[#170e0a] rounded-2xl border border-[#decdb9]/10">
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-extrabold text-[#c89b3c] uppercase tracking-widest flex items-center gap-1.5">
+                            <MapPin className="w-3.5 h-3.5" />
+                            Äá»‹a chá»‰ giao hÃ ng (Táº¡i Huáº¿) *
+                          </label>
+                          <div className="flex gap-2.5">
+                            <input
+                              type="text"
+                              required={deliveryType === 'delivery'}
+                              placeholder="VÃ­ dá»¥: 12 Báº¿n NghÃ©, Huáº¿"
+                              value={address}
+                              onChange={(e) => setAddress(e.target.value)}
+                              className="flex-1 px-3 py-2.5 rounded-lg border border-[#decdb9]/15 bg-[#1c120c] text-white text-xs"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => checkOSMDistance(address)}
+                              disabled={isGeocoding || !address.trim()}
+                              className="px-4 py-2.5 rounded-lg bg-[#c89b3c]/20 hover:bg-[#c89b3c]/35 border border-[#c89b3c]/40 text-[#c89b3c] font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-50"
+                            >
+                              {isGeocoding ? 'Äang tÃ­nh...' : 'Kiá»ƒm tra'}
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Geofence Enforcement Display */}
+                        {distanceError ? (
+                          <div className="p-4 bg-rose-950/20 border-2 border-rose-800/50 rounded-xl space-y-2.5 animate-in fade-in duration-300">
+                            <div className="flex gap-2 items-start text-rose-400">
+                              <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+                              <p className="text-xs font-extrabold leading-relaxed">
+                                Vui lÃ²ng kiá»ƒm tra láº¡i Ä‘á»‹a chá»‰ Ä‘Ã£ nháº­p. Khoáº£ng cÃ¡ch quÃ¡ xa (&gt;10km) nÃªn cá»­a hÃ ng khÃ´ng thá»ƒ nháº­n Ä‘Æ¡n cá»§a báº¡n. Cáº£m Æ¡n vÃ¬ Ä‘Ã£ quan tÃ¢m Ä‘áº¿n Trung NguyÃªn Legend Ã‚u Láº¡c. Báº¡n cÃ³ thá»ƒ Ä‘áº·t nÆ°á»›c á»Ÿ chi nhÃ¡nh gáº§n nháº¥t áº¡. Cáº£m Æ¡n khÃ¡ch yÃªu áº¡.
+                              </p>
+                            </div>
+                          </div>
+                        ) : distance !== '' ? (
+                          <div className="flex items-center justify-between text-xs p-3 bg-[#1c120c] rounded-lg border border-emerald-500/10">
+                            <span className="text-[#a89882]">Khoáº£ng cÃ¡ch tÃ­nh toÃ¡n:</span>
+                            <span className="text-emerald-400 font-bold">
+                              {distance}km {Number(distance) <= 2 ? '(Miá»…n phÃ­ ship < 2km)' : `(Ship: ${shippingFee.toLocaleString('vi-VN')}Ä‘)`}
+                            </span>
+                          </div>
+                        ) : (
+                          <p className="text-[10px] text-[#a89882] italic">
+                            * Vui lÃ²ng click "Kiá»ƒm tra" Ä‘á»ƒ há»‡ thá»‘ng tÃ­nh toÃ¡n khoáº£ng cÃ¡ch tá»± Ä‘á»™ng qua OpenStreetMap.
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Payment Option Selection */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-extrabold text-[#a89882] uppercase tracking-wider block">
+                        PhÆ°Æ¡ng Thá»©c Thanh ToÃ¡n *
+                      </label>
+                      <div className="flex gap-4">
+                        <button
+                          type="button"
+                          onClick={() => setPaymentMethod('bank')}
+                          className={cn(
+                            "flex-1 py-3 px-4 rounded-xl text-xs font-bold border transition-all",
+                            paymentMethod === 'bank'
+                              ? "bg-[#c89b3c] text-[#1f120b] border-[#c89b3c]"
+                              : "border-zinc-800 text-[#a89882] hover:bg-zinc-800/30"
+                          )}
+                        >
+                          ðŸ’³ Chuyá»ƒn khoáº£n nhanh (VietQR)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPaymentMethod('cash')}
+                          className={cn(
+                            "flex-1 py-3 px-4 rounded-xl text-xs font-bold border transition-all",
+                            paymentMethod === 'cash'
+                              ? "bg-[#c89b3c] text-[#1f120b] border-[#c89b3c]"
+                              : "border-zinc-800 text-[#a89882] hover:bg-zinc-800/30"
+                          )}
+                        >
+                          ðŸ’µ Tiá»n máº·t khi nháº­n (COD)
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                {/* Order Summary column (Right) */}
+                <div className="lg:col-span-5 bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl p-8 shadow-xl space-y-6">
+                  <h3 className="text-lg font-black text-[#c89b3c] uppercase tracking-wide border-b border-[#decdb9]/10 pb-4">
+                    TÃ³m Táº¯t ÄÆ¡n HÃ ng
+                  </h3>
+
+                  {/* Minified items list */}
+                  <div className="max-h-56 overflow-y-auto space-y-3 pr-2 scrollbar-thin">
+                    {cartItems.map((item) => (
+                      <div key={item.id} className="flex items-center gap-3 py-1 text-xs">
+                        <div className="w-10 h-10 rounded-lg bg-[#241710] flex items-center justify-center p-1 relative shrink-0">
+                          <img src={item.imageUrl} alt={item.name} className="object-contain h-full w-auto" />
+                          <span className="absolute -top-1.5 -right-1.5 bg-[#c89b3c] text-[#1f120b] font-black text-[9px] w-4.5 h-4.5 rounded-full flex items-center justify-center">
+                            {item.quantity}
+                          </span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h5 className="font-bold text-white truncate">{item.name}</h5>
+                          <span className="text-[10px] text-[#c89b3c] font-black">{(item.price * item.quantity).toLocaleString('vi-VN')}Ä‘</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Summary Pricing */}
+                  <div className="pt-4 border-t border-[#decdb9]/10 space-y-2.5 text-xs">
+                    <div className="flex justify-between text-[#a89882]">
+                      <span>Tá»•ng tiá»n hÃ ng:</span>
+                      <span className="text-white font-bold">{totalCartPrice.toLocaleString('vi-VN')}Ä‘</span>
+                    </div>
+                    {deliveryType === 'delivery' && (
+                      <div className="flex justify-between text-[#a89882]">
+                        <span>PhÃ­ giao hÃ ng ({distance || 0}km):</span>
+                        <span className="text-white font-bold">{shippingFee > 0 ? `${shippingFee.toLocaleString('vi-VN')}Ä‘` : 'Miá»…n phÃ­'}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between text-sm border-t border-[#decdb9]/10 pt-3 mt-1">
+                      <span className="text-white font-extrabold uppercase tracking-wide">Tá»•ng cá»™ng thanh toÃ¡n:</span>
+                      <span className="text-[#c89b3c] font-black text-lg">{finalPayPrice.toLocaleString('vi-VN')}Ä‘</span>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleOrderSubmit}
+                    disabled={isSubmitting || cartItems.length === 0 || (deliveryType === 'delivery' && (distance === '' || Number(distance) > 10))}
+                    className="w-full py-4 rounded-full font-black text-[10px] uppercase tracking-widest bg-[#c89b3c] hover:bg-[#f4d17b] disabled:bg-zinc-800 disabled:text-zinc-600 transition-all hover:shadow-lg"
+                  >
+                    {isSubmitting ? 'Äang xá»­ lÃ½...' : (paymentMethod === 'bank' ? 'Thanh toÃ¡n chuyá»ƒn khoáº£n' : 'XÃ¡c nháº­n Ä‘áº·t hÃ ng')}
+                  </button>
+                </div>
+
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ==================== 7. BANK TRANSFER QR VIEW (2-COLUMN PREMIUM) ==================== */}
+        {activeTab === '#payment' && (
+          <div className="max-w-6xl mx-auto px-4 max-[520px]:px-2 pt-10 space-y-8 animate-in fade-in duration-300">
+            <div className="text-center max-w-xl mx-auto space-y-3">
+              <div className="w-12 h-12 rounded-full bg-emerald-950/20 border border-emerald-800/40 text-emerald-400 flex items-center justify-center mx-auto shadow-md">
+                <CheckCircle2 className="w-7 h-7" />
+              </div>
+              <h2 className="text-3xl font-black text-white tracking-tight">
+                Äáº·t HÃ ng ThÃ nh CÃ´ng!
+              </h2>
+              <p className="text-[#a89882] text-xs uppercase tracking-widest font-extrabold">
+                Vui lÃ²ng thanh toÃ¡n Ä‘á»ƒ Barista báº¯t Ä‘áº§u chuáº©n bá»‹ ly nÆ°á»›c thÆ¡m ngon.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+              
+              {/* Left Column: Billing details */}
+              <div className="lg:col-span-6 bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl p-8 flex flex-col justify-between space-y-6 shadow-xl">
+                <div className="space-y-5">
+                  <h3 className="text-base font-black text-[#c89b3c] uppercase tracking-wider border-b border-[#decdb9]/10 pb-3.5">
+                    ThÃ´ng Tin ÄÆ¡n HÃ ng
+                  </h3>
+                  
+                  <div className="space-y-4 text-xs">
+                    <div className="flex justify-between items-center py-2.5 border-b border-[#decdb9]/5">
+                      <span className="text-[#a89882]">MÃ£ hÃ³a Ä‘Æ¡n:</span>
+                      <div className="flex items-center gap-1.5">
+                        <strong className="text-[#c89b3c] font-black text-sm">{orderCode || 'VPC-BILL'}</strong>
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(orderCode || 'VPC-BILL')
+                            alert("ÄÃ£ sao chÃ©p mÃ£ Ä‘Æ¡n hÃ ng!")
+                          }}
+                          className="p-1 hover:bg-[#170e0a] rounded text-[#a89882] hover:text-white"
+                          title="Sao chÃ©p mÃ£ Ä‘Æ¡n"
+                        >
+                          <Share2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center py-2.5 border-b border-[#decdb9]/5">
+                      <span className="text-[#a89882]">KhÃ¡ch hÃ ng:</span>
+                      <strong className="text-white font-bold">{fullName}</strong>
+                    </div>
+                    <div className="flex justify-between items-center py-2.5 border-b border-[#decdb9]/5">
+                      <span className="text-[#a89882]">Sá»‘ Ä‘iá»‡n thoáº¡i:</span>
+                      <strong className="text-white font-bold">{phoneNumber}</strong>
+                    </div>
+                    <div className="flex justify-between items-center py-2.5 border-b border-[#decdb9]/5">
+                      <span className="text-[#a89882]">Giao nháº­n:</span>
+                      <strong className="text-white font-bold">
+                        {deliveryType === 'delivery' ? `Giao táº­n nÆ¡i (${distance}km)` : 'Nháº­n táº¡i cá»­a hÃ ng'}
+                      </strong>
+                    </div>
+                    <div className="flex justify-between items-center py-2.5 border-b border-[#decdb9]/5">
+                      <span className="text-[#a89882]">Ná»™i dung chuyá»ƒn khoáº£n:</span>
+                      <strong className="text-[#c89b3c] font-black text-sm uppercase">{fullName} {orderCode}</strong>
+                    </div>
+                    <div className="flex justify-between items-center py-3 bg-[#170e0a] rounded-xl px-4 border border-emerald-500/10 mt-4">
+                      <span className="text-white font-extrabold">Sá»‘ tiá»n cáº§n chuyá»ƒn:</span>
+                      <strong className="text-[#c89b3c] font-black text-base">{finalPayPrice.toLocaleString('vi-VN')}Ä‘</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-6 border-t border-[#decdb9]/10 flex flex-col sm:flex-row gap-4">
+                  <a
+                    href="#home"
+                    onClick={() => {
+                      clearCart()
+                    }}
+                    className="flex-1 py-3.5 text-center rounded-full font-black text-[10px] uppercase tracking-widest border border-zinc-800 text-white hover:bg-zinc-800/40 transition-all"
+                  >
+                    Quay láº¡i Trang Chá»§
+                  </a>
+                  <button
+                    onClick={async () => {
+                      await updateOrderStatusAction(orderCode, 'khach_bao_da_chuyen_khoan')
+                      alert("ÄÃ£ ghi nháº­n thÃ´ng bÃ¡o chuyá»ƒn khoáº£n cá»§a báº¡n. Barista sáº½ xÃ¡c nháº­n ngay trÃªn há»‡ thá»‘ng!")
+                      clearCart()
+                      window.location.hash = '#home'
+                    }}
+                    className="flex-1 py-3.5 rounded-full font-black text-[10px] uppercase tracking-widest bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all hover:shadow-lg"
+                  >
+                    TÃ´i ÄÃ£ Thanh ToÃ¡n
+                  </button>
+                </div>
+              </div>
+
+              {/* Right Column: QR display */}
+              <div className="lg:col-span-6 bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl p-8 flex flex-col items-center justify-center space-y-6 shadow-xl">
+                <div className="text-center space-y-1.5">
+                  <h4 className="text-sm font-extrabold text-[#fff8ed] uppercase tracking-wide">
+                    QuÃ©t mÃ£ VietQR chuyá»ƒn khoáº£n
+                  </h4>
+                  <p className="text-[10px] text-[#a89882] max-w-sm mx-auto leading-relaxed">
+                    MÃ£ QR Ä‘Ã£ chá»©a Ä‘áº§y Ä‘á»§ sá»‘ tiá»n vÃ  thÃ´ng tin chuyá»ƒn khoáº£n chÃ­nh xÃ¡c nháº¥t. QuÃ½ khÃ¡ch chá»‰ cáº§n quÃ©t vÃ  thanh toÃ¡n.
+                  </p>
+                </div>
+
+                {/* QR code box */}
+                <div className="relative aspect-square w-64 h-64 border border-[#decdb9]/10 rounded-2xl overflow-hidden p-2.5 bg-white shadow-lg">
+                  <img
+                    src={`https://img.vietqr.io/image/vietcombank-1041623574-compact2.png?amount=${finalPayPrice}&addInfo=${encodeURIComponent(fullName + ' ' + orderCode)}&accountName=NGO%20QUYNH%20TRANG`}
+                    alt="VietQR code"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+
+                {/* Account card */}
+                <div className="w-full p-4.5 bg-[#170e0a] rounded-2xl border border-[#decdb9]/10 text-[11px] text-left space-y-2 leading-relaxed">
+                  <div className="flex justify-between">
+                    <span className="text-[#a89882]">NgÃ¢n hÃ ng:</span>
+                    <strong className="text-white">Vietcombank (Ngoáº¡i thÆ°Æ¡ng Viá»‡t Nam)</strong>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[#a89882]">Sá»‘ tÃ i khoáº£n:</span>
+                    <div className="flex items-center gap-1.5">
+                      <strong className="text-[#c89b3c] font-black">1041623574</strong>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText('1041623574')
+                          alert("ÄÃ£ sao chÃ©p sá»‘ tÃ i khoáº£n!")
+                        }}
+                        className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-zinc-800 text-[#a89882] hover:text-white"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-[#a89882]">Chá»§ tÃ i khoáº£n:</span>
+                    <strong className="text-white uppercase">NGÃ” QUá»²NH TRANG</strong>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* ==================== 8. ABOUT VIEW ==================== */}
+        {activeTab === '#about' && (
+          <div className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-16 pt-10">
+            {/* Story grid zigzag */}
+            <div className="space-y-16">
+              {/* Row 1 */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="relative aspect-[16/10] rounded-3xl overflow-hidden shadow-xl border border-[#decdb9]/10">
+                  <img
+                    src="https://res.cloudinary.com/dojibbcof/image/upload/v1779773457/660455604_1376016174556571_698903480620260313_n_gfnhyd.jpg"
+                    alt="VPC CÃ  phÃª nÄƒng lÆ°á»£ng"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="space-y-6">
+                  <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#c89b3c]/20 text-[#c89b3c] text-xs font-semibold">
+                    <Award className="w-4.5 h-4.5" /> <strong>Vietnam Prosperity Coffee</strong>
+                  </div>
+                  <h2 className="text-3.5xl font-black text-white leading-snug">
+                    Vá» chÃºng tÃ´i
+                  </h2>
+                  <p className="text-sm md:text-base leading-relaxed text-[#a89882]">
+                    <strong>Vietnam Prosperity Coffee</strong> (VPC) tá»± hÃ o lÃ  thÆ°Æ¡ng hiá»‡u káº¿t ná»‘i vÃ  mang Ä‘áº¿n khÃ´ng gian cÃ  phÃª nÄƒng lÆ°á»£ng Ä‘áº·c trÆ°ng cá»§a <strong>Trung NguyÃªn Legend</strong> giá»¯a lÃ²ng Cá»‘ Ä‘Ã´ Huáº¿.
+                  </p>
+                  <p className="text-sm md:text-base leading-relaxed text-[#a89882]">
+                    Vá»›i sá»© má»‡nh lan tá»a vÄƒn hÃ³a cÃ  phÃª tá»‰nh thá»©c, chÃºng tÃ´i khÃ´ng chá»‰ phá»¥c vá»¥ Ä‘á»“ uá»‘ng mÃ  cÃ²n Ä‘á»“ng hÃ nh cÃ¹ng sá»± sÃ¡ng táº¡o vÃ  nÄƒng lÆ°á»£ng tÆ° duy cá»§a khÃ¡ch hÃ ng.
+                  </p>
+                </div>
+              </div>
+
+              {/* Row 2 */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="space-y-6 lg:order-1 order-2">
+                  <p className="text-sm md:text-base leading-relaxed text-[#a89882]">
+                    KhÃ´ng gian táº¡i cá»­a hÃ ng <strong>Ã‚u Láº¡c</strong> Ä‘Æ°á»£c thiáº¿t káº¿ hiá»‡n Ä‘áº¡i, bÃ i trÃ­ tinh táº¿ cÃ¹ng tá»§ sÃ¡ch tri thá»©c truyá»n cáº£m há»©ng dáº¥n thÃ¢n, láº­p nghiá»‡p máº¡nh máº½.
+                  </p>
+                  <p className="text-sm md:text-base leading-relaxed text-[#a89882]">
+                    ÄÃ¢y lÃ  Ä‘iá»ƒm háº¹n lÃ½ tÆ°á»Ÿng Ä‘á»ƒ há»c táº­p, lÃ m viá»‡c, káº¿t ná»‘i báº¡n bÃ¨ vÃ  cÃ¹ng nhau chia sáº» nhá»¯ng Ã½ tÆ°á»Ÿng sÃ¡ng táº¡o Ä‘á»™t phÃ¡.
+                  </p>
+                </div>
+                <div className="relative aspect-[16/10] rounded-3xl overflow-hidden shadow-xl border border-[#decdb9]/10 lg:order-2 order-1">
+                  <img
+                    src="https://res.cloudinary.com/dojibbcof/image/upload/v1779773457/658147470_1376016321223223_8548167742163448076_n_axvtps.jpg"
+                    alt="KhÃ´ng gian Trung NguyÃªn Legend Ã‚u Láº¡c"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Row 3 */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="relative aspect-[16/10] rounded-3xl overflow-hidden shadow-xl border border-[#decdb9]/10">
+                  <img
+                    src="https://res.cloudinary.com/dojibbcof/image/upload/v1779773453/z7635707229351_3a55bdc90f6cd62dd840a98fe0846012_nzeb9y.jpg"
+                    alt="SÃ¡ch tri thá»©c vÃ  váº­t pháº©m"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="space-y-6">
+                  <p className="text-sm md:text-base leading-relaxed text-[#a89882]">
+                    ThÃ´ng qua há»‡ thá»‘ng website tiá»‡n lá»£i, khÃ¡ch hÃ ng cÃ³ thá»ƒ dá»… dÃ ng tra cá»©u menu, Ä‘áº·t Ä‘á»“ uá»‘ng giao táº­n nhÃ  hoáº·c mua sáº¯m cÃ¡c sáº£n pháº©m Ä‘Ã³ng gÃ³i vÃ  quÃ  táº·ng.
+                  </p>
+                  <p className="text-sm md:text-base leading-relaxed text-[#a89882]">
+                    ChÃºng tÃ´i cam káº¿t phá»¥c vá»¥ táº­n tÃ¢m tá»« trÃ¡i tim, mang láº¡i tráº£i nghiá»‡m hoÃ n háº£o nháº¥t cho quÃ½ khÃ¡ch trong tá»«ng khoáº£nh kháº¯c thÆ°á»Ÿng thá»©c.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Specialties grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-10">
+              <div className="p-6.5 bg-white dark:bg-[#2b1810] border border-[#decdb9] dark:border-[#3a2114] rounded-3xl space-y-3.5">
+                <Coffee className="w-10 h-10 text-[#c89b3c]" />
+                <h4 className="text-lg font-extrabold text-[#2b1810] dark:text-[#f7efe3]">Sáº£n pháº©m tinh hoa</h4>
+                <p className="text-xs text-[#78675d] dark:text-[#a89882] leading-relaxed">
+                  Sá»­ dá»¥ng nguá»“n háº¡t cÃ  phÃª Robusta BuÃ´n Ma Thuá»™t ngon nháº¥t tháº¿ giá»›i káº¿t há»£p cÃ´ng nghá»‡ cháº¿ tÃ¡c Ä‘á»™c quyá»n.
+                </p>
+              </div>
+              <div className="p-6.5 bg-white dark:bg-[#2b1810] border border-[#decdb9] dark:border-[#3a2114] rounded-3xl space-y-3.5">
+                <Compass className="w-10 h-10 text-[#c89b3c]" />
+                <h4 className="text-lg font-extrabold text-[#2b1810] dark:text-[#f7efe3]">KhÃ´ng gian nÄƒng lÆ°á»£ng</h4>
+                <p className="text-xs text-[#78675d] dark:text-[#a89882] leading-relaxed">
+                  GÃ³c ngá»“i yÃªn tÄ©nh cao cáº¥p, bÃ i trÃ­ hÃ i hÃ²a, sÃ¡ch tri thá»©c Ä‘áº·c trÆ°ng truyá»n cáº£m há»©ng khá»Ÿi nghiá»‡p máº¡nh máº½.
+                </p>
+              </div>
+              <div className="p-6.5 bg-white dark:bg-[#2b1810] border border-[#decdb9] dark:border-[#3a2114] rounded-3xl space-y-3.5">
+                <Clock className="w-10 h-10 text-[#c89b3c]" />
+                <h4 className="text-lg font-extrabold text-[#2b1810] dark:text-[#f7efe3]">Äá»“ng hÃ nh bá»n bá»‰</h4>
+                <p className="text-xs text-[#78675d] dark:text-[#a89882] leading-relaxed">
+                  Äá»™i ngÅ© nhÃ¢n sá»± Ä‘Æ°á»£c Ä‘Ã o táº¡o chuyÃªn nghiá»‡p tá»« trÃ¡i tim, táº­n tá»¥y chÄƒm sÃ³c tá»«ng tráº£i nghiá»‡m nhá» cá»§a quÃ½ khÃ¡ch hÃ ng.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ==================== 9. CONTACT VIEW ==================== */}
+        {activeTab === '#contact' && (
+          <div className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-12 pt-10">
+            <div className="text-center max-w-xl mx-auto space-y-3">
+              <h2 className="text-3.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight">LiÃªn Há»‡ Vá»›i ChÃºng TÃ´i</h2>
+              <p className="text-[#78675d] dark:text-[#a89882] text-sm leading-relaxed">
+                ÄÃ³ng gÃ³p Ã½ kiáº¿n pháº£n há»“i hoáº·c liÃªn há»‡ há»— trá»£ Ä‘áº·t mÃ³n nÆ°á»›c giao táº­n nÆ¡i cá»±c ká»³ nhanh chÃ³ng.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+              {/* Centered Feedback Form only to avoid duplicate footer info */}
+              <div className="lg:col-span-12 flex justify-center w-full">
+                <div className="w-full max-w-2xl bg-white dark:bg-[#2b1810] border border-[#decdb9] dark:border-[#3a2114] rounded-3xl p-8 shadow-lg">
+                  <h3 className="text-2xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight border-b border-[#f7efe3] dark:border-[#1f120b] pb-3.5 mb-6 text-center">
+                    Gá»­i Ã Kiáº¿n Pháº£n Há»“i
+                  </h3>
+
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault()
+                      alert("Cáº£m Æ¡n Ã½ kiáº¿n Ä‘Ã³ng gÃ³p chÃ¢n thÃ nh cá»§a quÃ½ khÃ¡ch. ChÃºng tÃ´i sáº½ pháº£n há»“i sá»›m nháº¥t!")
+                      e.currentTarget.reset()
+                    }}
+                    className="space-y-5"
+                  >
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-[#78675d] dark:text-[#a89882]">TÃªn cá»§a báº¡n</label>
+                        <input
+                          type="text"
+                          required
+                          className="w-full px-4 py-3 rounded-xl border border-[#decdb9] dark:border-[#3a2114] bg-white dark:bg-[#1f120b] text-[#2b1810] dark:text-white text-sm focus:ring-1 focus:ring-[#c89b3c] focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-[#78675d] dark:text-[#a89882]">Sá»‘ Ä‘iá»‡n thoáº¡i</label>
+                        <input
+                          type="tel"
+                          required
+                          className="w-full px-4 py-3 rounded-xl border border-[#decdb9] dark:border-[#3a2114] bg-white dark:bg-[#1f120b] text-[#2b1810] dark:text-white text-sm focus:ring-1 focus:ring-[#c89b3c] focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-[#78675d] dark:text-[#a89882]">Email liÃªn há»‡</label>
+                      <input
+                        type="email"
+                        required
+                        className="w-full px-4 py-3 rounded-xl border border-[#decdb9] dark:border-[#3a2114] bg-white dark:bg-[#1f120b] text-[#2b1810] dark:text-white text-sm focus:ring-1 focus:ring-[#c89b3c] focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-[#78675d] dark:text-[#a89882]">Ná»™i dung pháº£n há»“i</label>
+                      <textarea
+                        required
+                        rows={4}
+                        className="w-full px-4 py-3 rounded-xl border border-[#decdb9] dark:border-[#3a2114] bg-white dark:bg-[#1f120b] text-[#2b1810] dark:text-white text-sm focus:ring-1 focus:ring-[#c89b3c] focus:outline-none"
+                      ></textarea>
+                    </div>
+
+                    <div className="flex justify-center pt-2">
+                      <button
+                        type="submit"
+                        className="w-full max-w-xs py-3.5 rounded-xl font-bold bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all hover:shadow-lg text-xs uppercase tracking-wider font-extrabold"
+                      >
+                        Gá»­i pháº£n há»“i cá»§a báº¡n
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        
+        {/* ==================== 10. ORDER LOOKUP VIEW ==================== */}
+        {activeTab === '#lookup' && (
+          <div className="max-w-4xl mx-auto px-4 max-[520px]:px-2 pt-10 space-y-8 animate-in fade-in duration-300">
+            <div className="text-center max-w-xl mx-auto space-y-3">
+              <h2 className="text-3.5xl font-black text-white tracking-tight">Tra Cá»©u ÄÆ¡n HÃ ng</h2>
+              <p className="text-[#a89882] text-xs uppercase tracking-widest font-extrabold leading-relaxed">
+                Theo dÃµi tráº¡ng thÃ¡i chuáº©n bá»‹ thá»©c uá»‘ng cá»§a báº¡n theo thá»i gian thá»±c tá»« quáº§y Barista.
+              </p>
+            </div>
+            <div className="bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl p-8 shadow-xl space-y-6">
+              <form onSubmit={handleLookupSubmit} className="flex flex-col sm:flex-row gap-4">
+                <input type="text" required placeholder="Nháº­p mÃ£ Ä‘Æ¡n hÃ ng cá»§a báº¡n (VÃ­ dá»¥: VPC-812903)" value={lookupCode} onChange={(e) => setLookupCode(e.target.value)} className="flex-1 px-4.5 py-3.5 rounded-xl border border-[#decdb9]/15 bg-[#170e0a] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#c89b3c]" />
+                <button type="submit" disabled={isLookingUp} className="px-8 py-3.5 rounded-xl font-black bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all text-xs uppercase tracking-wider disabled:bg-zinc-800 disabled:text-zinc-600">{isLookingUp ? 'Äang tra cá»©u...' : 'Tra cá»©u'}</button>
+              </form>
+              {lookupError && (<p className="text-xs text-rose-500 font-bold text-center bg-rose-950/10 p-3 rounded-xl border border-rose-800/20">{lookupError}</p>)}
+              {lookupResult && (
+                <div className="space-y-6 pt-4 animate-in fade-in duration-300">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-[#170e0a] rounded-2xl border border-[#decdb9]/10 text-xs leading-relaxed">
+                    <div><span className="text-[#a89882] block">MÃ£ Ä‘Æ¡n hÃ ng:</span><strong className="text-[#c89b3c] font-black text-sm">{lookupResult.order_number}</strong></div>
+                    <div><span className="text-[#a89882] block">KhÃ¡ch hÃ ng:</span><strong className="text-white font-bold">{lookupResult.full_name}</strong></div>
+                    <div><span className="text-[#a89882] block">Tá»•ng tiá»n Ä‘Æ¡n:</span><strong className="text-[#c89b3c] font-black">{lookupResult.total_amount?.toLocaleString('vi-VN')}Ä‘</strong></div>
+                    <div><span className="text-[#a89882] block">Thanh toÃ¡n:</span><strong className="text-white font-bold">{lookupResult.payment_method === 'bank' ? 'Chuyá»ƒn khoáº£n' : 'Tiá»n máº·t'}</strong></div>
+                  </div>
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-black text-[#c89b3c] uppercase tracking-widest border-b border-[#decdb9]/10 pb-2">Tráº¡ng thÃ¡i chuáº©n bá»‹</h4>
+                    {renderLookupProgress(lookupResult.status, lookupResult)}
+                  </div>
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-black text-[#c89b3c] uppercase tracking-widest border-b border-[#decdb9]/10 pb-2">HÃ³a Ä‘Æ¡n chi tiáº¿t</h4>
+                    <div className="bg-[#170e0a] rounded-2xl border border-[#decdb9]/10 overflow-hidden">
+                      <div className="divide-y divide-[#decdb9]/5">
+                        {lookupResult.order_items && lookupResult.order_items.map((item: any) => (
+                          <div key={item.id} className="flex justify-between items-center text-xs p-3.5">
+                            <div>
+                              <span className="text-white font-bold block">{item.product_name}</span>
+                              <span className="text-[#a89882] text-[10px]">SL: {item.quantity} x {item.price?.toLocaleString('vi-VN')}d</span>
+                            </div>
+                            <span className="text-[#c89b3c] font-black shrink-0 ml-2">{(item.price * item.quantity)?.toLocaleString('vi-VN')}d</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="border-t border-[#decdb9]/10 p-3.5 space-y-1.5">
+                        {lookupResult.shipping_fee > 0 ? (
+                          <div className="flex justify-between text-[11px] text-[#a89882]"><span>Phi giao hang</span><span>{lookupResult.shipping_fee?.toLocaleString('vi-VN')}d</span></div>
+                        ) : (
+                          <div className="flex justify-between text-[11px]"><span className="text-[#a89882]">Phi giao hang</span><span className="text-emerald-400 font-bold">Mien phi!</span></div>
+                        )}
+                        <div className="flex justify-between items-center font-black text-sm pt-1 border-t border-[#decdb9]/10">
+                          <span className="text-white">TONG CONG</span>
+                          <span className="text-[#c89b3c] text-base">{lookupResult.total_amount?.toLocaleString('vi-VN')}d</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+      </main>
+{/* Cash Order Success Modal */}
+      {isSuccessModalOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+          <div className="bg-[#1c120c] border-2 border-[#c89b3c] rounded-3xl max-w-md w-full p-8 text-center space-y-6 shadow-2xl animate-in fade-in zoom-in duration-300">
+            <div className="w-16 h-16 rounded-full bg-emerald-950/20 border border-emerald-800/40 text-emerald-400 flex items-center justify-center mx-auto shadow-md">
+              <CheckCircle2 className="w-10 h-10" />
+            </div>
+            
+            <div className="space-y-2">
+              <h3 className="text-2xl font-black text-[#fff8ed]">
+                Äáº·t HÃ ng ThÃ nh CÃ´ng!
+              </h3>
+              <p className="text-xs text-[#a89882] leading-relaxed">
+                ÄÆ¡n hÃ ng <strong className="text-[#c89b3c]">{orderCode}</strong> Ä‘Ã£ Ä‘Æ°á»£c gá»­i tá»›i quáº§y Barista. ChÃºng tÃ´i sáº½ nhanh chÃ³ng chuáº©n bá»‹ vÃ  giao hÃ ng cho báº¡n!
+              </p>
+            </div>
+
+            <div className="p-4 bg-[#170e0a] rounded-2xl text-xs space-y-2 text-left border border-[#decdb9]/10 leading-relaxed">
+              <div className="flex justify-between">
+                <span className="text-[#a89882]">KhÃ¡ch hÃ ng:</span>
+                <strong className="text-white">{fullName}</strong>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-[#a89882]">Sá»‘ Ä‘iá»‡n thoáº¡i:</span>
+                <strong className="text-white">{phoneNumber}</strong>
+              </div>
+              {deliveryType === 'delivery' && (
+                <div className="flex justify-between">
+                  <span className="text-[#a89882]">HÃ¬nh thá»©c:</span>
+                  <strong className="text-emerald-400 font-bold">Giao hÃ ng táº­n nhÃ  ({distance}km)</strong>
+                </div>
+              )}
+              {deliveryType === 'pickup' && (
+                <div className="flex justify-between">
+                  <span className="text-[#a89882]">HÃ¬nh thá»©c:</span>
+                  <strong className="text-[#c89b3c] font-bold">Tá»± láº¥y táº¡i cá»­a hÃ ng</strong>
+                </div>
+              )}
+              <div className="flex justify-between border-t border-[#decdb9]/10 pt-2 mt-2 font-black text-sm">
+                <span className="text-white">Thanh toÃ¡n:</span>
+                <span className="text-[#c89b3c]">{finalPayPrice.toLocaleString('vi-VN')}Ä‘</span>
+              </div>
+            </div>
+
+            <button
+              onClick={handleFinishCashOrder}
+              className="w-full py-3.5 rounded-full font-black bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] uppercase tracking-widest text-[10px] transition-all shadow-md"
+            >
+              HoÃ n táº¥t Ä‘Æ¡n hÃ ng
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ==================== FLOATING BARISTA CHATBOT ==================== */}
+      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end">
+        
+        {/* Chat window */}
+        {isChatOpen && (
+          <div className="w-80 sm:w-96 bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl shadow-2xl flex flex-col h-[460px] overflow-hidden mb-4 animate-in slide-in-from-bottom duration-300">
+            {/* Chat header */}
+            <div className="bg-[#170e0a] border-b border-[#c89b3c]/15 px-4.5 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center p-1 relative shadow-md">
+                  <img
+                    src="https://trungnguyenlegend.com/wp-content/uploads/2021/11/logo-trung-nguyen-legend.png"
+                    alt="Barista Avatar"
+                    className="object-contain"
+                  />
+                  <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-[#170e0a]" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-black text-[#c89b3c] uppercase tracking-widest">Barista Ã‚u Láº¡c</h4>
+                  <span className="text-[10px] text-emerald-400 font-bold">Äang trá»±c tuyáº¿n</span>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsChatOpen(false)}
+                className="p-1 rounded-full text-zinc-400 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Chat Messages */}
+            <div className="flex-1 overflow-y-auto p-4.5 space-y-4 bg-[#170e0a]/50 scrollbar-thin">
+              {chatMessages.map((msg, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "flex flex-col max-w-[82%] text-xs space-y-1",
+                    msg.sender === 'user' ? "ml-auto items-end" : "mr-auto items-start"
+                  )}
+                >
+                  <div
+                    className={cn(
+                      "p-3 rounded-2xl shadow-md leading-relaxed",
+                      msg.sender === 'user'
+                        ? "bg-[#c89b3c] text-[#1f120b] rounded-tr-none font-bold"
+                        : "bg-[#1c120c] text-white border border-[#decdb9]/10 rounded-tl-none"
+                    )}
+                  >
+                    {msg.sender === 'user' ? (
+                      msg.text
+                    ) : (
+                      <div dangerouslySetInnerHTML={{ __html: msg.text }} />
+                    )}
+                  </div>
+                  <span className="text-[9px] text-[#a89882] px-1">{msg.time}</span>
+                </div>
+              ))}
+              
+              {isTyping && (
+                <div className="flex items-center gap-1.5 p-3 rounded-2xl bg-[#1c120c] border border-[#decdb9]/10 mr-auto max-w-[120px] rounded-tl-none">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#c89b3c] animate-bounce duration-300" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#c89b3c] animate-bounce duration-300 delay-150" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#c89b3c] animate-bounce duration-300 delay-300" />
+                </div>
+              )}
+              
+              <div ref={chatBottomRef} />
+            </div>
+
+            {/* Clickable Automated Prompts */}
+            <div className="p-2.5 bg-[#170e0a] border-t border-[#decdb9]/10 flex gap-2 overflow-x-auto custom-scrollbar-chat scroll-smooth shrink-0">
+              <button
+                onClick={() => handleChatQuestion(
+                  'CÃ  phÃª phin Ä‘áº·c trÆ°ng',
+                  'ChÃ o báº¡n! DÃ²ng cÃ  phÃª phin Ä‘áº·c trÆ°ng nháº¥t cá»§a chÃºng tÃ´i lÃ  dÃ²ng Coffee Legend vÃ  NÄƒng lÆ°á»£ng TÆ° duy. CÃ  phÃª phin Legend mang hÆ°Æ¡ng thÆ¡m ná»“ng nÃ n quyáº¿n rÅ©, vá»‹ Ä‘áº¯ng Ä‘áº­m Ä‘Ã  truyá»n thá»‘ng. Báº¡n cÃ³ thá»ƒ gá»i thÃªm Sá»¯a Ä‘Ã¡ Ä‘á»ƒ cáº£m nháº­n vá»‹ bÃ©o ngáº­y ngÃ o ngáº¡t!'
+                )}
+                className="shrink-0 text-[9px] font-extrabold px-3 py-1.5 rounded-full bg-[#c89b3c]/15 hover:bg-[#c89b3c]/25 text-[#c89b3c] border border-[#c89b3c]/30 transition-colors"
+              >
+                â˜• Gá»£i Ã½ CÃ  phÃª
+              </button>
+              <button
+                onClick={() => handleChatQuestion(
+                  'MÃ³n uá»‘ng thanh mÃ¡t',
+                  'ChÃ o báº¡n! CÃ¡c mÃ³n trÃ  & nÆ°á»›c giáº£i nhiá»‡t thanh mÃ¡t cá»§a chÃºng tÃ´i bao gá»“m: TrÃ  lÃ  náº¿p sen vÃ ng bÃ¹i bÃ©o bá»• dÆ°á»¡ng, TrÃ  Ä‘Ã o cam sáº£ sáº£ng khoÃ¡i thÆ¡m mÃ¡t, Hibiscus chanh dÃ¢y háº¡t chia chua ngá»t giáº£i nhiá»‡t cá»±c Ä‘á»‰nh. HÃ£y chá»n ly nÆ°á»›c yÃªu thÃ­ch cá»§a báº¡n trÃªn menu nhÃ©!'
+                )}
+                className="shrink-0 text-[9px] font-extrabold px-3 py-1.5 rounded-full bg-[#c89b3c]/15 hover:bg-[#c89b3c]/25 text-[#c89b3c] border border-[#c89b3c]/30 transition-colors"
+              >
+                ðŸ¹ MÃ³n uá»‘ng thanh mÃ¡t
+              </button>
+              <button
+                onClick={() => handleChatQuestion(
+                  '3 Ná»n VÄƒn Minh CÃ  PhÃª',
+                  'ChÃºng tÃ´i tá»± hÃ o há»™i tá»¥ 3 ná»n vÄƒn minh cÃ  phÃª tháº¿ giá»›i: Ottoman (cÃ  phÃª tÃ¢m linh gáº¯n káº¿t), Roman (cÃ  phÃª khai phÃ³ng sÃ¡ng táº¡o khoa há»c ká»¹ thuáº­t) vÃ  Thiá»n (cÃ  phÃª chiÃªm nghiá»‡m báº£n thÃ¢n sÃ¢u láº¯ng phÆ°Æ¡ng ÄÃ´ng). HÃ£y trá»±c tiáº¿p ghÃ© thÄƒm quÃ¡n hoáº·c Ä‘áº·t hÃ ng Ä‘á»ƒ khÃ¡m phÃ¡ nhÃ©!'
+                )}
+                className="shrink-0 text-[9px] font-extrabold px-3 py-1.5 rounded-full bg-[#c89b3c]/15 hover:bg-[#c89b3c]/25 text-[#c89b3c] border border-[#c89b3c]/30 transition-colors"
+              >
+                ðŸ›ï¸ 3 Ná»n VÄƒn Minh
+              </button>
+              <button
+                onClick={() => handleChatQuestion(
+                  'ChÆ°Æ¡ng trÃ¬nh Khuyáº¿n mÃ£i',
+                  'Tin vui cho tÃ­n Ä‘á»“ mÃª nÆ°á»›c mÃ¡t! ChÆ°Æ¡ng trÃ¬nh khuyáº¿n mÃ£i "Mua 1 ÄÆ°á»£c 2" Ä‘ang diá»…n ra cá»±c nhiá»‡t trong khung giá» 14:00 - 21:30 hÃ ng ngÃ y tá»« 19/05 Ä‘áº¿n 30/06. Rá»§ ngay cáº¡ cá»©ng Ä‘i trÃ¡nh nÃ³ng thÃ´i nÃ o!'
+                )}
+                className="shrink-0 text-[9px] font-extrabold px-3 py-1.5 rounded-full bg-[#c89b3c]/15 hover:bg-[#c89b3c]/25 text-[#c89b3c] border border-[#c89b3c]/30 transition-colors"
+              >
+                ðŸ”¥ ChÆ°Æ¡ng trÃ¬nh Khuyáº¿n mÃ£i
+              </button>
+              <button
+                onClick={() => handleChatQuestion(
+                  'ChÆ°Æ¡ng trÃ¬nh thÃ nh viÃªn',
+                  'ðŸ’³ ChÆ°Æ¡ng trÃ¬nh thÃ nh viÃªn Premium tÃ­ch lÅ©y Ä‘iá»ƒm: Nháº­n Voucher giáº£m 10% khi Ä‘Äƒng kÃ½ thÃ nh viÃªn. TÃ­ch lÅ©y Ä‘áº¡t háº¡ng Báº¡c (giáº£m 5%), háº¡ng VÃ ng (giáº£m 10% + quÃ  sinh nháº­t), vÃ  Kim CÆ°Æ¡ng (giáº£m 15% + miá»…n phÃ­ ship trá»n Ä‘á»i). Báº¥m Ä‘Äƒng kÃ½ á»Ÿ gÃ³c pháº£i mÃ n hÃ¬nh nhÃ©!'
+                )}
+                className="shrink-0 text-[9px] font-extrabold px-3 py-1.5 rounded-full bg-[#c89b3c]/15 hover:bg-[#c89b3c]/25 text-[#c89b3c] border border-[#c89b3c]/30 transition-colors"
+              >
+                ðŸ’³ ChÆ°Æ¡ng trÃ¬nh thÃ nh viÃªn
+              </button>
+              <button
+                onClick={() => handleChatQuestion(
+                  'Äá»‹a Ä‘iá»ƒm, giá» má»Ÿ cá»­a',
+                  'ðŸ“ Vá»‹ trÃ­ & Giá» hoáº¡t Ä‘á»™ng cá»§a quÃ¡n:\nâ€¢ Äá»‹a chá»‰: Khu TÄC ÄÃ´ng Nam Thá»§y An, PhÆ°á»ng An Cá»±u, TP Huáº¿ (Ä‘á»‘i diá»‡n Aeon Mall Huáº¿).\nâ€¢ Giá» má»Ÿ cá»­a: 06:30 AM - 09:30 PM hÃ ng ngÃ y. Ráº¥t hÃ¢n háº¡nh Ä‘Æ°á»£c phá»¥c vá»¥ quÃ½ khÃ¡ch!'
+                )}
+                className="shrink-0 text-[9px] font-extrabold px-3 py-1.5 rounded-full bg-[#c89b3c]/15 hover:bg-[#c89b3c]/25 text-[#c89b3c] border border-[#c89b3c]/30 transition-colors"
+              >
+                ðŸš— Äá»‹a Ä‘iá»ƒm, giá» má»Ÿ cá»­a
+              </button>
+            </div>
+
+            {/* Chat Input Text Field */}
+            <form onSubmit={handleChatSubmit} className="p-3 bg-[#170e0a] border-t border-[#decdb9]/10 flex gap-2 shrink-0">
+              <input
+                type="text"
+                placeholder="Nháº­p tin nháº¯n Ä‘á»ƒ tÆ° váº¥n mÃ³n..."
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                className="flex-1 px-3 py-2 rounded-xl border border-[#decdb9]/15 bg-[#1c120c] text-xs text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-[#c89b3c]"
+              />
+              <button
+                type="submit"
+                className="p-2 rounded-xl bg-[#c89b3c] text-[#1f120b] hover:bg-[#f4d17b] transition-colors"
+              >
+                <Send className="w-3.5 h-3.5" />
+              </button>
+            </form>
+          </div>
+        )}
+
+        {/* Toggle Chat button */}
+        <button
+          onClick={() => setIsChatOpen(!isChatOpen)}
+          className="w-14 h-14 rounded-full bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] flex items-center justify-center shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+          aria-label="TÆ° váº¥n Barista"
+        >
+          {isChatOpen ? <X className="w-6 h-6 stroke-[2.5]" /> : <MessageSquare className="w-6 h-6 stroke-[2.5]" />}
+        </button>
+
+      </div>
+
+    </div>
+  )
+}
+
