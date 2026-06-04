@@ -3,6 +3,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
 const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
@@ -984,7 +986,7 @@ app.post("/api/sepay/webhook", async (req, res) => {
     const { data: updated, error: updateError } = await supabase
       .from("don_hang")
       .update({
-        trang_thai: "da_thanh_toan",
+        trang_thai: "da_chuyen_khoan",
         ghi_chu: nextNote
       })
       .eq("id", order.id)
@@ -1005,6 +1007,153 @@ app.post("/api/sepay/webhook", async (req, res) => {
     return res.status(500).json({ ok: false, error: error.message });
   }
 });
+
+
+/* =========================================================
+   AI KNOWLEDGE: ĐỌC NỘI DUNG TỪ INDEX.HTML + FALLBACK TỪ KHÓA
+========================================================= */
+let cachedIndexKnowledge = {
+  loadedAt: 0,
+  source: "",
+  text: ""
+};
+
+function htmlToKnowledgeText(html) {
+  return String(html || "")
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<!--([\s\S]*?)-->/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function loadIndexKnowledge() {
+  const now = Date.now();
+  if (cachedIndexKnowledge.text && now - cachedIndexKnowledge.loadedAt < 60_000) {
+    return cachedIndexKnowledge;
+  }
+
+  const candidates = [
+    path.join(process.cwd(), "index.html"),
+    path.join(process.cwd(), "public", "index.html"),
+    path.join(__dirname, "index.html"),
+    path.join(__dirname, "public", "index.html")
+  ];
+
+  for (const filePath of candidates) {
+    if (fs.existsSync(filePath)) {
+      const html = fs.readFileSync(filePath, "utf8");
+      cachedIndexKnowledge = {
+        loadedAt: now,
+        source: filePath,
+        text: htmlToKnowledgeText(html).slice(0, 50000)
+      };
+      return cachedIndexKnowledge;
+    }
+  }
+
+  cachedIndexKnowledge = { loadedAt: now, source: "", text: "" };
+  return cachedIndexKnowledge;
+}
+
+function buildKeywords(question) {
+  const stopWords = new Set([
+    "toi", "minh", "ban", "may", "tao", "cho", "hoi", "co", "khong", "la", "gi", "nao", "nhung", "cac", "mot", "cua", "ve", "va", "o", "tai", "tu", "duoc", "khach", "hang", "xin", "chao"
+  ]);
+
+  return removeVietnameseTones(question)
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .map(s => s.trim())
+    .filter(s => s.length >= 3 && !stopWords.has(s))
+    .slice(0, 12);
+}
+
+function findIndexSnippets(question, indexText) {
+  const keywords = buildKeywords(question);
+  if (!indexText || !keywords.length) return [];
+
+  const rawSentences = String(indexText)
+    .split(/(?<=[.!?。！？])\s+|\s{2,}/)
+    .map(s => s.trim())
+    .filter(s => s.length >= 25 && s.length <= 500);
+
+  const scored = rawSentences.map(sentence => {
+    const normalized = removeVietnameseTones(sentence);
+    let score = 0;
+    for (const keyword of keywords) {
+      if (normalized.includes(keyword)) score += 1;
+    }
+    return { sentence, score };
+  }).filter(item => item.score > 0);
+
+  scored.sort((a, b) => b.score - a.score || a.sentence.length - b.sentence.length);
+  return scored.slice(0, 8).map(item => item.sentence);
+}
+
+async function buildKeywordFallbackContext(question) {
+  const keywords = buildKeywords(question);
+  if (!keywords.length) return "";
+
+  const [drinkResult, merchResult, categoryResult] = await Promise.allSettled([
+    supabase.from("san_pham_do_uong").select("ten_san_pham, mo_ta, gia_den, gia_sua, hien_thi").eq("hien_thi", true).limit(100),
+    supabase.from("san_pham_merchandise").select("ten_san_pham, mo_ta, gia, hien_thi").eq("hien_thi", true).limit(100),
+    supabase.from("danh_muc_san_pham").select("ten_danh_muc, mo_ta, loai, hien_thi").eq("hien_thi", true).limit(100)
+  ]);
+
+  const rows = [];
+  if (drinkResult.status === "fulfilled" && !drinkResult.value.error) {
+    for (const item of drinkResult.value.data || []) {
+      rows.push(`Đồ uống: ${item.ten_san_pham}. ${item.mo_ta || ""} Giá đen ${Number(item.gia_den || 0).toLocaleString("vi-VN")}đ, giá sữa ${Number(item.gia_sua || 0).toLocaleString("vi-VN")}đ.`);
+    }
+  }
+  if (merchResult.status === "fulfilled" && !merchResult.value.error) {
+    for (const item of merchResult.value.data || []) {
+      rows.push(`Vật phẩm: ${item.ten_san_pham}. ${item.mo_ta || ""} Giá ${Number(item.gia || 0).toLocaleString("vi-VN")}đ.`);
+    }
+  }
+  if (categoryResult.status === "fulfilled" && !categoryResult.value.error) {
+    for (const item of categoryResult.value.data || []) {
+      rows.push(`Danh mục: ${item.ten_danh_muc}. ${item.mo_ta || ""} Loại ${item.loai || ""}.`);
+    }
+  }
+
+  const matched = rows.filter(row => {
+    const normalized = removeVietnameseTones(row);
+    return keywords.some(keyword => normalized.includes(keyword));
+  }).slice(0, 12);
+
+  if (!matched.length) return "";
+  return `Không tìm thấy thông tin rõ trong index.html. Dữ liệu tìm theo từ khóa trong Supabase:\n- ${matched.join("\n- ")}`;
+}
+
+async function buildWebsiteContextForAi(question, extraContext) {
+  const indexKnowledge = loadIndexKnowledge();
+  const snippets = findIndexSnippets(question, indexKnowledge.text);
+
+  const parts = [];
+  if (extraContext) parts.push(`Ngữ cảnh frontend gửi lên: ${extraContext}`);
+
+  if (indexKnowledge.source) {
+    parts.push(`Nguồn index đang đọc: ${indexKnowledge.source}`);
+  }
+
+  if (snippets.length) {
+    parts.push(`Thông tin tìm thấy trong index.html:\n- ${snippets.join("\n- ")}`);
+  } else {
+    const fallback = await buildKeywordFallbackContext(question);
+    if (fallback) parts.push(fallback);
+    else parts.push("Không tìm thấy thông tin phù hợp trong index.html hoặc dữ liệu từ khóa. Hãy trả lời an toàn, không bịa; nếu cần thì hướng khách gọi 038 972 6999.");
+  }
+
+  parts.push("Thông tin cố định: Quán Trung Nguyên Legend Âu Lạc / Vietnam Prosperity Coffee. SĐT 038 972 6999. Thanh toán VietinBank, STK 101882692631, chủ tài khoản NGO QUYNH TRANG.");
+  return parts.join("\n\n").slice(0, 14000);
+}
 
 function stripUnsafeHtml(text) {
   return String(text || "")
@@ -1074,31 +1223,46 @@ async function askOpenAI(question, context) {
   return result.output_text || result.output?.flatMap(o => o.content || []).map(c => c.text || "").join("\n").trim() || "";
 }
 
+
+// Code này tạo alias để frontend cũ gọi /api/chat vẫn chạy như /api/chat-ai
+app.post("/api/chat", (req, res, next) => {
+  req.url = "/api/chat-ai";
+  next();
+});
+
 // Code này cho chatbox gọi AI qua backend, ưu tiên Gemini rồi tới ChatGPT
 app.post("/api/chat-ai", async (req, res) => {
   try {
-    const { question, context } = req.body || {};
-    if (!question || !String(question).trim()) {
+    const { question, message, context } = req.body || {};
+    const userQuestion = String(question || message || "").trim();
+
+    if (!userQuestion) {
       return res.status(400).json({ error: "Thiếu câu hỏi." });
     }
+
+    const websiteContext = await buildWebsiteContextForAi(userQuestion, context);
 
     let answer = "";
     let provider = "local";
 
     if (process.env.AI_PROVIDER === "openai" && process.env.OPENAI_API_KEY) {
       provider = "openai";
-      answer = await askOpenAI(question, context);
+      answer = await askOpenAI(userQuestion, websiteContext);
     } else if (process.env.GEMINI_API_KEY) {
       provider = "gemini";
-      answer = await askGemini(question, context);
+      answer = await askGemini(userQuestion, websiteContext);
     } else if (process.env.OPENAI_API_KEY) {
       provider = "openai";
-      answer = await askOpenAI(question, context);
+      answer = await askOpenAI(userQuestion, websiteContext);
     } else {
       answer = "Trang đã nhận được câu hỏi của bạn. Hiện backend chưa cấu hình GEMINI_API_KEY hoặc OPENAI_API_KEY, bạn vui lòng gọi 038 972 6999 nếu cần hỗ trợ nhanh.";
     }
 
-    return res.json({ provider, reply: stripUnsafeHtml(answer) });
+    return res.json({
+      provider,
+      reply: stripUnsafeHtml(answer),
+      knowledgeSource: websiteContext.includes("Thông tin tìm thấy trong index.html") ? "index.html" : "keyword-fallback"
+    });
   } catch (error) {
     console.error("Lỗi /api/chat-ai:", error);
     return res.status(500).json({
