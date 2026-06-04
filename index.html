@@ -2244,6 +2244,229 @@
       }
     }
   
+
+
+    /* Code này ép riêng web bán hàng, 2 nút Menu nước/Vật phẩm, trang Về chúng tôi và footer dùng Arial */
+    html,
+    body,
+    button,
+    input,
+    select,
+    textarea,
+    .nav-btn,
+    .btn,
+    .small-btn,
+    #about,
+    #about *,
+    .site-footer,
+    .site-footer *,
+    .footer-title,
+    .footer-links,
+    .footer-links *,
+    .info-text,
+    .info-text * {
+      font-family: Arial, Helvetica, sans-serif !important;
+      letter-spacing: normal;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Code này làm 2 nút Menu nước và Vật phẩm đồng bộ font/chữ */
+    .main-nav .nav-btn[data-page="menu"],
+    .main-nav .nav-btn[data-page="merch"] {
+      font-family: Arial, Helvetica, sans-serif !important;
+      font-size: 16px !important;
+      font-weight: 800 !important;
+    }
+
+
+
+    /* Code này đổi toàn bộ web bán hàng sang Times New Roman */
+    html,
+    body,
+    body *,
+    button,
+    input,
+    select,
+    textarea,
+    option,
+    a,
+    p,
+    span,
+    div,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    label,
+    strong,
+    em,
+    small,
+    table,
+    th,
+    td {
+      font-family: "Times New Roman", Times, serif !important;
+      letter-spacing: normal !important;
+      word-spacing: normal !important;
+      font-synthesis: none !important;
+      text-rendering: optimizeLegibility !important;
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+    }
+
+    /* Code này giữ icon Font Awesome không bị đổi font */
+    .fa,
+    .fas,
+    .far,
+    .fal,
+    .fab,
+    .fa-solid,
+    .fa-regular,
+    .fa-light,
+    .fa-brands,
+    i[class^="fa-"],
+    i[class*=" fa-"] {
+      font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+    }
+
+    /* Code này tối ưu giao diện sản phẩm trên điện thoại: 2 sản phẩm mỗi hàng */
+    @media (max-width: 720px) {
+      .section {
+        padding: 42px 0 !important;
+      }
+
+      .container {
+        width: calc(100% - 14px) !important;
+      }
+
+      .grid-4,
+      .grid-3,
+      .menu-list,
+      #featuredGrid,
+      #blogGrid,
+      #merchGroups .grid,
+      #merchGroups .grid-4,
+      #menuGroups .menu-list {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+        align-items: stretch !important;
+      }
+
+      .card,
+      .menu-item,
+      .article-card {
+        border-radius: 14px !important;
+        height: 100% !important;
+      }
+
+      .card-body,
+      .menu-item {
+        padding: 10px !important;
+      }
+
+      .card-img,
+      .menu-item-img,
+      .article-card .card-img {
+        aspect-ratio: 1 / 1 !important;
+        width: 100% !important;
+        height: auto !important;
+        object-fit: cover !important;
+        border-radius: 12px !important;
+        margin-bottom: 8px !important;
+      }
+
+      .card h3,
+      .menu-item h3,
+      .article-card h3 {
+        font-size: 15px !important;
+        line-height: 1.25 !important;
+        margin-bottom: 6px !important;
+        text-align: center !important;
+      }
+
+      .card p,
+      .menu-item-desc,
+      .article-card p {
+        font-size: 12px !important;
+        line-height: 1.35 !important;
+        margin-bottom: 8px !important;
+        text-align: center !important;
+      }
+
+      .price,
+      .menu-item .price {
+        font-size: 13px !important;
+        line-height: 1.25 !important;
+        margin: 4px 0 8px !important;
+        text-align: center !important;
+      }
+
+      .small-btn,
+      .btn {
+        font-size: 12px !important;
+        padding: 8px 10px !important;
+      }
+
+      .order-btn-group {
+        gap: 5px !important;
+        max-width: 100% !important;
+      }
+
+      .order-btn-group .small-btn {
+        padding: 8px 5px !important;
+        font-size: 11px !important;
+      }
+
+      .section-head {
+        margin-bottom: 22px !important;
+      }
+
+      .section-head h2,
+      .menu-group h2 {
+        font-size: 28px !important;
+      }
+
+      .menu-group {
+        padding: 34px 0 8px !important;
+      }
+    }
+
+    /* Code này tối ưu mobile rất nhỏ nhưng vẫn giữ 2 sản phẩm mỗi hàng */
+    @media (max-width: 420px) {
+      .grid-4,
+      .grid-3,
+      .menu-list,
+      #featuredGrid,
+      #blogGrid,
+      #merchGroups .grid,
+      #merchGroups .grid-4,
+      #menuGroups .menu-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+      }
+
+      .card-body,
+      .menu-item {
+        padding: 8px !important;
+      }
+
+      .card h3,
+      .menu-item h3,
+      .article-card h3 {
+        font-size: 14px !important;
+      }
+
+      .card p,
+      .menu-item-desc,
+      .article-card p {
+        font-size: 11.5px !important;
+      }
+    }
+
 </style>
 </head>
 
@@ -2264,7 +2487,7 @@
       </div>
 
       <nav class="main-nav">
-        <button class="nav-btn" data-page="menu" onclick="showPage('menu')">Menu đồ uống</button>
+        <button class="nav-btn" data-page="menu" onclick="showPage('menu')">Menu nước</button>
         <button class="nav-btn" data-page="merch" onclick="showPage('merch')">Vật phẩm</button>
         <button class="nav-btn" data-page="blog" onclick="showPage('blog')">Bài viết</button>
         <button class="nav-btn cart-icon-btn" data-page="cart" onclick="showPage('cart')" aria-label="Giỏ hàng">
@@ -2286,7 +2509,7 @@
         <p>Đặt đồ uống, mua cà phê phin, cà phê hạt và Vật phẩm tại đây.</p>
 
         <div class="btn-row">
-          <button class="btn btn-primary" onclick="showPage('menu')">Menu đồ uống</button>
+          <button class="btn btn-primary" onclick="showPage('menu')">Menu nước</button>
           <button class="btn btn-outline" onclick="showPage('merch')">Vật phẩm</button>
         </div>
       </div>
@@ -2388,8 +2611,8 @@
   <main id="menu" class="page">
     <section class="sub-hero">
       <div class="container">
-        <h1>Menu đồ uống</h1>
-        <p>Khám phá các món cà phê, trà, đá xay, nước ép và bánh ngọt tại <strong>Trung Nguyên Legend Âu Lạc</strong>.</p>
+        <h1>Menu nước</h1>
+        <p>Khám phá các món cà phê, trà, đá xay, nước ép, sinh tố và bánh ngọt tại <strong>Trung Nguyên Legend Âu Lạc</strong>.</p>
       </div>
     </section>
 
@@ -5500,7 +5723,7 @@ Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 n�
       try {
         const sectionSelectors = [
           ".hero",
-          "#home .section-head",
+          "#home",
           "#menu",
           "#merch",
           "#blog",
@@ -5515,11 +5738,24 @@ Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 n�
             return el ? el.innerText : "";
           })
           .filter(Boolean)
-          .join("\n\n")
-          .slice(0, 12000);
+          .join("\n\n");
 
-        const drinkKeywords = Object.keys(drinkImageMap || {}).join(", ").slice(0, 4000);
-        const merchKeywords = Object.keys(merchImageMap || {}).join(", ").slice(0, 4000);
+        const blogText = Array.isArray(window.blogItems || blogItems)
+          ? (window.blogItems || blogItems).map((post, index) => {
+              return `Bài viết ${index + 1}: ${post.title || ""}\nMô tả: ${post.desc || ""}\nNội dung: ${String(post.content || "").replace(/<[^>]+>/g, " ")}\nNguồn: ${post.sourceLink || ""}`;
+            }).join("\n\n")
+          : "";
+
+        const drinkKeywords = Object.keys(drinkImageMap || {}).join(", ").slice(0, 5000);
+        const merchKeywords = Object.keys(merchImageMap || {}).join(", ").slice(0, 5000);
+
+        const renderedMenuText = [
+          document.getElementById("featuredGrid")?.innerText || "",
+          document.getElementById("menuGroups")?.innerText || "",
+          document.getElementById("merchGroups")?.innerText || "",
+          document.getElementById("blogGrid")?.innerText || "",
+          document.getElementById("articleDetailContent")?.innerText || ""
+        ].filter(Boolean).join("\n\n");
 
         return `
 Website: Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc.
@@ -5527,13 +5763,22 @@ Hotline: 038 972 6999.
 Địa chỉ: Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế.
 Thanh toán chuyển khoản: VietinBank - NGO QUYNH TRANG - 101882692631.
 Quy tắc thanh toán: Khách chuyển khoản đúng số tiền và ghi đúng mã đơn VPC-DH-... trong nội dung. SePay webhook sẽ tự cập nhật đơn sang đã chuyển khoản khi nhận đủ tiền.
-Nội dung trang:
+Yêu cầu trả lời AI: đọc nội dung index.html, trang Bài viết, trang Giới thiệu/Về chúng tôi trước; nếu không đủ thì dùng database Supabase qua backend /api/chat-ai để tìm món, vật phẩm, danh mục.
+
+Nội dung đang hiển thị trên website:
 ${pageText}
+
+Nội dung trang Bài viết từ biến blogItems:
+${blogText}
+
+Nội dung menu/vật phẩm/bài viết đã render từ database/API:
+${renderedMenuText}
+
 Từ khóa menu đồ uống: ${drinkKeywords}
 Từ khóa vật phẩm: ${merchKeywords}
-        `.trim();
+        `.trim().slice(0, 20000);
       } catch (error) {
-        return "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc. Hotline 038 972 6999. Thanh toán VietinBank 101882692631 - NGO QUYNH TRANG.";
+        return "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc. Hotline 038 972 6999. Thanh toán VietinBank 101882692631 - NGO QUYNH TRANG. AI cần đọc index.html, bài viết, giới thiệu và database Supabase.";
       }
     }
 
