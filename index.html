@@ -1991,7 +1991,16 @@
       font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
     }
 
-  </style>
+  
+/* Code này ép font chữ web bán hàng sang Times New Roman nhưng giữ icon Font Awesome không bị lỗi */
+html, body, button, input, select, textarea, p, span, div, h1, h2, h3, h4, h5, h6, a, label, strong, em, small, table, th, td {
+  font-family: "Times New Roman", Times, serif !important;
+}
+.fa, .fas, .far, .fab, .fa-solid, .fa-regular, .fa-brands, i[class^="fa"], i[class*=" fa-"] {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+}
+
+</style>
 </head>
 
 <body>
@@ -4088,7 +4097,7 @@ const tabs = document.getElementById("merchTabs");
 
         <div class="grid grid-4">
           ${group.items.map(item => {
-            onst img = getMerchImage(item);
+            const img = getMerchImage(item);
             const priceLabel = formatMoney(item.gia);
             const priceNum = Number(item.gia || 0);
 
