@@ -1272,16 +1272,116 @@
       return order.so_dien_thoai || order.phone || order.customer_phone || order?.khach_hang?.so_dien_thoai || order?.thong_tin_khach_hang?.so_dien_thoai || "";
     }
 
-    function getOrderItems(order) {
-      const raw = order.danh_sach_san_pham || order.items || order.products || [];
-      if (Array.isArray(raw)) return raw;
-      try {
-        const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) ? parsed : [];
-      } catch (error) {
-        return [];
-      }
+    /* Code này đọc sản phẩm trong đơn hàng với nhiều kiểu dữ liệu khác nhau */
+function getOrderItems(order) {
+  const possibleFields = [
+    order.danh_sach_san_pham,
+    order.san_pham,
+    order.products,
+    order.items,
+    order.cart,
+    order.gio_hang,
+    order.order_items
+  ];
+
+  for (const field of possibleFields) {
+    const parsed = parseOrderItemsField(field);
+
+    if (parsed.length > 0) {
+      return parsed;
     }
+  }
+
+  return [];
+}
+/* Code này lấy tên sản phẩm trong đơn hàng */
+function getOrderItemName(item) {
+  return item.name ||
+    item.ten_san_pham ||
+    item.product_name ||
+    item.productName ||
+    item.title ||
+    item.ten ||
+    item.slug ||
+    "Sản phẩm";
+}
+
+/* Code này lấy số lượng sản phẩm trong đơn hàng */
+function getOrderItemQty(item) {
+  return Number(item.qty || item.quantity || item.so_luong || item.amount || 1);
+}
+
+/* Code này lấy giá sản phẩm trong đơn hàng */
+function getOrderItemPrice(item) {
+  return Number(
+    item.priceNum ||
+    item.price ||
+    item.gia ||
+    item.don_gia ||
+    item.unit_price ||
+    item.total ||
+    0
+  );
+}
+
+/* Code này render danh sách sản phẩm trong bảng đơn hàng */
+function renderOrderItemsHtml(order) {
+  /* Code này render sản phẩm đúng từ dữ liệu đơn hàng */
+const itemHtml = renderOrderItemsHtml(order);
+
+  return items.map(item => {
+    const name = getOrderItemName(item);
+    const qty = getOrderItemQty(item);
+    const price = getOrderItemPrice(item);
+    const priceLabel = item.priceLabel || item.price_label || item.gia_hien_thi || "";
+
+    return `
+      <div>
+        • <strong>${safeText(name)}</strong>
+        x${safeText(qty)}
+        ${priceLabel ? `- ${safeText(priceLabel)}` : ""}
+        ${!priceLabel && price > 0 ? `- ${formatMoney(price)}` : ""}
+      </div>
+    `;
+  }).join("");
+}
+/* Code này parse sản phẩm dù database lưu dạng array, object, JSON string hoặc JSON bị stringify 2 lần */
+function parseOrderItemsField(raw) {
+  if (!raw) return [];
+
+  if (Array.isArray(raw)) {
+    return raw;
+  }
+
+  if (typeof raw === "object") {
+    if (Array.isArray(raw.items)) return raw.items;
+    if (Array.isArray(raw.products)) return raw.products;
+    if (Array.isArray(raw.cart)) return raw.cart;
+    if (Array.isArray(raw.danh_sach_san_pham)) return raw.danh_sach_san_pham;
+
+    return Object.values(raw).filter(item => typeof item === "object");
+  }
+
+  if (typeof raw === "string") {
+    let text = raw.trim();
+
+    if (!text || text === "null" || text === "undefined") return [];
+
+    try {
+      let parsed = JSON.parse(text);
+
+      if (typeof parsed === "string") {
+        parsed = JSON.parse(parsed);
+      }
+
+      return parseOrderItemsField(parsed);
+    } catch (error) {
+      return [];
+    }
+  }
+
+  return [];
+}
 
     function sortAdminOrders(orders) {
       const sortValue = document.getElementById("adminOrderSort")?.value || "newest";
