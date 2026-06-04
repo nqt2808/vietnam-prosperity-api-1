@@ -31,18 +31,71 @@
       padding: 0;
     }
 
+    html,
+    body,
+    button,
+    input,
+    select,
+    textarea,
+    table,
+    th,
+    td {
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+
     body {
-      font-family: Arial, Helvetica, sans-serif;
       background: var(--cream);
       color: var(--text);
       line-height: 1.6;
     }
 
-    button,
-    input,
-    select,
-    textarea {
-      font-family: Arial, Helvetica, sans-serif;
+    .login-screen {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(rgba(31, 18, 11, 0.86), rgba(31, 18, 11, 0.86)),
+        url("https://res.cloudinary.com/dojibbcof/image/upload/v1779773456/z7667465024917_2a81fcb4033ec5893cbd1990ebbcf187_nedupr.jpg");
+      background-size: cover;
+      background-position: center;
+      padding: 22px;
+    }
+
+    .login-card {
+      width: min(440px, 100%);
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+      padding: 32px;
+      border: 1px solid rgba(244, 209, 123, 0.35);
+    }
+
+    .login-card h1 {
+      color: var(--coffee-dark);
+      font-size: 30px;
+      line-height: 1.15;
+      margin-bottom: 8px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .login-card p {
+      color: var(--muted);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .login-error {
+      display: none;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      font-weight: 800;
+      text-align: center;
     }
 
     .admin-layout {
@@ -162,10 +215,6 @@
       color: white;
     }
 
-    .btn-dark:hover {
-      background: var(--coffee-soft);
-    }
-
     .btn-danger {
       background: var(--danger);
       color: white;
@@ -247,7 +296,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 960px;
+      min-width: 980px;
       background: white;
     }
 
@@ -265,6 +314,10 @@
       border-bottom: 1px solid #f0e1ce;
       vertical-align: top;
       font-size: 14px;
+    }
+
+    tr.clickable-row {
+      cursor: pointer;
     }
 
     tr:hover td {
@@ -480,6 +533,111 @@
       background: var(--gold);
     }
 
+    .option-cell {
+      display: grid;
+      gap: 8px;
+      min-width: 160px;
+    }
+
+    .option-cell input,
+    .option-cell select {
+      width: 100%;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(31, 18, 11, 0.72);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(900px, 100%);
+      max-height: 88vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.35);
+      padding: 24px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #eadac7;
+      padding-bottom: 14px;
+    }
+
+    .modal-head h3 {
+      font-size: 24px;
+      color: var(--coffee-dark);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .detail-item {
+      background: #fffaf4;
+      border: 1px solid #eadac7;
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .detail-item strong {
+      display: block;
+      color: var(--coffee-dark);
+      margin-bottom: 4px;
+    }
+
+    .ai-tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .ai-tool-card {
+      background: #fffaf4;
+      border: 1px solid #eadac7;
+      border-radius: 16px;
+      padding: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .ai-tool-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+      border-color: var(--gold);
+    }
+
+    .ai-tool-card h4 {
+      color: var(--coffee-dark);
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .ai-tool-card p {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
     @media (max-width: 1100px) {
       .admin-layout {
         grid-template-columns: 1fr;
@@ -496,7 +654,9 @@
 
       .analytics-grid,
       .analytics-summary,
-      .form-grid {
+      .form-grid,
+      .detail-grid,
+      .ai-tools-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -539,7 +699,28 @@
 </head>
 
 <body>
-  <div class="admin-layout">
+  <section class="login-screen" id="loginScreen">
+    <form class="login-card" onsubmit="handleAdminLogin(event)">
+      <h1>Đăng nhập Admin</h1>
+      <p>Vietnam Prosperity Coffee</p>
+
+      <div class="login-error" id="loginError">Sai tài khoản hoặc mật khẩu.</div>
+
+      <div class="form-field" style="margin-bottom: 14px;">
+        <label>Tài khoản</label>
+        <input id="adminUser" autocomplete="username" required placeholder="Nhập tài khoản" />
+      </div>
+
+      <div class="form-field" style="margin-bottom: 18px;">
+        <label>Mật khẩu</label>
+        <input id="adminPass" type="password" autocomplete="current-password" required placeholder="Nhập mật khẩu" />
+      </div>
+
+      <button class="btn btn-primary" type="submit" style="width: 100%;">Đăng nhập</button>
+    </form>
+  </section>
+
+  <div class="admin-layout" id="adminApp" style="display: none;">
     <aside class="sidebar">
       <div class="brand">
         <h1>Vietnam Prosperity Coffee</h1>
@@ -553,6 +734,7 @@
         <button class="nav-btn" onclick="showAdminPage('merch', this)">🎁 Vật phẩm</button>
         <button class="nav-btn" onclick="showAdminPage('customers', this)">👥 Khách hàng</button>
         <button class="nav-btn" onclick="showAdminPage('ai-tools', this)">🤖 Tiện ích AI</button>
+        <button class="nav-btn" onclick="logoutAdmin()">🚪 Đăng xuất</button>
       </div>
     </aside>
 
@@ -657,6 +839,8 @@
             </div>
           </div>
 
+          <div class="admin-note">Click vào một đơn hàng để xem chi tiết sản phẩm, khách hàng, thanh toán và ghi chú.</div>
+
           <div class="table-wrap">
             <table>
               <thead>
@@ -689,6 +873,8 @@
             <button class="btn btn-primary" onclick="openDrinkForm()">Thêm món nước</button>
           </div>
 
+          <div class="admin-note">Có thể sửa giá, món nổi bật, trạng thái hiển thị bằng các option rồi bấm “Lưu”.</div>
+
           <div class="table-wrap">
             <table>
               <thead>
@@ -700,11 +886,12 @@
                   <th>Giá sữa</th>
                   <th>Nổi bật</th>
                   <th>Hiển thị</th>
+                  <th>Thao tác</th>
                 </tr>
               </thead>
               <tbody id="drinksTableBody">
                 <tr>
-                  <td colspan="7">Đang tải menu nước...</td>
+                  <td colspan="8">Đang tải menu nước...</td>
                 </tr>
               </tbody>
             </table>
@@ -719,6 +906,8 @@
             <button class="btn btn-primary" onclick="openMerchForm()">Thêm vật phẩm</button>
           </div>
 
+          <div class="admin-note">Có thể sửa giá, trạng thái còn bán và hiển thị bằng các option rồi bấm “Lưu”.</div>
+
           <div class="table-wrap">
             <table>
               <thead>
@@ -729,11 +918,12 @@
                   <th>Giá</th>
                   <th>Còn bán</th>
                   <th>Hiển thị</th>
+                  <th>Thao tác</th>
                 </tr>
               </thead>
               <tbody id="merchTableBody">
                 <tr>
-                  <td colspan="6">Đang tải vật phẩm...</td>
+                  <td colspan="7">Đang tải vật phẩm...</td>
                 </tr>
               </tbody>
             </table>
@@ -745,6 +935,8 @@
         <div class="card">
           <h3>Khách hàng</h3>
 
+          <div class="admin-note">Số lần quay lại được tính theo số đơn hàng trùng số điện thoại khách hàng.</div>
+
           <div class="table-wrap">
             <table>
               <thead>
@@ -753,13 +945,15 @@
                   <th>Số điện thoại</th>
                   <th>Email</th>
                   <th>Địa chỉ</th>
+                  <th>Số đơn</th>
+                  <th>Số lần quay lại</th>
                   <th>Ghi chú</th>
                   <th>Ngày tạo</th>
                 </tr>
               </thead>
               <tbody id="customersTableBody">
                 <tr>
-                  <td colspan="6">Đang tải khách hàng...</td>
+                  <td colspan="8">Đang tải khách hàng...</td>
                 </tr>
               </tbody>
             </table>
@@ -772,17 +966,50 @@
           <h3>Tiện ích AI</h3>
 
           <div class="admin-note">
-            AI ở web bán hàng nên đọc nội dung trong index.html, trang bài viết, trang giới thiệu và database Supabase thông qua backend Render.
+            Các tiện ích dưới đây dùng dữ liệu đơn hàng, doanh thu, sản phẩm và khách hàng hiện có. Nếu backend AI hoạt động, hệ thống sẽ gửi thêm dữ liệu cho AI phân tích sâu.
+          </div>
+
+          <div class="ai-tools-grid">
+            <div class="ai-tool-card" onclick="fillAIPrompt('forecast')">
+              <h4>Dự đoán doanh thu ngày mới</h4>
+              <p>Dựa trên doanh thu cũ để ước lượng doanh thu ngày tiếp theo.</p>
+            </div>
+
+            <div class="ai-tool-card" onclick="fillAIPrompt('best-products')">
+              <h4>Gợi ý món nên đẩy bán</h4>
+              <p>Dựa vào sản phẩm bán chạy và doanh thu.</p>
+            </div>
+
+            <div class="ai-tool-card" onclick="fillAIPrompt('promotion')">
+              <h4>Đề xuất khuyến mãi</h4>
+              <p>Gợi ý combo, ưu đãi và khung giờ nên chạy.</p>
+            </div>
+
+            <div class="ai-tool-card" onclick="fillAIPrompt('customer-retention')">
+              <h4>Phân tích khách quay lại</h4>
+              <p>Tìm nhóm khách có khả năng quay lại cao.</p>
+            </div>
+
+            <div class="ai-tool-card" onclick="fillAIPrompt('operations')">
+              <h4>Tư vấn vận hành</h4>
+              <p>Gợi ý cải thiện tốc độ xử lý đơn và trạng thái đơn.</p>
+            </div>
+
+            <div class="ai-tool-card" onclick="fillAIPrompt('summary')">
+              <h4>Tóm tắt kinh doanh hôm nay</h4>
+              <p>Tạo báo cáo ngắn gọn cho chủ quán.</p>
+            </div>
           </div>
 
           <div class="form-grid">
             <div class="form-field full">
               <label>Nhập yêu cầu phân tích</label>
-              <textarea id="aiPrompt" placeholder="Ví dụ: phân tích doanh thu tuần này, món bán chạy, khách hàng tiềm năng..."></textarea>
+              <textarea id="aiPrompt" placeholder="Ví dụ: dựa vào doanh thu cũ, dự đoán doanh thu ngày mai..."></textarea>
             </div>
 
             <div class="form-field full">
               <button class="btn btn-primary" onclick="runAdminAI()">Phân tích bằng AI</button>
+              <button class="btn btn-light" onclick="runLocalRevenueForecast()" style="margin-left: 8px;">Dự đoán nhanh bằng dữ liệu hiện có</button>
             </div>
 
             <div class="form-field full">
@@ -795,8 +1022,20 @@
     </main>
   </div>
 
+  <div class="modal-backdrop" id="orderDetailModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>Chi tiết đơn hàng</h3>
+        <button class="btn btn-danger" onclick="closeOrderDetail()">Đóng</button>
+      </div>
+      <div id="orderDetailContent"></div>
+    </div>
+  </div>
+
   <script>
     const API_URL = "https://vpc-70cs.onrender.com";
+    const ADMIN_USERNAME = "admin";
+    const ADMIN_PASSWORD = "28082005";
 
     window.adminOrders = [];
     window.adminDrinks = [];
@@ -828,18 +1067,48 @@
       da_huy: "Đã hủy"
     };
 
-    function showAdminPage(pageId, btn) {
-      document.querySelectorAll(".admin-page").forEach(page => {
-        page.classList.remove("active");
-      });
+    function handleAdminLogin(event) {
+      event.preventDefault();
 
+      const user = document.getElementById("adminUser").value.trim();
+      const pass = document.getElementById("adminPass").value.trim();
+      const errorBox = document.getElementById("loginError");
+
+      if (user === ADMIN_USERNAME && pass === ADMIN_PASSWORD) {
+        sessionStorage.setItem("vpc_admin_logged_in", "yes");
+        errorBox.style.display = "none";
+        showAdminApp();
+        return;
+      }
+
+      errorBox.style.display = "block";
+    }
+
+    function showAdminApp() {
+      document.getElementById("loginScreen").style.display = "none";
+      document.getElementById("adminApp").style.display = "grid";
+      loadAllAdminData();
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem("vpc_admin_logged_in");
+      document.getElementById("adminApp").style.display = "none";
+      document.getElementById("loginScreen").style.display = "grid";
+      document.getElementById("adminPass").value = "";
+    }
+
+    function requireAdminLogin() {
+      if (sessionStorage.getItem("vpc_admin_logged_in") === "yes") {
+        showAdminApp();
+      }
+    }
+
+    function showAdminPage(pageId, btn) {
+      document.querySelectorAll(".admin-page").forEach(page => page.classList.remove("active"));
       const page = document.getElementById(pageId);
       if (page) page.classList.add("active");
 
-      document.querySelectorAll(".nav-btn").forEach(item => {
-        item.classList.remove("active");
-      });
-
+      document.querySelectorAll(".nav-btn").forEach(item => item.classList.remove("active"));
       if (btn) btn.classList.add("active");
 
       const titles = {
@@ -856,11 +1125,7 @@
 
     async function fetchJSON(path) {
       const response = await fetch(`${API_URL}${path}`);
-
-      if (!response.ok) {
-        throw new Error(`Không gọi được API ${path}`);
-      }
-
+      if (!response.ok) throw new Error(`Không gọi được API ${path}`);
       return await response.json();
     }
 
@@ -874,25 +1139,17 @@
     }
 
     async function loadAllAdminData() {
-      await Promise.allSettled([
-        loadOrders(),
-        loadDrinks(),
-        loadMerch(),
-        loadCustomers()
-      ]);
-
+      await Promise.allSettled([loadOrders(), loadDrinks(), loadMerch(), loadCustomers()]);
       buildAdminAnalytics(window.adminOrders || []);
+      renderCustomers();
     }
 
     async function loadOrders() {
       const tbody = document.getElementById("ordersTableBody");
-      if (tbody) {
-        tbody.innerHTML = `<tr><td colspan="9">Đang tải đơn hàng...</td></tr>`;
-      }
+      if (tbody) tbody.innerHTML = `<tr><td colspan="9">Đang tải đơn hàng...</td></tr>`;
 
       try {
         let result;
-
         try {
           result = await fetchJSON("/api/don-hang");
         } catch (error1) {
@@ -903,25 +1160,19 @@
           }
         }
 
-        window.adminOrders = normalizeArray(result);
-        window.adminOrders = sortAdminOrders(window.adminOrders);
-
+        window.adminOrders = sortAdminOrders(normalizeArray(result));
         renderOrders();
         buildAdminAnalytics(window.adminOrders);
       } catch (error) {
         console.error("Lỗi tải đơn hàng:", error);
-        if (tbody) {
-          tbody.innerHTML = `<tr><td colspan="9">Không tải được đơn hàng. Kiểm tra backend Render hoặc API đơn hàng.</td></tr>`;
-        }
+        if (tbody) tbody.innerHTML = `<tr><td colspan="9">Không tải được đơn hàng. Kiểm tra backend Render hoặc API đơn hàng.</td></tr>`;
         buildAdminAnalytics([]);
       }
     }
 
     async function loadDrinks() {
       const tbody = document.getElementById("drinksTableBody");
-      if (tbody) {
-        tbody.innerHTML = `<tr><td colspan="7">Đang tải menu nước...</td></tr>`;
-      }
+      if (tbody) tbody.innerHTML = `<tr><td colspan="8">Đang tải menu nước...</td></tr>`;
 
       try {
         const result = await fetchJSON("/api/do-uong");
@@ -929,21 +1180,16 @@
         renderDrinks();
       } catch (error) {
         console.error("Lỗi tải menu nước:", error);
-        if (tbody) {
-          tbody.innerHTML = `<tr><td colspan="7">Không tải được menu nước.</td></tr>`;
-        }
+        if (tbody) tbody.innerHTML = `<tr><td colspan="8">Không tải được menu nước.</td></tr>`;
       }
     }
 
     async function loadMerch() {
       const tbody = document.getElementById("merchTableBody");
-      if (tbody) {
-        tbody.innerHTML = `<tr><td colspan="6">Đang tải vật phẩm...</td></tr>`;
-      }
+      if (tbody) tbody.innerHTML = `<tr><td colspan="7">Đang tải vật phẩm...</td></tr>`;
 
       try {
         let result;
-
         try {
           result = await fetchJSON("/api/merchandise");
         } catch (error) {
@@ -954,21 +1200,16 @@
         renderMerch();
       } catch (error) {
         console.error("Lỗi tải vật phẩm:", error);
-        if (tbody) {
-          tbody.innerHTML = `<tr><td colspan="6">Không tải được vật phẩm.</td></tr>`;
-        }
+        if (tbody) tbody.innerHTML = `<tr><td colspan="7">Không tải được vật phẩm.</td></tr>`;
       }
     }
 
     async function loadCustomers() {
       const tbody = document.getElementById("customersTableBody");
-      if (tbody) {
-        tbody.innerHTML = `<tr><td colspan="6">Đang tải khách hàng...</td></tr>`;
-      }
+      if (tbody) tbody.innerHTML = `<tr><td colspan="8">Đang tải khách hàng...</td></tr>`;
 
       try {
         let result;
-
         try {
           result = await fetchJSON("/api/khach-hang");
         } catch (error) {
@@ -979,9 +1220,8 @@
         renderCustomers();
       } catch (error) {
         console.error("Lỗi tải khách hàng:", error);
-        if (tbody) {
-          tbody.innerHTML = `<tr><td colspan="6">Không tải được khách hàng.</td></tr>`;
-        }
+        window.adminCustomers = buildCustomersFromOrders();
+        renderCustomers();
       }
     }
 
@@ -993,21 +1233,11 @@
       if (!value) return "";
       const date = new Date(value);
       if (Number.isNaN(date.getTime())) return String(value);
-
-      return date.toLocaleString("vi-VN", {
-        hour: "2-digit",
-        minute: "2-digit",
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric"
-      });
+      return date.toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric" });
     }
 
     function safeText(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
+      return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#039;").replace(/"/g, "&quot;");
     }
 
     function getOrderDate(order) {
@@ -1035,28 +1265,16 @@
     }
 
     function getCustomerName(order) {
-      return order.ho_ten ||
-        order.ten_khach_hang ||
-        order.customer_name ||
-        order?.khach_hang?.ho_ten ||
-        order?.thong_tin_khach_hang?.ho_ten ||
-        "Khách hàng";
+      return order.ho_ten || order.ten_khach_hang || order.customer_name || order?.khach_hang?.ho_ten || order?.thong_tin_khach_hang?.ho_ten || "Khách hàng";
     }
 
     function getCustomerPhone(order) {
-      return order.so_dien_thoai ||
-        order.phone ||
-        order.customer_phone ||
-        order?.khach_hang?.so_dien_thoai ||
-        order?.thong_tin_khach_hang?.so_dien_thoai ||
-        "";
+      return order.so_dien_thoai || order.phone || order.customer_phone || order?.khach_hang?.so_dien_thoai || order?.thong_tin_khach_hang?.so_dien_thoai || "";
     }
 
     function getOrderItems(order) {
       const raw = order.danh_sach_san_pham || order.items || order.products || [];
-
       if (Array.isArray(raw)) return raw;
-
       try {
         const parsed = JSON.parse(raw);
         return Array.isArray(parsed) ? parsed : [];
@@ -1067,11 +1285,9 @@
 
     function sortAdminOrders(orders) {
       const sortValue = document.getElementById("adminOrderSort")?.value || "newest";
-
       return [...orders].sort((a, b) => {
         const da = getOrderDate(a).getTime();
         const db = getOrderDate(b).getTime();
-
         return sortValue === "oldest" ? da - db : db - da;
       });
     }
@@ -1086,14 +1302,12 @@
       let orders = Array.isArray(window.adminOrders) ? window.adminOrders : [];
 
       orders = orders.filter(order => {
-        const code = getOrderCode(order).toLowerCase();
-        const name = getCustomerName(order).toLowerCase();
-        const phone = getCustomerPhone(order).toLowerCase();
+        const code = String(getOrderCode(order)).toLowerCase();
+        const name = String(getCustomerName(order)).toLowerCase();
+        const phone = String(getCustomerPhone(order)).toLowerCase();
         const status = getOrderStatus(order);
-
         const matchSearch = !search || code.includes(search) || name.includes(search) || phone.includes(search);
         const matchStatus = !statusFilter || status === statusFilter;
-
         return matchSearch && matchStatus;
       });
 
@@ -1109,50 +1323,33 @@
         const status = getOrderStatus(order);
         const items = getOrderItems(order);
         const itemHtml = items.length
-          ? items.map(item => {
+          ? items.slice(0, 3).map(item => {
               const name = item.name || item.ten_san_pham || item.product_name || "Sản phẩm";
               const qty = item.qty || item.quantity || item.so_luong || 1;
-              const price = item.priceLabel || item.price_label || item.gia || item.price || "";
-              return `<div>• ${safeText(name)} x${safeText(qty)} ${price ? `- ${safeText(price)}` : ""}</div>`;
-            }).join("")
+              return `<div>• ${safeText(name)} x${safeText(qty)}</div>`;
+            }).join("") + (items.length > 3 ? `<div class="muted">+${items.length - 3} sản phẩm khác</div>` : "")
           : `<span class="muted">Không có dữ liệu sản phẩm</span>`;
 
         return `
-          <tr>
-            <td>
-              <div class="order-code">${safeText(code)}</div>
-            </td>
-
+          <tr class="clickable-row" onclick="openOrderDetail('${safeText(code)}')">
+            <td><div class="order-code">${safeText(code)}</div></td>
             <td>${formatDate(order.created_at || order.ngay_tao || order.createdAt)}</td>
-
             <td>
               <strong>${safeText(getCustomerName(order))}</strong><br>
               <span class="muted">${safeText(getCustomerPhone(order))}</span><br>
               <span class="muted">${safeText(order.dia_chi_giao_hang || order.address || "")}</span>
             </td>
-
-            <td>
-              <div class="order-items">${itemHtml}</div>
-            </td>
-
+            <td><div class="order-items">${itemHtml}</div></td>
             <td>${safeText(getPaymentMethod(order))}</td>
-
             <td>${safeText(getDeliveryType(order))}</td>
-
             <td class="money">${formatMoney(getOrderTotal(order))}</td>
-
-            <td>
-              <span class="status-badge status-${safeText(status)}">
-                ${safeText(statusLabels[status] || status)}
-              </span>
-            </td>
-
-            <td>
+            <td><span class="status-badge status-${safeText(status)}">${safeText(statusLabels[status] || status)}</span></td>
+            <td onclick="event.stopPropagation()">
               <div class="actions">
-                <button class="mini-btn" onclick="copyText('${safeText(code)}')">Copy mã</button>
+                <button class="mini-btn" onclick="copyText('${safeText(code)}')">Copy</button>
                 <button class="mini-btn" onclick="markOrderPaid('${safeText(code)}')">Đã CK</button>
-                <button class="mini-btn" onclick="updateOrderStatus('${safeText(code)}', 'dang_lam_don')">Làm đơn</button>
-                <button class="mini-btn" onclick="updateOrderStatus('${safeText(code)}', 'hoan_thanh')">Hoàn thành</button>
+                <button class="mini-btn" onclick="updateOrderStatus('${safeText(code)}', 'dang_lam_don')">Làm</button>
+                <button class="mini-btn" onclick="updateOrderStatus('${safeText(code)}', 'hoan_thanh')">Xong</button>
               </div>
             </td>
           </tr>
@@ -1160,79 +1357,219 @@
       }).join("");
     }
 
+    function openOrderDetail(orderCode) {
+      const order = (window.adminOrders || []).find(item => String(getOrderCode(item)) === String(orderCode));
+      if (!order) return;
+
+      const items = getOrderItems(order);
+      const itemRows = items.length ? items.map(item => {
+        const name = item.name || item.ten_san_pham || item.product_name || "Sản phẩm";
+        const qty = Number(item.qty || item.quantity || item.so_luong || 1);
+        const price = item.priceLabel || item.price_label || item.gia || item.price || item.priceNum || "";
+        return `
+          <tr>
+            <td>${safeText(name)}</td>
+            <td>${safeText(qty)}</td>
+            <td>${safeText(price)}</td>
+          </tr>
+        `;
+      }).join("") : `<tr><td colspan="3">Không có dữ liệu sản phẩm.</td></tr>`;
+
+      document.getElementById("orderDetailContent").innerHTML = `
+        <div class="detail-grid">
+          <div class="detail-item"><strong>Mã đơn</strong>${safeText(getOrderCode(order))}</div>
+          <div class="detail-item"><strong>Thời gian</strong>${formatDate(order.created_at || order.ngay_tao || order.createdAt)}</div>
+          <div class="detail-item"><strong>Khách hàng</strong>${safeText(getCustomerName(order))}</div>
+          <div class="detail-item"><strong>Số điện thoại</strong>${safeText(getCustomerPhone(order))}</div>
+          <div class="detail-item"><strong>Thanh toán</strong>${safeText(getPaymentMethod(order))}</div>
+          <div class="detail-item"><strong>Nhận hàng</strong>${safeText(getDeliveryType(order))}</div>
+          <div class="detail-item"><strong>Tổng tiền</strong>${formatMoney(getOrderTotal(order))}</div>
+          <div class="detail-item"><strong>Trạng thái</strong>${safeText(statusLabels[getOrderStatus(order)] || getOrderStatus(order))}</div>
+          <div class="detail-item" style="grid-column: 1 / -1;"><strong>Địa chỉ</strong>${safeText(order.dia_chi_giao_hang || order.address || "Không có")}</div>
+          <div class="detail-item" style="grid-column: 1 / -1;"><strong>Ghi chú</strong>${safeText(order.ghi_chu || order.note || "Không có")}</div>
+        </div>
+
+        <h3>Sản phẩm trong đơn</h3>
+        <div class="table-wrap">
+          <table style="min-width: 520px;">
+            <thead>
+              <tr><th>Sản phẩm</th><th>Số lượng</th><th>Đơn giá</th></tr>
+            </thead>
+            <tbody>${itemRows}</tbody>
+          </table>
+        </div>
+      `;
+
+      document.getElementById("orderDetailModal").classList.add("show");
+    }
+
+    function closeOrderDetail() {
+      document.getElementById("orderDetailModal").classList.remove("show");
+    }
+
     function renderDrinks() {
       const tbody = document.getElementById("drinksTableBody");
       if (!tbody) return;
-
       const drinks = Array.isArray(window.adminDrinks) ? window.adminDrinks : [];
 
       if (!drinks.length) {
-        tbody.innerHTML = `<tr><td colspan="7">Chưa có dữ liệu menu nước.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8">Chưa có dữ liệu menu nước.</td></tr>`;
         return;
       }
 
-      tbody.innerHTML = drinks.map(item => {
-        return `
-          <tr>
-            <td>
-              <img class="product-img" src="${safeText(item.hinh_anh || item.image || "")}" onerror="this.style.display='none'">
-            </td>
-            <td><strong>${safeText(item.ten_san_pham)}</strong></td>
-            <td>${safeText(item.slug)}</td>
-            <td>${formatMoney(item.gia_den)}</td>
-            <td>${formatMoney(item.gia_sua)}</td>
-            <td>${item.la_mon_noi_bat ? "Có" : "Không"}</td>
-            <td>${item.hien_thi === false ? "Ẩn" : "Hiện"}</td>
-          </tr>
-        `;
-      }).join("");
+      tbody.innerHTML = drinks.map((item, index) => `
+        <tr>
+          <td><img class="product-img" src="${safeText(item.hinh_anh || item.image || "")}" onerror="this.style.display='none'"></td>
+          <td><strong>${safeText(item.ten_san_pham)}</strong></td>
+          <td>${safeText(item.slug)}</td>
+          <td><input id="drinkGiaDen${index}" type="number" value="${Number(item.gia_den || 0)}"></td>
+          <td><input id="drinkGiaSua${index}" type="number" value="${Number(item.gia_sua || 0)}"></td>
+          <td>
+            <select id="drinkNoiBat${index}">
+              <option value="true" ${item.la_mon_noi_bat ? "selected" : ""}>Nổi bật</option>
+              <option value="false" ${!item.la_mon_noi_bat ? "selected" : ""}>Không nổi bật</option>
+            </select>
+          </td>
+          <td>
+            <select id="drinkHienThi${index}">
+              <option value="true" ${item.hien_thi !== false ? "selected" : ""}>Hiển thị</option>
+              <option value="false" ${item.hien_thi === false ? "selected" : ""}>Ẩn</option>
+            </select>
+          </td>
+          <td><button class="mini-btn" onclick="saveDrinkOptions(${index})">Lưu</button></td>
+        </tr>
+      `).join("");
     }
 
     function renderMerch() {
       const tbody = document.getElementById("merchTableBody");
       if (!tbody) return;
-
       const merch = Array.isArray(window.adminMerch) ? window.adminMerch : [];
 
       if (!merch.length) {
-        tbody.innerHTML = `<tr><td colspan="6">Chưa có dữ liệu vật phẩm.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7">Chưa có dữ liệu vật phẩm.</td></tr>`;
         return;
       }
 
-      tbody.innerHTML = merch.map(item => {
-        return `
-          <tr>
-            <td>
-              <img class="product-img" src="${safeText(item.hinh_anh || item.image || "")}" onerror="this.style.display='none'">
-            </td>
-            <td><strong>${safeText(item.ten_san_pham)}</strong></td>
-            <td>${safeText(item.slug)}</td>
-            <td>${formatMoney(item.gia)}</td>
-            <td>${item.con_ban === false ? "Ngừng bán" : "Còn bán"}</td>
-            <td>${item.hien_thi === false ? "Ẩn" : "Hiện"}</td>
-          </tr>
-        `;
-      }).join("");
+      tbody.innerHTML = merch.map((item, index) => `
+        <tr>
+          <td><img class="product-img" src="${safeText(item.hinh_anh || item.image || "")}" onerror="this.style.display='none'"></td>
+          <td><strong>${safeText(item.ten_san_pham)}</strong></td>
+          <td>${safeText(item.slug)}</td>
+          <td><input id="merchGia${index}" type="number" value="${Number(item.gia || 0)}"></td>
+          <td>
+            <select id="merchConBan${index}">
+              <option value="true" ${item.con_ban !== false ? "selected" : ""}>Còn bán</option>
+              <option value="false" ${item.con_ban === false ? "selected" : ""}>Ngừng bán</option>
+            </select>
+          </td>
+          <td>
+            <select id="merchHienThi${index}">
+              <option value="true" ${item.hien_thi !== false ? "selected" : ""}>Hiển thị</option>
+              <option value="false" ${item.hien_thi === false ? "selected" : ""}>Ẩn</option>
+            </select>
+          </td>
+          <td><button class="mini-btn" onclick="saveMerchOptions(${index})">Lưu</button></td>
+        </tr>
+      `).join("");
+    }
+
+    async function saveDrinkOptions(index) {
+      const item = window.adminDrinks[index];
+      if (!item) return;
+
+      const payload = {
+        gia_den: Number(document.getElementById(`drinkGiaDen${index}`).value || 0),
+        gia_sua: Number(document.getElementById(`drinkGiaSua${index}`).value || 0),
+        la_mon_noi_bat: document.getElementById(`drinkNoiBat${index}`).value === "true",
+        hien_thi: document.getElementById(`drinkHienThi${index}`).value === "true"
+      };
+
+      Object.assign(item, payload);
+      await saveProductPatch([`/api/do-uong/${item.id}`, `/api/san-pham-do-uong/${item.id}`, `/api/admin/do-uong/${item.id}`], payload, "Đã lưu món nước trên giao diện. Nếu backend có route update thì dữ liệu đã được lưu vào database.");
+      renderDrinks();
+      buildAdminAnalytics(window.adminOrders || []);
+    }
+
+    async function saveMerchOptions(index) {
+      const item = window.adminMerch[index];
+      if (!item) return;
+
+      const payload = {
+        gia: Number(document.getElementById(`merchGia${index}`).value || 0),
+        con_ban: document.getElementById(`merchConBan${index}`).value === "true",
+        hien_thi: document.getElementById(`merchHienThi${index}`).value === "true"
+      };
+
+      Object.assign(item, payload);
+      await saveProductPatch([`/api/merchandise/${item.id}`, `/api/vat-pham/${item.id}`, `/api/admin/merchandise/${item.id}`], payload, "Đã lưu vật phẩm trên giao diện. Nếu backend có route update thì dữ liệu đã được lưu vào database.");
+      renderMerch();
+    }
+
+    async function saveProductPatch(paths, payload, successMessage) {
+      for (const path of paths) {
+        try {
+          const response = await fetch(`${API_URL}${path}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          if (response.ok) {
+            alert(successMessage);
+            return;
+          }
+        } catch (error) {}
+      }
+      alert("Đã cập nhật trên giao diện admin. Nhưng backend hiện có thể chưa có route PATCH để lưu vĩnh viễn vào Supabase.");
+    }
+
+    function buildCustomersFromOrders() {
+      const map = new Map();
+      (window.adminOrders || []).forEach(order => {
+        const phone = getCustomerPhone(order) || "Không rõ";
+        if (!map.has(phone)) {
+          map.set(phone, {
+            ho_ten: getCustomerName(order),
+            so_dien_thoai: phone,
+            email: order.email || "",
+            dia_chi: order.dia_chi_giao_hang || "",
+            ghi_chu: order.ghi_chu || "",
+            created_at: order.created_at || order.ngay_tao || ""
+          });
+        }
+      });
+      return Array.from(map.values());
+    }
+
+    function getCustomerOrderStats(phone) {
+      const orders = (window.adminOrders || []).filter(order => String(getCustomerPhone(order)) === String(phone));
+      return {
+        totalOrders: orders.length,
+        returnTimes: Math.max(0, orders.length - 1)
+      };
     }
 
     function renderCustomers() {
       const tbody = document.getElementById("customersTableBody");
       if (!tbody) return;
-
-      const customers = Array.isArray(window.adminCustomers) ? window.adminCustomers : [];
+      const customers = (Array.isArray(window.adminCustomers) && window.adminCustomers.length) ? window.adminCustomers : buildCustomersFromOrders();
 
       if (!customers.length) {
-        tbody.innerHTML = `<tr><td colspan="6">Chưa có dữ liệu khách hàng.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8">Chưa có dữ liệu khách hàng.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = customers.map(item => {
+        const phone = item.so_dien_thoai || item.phone || "";
+        const stats = getCustomerOrderStats(phone);
         return `
           <tr>
             <td><strong>${safeText(item.ho_ten || item.name)}</strong></td>
-            <td>${safeText(item.so_dien_thoai || item.phone)}</td>
+            <td>${safeText(phone)}</td>
             <td>${safeText(item.email || "")}</td>
             <td>${safeText(item.dia_chi || item.address || "")}</td>
+            <td><strong>${stats.totalOrders}</strong></td>
+            <td><strong>${stats.returnTimes}</strong></td>
             <td>${safeText(item.ghi_chu || item.note || "")}</td>
             <td>${formatDate(item.created_at || item.createdAt)}</td>
           </tr>
@@ -1242,18 +1579,15 @@
 
     function compactMoney(value) {
       const num = Number(value || 0);
-
       if (num >= 1000000000) return Math.round(num / 1000000000) + "tỷ";
       if (num >= 1000000) return Math.round(num / 1000000) + "tr";
       if (num >= 1000) return Math.round(num / 1000) + "k";
-
       return String(num);
     }
 
     function renderBarChart(containerId, labels, values, options = {}) {
       const container = document.getElementById(containerId);
       if (!container) return;
-
       if (!labels.length || !values.length) {
         container.innerHTML = `<div class="chart-empty">Chưa có dữ liệu.</div>`;
         return;
@@ -1315,17 +1649,7 @@
         const dash = percent * 100;
         const gap = 100 - dash;
         const circle = `
-          <circle
-            cx="120"
-            cy="120"
-            r="78"
-            fill="transparent"
-            stroke="${colors[index % colors.length]}"
-            stroke-width="34"
-            stroke-dasharray="${dash} ${gap}"
-            stroke-dashoffset="${25 - current}"
-            transform="rotate(-90 120 120)"
-          ></circle>
+          <circle cx="120" cy="120" r="78" fill="transparent" stroke="${colors[index % colors.length]}" stroke-width="34" stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${25 - current}" transform="rotate(-90 120 120)"></circle>
         `;
         current += dash;
         return circle;
@@ -1333,7 +1657,6 @@
 
       const legends = entries.map(([label, value], index) => {
         const percent = Math.round((Number(value) / total) * 100);
-
         return `
           <div style="display:flex;align-items:center;gap:8px;margin:7px 0;font-weight:800;color:#2b1810;">
             <span style="width:14px;height:14px;border-radius:50%;background:${colors[index % colors.length]};display:inline-block;"></span>
@@ -1359,7 +1682,6 @@
 
     function buildAdminAnalytics(ordersInput) {
       const orders = sortAdminOrders(Array.isArray(ordersInput) ? ordersInput : []);
-
       const totalRevenue = orders.reduce((sum, order) => sum + getOrderTotal(order), 0);
       const paidOrders = orders.filter(order => paidStatuses.includes(getOrderStatus(order))).length;
       const avgOrder = orders.length ? totalRevenue / orders.length : 0;
@@ -1400,17 +1722,11 @@
 
       const revenueLabels = Object.keys(revenueByDay).slice(-10);
       const revenueValues = revenueLabels.map(label => revenueByDay[label]);
-
       const orderDayLabels = Object.keys(ordersByDay).slice(-10);
       const orderDayValues = orderDayLabels.map(label => ordersByDay[label]);
-
-      const productEntries = Object.entries(productMap)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 8);
-
+      const productEntries = Object.entries(productMap).sort((a, b) => b[1] - a[1]).slice(0, 8);
       const productLabels = productEntries.map(([name]) => name.length > 12 ? name.slice(0, 12) + "…" : name);
       const productValues = productEntries.map(([, qty]) => qty);
-
       const deliveryLabels = Object.keys(deliveryRevenue);
       const deliveryValues = deliveryLabels.map(label => deliveryRevenue[label]);
 
@@ -1422,78 +1738,45 @@
       renderBarChart("ordersByDayChart", orderDayLabels, orderDayValues);
     }
 
-    async function updateOrderStatus(orderCode, status) {
-      if (!orderCode) return;
+    function getDailyRevenueArray() {
+      const map = {};
+      (window.adminOrders || []).forEach(order => {
+        const date = getOrderDate(order);
+        if (Number.isNaN(date.getTime())) return;
+        const key = date.toISOString().slice(0, 10);
+        map[key] = (map[key] || 0) + getOrderTotal(order);
+      });
+      return Object.entries(map).sort((a, b) => a[0].localeCompare(b[0])).map(([date, revenue]) => ({ date, revenue }));
+    }
 
-      try {
-        const response = await fetch(`${API_URL}/api/don-hang/${encodeURIComponent(orderCode)}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            trang_thai: status,
-            status
-          })
-        });
+    function runLocalRevenueForecast() {
+      const days = getDailyRevenueArray();
+      const resultBox = document.getElementById("aiResult");
 
-        if (!response.ok) {
-          throw new Error("Không cập nhật được trạng thái.");
-        }
-
-        alert("Đã cập nhật trạng thái đơn hàng.");
-        await loadOrders();
-      } catch (error) {
-        console.error("Lỗi cập nhật trạng thái:", error);
-        alert("Backend hiện chưa hỗ trợ PATCH trạng thái hoặc API bị lỗi. Có thể cần bổ sung route update đơn hàng.");
+      if (!days.length) {
+        resultBox.value = "Chưa có dữ liệu doanh thu để dự đoán.";
+        return;
       }
+
+      const last7 = days.slice(-7);
+      const avg = last7.reduce((sum, day) => sum + day.revenue, 0) / last7.length;
+      const last = last7[last7.length - 1]?.revenue || avg;
+      const trend = last7.length >= 2 ? (last - last7[0].revenue) / Math.max(1, last7.length - 1) : 0;
+      const forecast = Math.max(0, Math.round(avg * 0.75 + (last + trend) * 0.25));
+
+      resultBox.value = `Dự đoán nhanh doanh thu ngày mới:\n\n- Trung bình ${last7.length} ngày gần nhất: ${formatMoney(avg)}\n- Doanh thu ngày gần nhất: ${formatMoney(last)}\n- Xu hướng mỗi ngày: ${formatMoney(trend)}\n\n=> Dự đoán doanh thu ngày tiếp theo khoảng: ${formatMoney(forecast)}\n\nGợi ý: Nếu muốn tăng doanh thu, nên đẩy combo sản phẩm bán chạy và nhắc khách cũ quay lại qua số điện thoại.`;
     }
 
-    function markOrderPaid(orderCode) {
-      updateOrderStatus(orderCode, "da_chuyen_khoan");
-    }
-
-    function copyText(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Đã copy: " + text);
-      }).catch(() => {
-        alert("Không copy được tự động. Mã: " + text);
-      });
-    }
-
-    function exportOrdersCSV() {
-      const orders = sortAdminOrders(window.adminOrders || []);
-
-      const rows = [
-        ["ma_don_hang", "created_at", "khach_hang", "so_dien_thoai", "tong_tien", "phuong_thuc_thanh_toan", "hinh_thuc_nhan_hang", "trang_thai"]
-      ];
-
-      orders.forEach(order => {
-        rows.push([
-          getOrderCode(order),
-          order.created_at || order.ngay_tao || "",
-          getCustomerName(order),
-          getCustomerPhone(order),
-          getOrderTotal(order),
-          getPaymentMethod(order),
-          getDeliveryType(order),
-          getOrderStatus(order)
-        ]);
-      });
-
-      const csv = rows.map(row => {
-        return row.map(cell => `"${String(cell ?? "").replace(/"/g, '""')}"`).join(",");
-      }).join("\n");
-
-      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-
-      a.href = url;
-      a.download = "vpc-don-hang.csv";
-      a.click();
-
-      URL.revokeObjectURL(url);
+    function fillAIPrompt(type) {
+      const prompts = {
+        forecast: "Dựa vào doanh thu cũ và đơn hàng hiện có, dự đoán doanh thu ngày mới. Nêu con số ước lượng và lý do.",
+        "best-products": "Phân tích top sản phẩm bán chạy và đề xuất món nên đẩy bán trong ngày mai.",
+        promotion: "Dựa vào đơn hàng và doanh thu, đề xuất chương trình khuyến mãi phù hợp cho Trung Nguyên Legend Âu Lạc.",
+        "customer-retention": "Phân tích khách hàng quay lại, nhóm khách trung thành và cách tăng số lần quay lại.",
+        operations: "Phân tích trạng thái đơn hàng và gợi ý cải thiện vận hành xử lý đơn.",
+        summary: "Tóm tắt tình hình kinh doanh hiện tại: doanh thu, số đơn, món bán chạy, vấn đề cần chú ý."
+      };
+      document.getElementById("aiPrompt").value = prompts[type] || "Phân tích dữ liệu kinh doanh.";
     }
 
     async function runAdminAI() {
@@ -1510,47 +1793,83 @@
       try {
         const response = await fetch(`${API_URL}/api/chat-ai`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             question: prompt,
             adminContext: {
               orders: window.adminOrders,
               drinks: window.adminDrinks,
               merchandise: window.adminMerch,
-              customers: window.adminCustomers
+              customers: window.adminCustomers,
+              dailyRevenue: getDailyRevenueArray()
             }
           })
         });
 
-        if (!response.ok) {
-          throw new Error("AI backend lỗi.");
-        }
-
+        if (!response.ok) throw new Error("AI backend lỗi.");
         const data = await response.json();
         resultBox.value = data.answer || data.reply || data.message || JSON.stringify(data, null, 2);
       } catch (error) {
         console.error("Lỗi AI:", error);
-
-        const totalRevenue = (window.adminOrders || []).reduce((sum, order) => sum + getOrderTotal(order), 0);
-        const totalOrders = (window.adminOrders || []).length;
-
-        resultBox.value =
-          `AI backend chưa phản hồi.\n\nPhân tích nhanh tại trình duyệt:\n- Tổng đơn: ${totalOrders}\n- Tổng doanh thu: ${formatMoney(totalRevenue)}\n- Đơn đã thanh toán: ${(window.adminOrders || []).filter(order => paidStatuses.includes(getOrderStatus(order))).length}`;
+        runLocalRevenueForecast();
       }
     }
 
+    async function updateOrderStatus(orderCode, status) {
+      if (!orderCode) return;
+
+      try {
+        const response = await fetch(`${API_URL}/api/don-hang/${encodeURIComponent(orderCode)}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ trang_thai: status, status })
+        });
+
+        if (!response.ok) throw new Error("Không cập nhật được trạng thái.");
+        alert("Đã cập nhật trạng thái đơn hàng.");
+        await loadOrders();
+      } catch (error) {
+        console.error("Lỗi cập nhật trạng thái:", error);
+        alert("Backend hiện chưa hỗ trợ PATCH trạng thái hoặc API bị lỗi. Cần bổ sung route update đơn hàng ở server.js để lưu vào Supabase.");
+      }
+    }
+
+    function markOrderPaid(orderCode) {
+      updateOrderStatus(orderCode, "da_chuyen_khoan");
+    }
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => alert("Đã copy: " + text)).catch(() => alert("Mã: " + text));
+    }
+
+    function exportOrdersCSV() {
+      const orders = sortAdminOrders(window.adminOrders || []);
+      const rows = [["ma_don_hang", "created_at", "khach_hang", "so_dien_thoai", "tong_tien", "phuong_thuc_thanh_toan", "hinh_thuc_nhan_hang", "trang_thai"]];
+
+      orders.forEach(order => {
+        rows.push([getOrderCode(order), order.created_at || order.ngay_tao || "", getCustomerName(order), getCustomerPhone(order), getOrderTotal(order), getPaymentMethod(order), getDeliveryType(order), getOrderStatus(order)]);
+      });
+
+      const csv = rows.map(row => row.map(cell => `"${String(cell ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "vpc-don-hang.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
     function openDrinkForm() {
-      alert("Phần thêm/sửa món nước cần kết nối route POST/PUT ở backend. Hiện admin đang ưu tiên xem dữ liệu và báo cáo.");
+      alert("Muốn thêm món mới cần route POST ở backend. Bản này đã hỗ trợ sửa giá/nổi bật/hiển thị cho món đang có.");
     }
 
     function openMerchForm() {
-      alert("Phần thêm/sửa vật phẩm cần kết nối route POST/PUT ở backend. Hiện admin đang ưu tiên xem dữ liệu và báo cáo.");
+      alert("Muốn thêm vật phẩm mới cần route POST ở backend. Bản này đã hỗ trợ sửa giá/còn bán/hiển thị cho sản phẩm đang có.");
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      loadAllAdminData();
+      requireAdminLogin();
     });
   </script>
 </body>
