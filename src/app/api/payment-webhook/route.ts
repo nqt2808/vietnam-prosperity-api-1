@@ -64,21 +64,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: `Số tiền thanh toán chưa đủ. Nhận được: ${amount}đ, Cần: ${amountNeeded}đ` })
     }
 
-    // 8. Cập nhật trạng thái đơn hàng thành "da_chuyen_khoan" (hoặc "da_thanh_toan" tùy nghiệp vụ)
+    // 8. Cập nhật trạng thái đơn hàng thành "da_thanh_toan" (Thanh toán tự động thành công)
     const { error: updateError } = await supabase
       .from('don_hang')
       .update({ 
-        trang_thai: 'da_chuyen_khoan',
-        ghi_chu: (order.ghi_chu ? order.ghi_chu + "\n" : "") + `[Hệ thống] Tự động xác nhận thanh toán qua VietQR Vietcombank số tiền ${amount}đ lúc ${new Date().toLocaleString('vi-VN')}.`
+        trang_thai: 'da_thanh_toan',
+        ghi_chu: (order.ghi_chu ? order.ghi_chu + "\n" : "") + `[Hệ thống] Tự động xác nhận dòng tiền VietQR thành công lúc ${new Date().toLocaleString('vi-VN')}.`
       })
       .eq('ma_don_hang', orderCode)
-
+ 
     if (updateError) {
       console.error(`❌ Failed to update status for order ${orderCode}:`, updateError.message)
       return NextResponse.json({ success: false, message: "Lỗi cập nhật trạng thái đơn hàng" })
     }
-
-    console.log(`✅ Successfully updated order ${orderCode} to "da_chuyen_khoan"!`)
+ 
+    console.log(`✅ Successfully updated order ${orderCode} to "da_thanh_toan"!`)
     return NextResponse.json({ success: true, message: `Đơn hàng ${orderCode} đã được xác nhận thanh toán tự động` })
 
   } catch (err: any) {

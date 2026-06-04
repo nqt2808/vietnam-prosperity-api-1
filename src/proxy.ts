@@ -31,8 +31,8 @@ export async function proxy(request: NextRequest) {
 
   const path = request.nextUrl.pathname
 
-  // Protect /account and /admin routes
-  if (!user && (path.startsWith('/account') || path.startsWith('/admin'))) {
+  // Protect /account routes (admin routes are self-protected inside admin.html local auth)
+  if (!user && path.startsWith('/account')) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 

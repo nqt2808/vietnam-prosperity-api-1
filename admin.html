@@ -563,12 +563,12 @@
 
       <div class="field">
         <label>Tài khoản</label>
-        <input id="loginUser" autocomplete="username" placeholder="admin" />
+        <input id="loginUser" autocomplete="username" placeholder="user" />
       </div>
 
       <div class="field">
         <label>Mật khẩu</label>
-        <input id="loginPass" type="password" autocomplete="current-password" placeholder="28082005" />
+        <input id="loginPass" type="password" autocomplete="current-password" placeholder="password" />
       </div>
 
       <button class="btn" style="width:100%;" onclick="adminLogin()">Đăng nhập</button>
@@ -1096,30 +1096,58 @@
       });
     }
 
-    function getOrderItems(order) {
-      const fields = [
-        order.danh_sach_san_pham,
-        order.san_pham,
-        order.san_pham_da_mua,
-        order.chi_tiet_don_hang,
-        order.order_items,
-        order.orderItems,
-        order.items,
-        order.products,
-        order.cart,
-        order.gio_hang,
-        order.cart_items,
-        order.metadata,
-        order.raw_user_meta_data
-      ];
+    /* Code này đọc danh_sách_sản_phẩm từ đơn hàng, chống lỗi item không cập nhật vào biểu đồ */
+function getOrderItems(order) {
+  const raw = order.danh_sach_san_pham || order.items || order.products || order.cart_items || [];
 
-      for (const field of fields) {
-        const items = normalizeOrderItems(field);
-        if (items.length > 0) return items;
-      }
+  if (Array.isArray(raw)) {
+    return raw;
+  }
+
+  if (typeof raw === "string") {
+    try {
+      const parsed = JSON.parse(raw);
+
+      if (Array.isArray(parsed)) return parsed;
+
+      if (Array.isArray(parsed.items)) return parsed.items;
+      if (Array.isArray(parsed.products)) return parsed.products;
 
       return [];
+    } catch (error) {
+      console.warn("Không parse được danh_sach_san_pham:", raw);
+      return [];
     }
+  }
+
+  if (raw && typeof raw === "object") {
+    if (Array.isArray(raw.items)) return raw.items;
+    if (Array.isArray(raw.products)) return raw.products;
+  }
+
+  return [];
+}
+
+function getItemName(item) {
+  return String(
+    item.ten_san_pham ||
+    item.name ||
+    item.product_name ||
+    item.title ||
+    item.ten ||
+    "Sản phẩm khác"
+  );
+}
+
+function getItemQty(item) {
+  return Number(
+    item.so_luong ||
+    item.quantity ||
+    item.qty ||
+    item.amount ||
+    1
+  );
+}
 
     function normalizeOrderItems(raw) {
       if (!raw) return [];
@@ -1691,14 +1719,13 @@
         paymentMap[payment] = (paymentMap[payment] || 0) + 1;
         deliveryRevenue[delivery] = (deliveryRevenue[delivery] || 0) + getOrderTotal(order);
 
-        getOrderItems(order).forEach(item => {
-          const name = getOrderItemName(item);
-          const qty = getOrderItemQty(item);
+       /* Code này cộng dồn sản phẩm đã mua để hiện đúng top sản phẩm bán chạy */
+getOrderItems(order).forEach(item => {
+  const name = getItemName(item);
+  const qty = getItemQty(item);
 
-          if (!name || name === "Sản phẩm") return;
-
-          productMap[name] = (productMap[name] || 0) + qty;
-        });
+  productMap[name] = (productMap[name] || 0) + qty;
+});
       });
 
       const revenueLabels = Object.keys(revenueByDay).slice(-10);
@@ -1715,8 +1742,8 @@
       const deliveryValues = deliveryLabels.map(label => deliveryRevenue[label]);
 
       renderBarChart("revenueByDayChart", revenueLabels, revenueValues, { money: true });
-      renderDonutChart("statusDonutChart", statusMap);
-      renderDonutChart("paymentDonutChart", paymentMap);
+      renderHorizontalBarChart("statusDonutChart", statusMap);
+renderHorizontalBarChart("paymentDonutChart", paymentMap);
       renderBarChart("topProductsChart", productLabels, productValues);
       renderBarChart("deliveryRevenueChart", deliveryLabels, deliveryValues, { money: true });
       renderBarChart("ordersByDayChart", orderLabels, orderValues);

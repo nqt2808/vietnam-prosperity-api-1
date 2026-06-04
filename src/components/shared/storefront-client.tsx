@@ -493,7 +493,7 @@ const chatbotIntents: ChatbotIntent[] = [
       "ngÃ´ quá»³nh trang",
       "quá»³nh trang"
     ],
-    "reply": "<strong>ðŸ›ï¸ Vá» VIETNAM PROSPERITY COFFEE & NhÃ  sÃ¡ng láº­p:</strong><br>\nâ€¢ <strong>Lá»‹ch sá»­ & Váº­n hÃ nh:</strong> <strong>VIETNAM PROSPERITY COFFEE</strong> Ä‘Æ°á»£c thÃ nh láº­p vÃ o nÄƒm 2025 vá»›i Ä‘á»‹nh hÆ°á»›ng hoáº¡t Ä‘á»™ng trong lÄ©nh vá»±c dá»‹ch vá»¥ phá»¥c vá»¥ Ä‘á»“ uá»‘ng vÃ  lÃ  Ä‘Æ¡n vá»‹ nhÆ°á»£ng quyá»n, váº­n hÃ nh chÃ­nh thá»©c cá»­a hÃ ng & website há»— trá»£ khÃ¡ch hÃ ng káº¿t ná»‘i vá»›i <strong>TRUNG NGUYÃŠN LEGEND Ã‚U Láº C</strong> táº¡i Huáº¿.<br>\nâ€¢ <strong>Äá»“ng sá»Ÿ há»¯u:</strong> CÃ´ng ty Ä‘Æ°á»£c Ä‘á»“ng sÃ¡ng láº­p bá»Ÿi <strong>Ã”NG NGUYá»„N MINH Äá»¨C</strong> vÃ  <strong>BÃ€ NGUYá»„N THá»Š TUYáº¾T MAI</strong>, hÆ°á»›ng Ä‘áº¿n viá»‡c xÃ¢y dá»±ng má»™t Ä‘iá»ƒm Ä‘áº¿n cÃ  phÃª chuyÃªn nghiá»‡p, tiá»‡n lá»£i vÃ  giÃ u cáº£m há»©ng sá»‘ má»™t táº¡i Huáº¿.<br>\nâ€¢ <strong>ThÃ´ng tin thanh toÃ¡n:</strong> TÃ i khoáº£n Ä‘áº¡i diá»‡n giao dá»‹ch lÃ  BÃ  <strong>NgÃ´ Quá»³nh Trang</strong> (Vietcombank: <code>1041623574</code>)."
+    "reply": "<strong>ðŸ›ï¸ Vá» VIETNAM PROSPERITY COFFEE & NhÃ  sÃ¡ng láº­p:</strong><br>\nâ€¢ <strong>Lá»‹ch sá»­ & Váº­n hÃ nh:</strong> <strong>VIETNAM PROSPERITY COFFEE</strong> Ä‘Æ°á»£c thÃ nh láº­p vÃ o nÄƒm 2025 vá»›i Ä‘á»‹nh hÆ°á»›ng hoáº¡t Ä‘á»™ng trong lÄ©nh vá»±c dá»‹ch vá»¥ phá»¥c vá»¥ Ä‘á»“ uá»‘ng vÃ  lÃ  Ä‘Æ¡n vá»‹ nhÆ°á»£ng quyá»n, váº­n hÃ nh chÃ­nh thá»©c cá»­a hÃ ng & website há»— trá»£ khÃ¡ch hÃ ng káº¿t ná»‘i vá»›i <strong>TRUNG NGUYÃŠN LEGEND Ã‚U Láº C</strong> táº¡i Huáº¿.<br>\nâ€¢ <strong>Äá»“ng sá»Ÿ há»¯u:</strong> CÃ´ng ty Ä‘Æ°á»£c Ä‘á»“ng sÃ¡ng láº­p bá»Ÿi <strong>Ã”NG NGUYá»„N MINH Äá»¨C</strong> vÃ  <strong>BÃ€ NGUYá»„N THá»Š TUYáº¾T MAI</strong>, hÆ°á»›ng Ä‘áº¿n viá»‡c xÃ¢y dá»±ng má»™t Ä‘iá»ƒm Ä‘áº¿n cÃ  phÃª chuyÃªn nghiá»‡p, tiá»‡n lá»£i vÃ  giÃ u cáº£m há»©ng sá»‘ má»™t táº¡i Huáº¿.<br>\nâ€¢ <strong>ThÃ´ng tin thanh toÃ¡n:</strong> TÃ i khoáº£n Ä‘áº¡i diá»‡n giao dá»‹ch lÃ  BÃ  <strong>NgÃ´ Quá»³nh Trang</strong> (Vietinbank: <code>101882692631</code>)."
   },
   {
     "name": "april30_event",
@@ -1327,7 +1327,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     key={cat.id}
                     onClick={() => setMenuTab(cat.slug)}
                     className={cn(
-                      "px-4 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition-all",
+                      "px-4 py-2 rounded-full font-bold text-sm uppercase tracking-wider transition-all",
                       menuTab === cat.slug
                         ? "bg-[#c89b3c] text-[#1f120b] shadow-md shadow-[#c89b3c]/20"
                         : "text-[#78675d] dark:text-[#e2d4c0] hover:bg-[#decdb9]/20 dark:hover:bg-[#3a2114]/30"
@@ -2030,7 +2030,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 {/* QR code box */}
                 <div className="relative aspect-square w-64 h-64 border border-[#decdb9]/10 rounded-2xl overflow-hidden p-2.5 bg-white shadow-lg">
                   <img
-                    src={`https://img.vietqr.io/image/vietcombank-1041623574-compact2.png?amount=${finalPayPrice}&addInfo=${encodeURIComponent(fullName + ' ' + orderCode)}&accountName=NGO%20QUYNH%20TRANG`}
+                    src={`https://img.vietqr.io/image/vietinbank-101882692631-compact2.png?amount=${finalPayPrice}&addInfo=${encodeURIComponent(fullName + ' ' + orderCode)}&accountName=NGO%20QUYNH%20TRANG`}
                     alt="VietQR code"
                     className="w-full h-full object-contain"
                   />
@@ -2040,15 +2040,15 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 <div className="w-full p-4.5 bg-[#170e0a] rounded-2xl border border-[#decdb9]/10 text-[11px] text-left space-y-2 leading-relaxed">
                   <div className="flex justify-between">
                     <span className="text-[#a89882]">NgÃ¢n hÃ ng:</span>
-                    <strong className="text-white">Vietcombank (Ngoáº¡i thÆ°Æ¡ng Viá»‡t Nam)</strong>
+                    <strong className="text-white">VietinBank (Công Thương Việt Nam)</strong>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-[#a89882]">Sá»‘ tÃ i khoáº£n:</span>
                     <div className="flex items-center gap-1.5">
-                      <strong className="text-[#c89b3c] font-black">1041623574</strong>
+                      <strong className="text-[#c89b3c] font-black">101882692631</strong>
                       <button
                         onClick={() => {
-                          navigator.clipboard.writeText('1041623574')
+                          navigator.clipboard.writeText('101882692631')
                           alert("ÄÃ£ sao chÃ©p sá»‘ tÃ i khoáº£n!")
                         }}
                         className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-zinc-800 text-[#a89882] hover:text-white"

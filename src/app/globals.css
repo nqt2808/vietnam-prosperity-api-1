@@ -19,11 +19,60 @@
   --color-brand-text: #2b1810;
   --color-brand-muted: #78675d;
 
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-sans: Arial, Helvetica, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
 }
+/* Đồng bộ font Times New Roman và tăng kích thước chữ cho các nút mua, menu tab */
+.small-btn,
+.tab-link,
+#menuTabs .tab-link,
+#merchTabs .tab-link,
+.category-tabs button,
+.menu-item-btn-row button,
+.order-btn-group button,
+.card-body button,
+button[onclick*="addToCart"],
+a[href="#menu"],
+a[href="#merchandise"],
+button.p-2\.5.rounded-xl.bg-zinc-100 {
+  font-family: "Times New Roman", Times, serif !important;
+  font-size: 18px !important; /* Tăng 2 size */
+}
 
+.nav-btn,
+.btn,
+.btn-primary,
+.btn-outline {
+  font-family: "Times New Roman", Times, serif !important;
+  font-size: 19px !important; /* Tăng 2 size */
+}
 
+/* Áp dụng font Times New Roman cho menu đồ uống và vật phẩm */
+.menu-group h2,
+.menu-group-desc,
+.menu-item h3,
+.menu-item-inner h3,
+.menu-item-desc,
+.menu-item .price,
+.card h3,
+.card-body,
+.card-body h3,
+.card-body p,
+.card-body .price,
+.price {
+  font-family: "Times New Roman", Times, serif !important;
+}
+
+/* Tăng size chữ menu đồ uống và vật phẩm */
+.menu-item h3, .menu-item-inner h3, .card h3, .card-body h3 {
+  font-size: 19px !important;
+}
+.menu-item .price, .card-body .price, .price {
+  font-size: 18px !important;
+}
+.menu-item-desc, .card-body p {
+  font-size: 15px !important;
+}
 /* ════════════════════════════════════════════════
    EXTRACTED TEMPLATE ORIGINAL CSS
    ════════════════════════════════════════════════ */

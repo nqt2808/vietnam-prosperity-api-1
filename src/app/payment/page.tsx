@@ -11,8 +11,8 @@ import { formatCurrency } from '@/lib/utils'
 
 // ─── Cấu hình tài khoản ngân hàng ────────────────────────────
 const BANK_CONFIG = {
-  bankId: 'vietcombank',
-  accountNo: '1041623574',
+  bankId: 'vietinbank',
+  accountNo: '101882692631',
   accountName: 'NGO QUYNH TRANG',
   template: 'compact2',
 }
@@ -283,7 +283,7 @@ export default function PaymentPage() {
 
             <div className="space-y-3">
               {/* Ngân hàng */}
-              <InfoRow label="Ngân hàng" value="Vietcombank (VCB)" />
+              <InfoRow label="Ngân hàng" value="Vietinbank" />
 
               {/* Chủ tài khoản */}
               <InfoRow label="Chủ tài khoản" value={BANK_CONFIG.accountName} />
