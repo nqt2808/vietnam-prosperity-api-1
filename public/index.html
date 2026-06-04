@@ -2,18 +2,32 @@
 <html lang="vi">
 
 <head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <meta charset="UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc</title>
   
 
-  <style>
+  
+  <!-- Code này nạp font hỗ trợ tiếng Việt ổn định -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+    /* Code này ép toàn bộ website dùng font có hỗ trợ tiếng Việt */
+    body, button, input, select, textarea {
+      font-family: 'Noto Sans', Arial, Helvetica, sans-serif !important;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
     .social-links {
       display: grid;
       gap: 14px;
     }
-
+chcp 65001
     .social-link {
       display: flex;
       align-items: center;
@@ -89,7 +103,7 @@
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: 'Noto Sans', Arial, Helvetica, sans-serif;
       background: var(--cream);
       color: var(--text);
       line-height: 1.6;
@@ -1940,16 +1954,13 @@
     @media (max-width: 520px) { .lookup-invoice-line { grid-template-columns: 1fr; gap: 4px; } }
 
 
-
-    /* Code này ép toàn bộ web bán hàng dùng font Times New Roman và sửa lỗi dấu tiếng Việt */
+    /* Code này sửa font web bán hàng về Arial, tăng chữ khoảng 2px và căn giữa các item */
     html,
     body,
-    body *,
     button,
     input,
     select,
     textarea,
-    option,
     a,
     p,
     span,
@@ -1962,36 +1973,102 @@
     h6,
     label,
     strong,
-    em,
-    small,
-    table,
-    th,
-    td {
-      font-family: "Times New Roman", Times, serif !important;
+    em {
+      font-family: Arial, Helvetica, sans-serif !important;
       letter-spacing: normal !important;
-      word-spacing: normal !important;
       font-synthesis: none !important;
       text-rendering: optimizeLegibility !important;
       -webkit-font-smoothing: antialiased !important;
       -moz-osx-font-smoothing: grayscale !important;
     }
 
-    /* Code này giữ icon Font Awesome không bị đổi thành Times New Roman */
-    .fa,
-    .fas,
-    .far,
-    .fal,
-    .fab,
-    .fa-solid,
-    .fa-regular,
-    .fa-light,
-    .fa-brands,
-    i[class^="fa-"],
-    i[class*=" fa-"] {
-      font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+    body {
+      font-size: 18px !important;
     }
 
-  </style>
+    p,
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    label,
+    .nav-btn,
+    .btn,
+    .small-btn,
+    .tab-link,
+    .menu-item-desc,
+    .article-meta,
+    .chat-msg,
+    .quick-chat button {
+      font-size: calc(1em + 2px) !important;
+    }
+
+    .grid,
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    .menu-list,
+    #featuredGrid,
+    #blogGrid,
+    #menuGroups .menu-list,
+    #merchGroups .grid,
+    #merchGroups .grid-4 {
+      justify-items: center !important;
+      align-items: stretch !important;
+    }
+
+    #featuredGrid > *,
+    #blogGrid > *,
+    #menuGroups .menu-item,
+    #merchGroups .card,
+    #merchGroups .menu-item,
+    .article-card,
+    .card,
+    .menu-item {
+      width: 100% !important;
+      max-width: 380px !important;
+      text-align: center !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .card-body,
+    .menu-item,
+    .menu-item-inner,
+    .article-card .card-body {
+      align-items: center !important;
+      text-align: center !important;
+    }
+
+    .card p,
+    .card h3,
+    .card .price,
+    .menu-item h3,
+    .menu-item-desc,
+    .menu-item .price,
+    .article-card h3,
+    .article-card p {
+      text-align: center !important;
+    }
+
+    .article-card .btn {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .gallery-img {
+      display: block !important;
+      width: 100% !important;
+      max-width: 420px !important;
+      height: 300px !important;
+      object-fit: cover !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      background: #efe5d4 !important;
+    }
+
+</style>
 </head>
 
 <body>
@@ -2130,8 +2207,6 @@
           <p>Danh sách sản phẩm nổi bật có thể đặt mua tại Trung Nguyên Legend Âu Lạc.</p>
         </div>
         <!-- Code này thêm thanh phân loại cho trang Vật phẩm -->
-<div class="category-tabs" id="merchTabs"></div>
-
 <div class="category-tabs" id="merchTabs"></div>
 <div id="merchGroups"></div>
       </div>
@@ -2306,8 +2381,8 @@
             src=""
             alt="Mã QR chuyển khoản Vietnam Prosperity Coffee" />
 
-          <p><strong>Ngân hàng:</strong> Vietcombank</p>
-          <p><strong>Chủ tài khoản:</strong> Ngô Quỳnh Trang</p>
+          <p><strong>Ngân hàng:</strong> VietinBank</p>
+          <p><strong>Chủ tài khoản:</strong> NGO QUYNH TRANG</p>
           <p><strong>Số tài khoản:</strong> 1034103679</p>
           <p><strong>Nội dung chuyển khoản:</strong> <span id="paymentBankNote">Đang tạo...</span></p>
         </div>
@@ -2690,7 +2765,7 @@
       "sinh-to-xoai": "https://down-bs-vn.img.susercontent.com/vn-11134517-81ztc-ml7etvg00sgf69",
       "sinh-to-bo": "https://down-bs-vn.img.susercontent.com/vn-11134517-81ztc-ml74jasvmqrk83",
       "sinh-to-chanh-day": "https://down-bs-vn.img.susercontent.com/vn-11134517-7r98o-lr30i8qnch5044",
-      "sinh-to-dau": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk7Ed1aPNezQLUGt7YUjWDc6-cP5fFHBGhEQ&s",
+      "sinh-to-dau": "https://res.cloudinary.com/dojibbcof/image/upload/v1779958810/images_2_tajezo.jpg",
       "kim-quat-da-xay": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPDzobJcuIlDXotxwdJZc4ZnVbcgnTGyGCA&s",
       "tra-xanh-da-xay": "https://lh6.googleusercontent.com/proxy/MFHze5GxFfm_KiMl4-DSsTSZvwIx2VnzJeQIA6rsenf3K9NpijVHrBeriKroiwJzYo3A1rmhzc5UCV1YLG6w59T8Qek8Qn03wHiygCqvWXSl0IRKXGqB3msC9dUavUfY55upOEBzqD_Tt_VAUaewcAzWc5yDjdO4lnlTyjhFiBi-eNyOOBs0GUTzAqMwaJ5psu45U3tGlGb3gzfZqEbv",
 
@@ -4022,7 +4097,7 @@ const tabs = document.getElementById("merchTabs");
     let items;
 
     try {
-      items = await fetchAPI("/api/vat-pham");
+      items = await fetchAPI("/api/merchandise");
     } catch (error) {
       items = await fetchAPI("/api/merchandise");
     }
@@ -4088,7 +4163,7 @@ const tabs = document.getElementById("merchTabs");
 
         <div class="grid grid-4">
           ${group.items.map(item => {
-            onst img = getMerchImage(item);
+            const img = getMerchImage(item);
             const priceLabel = formatMoney(item.gia);
             const priceNum = Number(item.gia || 0);
 
@@ -4486,7 +4561,7 @@ const tabs = document.getElementById("merchTabs");
         Địa chỉ: Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế, đối diện Aeon Mall Huế.
         Giờ mở cửa: 06:30 AM - 09:30 PM.
         Số điện thoại: 038 972 6999.
-        Thanh toán hiện có Thanh toán khi nhận hàng và Chuyển khoản ngân hàng qua Vietcombank.
+        Thanh toán hiện có Thanh toán khi nhận hàng và Chuyển khoản ngân hàng qua VietinBank.
       `;
 
       return `${aboutText} ${blogText} ${storeText}`.replace(/\s+/g, " ").trim();
@@ -4782,7 +4857,7 @@ const tabs = document.getElementById("merchTabs");
             <p><strong>Số điện thoại:</strong> ${safeText(phone)}</p>
             <p><strong>Địa chỉ:</strong> ${safeText(shippingAddress)}</p>
             <p><strong>Hình thức nhận:</strong> ${order.hinh_thuc_nhan_hang === "den_lay_tai_quan" ? "Đến lấy tại quán" : "Giao hàng tận nơi"}</p>
-            <p><strong>Thanh toán:</strong> ${paymentMethod === "chuyen_khoan" ? "Chuyển khoản Vietcombank" : "Tiền mặt / thanh toán khi nhận hàng"}</p>
+            <p><strong>Thanh toán:</strong> ${paymentMethod === "chuyen_khoan" ? "Chuyển khoản VietinBank" : "Tiền mặt / thanh toán khi nhận hàng"}</p>
             <p><strong>Tổng cộng:</strong> <strong style="color: var(--gold); font-size: 16px;">${formatMoney(total)}</strong></p>
           </div>
         `;
@@ -4853,7 +4928,7 @@ const tabs = document.getElementById("merchTabs");
         reply: `<strong>📦 Hướng dẫn Đặt hàng & Thanh toán nhanh chóng:</strong><br>
     1️⃣ <strong>Chọn món:</strong> Chọn đồ uống hoặc vật phẩm và bấm nút <strong>Đặt món/Đặt mua</strong> để thêm vào giỏ hàng.<br>
     2️⃣ <strong>Nhập thông tin:</strong> Click vào Giỏ hàng ở góc trên, nhập tên, số điện thoại, hình thức nhận (Đến lấy tại quán hoặc Giao hàng) và địa chỉ.<br>
-    3️⃣ <strong>Thanh toán:</strong> Chọn <i>Tiền mặt (COD)</i> hoặc <i>Chuyển khoản Vietcombank</i> qua mã QR tạo tự động.<br>
+    3️⃣ <strong>Thanh toán:</strong> Chọn <i>Tiền mặt (COD)</i> hoặc <i>Chuyển khoản VietinBank</i> qua mã QR tạo tự động.<br>
     4️⃣ <strong>Theo dõi:</strong> Hệ thống cung cấp mã đơn hàng, bạn có thể click nút <strong>Tra cứu đơn</strong> nổi ở góc màn hình bất cứ lúc nào!`
       },
       {
@@ -4862,7 +4937,7 @@ const tabs = document.getElementById("merchTabs");
         reply: `<strong>🏛️ Về Vietnam Prosperity Coffee & Nhà sáng lập:</strong><br>
     • <strong>Vận hành & Hợp tác:</strong> Vietnam Prosperity Coffee được thành lập năm 2025, hoạt động trong lĩnh vực phục vụ đồ uống và là đơn vị nhượng quyền, vận hành chính thức cửa hàng & website kết nối <strong>Trung Nguyên Legend Âu Lạc</strong>.<br>
     • <strong>Nhà sáng lập:</strong> Công ty được đồng sở hữu bởi <strong>Ông Nguyễn Minh Đức</strong> và <strong>Bà Nguyễn Thị Tuyết Mai</strong>. Từ những người yêu thích hương vị cà phê Trung Nguyên, hai nhà sáng lập đã đồng lòng xây dựng nên một điểm đến thưởng trà và cà phê đẳng cấp số một tại TP Huế.<br>
-    • <strong>Thông tin giao dịch:</strong> Đại diện tài khoản thanh toán là Bà <strong>Ngô Quỳnh Trang</strong> (Vietcombank: <code>1034103679</code>).`
+    • <strong>Thông tin giao dịch:</strong> Đại diện tài khoản thanh toán là Bà <strong>NGO QUYNH TRANG</strong> (VietinBank: <code>1034103679</code>).`
       },
       {
         name: "articles_info",
