@@ -2244,6 +2244,42 @@
       }
     }
   
+
+
+    /* Code này ép riêng web bán hàng, 2 nút Menu nước/Vật phẩm, trang Về chúng tôi và footer dùng Arial */
+    html,
+    body,
+    button,
+    input,
+    select,
+    textarea,
+    .nav-btn,
+    .btn,
+    .small-btn,
+    #about,
+    #about *,
+    .site-footer,
+    .site-footer *,
+    .footer-title,
+    .footer-links,
+    .footer-links *,
+    .info-text,
+    .info-text * {
+      font-family: Arial, Helvetica, sans-serif !important;
+      letter-spacing: normal;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Code này làm 2 nút Menu nước và Vật phẩm đồng bộ font/chữ */
+    .main-nav .nav-btn[data-page="menu"],
+    .main-nav .nav-btn[data-page="merch"] {
+      font-family: Arial, Helvetica, sans-serif !important;
+      font-size: 16px !important;
+      font-weight: 800 !important;
+    }
+
 </style>
 </head>
 
@@ -2264,7 +2300,7 @@
       </div>
 
       <nav class="main-nav">
-        <button class="nav-btn" data-page="menu" onclick="showPage('menu')">Menu đồ uống</button>
+        <button class="nav-btn" data-page="menu" onclick="showPage('menu')">Menu nước</button>
         <button class="nav-btn" data-page="merch" onclick="showPage('merch')">Vật phẩm</button>
         <button class="nav-btn" data-page="blog" onclick="showPage('blog')">Bài viết</button>
         <button class="nav-btn cart-icon-btn" data-page="cart" onclick="showPage('cart')" aria-label="Giỏ hàng">
@@ -2286,7 +2322,7 @@
         <p>Đặt đồ uống, mua cà phê phin, cà phê hạt và Vật phẩm tại đây.</p>
 
         <div class="btn-row">
-          <button class="btn btn-primary" onclick="showPage('menu')">Menu đồ uống</button>
+          <button class="btn btn-primary" onclick="showPage('menu')">Menu nước</button>
           <button class="btn btn-outline" onclick="showPage('merch')">Vật phẩm</button>
         </div>
       </div>
@@ -2388,8 +2424,8 @@
   <main id="menu" class="page">
     <section class="sub-hero">
       <div class="container">
-        <h1>Menu đồ uống</h1>
-        <p>Khám phá các món cà phê, trà, đá xay, nước ép và bánh ngọt tại <strong>Trung Nguyên Legend Âu Lạc</strong>.</p>
+        <h1>Menu nước</h1>
+        <p>Khám phá các món cà phê, trà, đá xay, nước ép, sinh tố và bánh ngọt tại <strong>Trung Nguyên Legend Âu Lạc</strong>.</p>
       </div>
     </section>
 
@@ -5500,7 +5536,7 @@ Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 n�
       try {
         const sectionSelectors = [
           ".hero",
-          "#home .section-head",
+          "#home",
           "#menu",
           "#merch",
           "#blog",
@@ -5515,11 +5551,24 @@ Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 n�
             return el ? el.innerText : "";
           })
           .filter(Boolean)
-          .join("\n\n")
-          .slice(0, 12000);
+          .join("\n\n");
 
-        const drinkKeywords = Object.keys(drinkImageMap || {}).join(", ").slice(0, 4000);
-        const merchKeywords = Object.keys(merchImageMap || {}).join(", ").slice(0, 4000);
+        const blogText = Array.isArray(window.blogItems || blogItems)
+          ? (window.blogItems || blogItems).map((post, index) => {
+              return `Bài viết ${index + 1}: ${post.title || ""}\nMô tả: ${post.desc || ""}\nNội dung: ${String(post.content || "").replace(/<[^>]+>/g, " ")}\nNguồn: ${post.sourceLink || ""}`;
+            }).join("\n\n")
+          : "";
+
+        const drinkKeywords = Object.keys(drinkImageMap || {}).join(", ").slice(0, 5000);
+        const merchKeywords = Object.keys(merchImageMap || {}).join(", ").slice(0, 5000);
+
+        const renderedMenuText = [
+          document.getElementById("featuredGrid")?.innerText || "",
+          document.getElementById("menuGroups")?.innerText || "",
+          document.getElementById("merchGroups")?.innerText || "",
+          document.getElementById("blogGrid")?.innerText || "",
+          document.getElementById("articleDetailContent")?.innerText || ""
+        ].filter(Boolean).join("\n\n");
 
         return `
 Website: Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc.
@@ -5527,13 +5576,22 @@ Hotline: 038 972 6999.
 Địa chỉ: Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế.
 Thanh toán chuyển khoản: VietinBank - NGO QUYNH TRANG - 101882692631.
 Quy tắc thanh toán: Khách chuyển khoản đúng số tiền và ghi đúng mã đơn VPC-DH-... trong nội dung. SePay webhook sẽ tự cập nhật đơn sang đã chuyển khoản khi nhận đủ tiền.
-Nội dung trang:
+Yêu cầu trả lời AI: đọc nội dung index.html, trang Bài viết, trang Giới thiệu/Về chúng tôi trước; nếu không đủ thì dùng database Supabase qua backend /api/chat-ai để tìm món, vật phẩm, danh mục.
+
+Nội dung đang hiển thị trên website:
 ${pageText}
+
+Nội dung trang Bài viết từ biến blogItems:
+${blogText}
+
+Nội dung menu/vật phẩm/bài viết đã render từ database/API:
+${renderedMenuText}
+
 Từ khóa menu đồ uống: ${drinkKeywords}
 Từ khóa vật phẩm: ${merchKeywords}
-        `.trim();
+        `.trim().slice(0, 20000);
       } catch (error) {
-        return "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc. Hotline 038 972 6999. Thanh toán VietinBank 101882692631 - NGO QUYNH TRANG.";
+        return "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc. Hotline 038 972 6999. Thanh toán VietinBank 101882692631 - NGO QUYNH TRANG. AI cần đọc index.html, bài viết, giới thiệu và database Supabase.";
       }
     }
 

@@ -398,6 +398,10 @@
                 <option value="da_giao">Đã hoàn thành</option>
                 <option value="da_huy">Đã hủy</option>
               </select>
+              <select id="order-sort" onchange="renderOrders()" class="bg-[#fff8ed] border border-[#decdb9] focus:outline-none focus:border-[#c89b3c] px-4 py-2.5 rounded-xl text-xs font-extrabold cursor-pointer">
+                <option value="newest" selected>Mới nhất → Cũ nhất</option>
+                <option value="oldest">Cũ nhất → Mới nhất</option>
+              </select>
             </div>
           </div>
 
@@ -684,6 +688,17 @@
               </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" id="report-cards"></div>
+          </div>
+
+          <div class="bg-white border border-[#decdb9] rounded-3xl p-6 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+              <div>
+                <h4 class="font-black text-brand-coffee-dark"><i class="fa-solid fa-chart-column text-brand-gold mr-2"></i>Biểu đồ doanh thu bằng hình ảnh</h4>
+                <p class="text-xs text-brand-coffee-soft font-bold">Biểu đồ dạng hình/SVG dựng từ dữ liệu đơn hàng, có thể xuất ra ảnh PNG bằng file Python đi kèm.</p>
+              </div>
+              <button onclick="downloadRevenueSvg()" class="px-4 py-2 bg-[#1f120b] hover:bg-[#3a2114] text-white rounded-xl text-xs font-black"><i class="fa-solid fa-image mr-1"></i>Tải SVG</button>
+            </div>
+            <div id="revenue-chart-image" class="w-full overflow-x-auto bg-[#fff8ed] border border-[#decdb9] rounded-2xl p-4"></div>
           </div>
 
           <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
@@ -4124,6 +4139,17 @@
       return [...(Array.isArray(list) ? list : [])].sort((a, b) => getOrderTimeValue(b) - getOrderTimeValue(a));
     }
 
+    // Code này trả về danh sách đơn hàng cũ nhất đứng đầu
+    function getOrdersOldestFirst(list = orders) {
+      return [...(Array.isArray(list) ? list : [])].sort((a, b) => getOrderTimeValue(a) - getOrderTimeValue(b));
+    }
+
+    // Code này lấy thứ tự sắp xếp đơn hàng theo lựa chọn trong admin
+    function getOrdersBySelectedSort(list = orders) {
+      const sortValue = document.getElementById("order-sort")?.value || "newest";
+      return sortValue === "oldest" ? getOrdersOldestFirst(list) : getOrdersNewestFirst(list);
+    }
+
     // Code này áp dụng thứ tự mới nhất lên trước cho biến orders toàn cục
     function sortOrdersNewestFirst() {
       orders = getOrdersNewestFirst(orders);
@@ -4187,6 +4213,92 @@
             <div class="flex items-center gap-3"><span class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#c89b3c] text-[#1f120b] font-black">${idx+1}</span><div><p class="font-black text-sm">${escapeHtml(item.name)}</p><p class="text-[10px] text-gray-500 font-bold">${item.qty} lượt bán</p></div></div>
             <span class="font-black text-[#c89b3c]">${money(item.revenue)}</span>
           </div>`).join("") || emptyBox("Chưa có dữ liệu sản phẩm bán chạy.");
+
+      renderRevenueImageChart(list);
+    }
+
+
+    // Code này dựng biểu đồ doanh thu dạng hình SVG ngay trong admin
+    function renderRevenueImageChart(orderList) {
+      const box = document.getElementById("revenue-chart-image");
+      if (!box) return;
+
+      const paidStatuses = getPaidStatuses();
+      const byDate = new Map();
+      orderList
+        .filter(o => paidStatuses.includes(o.trang_thai))
+        .forEach(order => {
+          const date = new Date(order.created_at || order.ngay_tao || Date.now());
+          const key = date.toISOString().slice(0, 10);
+          const current = byDate.get(key) || 0;
+          byDate.set(key, current + Number(order.tong_tien || order.total || 0));
+        });
+
+      const rows = Array.from(byDate.entries()).sort((a, b) => a[0].localeCompare(b[0])).slice(-14);
+      if (!rows.length) {
+        box.innerHTML = emptyBox("Chưa có đơn đã thanh toán để vẽ biểu đồ doanh thu.");
+        return;
+      }
+
+      const width = Math.max(760, rows.length * 72);
+      const height = 360;
+      const padL = 70;
+      const padR = 30;
+      const padT = 35;
+      const padB = 68;
+      const chartW = width - padL - padR;
+      const chartH = height - padT - padB;
+      const maxValue = Math.max(...rows.map(r => r[1]), 1);
+      const barGap = 18;
+      const barW = Math.max(24, (chartW / rows.length) - barGap);
+
+      const bars = rows.map(([date, value], i) => {
+        const x = padL + i * (chartW / rows.length) + barGap / 2;
+        const h = Math.max(4, (value / maxValue) * chartH);
+        const y = padT + chartH - h;
+        const label = date.slice(5).replace("-", "/");
+        return `
+          <g>
+            <rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" rx="10" fill="#c89b3c"></rect>
+            <text x="${(x + barW / 2).toFixed(1)}" y="${(y - 8).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="800" fill="#3a2114">${money(value).replace("đ", "")}</text>
+            <text x="${(x + barW / 2).toFixed(1)}" y="${height - 30}" text-anchor="middle" font-size="11" font-weight="800" fill="#78675d">${label}</text>
+          </g>`;
+      }).join("");
+
+      const yLines = [0, 0.25, 0.5, 0.75, 1].map(pct => {
+        const y = padT + chartH - chartH * pct;
+        const value = Math.round(maxValue * pct);
+        return `
+          <line x1="${padL}" y1="${y}" x2="${width - padR}" y2="${y}" stroke="#ead9c3" stroke-width="1"></line>
+          <text x="${padL - 12}" y="${y + 4}" text-anchor="end" font-size="10" font-weight="700" fill="#78675d">${money(value).replace("đ", "")}</text>`;
+      }).join("");
+
+      box.innerHTML = `
+        <svg id="admin-revenue-svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Biểu đồ doanh thu">
+          <rect width="100%" height="100%" rx="18" fill="#fff8ed"></rect>
+          <text x="${padL}" y="24" font-size="17" font-weight="900" fill="#1f120b">Doanh thu theo ngày</text>
+          <text x="${width - padR}" y="24" text-anchor="end" font-size="12" font-weight="800" fill="#78675d">${rows.length} ngày gần nhất có doanh thu</text>
+          ${yLines}
+          <line x1="${padL}" y1="${padT + chartH}" x2="${width - padR}" y2="${padT + chartH}" stroke="#3a2114" stroke-width="2"></line>
+          ${bars}
+        </svg>`;
+    }
+
+    // Code này tải biểu đồ doanh thu SVG về máy
+    function downloadRevenueSvg() {
+      const svg = document.getElementById("admin-revenue-svg");
+      if (!svg) {
+        showToast("error", "Chưa có biểu đồ để tải.");
+        return;
+      }
+      const blob = new Blob([svg.outerHTML], { type: "image/svg+xml;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "vpc-doanh-thu.svg";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(link.href);
     }
 
     function reportCard(title, value, desc, icon) {
@@ -4393,7 +4505,7 @@
       const filter = document.getElementById("order-filter").value;
       tbody.innerHTML = "";
 
-      const filtered = getOrdersNewestFirst().filter(order => {
+      const filtered = getOrdersBySelectedSort().filter(order => {
         const kh = getCustomerInfo(order);
         const code = String(getOrderCode(order)).toLowerCase();
         const matchesSearch =

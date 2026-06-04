@@ -1096,7 +1096,7 @@ function findIndexSnippets(question, indexText) {
   return scored.slice(0, 8).map(item => item.sentence);
 }
 
-async function buildKeywordFallbackContext(question) {
+async function buildDatabaseContextForAi(question) {
   const keywords = buildKeywords(question);
   if (!keywords.length) return "";
 
@@ -1135,24 +1135,29 @@ async function buildKeywordFallbackContext(question) {
 async function buildWebsiteContextForAi(question, extraContext) {
   const indexKnowledge = loadIndexKnowledge();
   const snippets = findIndexSnippets(question, indexKnowledge.text);
+  const databaseContext = await buildDatabaseContextForAi(question);
 
   const parts = [];
-  if (extraContext) parts.push(`Ngữ cảnh frontend gửi lên: ${extraContext}`);
+  if (extraContext) parts.push(`Ngữ cảnh frontend gửi lên, gồm nội dung trang chủ, bài viết, giới thiệu và dữ liệu đã render từ website:\n${extraContext}`);
 
   if (indexKnowledge.source) {
-    parts.push(`Nguồn index đang đọc: ${indexKnowledge.source}`);
+    parts.push(`Nguồn index backend đang đọc: ${indexKnowledge.source}`);
   }
 
   if (snippets.length) {
-    parts.push(`Thông tin tìm thấy trong index.html:\n- ${snippets.join("\n- ")}`);
+    parts.push(`Thông tin tìm thấy trong index.html backend:\n- ${snippets.join("\n- ")}`);
   } else {
-    const fallback = await buildKeywordFallbackContext(question);
-    if (fallback) parts.push(fallback);
-    else parts.push("Không tìm thấy thông tin phù hợp trong index.html hoặc dữ liệu từ khóa. Hãy trả lời an toàn, không bịa; nếu cần thì hướng khách gọi 038 972 6999.");
+    parts.push("Backend không tìm thấy đoạn khớp rõ trong index.html theo từ khóa; vẫn phải dùng ngữ cảnh frontend và database bên dưới, không được bịa.");
   }
 
-  parts.push("Thông tin cố định: Quán Trung Nguyên Legend Âu Lạc / Vietnam Prosperity Coffee. SĐT 038 972 6999. Thanh toán VietinBank, STK 101882692631, chủ tài khoản NGO QUYNH TRANG.");
-  return parts.join("\n\n").slice(0, 14000);
+  if (databaseContext) {
+    parts.push(databaseContext);
+  } else {
+    parts.push("Database Supabase không có dòng khớp từ khóa rõ ràng. Nếu thiếu thông tin, hướng khách gọi 038 972 6999.");
+  }
+
+  parts.push("Thông tin cố định: Quán Trung Nguyên Legend Âu Lạc / Vietnam Prosperity Coffee. SĐT 038 972 6999. Thanh toán VietinBank, STK 101882692631, chủ tài khoản NGO QUYNH TRANG. SePay tự cập nhật trạng thái đơn khi nhận đủ tiền và nội dung chuyển khoản có mã VPC-DH-...");
+  return parts.join("\n\n").slice(0, 22000);
 }
 
 function stripUnsafeHtml(text) {
