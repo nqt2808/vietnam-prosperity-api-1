@@ -24,9 +24,6 @@
 }
 /* Đồng bộ font Times New Roman và tăng kích thước chữ cho các nút mua, menu tab */
 .small-btn,
-.tab-link,
-#menuTabs .tab-link,
-#merchTabs .tab-link,
 .category-tabs button,
 .menu-item-btn-row button,
 .order-btn-group button,
@@ -36,7 +33,14 @@ a[href="#menu"],
 a[href="#merchandise"],
 button.p-2\.5.rounded-xl.bg-zinc-100 {
   font-family: "Times New Roman", Times, serif !important;
-  font-size: 18px !important; /* Tăng 2 size */
+  font-size:22px !important; /* Tăng 2 size */
+}
+
+.tab-link,
+#menuTabs .tab-link,
+#merchTabs .tab-link {
+  font-family: "Times New Roman", Times, serif !important;
+  font-size: 18px !important; /* Nhỏ xuống 2 size */
 }
 
 .nav-btn,
@@ -44,7 +48,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 .btn-primary,
 .btn-outline {
   font-family: "Times New Roman", Times, serif !important;
-  font-size: 19px !important; /* Tăng 2 size */
+  font-size:22px !important; /* Tăng 2 size */
 }
 
 /* Áp dụng font Times New Roman cho menu đồ uống và vật phẩm */
@@ -65,13 +69,13 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
 /* Tăng size chữ menu đồ uống và vật phẩm */
 .menu-item h3, .menu-item-inner h3, .card h3, .card-body h3 {
-  font-size: 19px !important;
+  font-size:22px !important;
 }
 .menu-item .price, .card-body .price, .price {
-  font-size: 18px !important;
+  font-size:21px !important;
 }
 .menu-item-desc, .card-body p {
-  font-size: 15px !important;
+  font-size:18px !important;
 }
 /* ════════════════════════════════════════════════
    EXTRACTED TEMPLATE ORIGINAL CSS
@@ -88,7 +92,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       gap: 14px;
       color: #f0dfc9;
       font-weight: 700;
-      font-size: 16px;
+      font-size:17px;
       transition: 0.25s ease;
     }
 
@@ -108,7 +112,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      font-size: 18px;
+      font-size:19px;
     }
 
     .social-link.dark {
@@ -267,14 +271,14 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     .brand-text strong {
       color: var(--gold-light);
-      font-size: 22px;
+      font-size:23px;
       letter-spacing: 0.4px;
       text-transform: uppercase;
     }
 
     .brand-text span {
       color: #f3e3c8;
-      font-size: 16px;
+      font-size:17px;
     }
 
     .main-nav {
@@ -292,7 +296,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       padding: 10px 14px;
       border-radius: 999px;
       cursor: pointer;
-      font-size: 15px;
+      font-size:16px;
       font-weight: 700;
       transition: 0.25s ease;
       position: relative;
@@ -316,7 +320,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       border-radius: 50%;
       background: #fff;
       color: var(--coffee-dark);
-      font-size: 12px;
+      font-size:13px;
       font-weight: 800;
     }
 
@@ -367,24 +371,24 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       letter-spacing: 1.2px;
       text-transform: uppercase;
       margin-bottom: 18px;
-      font-size: 14px;
+      font-size:15px;
     }
 
     .hero h1 {
-      font-size: clamp(42px, 7vw, 82px);
+      font-size:clamp(43px, 7vw, 83px);
       line-height: 0.98;
       letter-spacing: -2px;
       margin-bottom: 18px;
     }
 
     .hero h2 {
-      font-size: clamp(22px, 3vw, 36px);
+      font-size:clamp(23px, 3vw, 37px);
       color: #fff3df;
       margin-bottom: 16px;
     }
 
     .slogan {
-      font-size: clamp(20px, 2.5vw, 30px);
+      font-size:clamp(21px, 2.5vw, 31px);
       color: var(--gold-light);
       font-style: italic;
       font-weight: 800;
@@ -392,7 +396,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     }
 
     .hero p {
-      font-size: 18px;
+      font-size:19px;
       color: #f7ead4;
       max-width: 660px;
       margin-bottom: 30px;
@@ -415,7 +419,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       font-weight: 800;
       cursor: pointer;
       transition: 0.25s ease;
-      font-size: 15px;
+      font-size:16px;
     }
 
     .btn-primary {
@@ -471,7 +475,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     }
 
     .section-head h2 {
-      font-size: clamp(30px, 4vw, 48px);
+      font-size:clamp(31px, 4vw, 49px);
       line-height: 1.1;
       color: var(--coffee-dark);
       margin-bottom: 12px;
@@ -483,7 +487,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     .section-head p {
       color: var(--muted);
-      font-size: 17px;
+      font-size:18px;
     }
 
     .section-dark .section-head p {
@@ -528,7 +532,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     }
 
     .card h3 {
-      font-size: 21px;
+      font-size:22px;
       color: var(--coffee-dark);
       margin-bottom: 8px;
       text-align: center;
@@ -542,7 +546,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     .price {
       color: var(--coffee-soft);
       font-weight: 900;
-      font-size: 18px;
+      font-size:19px;
       margin: 12px 0 16px;
     }
 
@@ -564,7 +568,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     .feature-card h3 {
       color: var(--gold-light);
-      font-size: 28px;
+      font-size:29px;
       margin-bottom: 12px;
     }
 
@@ -592,7 +596,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     .quick-info h3 {
       color: var(--gold-light);
       margin-bottom: 8px;
-      font-size: 22px;
+      font-size:23px;
     }
 
     .quick-info p {
@@ -612,7 +616,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     }
 
     .sub-hero h1 {
-      font-size: clamp(38px, 5vw, 62px);
+      font-size:clamp(39px, 5vw, 63px);
       margin-bottom: 12px;
     }
 
@@ -620,7 +624,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       max-width: 760px;
       margin: 0 auto;
       color: #f5e8d4;
-      font-size: 18px;
+      font-size:19px;
     }
 
     /* MENU */
@@ -662,7 +666,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     .footer-title {
       color: var(--gold-light);
-      font-size: 34px !important;
+      font-size:35px !important;
       line-height: 1.2;
       margin-bottom: 22px;
       font-weight: 900;
@@ -670,7 +674,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     /* Cột giữa và cột phải */
     .footer-col .footer-title {
-      font-size: 34px !important;
+      font-size:35px !important;
       margin-bottom: 36px;
     }
 
@@ -681,7 +685,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     .footer-links button,
     .footer-links a {
-      font-size: 22px !important;
+      font-size:23px !important;
       font-weight: 800;
       line-height: 1.3;
     }
@@ -693,7 +697,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       padding-top: 26px;
       text-align: center;
       color: #dac8ad;
-      font-size: 18px;
+      font-size:19px;
     }
 
     /* Responsive footer */
@@ -729,7 +733,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       background: white;
       color: var(--coffee-dark);
       border: 1px solid rgba(58, 33, 20, 0.12);
-      padding: 10px 16px;
+      padding: 8px 14px;
       border-radius: 999px;
       font-weight: 800;
       cursor: pointer;
@@ -760,7 +764,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     .menu-group h2 {
       color: var(--coffee-dark);
-      font-size: 34px;
+      font-size:35px;
       margin-bottom: 10px;
       text-align: center;
       font-weight: 900;
@@ -804,7 +808,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     @media (max-width: 520px) {
       #menuTabs .tab-link,
       #merchTabs .tab-link {
-        font-size: 13px;
+        font-size:14px;
         padding: 8px 12px;
       }
       #merchGroups .menu-group {
@@ -848,7 +852,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     .menu-item h3 {
       color: var(--coffee-dark);
-      font-size: 18px;
+      font-size:19px;
       text-align: center;
       margin-bottom: 8px;
     }
@@ -857,7 +861,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       flex: 1;
       font-style: italic;
       text-align: center;
-      font-size: 13.5px;
+      font-size:14.5px;
       color: var(--muted);
       margin-bottom: 10px;
     }
@@ -899,7 +903,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     .article-meta {
       color: var(--gold);
       font-weight: 800;
-      font-size: 14px;
+      font-size:15px;
       margin-bottom: 8px;
     }
 
@@ -949,7 +953,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     .cart-total {
       text-align: right;
-      font-size: 24px;
+      font-size:25px;
       font-weight: 900;
       margin: 22px 0;
       color: var(--coffee-dark);
@@ -983,7 +987,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       border: 1px solid #decdb9;
       border-radius: 12px;
       padding: 13px 14px;
-      font-size: 15px;
+      font-size:16px;
       font-family: inherit;
       background: #fffaf4;
       color: var(--coffee-dark);
@@ -1005,7 +1009,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     .contact-card h3 {
       color: var(--coffee-dark);
       margin-bottom: 10px;
-      font-size: 24px;
+      font-size:25px;
     }
 
     .contact-list {
@@ -1115,7 +1119,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       background: #f8efe3;
       border-radius: 14px 14px 14px 0;
       margin-bottom: 8px;
-      font-size: 13.5px;
+      font-size:14.5px;
       max-width: 85%;
       align-self: flex-start;
       border: 1px solid rgba(58, 33, 20, 0.06);
@@ -1132,7 +1136,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     .chat-typing {
       padding: 10px 14px;
-      font-size: 12px;
+      font-size:13px;
       color: var(--muted);
       font-style: italic;
       display: none;
@@ -1176,7 +1180,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       cursor: pointer;
       font-weight: 800;
       color: var(--coffee-dark);
-      font-size: 12.5px;
+      font-size:13.5px;
       text-align: center;
       transition: 0.25s ease;
       white-space: nowrap;
@@ -1203,7 +1207,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       border: 1px solid #decdb9;
       border-radius: 999px;
       padding: 9px 14px;
-      font-size: 13px;
+      font-size:14px;
       background: white;
       outline: none;
     }
@@ -1216,7 +1220,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       padding: 9px 16px;
       cursor: pointer;
       font-weight: 900;
-      font-size: 13px;
+      font-size:14px;
       flex-shrink: 0;
       transition: 0.2s;
     }
@@ -1269,7 +1273,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     .footer-title {
       color: var(--gold-light);
-      font-size: 24px;
+      font-size:25px;
       line-height: 1.25;
       margin-bottom: 18px;
       font-weight: 900;
@@ -1284,7 +1288,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     .site-footer p,
     .site-footer a {
       color: #f0dfc9;
-      font-size: 16px;
+      font-size:17px;
       line-height: 1.75;
     }
 
@@ -1304,7 +1308,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       color: #f0dfc9;
       text-align: left;
       cursor: pointer;
-      font-size: 17px;
+      font-size:18px;
       font-weight: 800;
       transition: 0.25s ease;
     }
@@ -1321,7 +1325,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       padding-top: 22px;
       text-align: center;
       color: #dac8ad;
-      font-size: 15px;
+      font-size:16px;
     }
 
     /* CART ICON */
@@ -1333,7 +1337,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     }
 
     .cart-icon {
-      font-size: 20px;
+      font-size:21px;
       line-height: 1;
     }
 
@@ -1431,12 +1435,12 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     .payment-note,
     .payment-total {
       margin-top: 16px;
-      font-size: 17px;
+      font-size:18px;
     }
 
     .payment-total strong {
       color: var(--coffee-dark);
-      font-size: 24px;
+      font-size:25px;
     }
 
     .qr-payment-img {
@@ -1482,7 +1486,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     }
 
     .article-detail-title {
-      font-size: clamp(32px, 4vw, 52px);
+      font-size:clamp(33px, 4vw, 53px);
       color: var(--coffee-dark);
       line-height: 1.1;
       margin-bottom: 22px;
@@ -1508,7 +1512,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     }
 
     .article-body {
-      font-size: 18px;
+      font-size:19px;
       color: var(--muted);
       line-height: 1.8;
     }
@@ -1558,7 +1562,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     }
 
     .article-detail-title {
-      font-size: clamp(32px, 4vw, 52px);
+      font-size:clamp(33px, 4vw, 53px);
       color: var(--coffee-dark);
       line-height: 1.1;
       margin-bottom: 24px;
@@ -1608,7 +1612,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       border-radius: 22px;
       box-shadow: var(--shadow);
       padding: 28px;
-      font-size: 18px;
+      font-size:19px;
       color: var(--muted);
       line-height: 1.8;
     }
@@ -1636,7 +1640,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size:23px;
       font-weight: 900;
       transition: 0.25s ease;
     }
@@ -1652,15 +1656,15 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     }
 
     .social-icons .tiktok-icon {
-      font-size: 24px;
+      font-size:25px;
     }
 
     .social-icons .map-icon {
-      font-size: 24px;
+      font-size:25px;
     }
 
     .social-icons .phone-icon {
-      font-size: 22px;
+      font-size:23px;
     }
 
     /* INFO ICON ROW */
@@ -1675,7 +1679,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       align-items: center;
       gap: 12px;
       color: #f0dfc9;
-      font-size: 16px;
+      font-size:17px;
       line-height: 1.5;
     }
 
@@ -1694,7 +1698,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      font-size: 18px;
+      font-size:19px;
     }
 
     .info-row.dark .info-icon {
@@ -1706,7 +1710,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     .info-text strong {
       display: block;
       color: var(--gold-light);
-      font-size: 15px;
+      font-size:16px;
       margin-bottom: 2px;
     }
 
@@ -1727,7 +1731,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       gap: 12px;
       color: var(--gold-light);
       margin-bottom: 12px;
-      font-size: 22px;
+      font-size:23px;
     }
 
     .quick-info-icon {
@@ -1740,7 +1744,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size:19px;
       flex-shrink: 0;
     }
 
@@ -1775,11 +1779,11 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       }
 
       .brand-text strong {
-        font-size: 16px !important;
+        font-size:17px !important;
       }
 
       .brand-text span {
-        font-size: 12px !important;
+        font-size:13px !important;
       }
 
       .main-nav {
@@ -1789,7 +1793,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
       .nav-btn {
         padding: 6px 10px;
-        font-size: 13px;
+        font-size:14px;
       }
 
       .grid-4,
@@ -1834,14 +1838,14 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
       .footer-title {
         min-height: auto;
-        font-size: 18px !important;
+        font-size:21px !important;
         margin-bottom: 12px;
         text-align: center;
       }
 
       .site-footer p,
       .site-footer a {
-        font-size: 15px;
+        font-size:16px;
       }
 
       .footer-links {
@@ -1850,7 +1854,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
       .footer-links button,
       .footer-links a {
-        font-size: 15px;
+        font-size:16px;
       }
 
       .footer-col {
@@ -1863,12 +1867,12 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       }
 
       .footer-title {
-        font-size: 26px;
+        font-size:27px;
       }
 
       .site-footer p,
       .site-footer a {
-        font-size: 15px;
+        font-size:16px;
       }
 
       .payment-layout {
@@ -1921,7 +1925,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       }
 
       .brand-text strong {
-        font-size: 13px !important;
+        font-size:14px !important;
       }
 
       .brand-text span {
@@ -1934,7 +1938,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
       .nav-btn {
         padding: 4px 8px;
-        font-size: 11px;
+        font-size:12px;
       }
 
       .hero h1 {
@@ -2006,7 +2010,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
       .cart-total {
         text-align: left;
-        font-size: 22px;
+        font-size:23px;
       }
 
       .checkout-actions {
@@ -2074,7 +2078,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       justify-content: center;
       font-weight: bold;
       margin: 0 auto 8px;
-      font-size: 13px;
+      font-size:14px;
       color: var(--muted);
       transition: all 0.3s ease;
     }
@@ -2093,7 +2097,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     }
 
     .timeline-label {
-      font-size: 12px;
+      font-size:13px;
       font-weight: 800;
       color: var(--muted);
     }
@@ -2104,7 +2108,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     }
 
     .timeline-desc {
-      font-size: 10px;
+      font-size:11px;
       color: var(--muted);
       margin-top: 2px;
     }
@@ -2140,7 +2144,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     .footer-title,
     .footer-col .footer-title {
       color: var(--gold-light) !important;
-      font-size: 28px !important;
+      font-size:29px !important;
       line-height: 1.25 !important;
       margin: 0 0 22px 0 !important;
       font-weight: 900 !important;
@@ -2154,7 +2158,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     .footer-links button,
     .footer-links a {
-      font-size: 16px !important;
+      font-size:17px !important;
       line-height: 1.75 !important;
       font-weight: 800 !important;
       color: #f0dfc9 !important;
@@ -2166,7 +2170,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     /* Icon bên mạng xã hội cùng size chữ */
     .footer-links i {
-      font-size: 16px !important;
+      font-size:17px !important;
       width: 22px !important;
       text-align: center !important;
     }
@@ -2174,7 +2178,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     /* Chữ cột đầu */
     .site-footer p,
     .site-footer a {
-      font-size: 16px !important;
+      font-size:17px !important;
       line-height: 1.75 !important;
     }
 
@@ -2184,7 +2188,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       padding-top: 24px !important;
       text-align: center !important;
       color: #dac8ad !important;
-      font-size: 15px !important;
+      font-size:18px !important;
     }
 
     @media (max-width: 980px) {
@@ -2215,7 +2219,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     /* Code này giảm cỡ chữ tiêu đề bài viết trong trang chi tiết */
     .article-detail-title {
-      font-size: clamp(18px, 2vw, 26px) !important;
+      font-size:clamp(19px, 2vw, 27px) !important;
       line-height: 1.25 !important;
       letter-spacing: 0 !important;
     }
@@ -2241,7 +2245,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     .article-card h3 {
       text-transform: uppercase !important;
       text-align: center !important;
-      font-size: 18px !important;
+      font-size:21px !important;
       line-height: 1.35 !important;
       letter-spacing: 0.4px !important;
     }
@@ -2255,7 +2259,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     .article-detail-title {
       text-transform: uppercase !important;
       text-align: center !important;
-      font-size: clamp(18px, 2vw, 26px) !important;
+      font-size:clamp(19px, 2vw, 27px) !important;
       line-height: 1.35 !important;
       letter-spacing: 0.5px !important;
       margin-left: auto !important;

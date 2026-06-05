@@ -120,7 +120,7 @@ export function Footer() {
             </p>
             <p style={{ color: '#fff4df', fontSize: '17px', margin: 0 }}>
               <i className="fa-solid fa-clock" style={{ color: 'var(--gold)', marginRight: '8px' }}></i>
-              Mở cửa: 06:30 - 22:30 hàng ngày
+              Mở cửa: 06:30 - 21:30 hàng ngày
             </p>
             <p style={{ color: '#fff4df', fontSize: '17px', margin: 0 }}>
               <i className="fa-solid fa-phone" style={{ color: 'var(--gold)', marginRight: '8px' }}></i>

@@ -114,3 +114,34 @@ export async function POST(req: NextRequest) {
     )
   }
 }
+
+export async function GET(req: NextRequest) {
+  try {
+    const adminSupabase = createAdminClient()
+    const { data, error } = await adminSupabase
+      .from('don_hang')
+      .select(`
+        *,
+        thong_tin_khach_hang (
+          ho_ten,
+          so_dien_thoai,
+          email,
+          dia_chi,
+          ghi_chu
+        )
+      `)
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      throw error
+    }
+
+    return NextResponse.json(data || [])
+  } catch (err: any) {
+    console.error("❌ Failed to fetch orders for admin:", err)
+    return NextResponse.json(
+      { error: err.message || 'Lỗi hệ thống khi tải đơn hàng' },
+      { status: 500 }
+    )
+  }
+}

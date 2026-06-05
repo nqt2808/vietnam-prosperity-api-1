@@ -12,7 +12,7 @@ Quy tắc ứng xử và phong cách trả lời:
 3. Không gian quán: VPC mang đến không gian cà phê năng lượng yên tĩnh, bài trí tinh tế cùng tủ sách tri thức truyền cảm hứng dấn thân khởi nghiệp tại địa chỉ Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP. Huế (đối diện Aeon Mall Huế).
 4. BÁM SÁT DỮ LIỆU ĐƯỢC CUNG CẤP: Khi trả lời về giá cả món nước, thông tin khuyến mãi, mô tả sản phẩm hay thông tin các bài viết sự kiện của quán, bạn BẮT BUỘC phải dựa trên DỮ LIỆU THỰC TẾ được gửi kèm trong tin nhắn của người dùng bên dưới.
    - Tuyệt đối không bịa đặt sản phẩm, giá tiền hoặc sự kiện không có trong dữ liệu tham chiếu.
-   - Nếu khách hỏi về món nước hoặc vật phẩm không có trong dữ liệu: Hãy trả lời lịch thiệp rằng "Dạ, hiện tại món này/vật phẩm này chưa có trên hệ thống online của VPC ạ. Quý khách có thể xem các món đặc trưng khác trong thực đơn hoặc liên hệ Hotline: 0935.20.1993 để VPC hỗ trợ ngay nhé!"
+   - Nếu khách hỏi về món nước hoặc vật phẩm không có trong dữ liệu: Hãy trả lời lịch thiệp rằng "Dạ, hiện tại món này/vật phẩm này chưa có trên hệ thống online của VPC ạ. Quý khách có thể xem các món đặc trưng khác trong thực đơn hoặc liên hệ Hotline: 0389726999 để VPC hỗ trợ ngay nhé!"
 5. Hướng dẫn các Trạng thái Đơn hàng:
    - da_dat_don / cho_chuyen_khoan: Mới đặt đơn / Chờ xử lý / Chờ chuyển khoản.
    - cho_xac_nhan_chuyen_khoan / khach_bao_da_chuyen_khoan: Đang kiểm tra giao dịch chuyển khoản VietQR.
@@ -34,8 +34,8 @@ Quy tắc ứng xử và phong cách trả lời:
 
 📍 2. ĐỊA CHỈ & GIỜ HOẠT ĐỘNG:
 - Địa chỉ: Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế (nằm ngay đối diện siêu thị Aeon Mall Huế 🏢).
-- Giờ mở cửa: 06:30 AM - 09:30 PM hàng ngày (hoặc 06:00 AM - 10:30 PM tùy theo ngày lễ và cuối tuần).
-- Hotline đặt hàng / Hỗ trợ: 0935.20.1993 hoặc 0905.772.338.
+- Giờ mở cửa: 06:30 - 21:30 hàng ngày.
+- Hotline đặt hàng / Hỗ trợ: 0389726999 (hoặc hiển thị dạng 038 972 6999).
 
 💳 3. QUY TRÌNH THANH TOÁN VIETQR TỰ ĐỘNG:
 - Quét mã VietQR động: Khi đặt đơn và chọn Chuyển khoản, màn hình hiển thị mã VietQR chứa chính xác số tiền đơn hàng và nội dung chuyển khoản là mã đơn hàng động (dạng VPC-DH-YYYYMMDD-HHMMSS).
@@ -47,11 +47,16 @@ Quy tắc ứng xử và phong cách trả lời:
 - HAPPY LUNCH – GIẢM NGAY 15% TỔNG HÓA ĐƠN ĐỒ UỐNG: Áp dụng khung giờ vàng 12:00 – 14:00 hàng ngày (kể cả Thứ Bảy và Chủ Nhật). Giảm giá trực tiếp 15% cho tất cả các món nước trong thực đơn.
 - HAPPY HOURS – MUA 1 TẶNG 1 (MUA 1 ĐƯỢC 2): Áp dụng khung giờ vàng 14:00 – 22:00 hàng ngày (cuối tuần mở rộng đến 22:30). Mua 1 ly nước tặng ngay 1 ly cùng loại hoặc tùy chọn trong danh mục: Trà Vải Hoa Hồng, Trà Đào Cam Sả, Trà Lá Nếp Sen Vàng, Trà Xanh Thạch Cà Phê, Cà phê Năng Lượng Tư Duy. Áp dụng cho cả uống tại quán, mua mang đi và giao hàng tận nơi.
 
-💳 5. CHƯƠNG TRÌNH THẺ THÀNH VIÊN TRUNG NGUYÊN LEGEND:
-- Tỷ lệ tích điểm: Chi tiêu 30.000đ = 1 điểm (áp dụng cho cả tại quán và online).
-- Hạng SILVER: Có hóa đơn từ 70.000đ trở lên là tự động kích hoạt.
-- Hạng GOLD (Tích lũy đủ 100 điểm ~ 3.000.000đ): Giảm ngay 10% toàn bộ thức ăn & đồ uống, có quà tặng sinh nhật và được thanh toán bằng điểm.
-- Hạng PLATINUM (Tích lũy đủ 300 điểm ~ 9.000.000đ): Giảm ngay 15% toàn bộ thức ăn & đồ uống, quà tặng sinh nhật, thanh toán bằng điểm và ưu tiên phục vụ, vé workshop tri thức miễn phí.
+💳 5. CHƯƠNG TRÌNH THÀNH VIÊN TRUNG NGUYÊN LEGEND:
+- Cách đăng ký: Miễn phí trên ứng dụng Trung Nguyên Legend. Sử dụng thẻ thành viên hoặc mã QR trên app khi thanh toán để tích điểm và nhận ưu đãi.
+- Cách tích điểm:
+  + Mỗi 30.000đ mua hàng = 1 điểm tích lũy.
+  + Quy đổi điểm: 1 điểm = 1.000đ khi thanh toán (tối thiểu 30 điểm cho mỗi lần đổi).
+- Các hạng thành viên và duy trì hạng:
+  + Hạng Bạc: Tích điểm 30.000đ = 1 điểm, đổi điểm tỷ lệ 1 điểm = 1.000đ.
+  + Hạng Vàng (đạt từ 100 điểm): Giảm 10% trên hóa đơn thức ăn & đồ uống, tặng quà sinh nhật. Duy trì hạng cần tích lũy tối thiểu 70 điểm trong 12 tháng.
+  + Hạng Bạch Kim (đạt từ 300 điểm): Giảm 15% trên hóa đơn thức ăn & đồ uống, tặng quà sinh nhật. Duy trì hạng cần tích lũy tối thiểu 200 điểm trong 12 tháng.
+- Lưu ý: Xuất trình mã QR hoặc thẻ thành viên trên app trước khi thanh toán để tích điểm và áp dụng ưu đãi hạng.
 
 🏛️ 6. VỀ VIETNAM PROSPERITY COFFEE & NHÀ SÁNG LẬP:
 - VPC được thành lập vào năm 2025 tại Huế.
@@ -77,7 +82,7 @@ export async function POST(req: Request) {
     if (!apiKey) {
       console.warn("⚠️ Warning: GEMINI_API_KEY is not configured in environment variables!")
       return NextResponse.json({ 
-        reply: "Dạ, trợ lý ảo VPC hiện đang được bảo trì nâng cấp hệ thống AI một chút ạ. Quý khách có thể xem nhanh thông tin bằng các nút gợi ý bên dưới hoặc liên hệ Hotline: 0935.20.1993 để VPC hỗ trợ ngay lập tức nhé ạ!" 
+        reply: "Dạ, trợ lý ảo VPC hiện đang được bảo trì nâng cấp hệ thống AI một chút ạ. Quý khách có thể xem nhanh thông tin bằng các nút gợi ý bên dưới hoặc liên hệ Hotline: 0389726999 để VPC hỗ trợ ngay lập tức nhé ạ!" 
       })
     }
 
@@ -200,7 +205,7 @@ CÂU HỎI HOẶC YÊU CẦU CỦA KHÁCH HÀNG:
   } catch (error) {
     console.error("🔴 Error in VPC RAG AI Chat Route:", error)
     return NextResponse.json({ 
-      reply: "Dạ, kết nối mạng của trợ lý ảo VPC đang hơi gián đoạn một chút. Quý khách có thể thử hỏi lại hoặc gọi Hotline: 0935.20.1993 để VPC phục vụ ngay ạ!" 
+      reply: "Dạ, kết nối mạng của trợ lý ảo VPC đang hơi gián đoạn một chút. Quý khách có thể thử hỏi lại hoặc gọi Hotline: 0389726999 để VPC phục vụ ngay ạ!" 
     })
   }
 }

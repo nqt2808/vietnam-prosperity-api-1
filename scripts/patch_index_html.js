@@ -11,11 +11,13 @@ try {
   let html = fs.readFileSync(projectIndex, 'utf8');
 
   // 1. Chèn dữ liệu fallback vào đầu thẻ <script>
-  const targetScriptStart = 'const API_URL = "https://vpc-70cs.onrender.com";';
-  if (!html.includes(targetScriptStart)) {
+  const apiRegex = /const API_URL = \(window\.location\.hostname[\s\S]*?:\s*"https:\/\/website-vpc\.vercel\.app";/;
+  const match = html.match(apiRegex);
+  if (!match) {
     console.error("❌ Không tìm thấy API_URL trong index.html");
     process.exit(1);
   }
+  const targetScriptStart = match[0];
 
   // Chúng ta sẽ định nghĩa hàm helper render ngay dưới fallbacksCode
   const helpersCode = `
@@ -191,6 +193,8 @@ try {
       const tabs = document.getElementById("menuTabs");
       const groups = document.getElementById("menuGroups");
 
+      if (!tabs || !groups) return;
+
       try {
         tabs.innerHTML = "";
         groups.innerHTML = "<p>Đang tải menu đồ uống...</p>";
@@ -206,8 +210,10 @@ try {
 
         if (prodErr) throw prodErr;
 
+        const MERCH_SLUGS = ['merchandise', 'vat-pham', 'ca-phe-hat', 'ca-phe-drip', 'ca-phe-phin', 'ca-phe-bot-sang-tao', 'ca-phe-bot-phin', 'ca-phe-hoa-tan', 'ca-phe-hoa-tan-g7', 'ca-phe-legend', 'dung-cu-pha-che', 'ly-tach-binh-giu-nhiet', 'phu-kien-thuong-hieu', 'bo-qua-tang', 'vat-pham-thuong-hieu'];
+
         const drinks = rawProducts
-          .filter(p => p.categories && p.categories.slug !== 'merchandise' && p.categories.slug !== 'vat-pham')
+          .filter(p => p.categories && !MERCH_SLUGS.includes(p.categories.slug))
           .map(p => ({
             ten_san_pham: p.name,
             slug: p.slug,
@@ -230,10 +236,14 @@ try {
 
   const newRenderMerch = `
     async function renderMerch() {
-      const grid = document.getElementById("merchGrid");
+      const tabs = document.getElementById("merchTabs");
+      const groupsBox = document.getElementById("merchGroups");
+
+      if (!tabs || !groupsBox) return;
 
       try {
-        grid.innerHTML = "<p>Đang tải Vật phẩm...</p>";
+        tabs.innerHTML = "";
+        groupsBox.innerHTML = "<p>Đang tải Vật phẩm...</p>";
 
         if (!supabase) {
           throw new Error("Supabase client is not initialized.");
@@ -246,8 +256,10 @@ try {
 
         if (merchErr) throw merchErr;
 
+        const MERCH_SLUGS = ['merchandise', 'vat-pham', 'ca-phe-hat', 'ca-phe-drip', 'ca-phe-phin', 'ca-phe-bot-sang-tao', 'ca-phe-bot-phin', 'ca-phe-hoa-tan', 'ca-phe-hoa-tan-g7', 'ca-phe-legend', 'dung-cu-pha-che', 'ly-tach-binh-giu-nhiet', 'phu-kien-thuong-hieu', 'bo-qua-tang', 'vat-pham-thuong-hieu'];
+
         let items = rawItems
-          .filter(p => p.categories && (p.categories.slug === 'merchandise' || p.categories.slug === 'vat-pham'))
+          .filter(p => p.categories && MERCH_SLUGS.includes(p.categories.slug))
           .map(p => ({
             ten_san_pham: p.name,
             slug: p.slug,
@@ -258,14 +270,207 @@ try {
             stock_quantity: p.stock_quantity
           }));
 
-        // Lọc bỏ Cà phê Sáng tạo 1 - 250gr và G7 Gu mạnh 12 sticks theo yêu cầu của user
         items = items.filter(item => item.slug !== 'ca-phe-sang-tao-1-250gr' && item.slug !== 'g7-gu-manh-12-sticks');
 
-        renderMerchItems(items, grid);
+        const grouped = {};
+
+        items.forEach(item => {
+          let groupSlug = item.slug_danh_muc || "khac";
+          let groupName = item.ten_danh_muc || "Khác";
+
+          if (
+            groupSlug === "phu-kien-thuong-hieu" || 
+            groupSlug === "bo-qua-tang" || 
+            groupSlug === "vat-pham" || 
+            groupSlug === "vat-pham-thuong-hieu"
+          ) {
+            groupSlug = "vat-pham";
+            groupName = "Vật phẩm";
+          }
+
+          if (
+            groupSlug === "ca-phe-bot-sang-tao" || 
+            groupSlug === "ca-phe-bot-phin" || 
+            groupSlug === "ca-phe-phin"
+          ) {
+            groupSlug = "ca-phe-phin";
+            groupName = "Cà phê phin";
+          }
+
+          if (
+            groupSlug === "ca-phe-drip" || 
+            groupSlug === "ca-phe-hat"
+          ) {
+            groupSlug = "ca-phe-hat";
+            groupName = "Cà phê hạt";
+          }
+
+          if (!grouped[groupSlug]) {
+            grouped[groupSlug] = {
+              id: groupSlug,
+              title: groupName,
+              desc: getMerchCategoryDesc(groupSlug),
+              items: []
+            };
+          }
+
+          grouped[groupSlug].items.push(item);
+        });
+
+        const order = [
+          "ca-phe-hat",
+          "ca-phe-phin",
+          "ca-phe-hoa-tan-g7",
+          "ca-phe-legend",
+          "dung-cu-pha-che",
+          "ly-tach-binh-giu-nhiet",
+          "vat-pham",
+          "khac"
+        ];
+
+        const groupList = Object.values(grouped).sort((a, b) => {
+          const indexA = order.indexOf(a.id);
+          const indexB = order.indexOf(b.id);
+          if (indexA === -1 && indexB === -1) return a.title.localeCompare(b.title);
+          if (indexA === -1) return 1;
+          if (indexB === -1) return -1;
+          return indexA - indexB;
+        });
+
+        tabs.innerHTML = groupList.map(group => `
+          <a class="tab-link" href="#${group.id}">
+            \${safeText(group.title)}
+          </a>
+        `).join("");
+
+        groupsBox.innerHTML = groupList.map(group => `
+          <section class="menu-group" id="${group.id}">
+            <h2>\${safeText(mapCategoryTitle(group.title))}</h2>
+            <p class="menu-group-desc">\${safeText(group.desc)}</p>
+            <div class="grid grid-4">
+              \${group.items.map(item => {
+                const img = merchImageMap[item.slug] || defaultMerchImage;
+                const priceLabel = formatMoney(item.gia);
+                const priceNum = Number(item.gia || 0);
+
+                let tenHienThi = item.ten_san_pham;
+                if (item.slug === 'hop-set-legend-225gr') {
+                  tenHienThi = 'Hộp quà giàu có';
+                }
+
+                const isSoldOut = item.sold_out === true ||
+                  item.status === 'soldout' ||
+                  item.status === 'inactive' ||
+                  item.trang_thai === 'soldout' ||
+                  item.trang_thai === 'ngung_ban' ||
+                  item.ton_kho === 0 ||
+                  item.stock_quantity === 0 ||
+                  (item.stock_quantity !== undefined && Number(item.stock_quantity) <= 0);
+
+                return \`
+                  <div class="card">
+                    <img class="card-img" src="\${img}" alt="\${safeText(tenHienThi)}">
+                    <div class="card-body">
+                      <div style="flex: 1; display: flex; flex-direction: column;">
+                        <h3>\${safeText(tenHienThi)}</h3>
+                        <p style="font-size: 13px; color: var(--gold); font-weight: 800; margin-bottom: 6px;">Danh mục: \${safeText(group.title)}</p>
+                        <p style="flex: 1; font-size: 13.5px; margin-bottom: 12px;">\${safeText(item.mo_ta)}</p>
+                        <div class="price" style="margin: 4px 0 12px; text-align: center;">\${priceLabel}</div>
+                      </div>
+                      <div style="display: flex; justify-content: center; width: 100%; margin-top: auto;">
+                        \${isSoldOut ? \`
+                          <button 
+                            class="small-btn disabled-btn" 
+                            style="width: 100%; max-width: 180px; text-align: center; background: #cccccc !important; color: #666666 !important; cursor: not-allowed; border: none;" 
+                            disabled
+                          >
+                            Tạm hết hàng
+                          </button>
+                        \` : \`
+                          <button 
+                            class="small-btn" 
+                            style="width: 100%; max-width: 180px; text-align: center;"
+                            onclick='addToCart(\${JSON.stringify(item.ten_san_pham)}, \${priceNum}, \${JSON.stringify(priceLabel)})'
+                          >
+                            Đặt mua
+                          </button>
+                        \`}
+                      </div>
+                    </div>
+                  </div>
+                \`;
+              }).join("")}
+            </div>
+          </section>
+        `).join("");
+
       } catch (error) {
         console.warn("⚠️ Supabase renderMerch failed - switching to static fallback:", error.message);
         const items = getMerchFallback();
-        renderMerchItems(items, grid);
+        const grouped = {};
+        items.forEach(item => {
+          let groupSlug = item.slug_danh_muc || "khac";
+          let groupName = item.ten_danh_muc || "Khác";
+          if (!grouped[groupSlug]) {
+            grouped[groupSlug] = {
+              id: groupSlug,
+              title: groupName,
+              desc: getMerchCategoryDesc(groupSlug),
+              items: []
+            };
+          }
+          grouped[groupSlug].items.push(item);
+        });
+        const order = ["ca-phe-hat", "ca-phe-phin", "ca-phe-hoa-tan-g7", "ca-phe-legend", "dung-cu-pha-che", "ly-tach-binh-giu-nhiet", "vat-pham", "khac"];
+        const groupList = Object.values(grouped).sort((a, b) => {
+          const indexA = order.indexOf(a.id);
+          const indexB = order.indexOf(b.id);
+          if (indexA === -1 && indexB === -1) return a.title.localeCompare(b.title);
+          if (indexA === -1) return 1;
+          if (indexB === -1) return -1;
+          return indexA - indexB;
+        });
+
+        tabs.innerHTML = groupList.map(group => `
+          <a class="tab-link" href="#${group.id}">
+            \${safeText(group.title)}
+          </a>
+        `).join("");
+
+        groupsBox.innerHTML = groupList.map(group => `
+          <section class="menu-group" id="${group.id}">
+            <h2>\${safeText(mapCategoryTitle(group.title))}</h2>
+            <p class="menu-group-desc">\${safeText(group.desc)}</p>
+            <div class="grid grid-4">
+              \${group.items.map(item => {
+                const img = merchImageMap[item.slug] || defaultMerchImage;
+                const priceLabel = formatMoney(item.gia);
+                const priceNum = Number(item.gia || 0);
+                const isSoldOut = item.stock_quantity <= 0;
+                return \`
+                  <div class="card">
+                    <img class="card-img" src="\${img}" alt="\${safeText(item.ten_san_pham)}">
+                    <div class="card-body">
+                      <div style="flex: 1; display: flex; flex-direction: column;">
+                        <h3>\${safeText(item.ten_san_pham)}</h3>
+                        <p style="font-size: 13px; color: var(--gold); font-weight: 800; margin-bottom: 6px;">Danh mục: \${safeText(group.title)}</p>
+                        <p style="flex: 1; font-size: 13.5px; margin-bottom: 12px;">\${safeText(item.mo_ta)}</p>
+                        <div class="price" style="margin: 4px 0 12px; text-align: center;">\${priceLabel}</div>
+                      </div>
+                      <div style="display: flex; justify-content: center; width: 100%; margin-top: auto;">
+                        \${isSoldOut ? \`
+                          <button class="small-btn disabled-btn" style="width: 100%; max-width: 180px; text-align: center; background: #cccccc !important; color: #666666 !important; cursor: not-allowed; border: none;" disabled>Tạm hết hàng</button>
+                        \` : \`
+                          <button class="small-btn" style="width: 100%; max-width: 180px; text-align: center;" onclick='addToCart(\${JSON.stringify(item.ten_san_pham)}, \${priceNum}, \${JSON.stringify(priceLabel)})'>Đặt mua</button>
+                        \`}
+                      </div>
+                    </div>
+                  </div>
+                \`;
+              }).join("")}
+            </div>
+          </section>
+        `).join("");
       }
     }
   `;
