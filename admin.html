@@ -442,31 +442,30 @@
         cod:'Thanh toán khi nhận hàng',
         bank:'Chuyển khoản ngân hàng',
         banking:'Chuyển khoản ngân hàng',
+        qr:'Chuyển khoản QR',
+        momo:'Ví điện tử',
+        zalopay:'Ví điện tử',
         'Chuyển khoản ngân hàng':'Chuyển khoản ngân hàng',
         'Thanh toán khi nhận hàng':'Thanh toán khi nhận hàng',
         'Không rõ':'Không rõ'
       };
 
-      const statusColorRules=[
-        { group:'pending', order:1, color:'#d2a23a', match:['đơn mới','chờ chuyển khoản'] },
-        { group:'success', order:2, color:'#2f9f62', match:['đã chuyển khoản','đã đặt đơn','đã thanh toán','hoàn thành','đã nhận đơn','đã giao'] },
-        { group:'processing', order:3, color:'#367ac2', match:['đang làm','đang giao','đã giao shipper','khách báo ck'] },
-        { group:'cancelled', order:4, color:'#b93b3b', match:['từ chối','đã hủy','đã huỷ','hủy','huỷ'] },
-        { group:'other', order:5, color:'#8b5a2b', match:[] }
+      // Tone lạnh: mỗi biến 1 màu riêng, không dùng trùng màu.
+      // Thứ tự màu cũng đi từ đậm đến dịu để biểu đồ nhìn sạch và cùng hệ màu.
+      const coolToneColors=[
+        '#2563eb', // blue
+        '#0891b2', // cyan
+        '#059669', // emerald
+        '#4f46e5', // indigo
+        '#0ea5e9', // sky
+        '#7c3aed', // violet
+        '#14b8a6', // teal
+        '#38bdf8', // light sky
+        '#6366f1', // soft indigo
+        '#2dd4bf', // aqua
+        '#60a5fa', // soft blue
+        '#a78bfa'  // soft violet
       ];
-
-      const paymentColorRules=[
-        { group:'bank', order:1, color:'#d2a23a', match:['chuyển khoản','banking','bank'] },
-        { group:'cod', order:2, color:'#f2c66d', match:['thanh toán khi nhận hàng','cod','tiền mặt'] },
-        { group:'other', order:3, color:'#8b5a2b', match:['không rõ'] },
-        { group:'other', order:4, color:'#8b5a2b', match:[] }
-      ];
-
-      const rules = id === 'paymentDonutChart' ? paymentColorRules : statusColorRules;
-      function getColorInfo(label){
-        const t=String(label||'').toLowerCase();
-        return rules.find(rule=>rule.match.some(key=>t.includes(key))) || rules[rules.length-1];
-      }
 
       const merged={};
       Object.entries(dataMap||{}).forEach(([k,v])=>{
@@ -474,64 +473,53 @@
         merged[label]=(merged[label]||0)+Number(v||0);
       });
 
-      const rawEntries=Object.entries(merged)
+      // Sắp xếp từ lớn đến bé. Thứ tự này dùng cho cả lát donut theo chiều kim đồng hồ
+      // và danh sách chú thích bên phải.
+      const entries=Object.entries(merged)
         .filter(([,v])=>Number(v)>0)
-        .map(([label,value])=>{
-          const colorInfo=getColorInfo(label);
-          return { label, value:Number(value), color:colorInfo.color, group:colorInfo.group, order:colorInfo.order };
-        });
-
-      const topEntries=rawEntries
-        .sort((a,b)=>b.value-a.value || a.order-b.order || a.label.localeCompare(b.label,'vi'))
-        .slice(0,6);
-
-      const groups={};
-      topEntries.forEach(item=>{
-        if(!groups[item.group]) groups[item.group]={ order:item.order, color:item.color, max:0, total:0, items:[] };
-        groups[item.group].items.push(item);
-        groups[item.group].max=Math.max(groups[item.group].max,item.value);
-        groups[item.group].total+=item.value;
-      });
-
-      const entries=Object.values(groups)
-        .sort((a,b)=>b.max-a.max || b.total-a.total || a.order-b.order)
-        .flatMap(group=>group.items.sort((a,b)=>b.value-a.value || a.label.localeCompare(b.label,'vi')));
+        .sort((a,b)=>{
+          const diff=Number(b[1])-Number(a[1]);
+          return diff!==0 ? diff : String(a[0]).localeCompare(String(b[0]),'vi');
+        })
+        .slice(0, coolToneColors.length)
+        .map(([label,value],index)=>({
+          label,
+          value:Number(value||0),
+          color:coolToneColors[index]
+        }));
 
       const total=entries.reduce((s,item)=>s+item.value,0);
       if(!total){ el.innerHTML=`<div class="chart-empty">Chưa có dữ liệu.</div>`; return; }
 
-      let angle=-90;
-      const cx=120, cy=120, rOuter=88, rInner=56;
-      function polarToCartesian(cx,cy,r,angleDeg){
-        const rad=(angleDeg-90)*Math.PI/180;
-        return { x:cx+r*Math.cos(rad), y:cy+r*Math.sin(rad) };
-      }
-      function donutSlice(startAngle,endAngle,outerR,innerR){
-        const largeArc=endAngle-startAngle>180?1:0;
-        const outerStart=polarToCartesian(cx,cy,outerR,endAngle);
-        const outerEnd=polarToCartesian(cx,cy,outerR,startAngle);
-        const innerStart=polarToCartesian(cx,cy,innerR,startAngle);
-        const innerEnd=polarToCartesian(cx,cy,innerR,endAngle);
-        return [
-          `M ${outerStart.x.toFixed(3)} ${outerStart.y.toFixed(3)}`,
-          `A ${outerR} ${outerR} 0 ${largeArc} 0 ${outerEnd.x.toFixed(3)} ${outerEnd.y.toFixed(3)}`,
-          `L ${innerStart.x.toFixed(3)} ${innerStart.y.toFixed(3)}`,
-          `A ${innerR} ${innerR} 0 ${largeArc} 1 ${innerEnd.x.toFixed(3)} ${innerEnd.y.toFixed(3)}`,
-          'Z'
-        ].join(' ');
-      }
+      let cur=0;
+      const radius=74;
+      const circumference=2*Math.PI*radius;
 
       const seg=entries.map(item=>{
-        const sliceAngle=item.value/total*360;
-        const start=angle;
-        const end=angle+sliceAngle;
-        angle=end;
-        return `<path d="${donutSlice(start,end,rOuter,rInner)}" fill="${item.color}" stroke="#171a1a" stroke-width="2"></path>`;
+        const dash=item.value/total*circumference;
+        const gap=circumference-dash;
+        const off=-cur;
+        cur+=dash;
+        return `<circle cx="120" cy="120" r="${radius}" fill="transparent" stroke="${item.color}" stroke-width="30" stroke-linecap="butt" stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${off}" transform="rotate(-90 120 120)"></circle>`;
       }).join('');
+
+      const separators=entries.length>1 ? (() => {
+        let angle=-90;
+        return entries.map(item=>{
+          const lineAngle=angle;
+          angle += item.value/total*360;
+          const rad=lineAngle*Math.PI/180;
+          const x1=120+Math.cos(rad)*58;
+          const y1=120+Math.sin(rad)*58;
+          const x2=120+Math.cos(rad)*90;
+          const y2=120+Math.sin(rad)*90;
+          return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#171a1a" stroke-width="3" stroke-linecap="round"></line>`;
+        }).join('');
+      })() : '';
 
       const legend=entries.map(item=>`<div class="donut-legend-row"><span class="donut-dot" style="background:${item.color}"></span><span class="donut-label">${safeText(item.label)}</span><strong>${Math.round(item.value/total*100)}%</strong></div>`).join('');
 
-      el.innerHTML=`<div class="donut-clean-wrap"><svg viewBox="0 0 240 240" class="donut-svg"><circle cx="120" cy="120" r="88" fill="#3b2b1b"></circle>${seg}<circle cx="120" cy="120" r="56" fill="#171a1a"></circle><text x="120" y="116" text-anchor="middle" font-size="28" font-weight="900" fill="#fff">${total}</text><text x="120" y="140" text-anchor="middle" font-size="13" fill="#f3d7a2">Tổng</text></svg><div class="donut-legend">${legend}</div></div>`;
+      el.innerHTML=`<div class="donut-clean-wrap"><svg viewBox="0 0 240 240" class="donut-svg"><circle cx="120" cy="120" r="${radius}" fill="transparent" stroke="#263238" stroke-width="30"></circle>${seg}${separators}<circle cx="120" cy="120" r="48" fill="#171a1a"></circle><text x="120" y="116" text-anchor="middle" font-size="28" font-weight="900" fill="#fff">${total}</text><text x="120" y="140" text-anchor="middle" font-size="13" fill="#b9e6ff">Tổng</text></svg><div class="donut-legend">${legend}</div></div>`;
     }
     function buildAnalytics(){ const orders=sortOrders(window.adminOrders||[]); const revenue=orders.reduce((s,o)=>s+getOrderTotal(o),0); const paid=orders.filter(o=>paidStatuses.includes(getOrderStatus(o))).length; document.getElementById('statRevenue').textContent=formatMoney(revenue); document.getElementById('statOrders').textContent=orders.length; document.getElementById('statPaid').textContent=paid; document.getElementById('statAvg').textContent=formatMoney(orders.length?revenue/orders.length:0); const revDay={},ordDay={},status={},payment={},delivery={},products={}; orders.forEach(o=>{ const d=getOrderDate(o); const valid=Number.isNaN(d.getTime())?new Date():d; const day=`${String(valid.getDate()).padStart(2,'0')}/${String(valid.getMonth()+1).padStart(2,'0')}`; revDay[day]=(revDay[day]||0)+getOrderTotal(o); ordDay[day]=(ordDay[day]||0)+1; status[getOrderStatus(o)]=(status[getOrderStatus(o)]||0)+1; payment[getPayment(o)]=(payment[getPayment(o)]||0)+1; delivery[getDelivery(o)]=(delivery[getDelivery(o)]||0)+getOrderTotal(o); getOrderItems(o).forEach(i=>{ const name=getItemName(i); products[name]=(products[name]||0)+getItemQty(i); }); }); const rl=Object.keys(revDay).slice(-10); renderBarChart('revenueByDayChart', rl, rl.map(k=>revDay[k]), {money:true}); renderDonutChart('statusDonutChart', status); renderDonutChart('paymentDonutChart', payment); const pe=Object.entries(products).sort((a,b)=>b[1]-a[1]).slice(0,8); renderBarChart('topProductsChart', pe.map(([n])=>n.length>12?n.slice(0,12)+'…':n), pe.map(([,v])=>v)); const dl=Object.keys(delivery); renderBarChart('deliveryRevenueChart', dl, dl.map(k=>delivery[k]), {money:true}); const ol=Object.keys(ordDay).slice(-10); renderBarChart('ordersByDayChart', ol, ol.map(k=>ordDay[k])); renderCustomers(); }
 
