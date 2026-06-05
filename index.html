@@ -2691,92 +2691,6 @@ body {
   }
 }
 
-
-
-/* FINAL OVERRIDE: chia nhóm Menu nước / Vật phẩm rõ ràng và căn hàng card Bài viết */
-#menu .sub-hero h1::before,
-#merch .sub-hero h1::before {
-  display: block;
-  font-size: 18px;
-  color: var(--gold-light);
-  font-weight: 900;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-#menu .sub-hero h1::before {
-  content: "NHÓM ĐỒ UỐNG";
-}
-
-#merch .sub-hero h1::before {
-  content: "NHÓM VẬT PHẨM";
-}
-
-#blogGrid {
-  align-items: stretch !important;
-}
-
-#blogGrid .article-card {
-  height: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-#blogGrid .article-card .card-body {
-  flex: 1 !important;
-  display: grid !important;
-  grid-template-rows: 92px 120px auto !important;
-  gap: 12px !important;
-  align-items: start !important;
-}
-
-#blogGrid .article-card h3 {
-  min-height: 0 !important;
-  height: 92px !important;
-  margin: 0 !important;
-  display: -webkit-box !important;
-  -webkit-line-clamp: 3 !important;
-  -webkit-box-orient: vertical !important;
-  overflow: hidden !important;
-  text-align: center !important;
-}
-
-#blogGrid .article-card p {
-  min-height: 0 !important;
-  height: 120px !important;
-  margin: 0 !important;
-  display: -webkit-box !important;
-  -webkit-line-clamp: 4 !important;
-  -webkit-box-orient: vertical !important;
-  overflow: hidden !important;
-  text-align: center !important;
-}
-
-#blogGrid .article-card .article-card-action {
-  align-self: end !important;
-  display: flex !important;
-  justify-content: center !important;
-  width: 100% !important;
-}
-
-@media (max-width: 720px) {
-  #blogGrid .article-card .card-body {
-    grid-template-rows: 96px 116px auto !important;
-    gap: 8px !important;
-  }
-
-  #blogGrid .article-card h3 {
-    height: 96px !important;
-    -webkit-line-clamp: 4 !important;
-  }
-
-  #blogGrid .article-card p {
-    height: 116px !important;
-    -webkit-line-clamp: 5 !important;
-  }
-}
-
 </style>
 </head>
 
@@ -3113,7 +3027,8 @@ body {
             style="display: none; padding: 14px; background: #fff8ec; border: 1px solid #fce3b8; border-radius: 12px; color: #856404; margin-top: 14px; text-align: center; font-size:19px; line-height: 1.5;">
             ⚠️ Hệ thống chưa ghi nhận được thanh toán cho mã đơn này.<br>
             <span style="font-size:14px; opacity: 0.85;">Bạn vui lòng chuyển khoản đúng số tiền, nội dung chuyển khoản
-              và đợi 1-2 phút để hệ thống SePay tự động xác nhận, sau đó bấm Kiểm tra lại nhé. Số điện thoại: <strong>0389726999</strong>.</span>
+              và đợi 1-2 phút để hệ thống SePay tự động xác nhận, sau đó bấm Kiểm tra lại nhé. Số điện thoại: <strong>038 972
+                6999</strong>.</span>
           </div>
         </div>
 
@@ -3313,7 +3228,7 @@ body {
             </span>
             <div class="info-text">
               <strong style="color: var(--gold-light);">Giờ mở cửa</strong>
-              <span style="color: #fffaf4;">6:30 - 21:30</span>
+              <span style="color: #fffaf4;">06:30 - 21:30</span>
             </div>
           </div>
 
@@ -3323,7 +3238,7 @@ body {
             </span>
             <div class="info-text">
               <strong style="color: var(--gold-light);">Số điện thoại</strong>
-              <span style="color: #fffaf4;">0389726999</span>
+              <span style="color: #fffaf4;">038 972 6999</span>
             </div>
           </div>
         </div>
@@ -4019,7 +3934,7 @@ body {
     </p>
 
     <p>
-      <strong>🕒 Giờ hoạt động:</strong> 6:30 - 21:30
+      <strong>🕒 Giờ hoạt động:</strong> 06:30 - 21:30
     </p>
 
     <p>
@@ -4073,7 +3988,7 @@ body {
     </p>
 
     <p>
-      <strong>🕒 Giờ hoạt động:</strong> 6:30 - 21:30
+      <strong>🕒 Giờ hoạt động:</strong> 06:30 - 21:30
     </p>
 
     <p>
@@ -4142,7 +4057,7 @@ body {
     </p>
 
     <p>
-      <strong>🕒 Giờ hoạt động:</strong> 6:30 - 21:30
+      <strong>🕒 Giờ hoạt động:</strong> 06:30 - 21:30
     </p>
 
     <p>
@@ -4629,7 +4544,7 @@ body {
       } catch (error) {
         console.error("Lỗi kiểm tra thanh toán:", error);
         pendingBox.style.display = "none";
-        alert("Không kết nối được với máy chủ để kiểm tra. Bạn vui lòng thử lại sau hoặc liên hệ Số điện thoại 0389726999.");
+        alert("Không kết nối được với máy chủ để kiểm tra. Bạn vui lòng thử lại sau hoặc liên hệ Số điện thoại 038 972 6999.");
 
         if (btn) {
           btn.disabled = false;
@@ -5051,7 +4966,7 @@ body {
 
       } catch (error) {
         console.error("Lỗi tải menu:", error);
-        groups.innerHTML = "<p>Không tải được menu đồ uống. Vui lòng kiểm tra backend Render hoặc liên hệ số điện thoại: 0389726999.</p>";
+        groups.innerHTML = "<p>Không tải được menu đồ uống. Vui lòng kiểm tra backend Render hoặc liên hệ số điện thoại: 038 972 6999.</p>";
       }
     }
 
@@ -5294,7 +5209,7 @@ body {
               <p style="font-style: italic; text-align: center; min-height: 72px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; font-size: 14px;">"${safeText(item.desc)}"</p>
             </div>
 
-            <div class="article-card-action">
+            <div style="display: flex; justify-content: center; width: 100%; margin-top: auto;">
               <button class="btn btn-dark" type="button" onclick="openArticle(${index})">
                 Xem chi tiết
               </button>
@@ -5606,12 +5521,12 @@ Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 n�
 • <strong>Ưu đãi:</strong> Giảm giá trực tiếp <strong>15%</strong> cho tất cả các loại thức uống trong thực đơn.<br><br>
 📍 <strong>Địa điểm áp dụng:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP. Huế.`,
 
-        membership: `<strong>💳 CHƯƠNG TRÌNH THÀNH VIÊN TRUNG NGUYÊN LEGEND</strong><br><br>Anh/chị có thể đăng ký thành viên miễn phí trên ứng dụng Trung Nguyên Legend và sử dụng thẻ thành viên hoặc mã QR trên app khi thanh toán để tích điểm và nhận ưu đãi.<br><br><strong>Cách tích điểm</strong><br>• Mỗi 30.000đ mua hàng = 1 điểm tích lũy.<br>• Điểm tích lũy có thời hạn sử dụng theo quy định của chương trình.<br>• Điểm có thể quy đổi khi thanh toán với tỷ lệ 1 điểm = 1.000đ.<br>• Mỗi lần đổi điểm cần tối thiểu 30 điểm.<br><br><strong>Các hạng thành viên</strong><br><br>🥈 <strong>Hạng Bạc</strong><br>• Mỗi 30.000đ mua hàng được tích 1 điểm.<br>• Đổi điểm thanh toán với tỷ lệ 1 điểm = 1.000đ.<br><br>🥇 <strong>Hạng Vàng</strong><br>• Đạt từ 100 điểm tích lũy.<br>• Quà tặng sinh nhật.<br>• Giảm 10% trên hóa đơn thức ăn và thức uống.<br>• Được đổi điểm mua hàng.<br>• Để duy trì hạng cần tích lũy tối thiểu 70 điểm trong vòng 12 tháng kể từ ngày nâng hạng.<br><br>💎 <strong>Hạng Bạch Kim</strong><br>• Đạt từ 300 điểm tích lũy.<br>• Quà tặng sinh nhật.<br>• Giảm 15% trên hóa đơn thức ăn và thức uống.<br>• Được đổi điểm mua hàng.<br>• Để duy trì hạng cần tích lũy tối thiểu 200 điểm trong vòng 12 tháng kể từ ngày nâng hạng.<br><br><strong>Lưu ý khi thanh toán</strong><br>Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ thành viên trên ứng dụng Trung Nguyên Legend để nhân viên tích điểm và áp dụng các ưu đãi dành cho hạng thành viên của mình.`,
+        membership: `<strong>💳 CHƯƠNG TRÌNH THÀNH VIÊN TRUNG NGUYÊN LEGEND</strong><br><strong>Chương trình Thành viên Trung Nguyên Legend Âu Lạc</strong><br><br>Quý khách có thể đăng ký thành viên miễn phí trên ứng dụng Trung Nguyên Legend và sử dụng thẻ thành viên hoặc mã QR trên app khi thanh toán để tích điểm và nhận ưu đãi.<br><br><strong>Cách tích điểm:</strong><br>• Mỗi 30.000đ mua hàng = 1 điểm tích lũy.<br>• Điểm tích lũy có thời hạn sử dụng theo quy định của chương trình.<br>• Điểm có thể quy đổi khi thanh toán với tỷ lệ 1 điểm = 1.000đ (tối thiểu 30 điểm cho mỗi lần đổi).<br><br><strong>Các hạng thành viên:</strong><br><br>🥈 <strong>Hạng Bạc</strong><br>• Mỗi 30.000đ mua hàng được tích 1 điểm.<br>• Đổi điểm thanh toán với tỷ lệ 1 điểm = 1.000đ.<br><br>🥇 <strong>Hạng Vàng</strong><br>• Đạt từ 100 điểm tích lũy.<br>• Quà tặng sinh nhật.<br>• Giảm 10% trên hóa đơn thức ăn và thức uống.<br>• Được đổi điểm mua hàng.<br>• Để duy trì hạng cần tích lũy tối thiểu 70 điểm trong vòng 12 tháng kể từ ngày nâng hạng.<br><br>💎 <strong>Hạng Bạch Kim</strong><br>• Đạt từ 300 điểm tích lũy.<br>• Quà tặng sinh nhật.<br>• Giảm 15% trên hóa đơn thức ăn và thức uống.<br>• Được đổi điểm mua hàng.<br>• Để duy trì hạng cần tích lũy tối thiểu 200 điểm trong vòng 12 tháng kể từ ngày nâng hạng.<br><br>⚠️ <strong>Lưu ý khi thanh toán:</strong> Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ thành viên trên ứng dụng Trung Nguyên Legend để nhân viên tích điểm và áp dụng các ưu đãi dành cho hạng thành viên của mình.`,
 
         location: `<strong>🚗 Thông tin liên hệ & Thời gian mở cửa:</strong><br>
 • <strong>Địa chỉ:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế.<br>
-• <strong>Giờ mở cửa:</strong> 6:30 - 21:30 hàng ngày.<br>
-• <strong>Hotline đặt hàng:</strong> 0389726999`
+• <strong>Giờ mở cửa:</strong> 06:30 - 21:30 hàng ngày.<br>
+• <strong>Hotline đặt hàng:</strong> 038 972 6999`
       };
 
       const userTextMap = {
@@ -5751,7 +5666,7 @@ Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 n�
 
       } catch (error) {
         console.error("Lỗi tra cứu đơn:", error);
-        resultBox.innerHTML = "<p style='color: #8e2b20;'>Không tìm thấy đơn hàng hoặc máy chủ bận. Bạn vui lòng kiểm tra lại mã hoặc liên hệ Số điện thoại **0389726999** để được hỗ trợ kiểm tra trực tiếp.</p>";
+        resultBox.innerHTML = "<p style='color: #8e2b20;'>Không tìm thấy đơn hàng hoặc máy chủ bận. Bạn vui lòng kiểm tra lại mã hoặc liên hệ Số điện thoại **038 972 6999** để được hỗ trợ kiểm tra trực tiếp.</p>";
       }
     }
 
@@ -5796,7 +5711,7 @@ Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 n�
       "địa điểm",
       "mở cửa"
     ],
-    "reply": "<strong>📍 Vị trí & Giờ hoạt động của quán:</strong><br>\n• <strong>Địa chỉ:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế (nằm ngay đối diện siêu thị <strong>Aeon Mall Huế</strong> 🏬).<br>\n• <strong>Giờ mở cửa:</strong> <strong>6:30 - 21:30</strong> hàng ngày (kể cả cuối tuần và ngày lễ).<br>\n• Rất hân hạnh được đón tiếp quý khách ghé thăm để tận hưởng không gian mát lạnh, yên tĩnh lý tưởng để học tập và làm việc! 🤎"
+    "reply": "<strong>📍 Vị trí & Giờ hoạt động của quán:</strong><br>\n• <strong>Địa chỉ:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế (nằm ngay đối diện siêu thị <strong>Aeon Mall Huế</strong> 🏬).<br>\n• <strong>Giờ mở cửa:</strong> <strong>06:30 - 21:30</strong> hàng ngày (kể cả cuối tuần và ngày lễ).<br>\n• Rất hân hạnh được đón tiếp quý khách ghé thăm để tận hưởng không gian mát lạnh, yên tĩnh lý tưởng để học tập và làm việc! 🤎"
   },
   {
     "name": "coffee",
@@ -6085,11 +6000,11 @@ Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 n�
 
         return `
 Website: Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc.
-Hotline: 0389726999.
+Hotline: 038 972 6999.
 Địa chỉ: Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế.
 Thanh toán chuyển khoản: VietinBank - NGO QUYNH TRANG - 101882692631.
 Quy tắc thanh toán: Khách chuyển khoản đúng số tiền và ghi đúng mã đơn VPC-DH-... trong nội dung. SePay webhook sẽ tự cập nhật đơn sang đã chuyển khoản khi nhận đủ tiền.
-Yêu cầu bắt buộc cho Gemini/chatbox: trước khi trả lời khách, hãy nạp và ưu tiên kiến thức cơ bản của website từ 4 khu vực chính: (1) trang Bài viết, (2) trang Về chúng tôi/Giới thiệu, (3) trang Menu nước, (4) trang Vật phẩm. Khi khách hỏi về món, giá, danh mục, sản phẩm, câu chuyện thương hiệu, thông tin quán hoặc bài viết, hãy trả lời dựa trên dữ liệu website hiện có trước. Nếu dữ liệu hiển thị chưa đủ, hãy dùng database Supabase qua backend /api/chat-ai để tra thêm. Không bịa thông tin không có trong website/database; nếu chưa có dữ liệu thì nói rõ và hướng khách gọi hotline 0389726999.
+Yêu cầu bắt buộc cho Gemini/chatbox: trước khi trả lời khách, hãy nạp và ưu tiên kiến thức cơ bản của website từ 4 khu vực chính: (1) trang Bài viết, (2) trang Về chúng tôi/Giới thiệu, (3) trang Menu nước, (4) trang Vật phẩm. Khi khách hỏi về món, giá, danh mục, sản phẩm, câu chuyện thương hiệu, thông tin quán hoặc bài viết, hãy trả lời dựa trên dữ liệu website hiện có trước. Nếu dữ liệu hiển thị chưa đủ, hãy dùng database Supabase qua backend /api/chat-ai để tra thêm. Không bịa thông tin không có trong website/database; nếu chưa có dữ liệu thì nói rõ và hướng khách gọi hotline 038 972 6999.
 
 Nội dung đang hiển thị trên website:
 ${pageText}
@@ -6104,7 +6019,7 @@ Từ khóa menu đồ uống: ${drinkKeywords}
 Từ khóa vật phẩm: ${merchKeywords}
         `.trim().slice(0, 20000);
       } catch (error) {
-        return "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc. Hotline 0389726999. Thanh toán VietinBank 101882692631 - NGO QUYNH TRANG. Gemini/chatbox cần nạp kiến thức cơ bản từ page Bài viết, Về chúng tôi, Menu nước, Vật phẩm và database Supabase trước khi trả lời.";
+        return "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc. Hotline 038 972 6999. Thanh toán VietinBank 101882692631 - NGO QUYNH TRANG. Gemini/chatbox cần nạp kiến thức cơ bản từ page Bài viết, Về chúng tôi, Menu nước, Vật phẩm và database Supabase trước khi trả lời.";
       }
     }
 
@@ -6129,8 +6044,8 @@ Từ khóa vật phẩm: ${merchKeywords}
       if (q.includes("địa chỉ") || q.includes("dia chi") || q.includes("ở đâu") || q.includes("o dau") || q.includes("giờ") || q.includes("gio") || q.includes("mở cửa") || q.includes("mo cua")) {
         return `<strong>📍 Thông tin cửa hàng:</strong><br>
 • Địa chỉ: Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế.<br>
-• Giờ mở cửa: 6:30 - 21:30.<br>
-• Hotline: 0389726999.`;
+• Giờ mở cửa: 06:30 - 21:30.<br>
+• Hotline: 038 972 6999.`;
       }
 
       if (q.includes("chuyển khoản") || q.includes("chuyen khoan") || q.includes("thanh toán") || q.includes("thanh toan") || q.includes("qr") || q.includes("sepay") || q.includes("ngân hàng") || q.includes("ngan hang")) {
@@ -6157,7 +6072,7 @@ Khi chuyển khoản, bạn nhớ ghi đúng mã đơn <strong>VPC-DH-...</stron
         return `Bạn vào Menu đồ uống hoặc Vật phẩm, chọn món rồi bấm Đặt món/Đặt mua. Sau đó vào Giỏ hàng, nhập họ tên, số điện thoại, hình thức nhận hàng và phương thức thanh toán để gửi đơn.`;
       }
 
-      return `Trang đã nhận câu hỏi của bạn. Hiện AI đang tạm thời chưa phản hồi được, bạn có thể hỏi về menu đồ uống, vật phẩm, thanh toán SePay, địa chỉ, giờ mở cửa hoặc gọi 0389726999 để được hỗ trợ nhanh.`;
+      return `Trang đã nhận câu hỏi của bạn. Hiện AI đang tạm thời chưa phản hồi được, bạn có thể hỏi về menu đồ uống, vật phẩm, thanh toán SePay, địa chỉ, giờ mở cửa hoặc gọi 038 972 6999 để được hỗ trợ nhanh.`;
     }
 
     function appendChatMessage(sender, text) {
