@@ -89,7 +89,7 @@
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "Times New Roman", Times, serif;
       background: var(--cream);
       color: var(--text);
       line-height: 1.6;
@@ -2265,7 +2265,7 @@
     .footer-links *,
     .info-text,
     .info-text * {
-      font-family: Arial, Helvetica, sans-serif !important;
+      font-family: "Times New Roman", Times, serif !important;
       letter-spacing: normal;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
@@ -2275,7 +2275,7 @@
     /* Code này làm 2 nút Menu nước và Vật phẩm đồng bộ font/chữ */
     .main-nav .nav-btn[data-page="menu"],
     .main-nav .nav-btn[data-page="merch"] {
-      font-family: Arial, Helvetica, sans-serif !important;
+      font-family: "Times New Roman", Times, serif !important;
       font-size: 16px !important;
       font-weight: 800 !important;
     }
@@ -2458,7 +2458,7 @@ small,
 table,
 th,
 td {
-  font-family: Arial, Helvetica, sans-serif !important;
+  font-family: "Times New Roman", Times, serif !important;
   letter-spacing: normal !important;
   word-spacing: normal !important;
 }
@@ -2509,6 +2509,43 @@ body {
     font-size: 16px !important;
   }
 }
+
+
+/* FINAL OVERRIDE: đồng bộ font Times New Roman, tăng chữ +2px, thu nhỏ nút nổi tư vấn/tra cứu còn khoảng 1/2 */
+html,
+body,
+body *:not(.fa):not(.fas):not(.far):not(.fal):not(.fab):not(.fa-solid):not(.fa-regular):not(.fa-light):not(.fa-brands):not(i[class^="fa-"]):not(i[class*=" fa-"]) {
+  font-family: "Times New Roman", Times, serif !important;
+}
+
+body {
+  font-size: calc(100% + 2px) !important;
+}
+
+.chat-toggle,
+.lookup-toggle {
+  padding: 14px 18px !important;
+  font-size: 11px !important;
+  border-radius: 999px !important;
+}
+
+.lookup-toggle {
+  bottom: 64px !important;
+}
+
+@media (max-width: 520px) {
+  .chat-toggle,
+  .lookup-toggle {
+    right: 18px !important;
+    padding: 8px 11px !important;
+    font-size: 8px !important;
+  }
+
+  .lookup-toggle {
+    bottom: 58px !important;
+  }
+}
+
 </style>
 </head>
 
@@ -3457,7 +3494,7 @@ body {
         "ca-phe-drip-2-robusta-arabica": "Dòng drip phối trộn hoàn mỹ giữa hạt Robusta đằm sâu và Arabica thơm thanh tao, mang lại tách cà phê phin giấy êm dịu thanh nhã cùng hương thơm tinh tế quyến rũ.",
         "ca-phe-drip-4-premium-culi": "Dòng drip cao cấp chiết xuất từ hạt Culi Robusta tuyển chọn khắt khe, mang hương thơm nồng nàn nồng ấm và vị đắng đậm sâu lắng nồng nàn đánh thức mọi giác quan tức thì.",
         "ca-phe-drip-5-culi-arabica": "Dòng drip vương giả chế biến từ hạt Culi Arabica hảo hạng, dậy lên vị chua thanh nhẹ nhàng quyến rũ cùng hương thơm ngát quý phái và hậu vị ngọt sâu lắng đầy thi vị.",
-        "ca-phe-drip-8-legend": ""Cà phê hạt Drip 8 – Legend cao cấp, mang hương vị đậm sâu, mạnh mẽ và hậu vị bền lâu. Sản phẩm phù hợp cho khách hàng yêu thích gu cà phê mạnh, giàu năng lượng, có thể xay pha máy, pha phin hoặc sử dụng trong kinh doanh đồ uống.",
+        "ca-phe-drip-8-legend": "Cà phê hạt Drip 8 – Legend cao cấp, mang hương vị đậm sâu, mạnh mẽ và hậu vị bền lâu. Sản phẩm phù hợp cho khách hàng yêu thích gu cà phê mạnh, giàu năng lượng, có thể xay pha máy, pha phin hoặc sử dụng trong kinh doanh đồ uống.",
 
         // CÀ PHÊ BỘT / SÁNG TẠO
         "ca-phe-sang-tao-1-340gr": "Hộp bột cà phê Sáng Tạo 1 tuyển chọn từ những hạt Culi Robusta chín mọng, sở hữu vị đắng đậm sâu lắng cùng hàm lượng caffeine cao vượt trội. Đây chính là linh hồn của dòng đồ uống Năng Lượng Tư Duy, đánh thức các neuron thần kinh và khai phóng năng lực trí tuệ.",
