@@ -12,6 +12,47 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json({
+  const OpenAI = require("openai");
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+app.post("/api/chat-ai", async (req, res) => {
+  try {
+    const { question, adminContext } = req.body;
+
+    const response = await openai.responses.create({
+      model: "gpt-4.1-mini",
+      input: `
+Bạn là trợ lý AI cho trang admin quán Trung Nguyên Legend Âu Lạc.
+
+Nhiệm vụ:
+- Phân tích đơn hàng, doanh thu, khách hàng, sản phẩm.
+- Trả lời bằng tiếng Việt.
+- Ngắn gọn, rõ ràng, có gạch đầu dòng.
+- Đưa ra đề xuất kinh doanh thực tế.
+
+Câu hỏi admin:
+${question}
+
+Dữ liệu hiện tại:
+${JSON.stringify(adminContext || {}, null, 2).slice(0, 30000)}
+`
+    });
+
+    res.json({
+      success: true,
+      answer: response.output_text
+    });
+  } catch (err) {
+    console.error("AI error:", err);
+    res.status(500).json({
+      success: false,
+      message: "AI backend lỗi"
+    });
+  }
+});
   limit: "10mb",
   verify: (req, res, buf) => {
     req.rawBody = buf.toString("utf8");
