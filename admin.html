@@ -95,9 +95,35 @@
       text-align: left;
       font-weight: 900;
       font-size: 15px;
+      line-height: 1.2;
+      letter-spacing: -0.2px;
       transition: 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+    .nav-icon {
+      width: 24px;
+      min-width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: rgba(247, 211, 123, 0.12);
+      color: inherit;
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1;
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+    .nav-text {
+      font-family: Arial, Helvetica, sans-serif !important;
+      font-weight: 900;
     }
     .nav button:hover, .nav button.active { background: var(--gold); color: #1f120b; transform: translateX(4px); }
+    .nav button:hover .nav-icon, .nav button.active .nav-icon { background: rgba(31, 18, 11, 0.12); }
 
     .main { padding: 24px; overflow-x: hidden; }
     .topbar {
@@ -238,13 +264,13 @@
     <aside class="sidebar">
       <div class="brand"><h2>Vietnam Prosperity Coffee</h2><span>Trung Nguyên Legend Âu Lạc</span></div>
       <nav class="nav">
-        <button class="active" onclick="showPage('dashboard', this)">📊 Báo cáo</button>
-        <button onclick="showPage('orders', this)">🧾 Đơn hàng</button>
-        <button onclick="showPage('drinks', this)">☕ Menu nước</button>
-        <button onclick="showPage('merch', this)">🎁 Vật phẩm</button>
-        <button onclick="showPage('customers', this)">👥 Khách hàng</button>
-        <button onclick="showPage('ai', this)">🤖 Tiện ích AI</button>
-        <button onclick="logoutAdmin()">🚪 Đăng xuất</button>
+        <button class="active" onclick="showPage('dashboard', this)"><span class="nav-icon">1</span><span class="nav-text">Báo cáo</span></button>
+        <button onclick="showPage('orders', this)"><span class="nav-icon">2</span><span class="nav-text">Đơn hàng</span></button>
+        <button onclick="showPage('drinks', this)"><span class="nav-icon">3</span><span class="nav-text">Menu nước</span></button>
+        <button onclick="showPage('merch', this)"><span class="nav-icon">4</span><span class="nav-text">Vật phẩm</span></button>
+        <button onclick="showPage('customers', this)"><span class="nav-icon">5</span><span class="nav-text">Khách hàng</span></button>
+        <button onclick="showPage('ai', this)"><span class="nav-icon">6</span><span class="nav-text">Tiện ích AI</span></button>
+        <button onclick="logoutAdmin()"><span class="nav-icon">7</span><span class="nav-text">Đăng xuất</span></button>
       </nav>
     </aside>
 
