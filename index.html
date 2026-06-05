@@ -89,7 +89,7 @@
     }
 
     body {
-      font-family: "Times New Roman", Times, serif;
+      font-family: Arial, Helvetica, sans-serif;
       background: var(--cream);
       color: var(--text);
       line-height: 1.6;
@@ -2265,7 +2265,7 @@
     .footer-links *,
     .info-text,
     .info-text * {
-      font-family: "Times New Roman", Times, serif !important;
+      font-family: Arial, Helvetica, sans-serif !important;
       letter-spacing: normal;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
@@ -2275,7 +2275,7 @@
     /* Code này làm 2 nút Menu nước và Vật phẩm đồng bộ font/chữ */
     .main-nav .nav-btn[data-page="menu"],
     .main-nav .nav-btn[data-page="merch"] {
-      font-family: "Times New Roman", Times, serif !important;
+      font-family: Arial, Helvetica, sans-serif !important;
       font-size: 16px !important;
       font-weight: 800 !important;
     }
@@ -2432,133 +2432,83 @@
         font-size: 11.5px !important;
       }
     }
+/* Code này khôi phục font gốc Tempi cho web bán hàng */
+html,
+body,
+body *,
+button,
+input,
+select,
+textarea,
+option,
+a,
+p,
+span,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+strong,
+em,
+small,
+table,
+th,
+td {
+  font-family: Arial, Helvetica, sans-serif !important;
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+}
 
+/* Code này giữ Font Awesome không bị lỗi icon */
+.fa,
+.fas,
+.far,
+.fal,
+.fab,
+.fa-solid,
+.fa-regular,
+.fa-light,
+.fa-brands,
+i[class^="fa-"],
+i[class*=" fa-"] {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+}
+/* Code này tăng chữ +2px, tăng nút nổi và tăng lề trái/phải thêm 5px */
+body {
+  font-size: calc(100% + 2px);
+}
 
+.container {
+  width: min(1600px, calc(100% - 42px)) !important;
+}
 
-    /* Code này sửa nốt lỗi font/biểu tượng ở header, nút và footer */
-    body {
-      font-family: "Times New Roman", Times, serif !important;
-    }
+.chat-toggle,
+.lookup-toggle {
+  padding: 18px 26px !important;
+  font-size: 18px !important;
+  border-radius: 999px !important;
+}
 
-    button,
-    input,
-    select,
-    textarea,
-    option,
-    .nav-btn,
-    .btn,
-    .small-btn,
-    .tab-link,
-    .brand-text,
-    .hero,
-    .hero *,
-    .section-head,
-    .section-head *,
-    #about,
-    #about *,
-    .site-footer,
-    .site-footer *,
-    .footer-title,
-    .footer-links,
-    .footer-links * {
-      font-family: "Times New Roman", Times, serif !important;
-      letter-spacing: normal !important;
-      word-spacing: normal !important;
-      text-transform: none !important;
-      font-synthesis: none !important;
-      text-rendering: optimizeLegibility !important;
-      -webkit-font-smoothing: antialiased !important;
-      -moz-osx-font-smoothing: grayscale !important;
-    }
+.lookup-toggle {
+  bottom: 92px !important;
+}
 
-    .main-nav .nav-btn,
-    .hero .btn,
-    .btn-row .btn {
-      font-size: 16px !important;
-      font-weight: 800 !important;
-      line-height: 1.2 !important;
-    }
+@media (max-width: 520px) {
+  .container {
+    width: calc(100% - 26px) !important;
+  }
 
-    #about h1,
-    #about h2,
-    #about h3,
-    .footer-title,
-    .footer-col .footer-title {
-      letter-spacing: normal !important;
-      text-transform: none !important;
-      font-weight: 900 !important;
-    }
-
-    #about h2 {
-      font-size: clamp(32px, 4vw, 46px) !important;
-      text-align: center !important;
-    }
-
-    .site-footer .footer-links a,
-    .site-footer .footer-links button,
-    .site-footer .social-link,
-    .site-footer .info-text,
-    .site-footer .info-text * {
-      font-size: 18px !important;
-      font-weight: 800 !important;
-      line-height: 1.5 !important;
-    }
-
-    /* Code này sửa icon Facebook/TikTok/Map/Phone bị hiện ô vuông */
-    .fa-brands,
-    .fab,
-    i.fa-brands,
-    i.fab {
-      font-family: "Font Awesome 6 Brands" !important;
-      font-weight: 400 !important;
-      font-style: normal !important;
-      line-height: 1 !important;
-    }
-
-    .fa-solid,
-    .fas,
-    .fa-regular,
-    .far,
-    .fa-light,
-    .fal,
-    i.fa-solid,
-    i.fas,
-    i.fa-regular,
-    i.far,
-    i.fa-light,
-    i.fal,
-    i[class^="fa-"]:not(.fa-brands):not(.fab),
-    i[class*=" fa-"]:not(.fa-brands):not(.fab) {
-      font-family: "Font Awesome 6 Free" !important;
-      font-weight: 900 !important;
-      font-style: normal !important;
-      line-height: 1 !important;
-    }
-
-    .site-footer .footer-links i,
-    .site-footer .info-icon i,
-    .social-icon i {
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      width: 22px !important;
-      min-width: 22px !important;
-      color: var(--gold-light) !important;
-      font-size: 18px !important;
-    }
-
-    @media (max-width: 720px) {
-      .main-nav .nav-btn,
-      .hero .btn,
-      .btn-row .btn {
-        font-size: 14px !important;
-      }
-
-      #about h2 {
-        font-size: 30px !important;
-      }
-    }
-
+  .chat-toggle,
+  .lookup-toggle {
+    right: 18px !important;
+    padding: 16px 22px !important;
+    font-size: 16px !important;
+  }
+}
 </style>
 </head>
 
@@ -3507,7 +3457,7 @@
         "ca-phe-drip-2-robusta-arabica": "Dòng drip phối trộn hoàn mỹ giữa hạt Robusta đằm sâu và Arabica thơm thanh tao, mang lại tách cà phê phin giấy êm dịu thanh nhã cùng hương thơm tinh tế quyến rũ.",
         "ca-phe-drip-4-premium-culi": "Dòng drip cao cấp chiết xuất từ hạt Culi Robusta tuyển chọn khắt khe, mang hương thơm nồng nàn nồng ấm và vị đắng đậm sâu lắng nồng nàn đánh thức mọi giác quan tức thì.",
         "ca-phe-drip-5-culi-arabica": "Dòng drip vương giả chế biến từ hạt Culi Arabica hảo hạng, dậy lên vị chua thanh nhẹ nhàng quyến rũ cùng hương thơm ngát quý phái và hậu vị ngọt sâu lắng đầy thi vị.",
-        "ca-phe-drip-8-legend": "Cà phê hạt Drip 8 – Legend cao cấp, mang hương vị đậm sâu, mạnh mẽ và hậu vị bền lâu. Sản phẩm phù hợp cho khách hàng yêu thích gu cà phê mạnh, giàu năng lượng, có thể xay pha máy, pha phin hoặc sử dụng trong kinh doanh đồ uống.",
+        "ca-phe-drip-8-legend": ""Cà phê hạt Drip 8 – Legend cao cấp, mang hương vị đậm sâu, mạnh mẽ và hậu vị bền lâu. Sản phẩm phù hợp cho khách hàng yêu thích gu cà phê mạnh, giàu năng lượng, có thể xay pha máy, pha phin hoặc sử dụng trong kinh doanh đồ uống.",
 
         // CÀ PHÊ BỘT / SÁNG TẠO
         "ca-phe-sang-tao-1-340gr": "Hộp bột cà phê Sáng Tạo 1 tuyển chọn từ những hạt Culi Robusta chín mọng, sở hữu vị đắng đậm sâu lắng cùng hàm lượng caffeine cao vượt trội. Đây chính là linh hồn của dòng đồ uống Năng Lượng Tư Duy, đánh thức các neuron thần kinh và khai phóng năng lực trí tuệ.",
@@ -5260,9 +5210,15 @@
 
       const total = getFinalTotal();
 
-      const productList = cart.map(item => {
-        return `${item.name} x${item.qty} - ${item.priceLabel}`;
-      }).join("; ");
+      /* Code này lưu sản phẩm đã mua dạng JSON để admin đọc được tên món, số lượng, giá */
+const productList = JSON.stringify(cart.map(item => {
+  return {
+    name: item.name,
+    qty: Number(item.qty || 1),
+    priceNum: Number(item.priceNum || 0),
+    priceLabel: item.priceLabel || ""
+  };
+}));
 
       // Sinh mã đơn hàng mới động tại thời điểm Gửi để chống trùng lặp mã đơn
       const finalOrderCode = createOrderCode();
