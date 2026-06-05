@@ -2777,6 +2777,16 @@ body {
   }
 }
 
+
+
+/* FINAL FIX ARTICLE CARD ALIGNMENT */
+#blogGrid { align-items: stretch !important; }
+#blogGrid .article-card { height: 100% !important; display: flex !important; flex-direction: column !important; }
+#blogGrid .article-card .card-body { flex: 1 !important; display: grid !important; grid-template-rows: 96px 128px auto !important; gap: 12px !important; align-items: start !important; }
+#blogGrid .article-card h3 { height: 96px !important; margin: 0 !important; overflow: hidden !important; display: -webkit-box !important; -webkit-line-clamp: 3 !important; -webkit-box-orient: vertical !important; text-align: center !important; }
+#blogGrid .article-card p { height: 128px !important; margin: 0 !important; overflow: hidden !important; display: -webkit-box !important; -webkit-line-clamp: 4 !important; -webkit-box-orient: vertical !important; text-align: center !important; }
+#blogGrid .article-card .btn { align-self: center !important; margin-top: auto !important; }
+
 </style>
 </head>
 
@@ -3313,7 +3323,7 @@ body {
             </span>
             <div class="info-text">
               <strong style="color: var(--gold-light);">Giờ mở cửa</strong>
-              <span style="color: #fffaf4;">006:30 - 21:30</span>
+              <span style="color: #fffaf4;">6:30 - 21:30</span>
             </div>
           </div>
 
@@ -4019,7 +4029,7 @@ body {
     </p>
 
     <p>
-      <strong>🕒 Giờ hoạt động:</strong> 006:30 - 21:30
+      <strong>🕒 Giờ hoạt động:</strong> 6:30 - 21:30
     </p>
 
     <p>
@@ -4073,7 +4083,7 @@ body {
     </p>
 
     <p>
-      <strong>🕒 Giờ hoạt động:</strong> 006:30 - 21:30
+      <strong>🕒 Giờ hoạt động:</strong> 6:30 - 21:30
     </p>
 
     <p>
@@ -4142,7 +4152,7 @@ body {
     </p>
 
     <p>
-      <strong>🕒 Giờ hoạt động:</strong> 006:30 - 21:30
+      <strong>🕒 Giờ hoạt động:</strong> 6:30 - 21:30
     </p>
 
     <p>
@@ -5294,7 +5304,7 @@ body {
               <p style="font-style: italic; text-align: center; min-height: 72px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; font-size: 14px;">"${safeText(item.desc)}"</p>
             </div>
 
-            <div style="display: flex; justify-content: center; width: 100%; margin-top: auto;">
+            <div class="article-card-action">
               <button class="btn btn-dark" type="button" onclick="openArticle(${index})">
                 Xem chi tiết
               </button>
@@ -5605,12 +5615,35 @@ Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 n�
 <strong>2. ☕ GIẢM 15% THỨC UỐNG (Khung giờ vàng 12:00 - 14:00 hàng ngày):</strong><br>
 • <strong>Ưu đãi:</strong> Giảm giá trực tiếp <strong>15%</strong> cho tất cả các loại thức uống trong thực đơn.<br><br>
 📍 <strong>Địa điểm áp dụng:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP. Huế.`,
-
-        membership: `<strong>💳 CHƯƠNG TRÌNH THÀNH VIÊN TRUNG NGUYÊN LEGEND</strong><br><strong>Chương trình Thành viên Trung Nguyên Legend Âu Lạc</strong><br><br>Quý khách có thể đăng ký thành viên miễn phí trên ứng dụng Trung Nguyên Legend và sử dụng thẻ thành viên hoặc mã QR trên app khi thanh toán để tích điểm và nhận ưu đãi.<br><br><strong>Cách tích điểm:</strong><br>• Mỗi 30.000đ mua hàng = 1 điểm tích lũy.<br>• Điểm tích lũy có thời hạn sử dụng theo quy định của chương trình.<br>• Điểm có thể quy đổi khi thanh toán với tỷ lệ 1 điểm = 1.000đ (tối thiểu 30 điểm cho mỗi lần đổi).<br><br><strong>Các hạng thành viên:</strong><br><br>🥈 <strong>Hạng Bạc</strong><br>• Mỗi 30.000đ mua hàng được tích 1 điểm.<br>• Đổi điểm thanh toán với tỷ lệ 1 điểm = 1.000đ.<br><br>🥇 <strong>Hạng Vàng</strong><br>• Đạt từ 100 điểm tích lũy.<br>• Quà tặng sinh nhật.<br>• Giảm 10% trên hóa đơn thức ăn và thức uống.<br>• Được đổi điểm mua hàng.<br>• Để duy trì hạng cần tích lũy tối thiểu 70 điểm trong vòng 12 tháng kể từ ngày nâng hạng.<br><br>💎 <strong>Hạng Bạch Kim</strong><br>• Đạt từ 300 điểm tích lũy.<br>• Quà tặng sinh nhật.<br>• Giảm 15% trên hóa đơn thức ăn và thức uống.<br>• Được đổi điểm mua hàng.<br>• Để duy trì hạng cần tích lũy tối thiểu 200 điểm trong vòng 12 tháng kể từ ngày nâng hạng.<br><br>⚠️ <strong>Lưu ý khi thanh toán:</strong> Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ thành viên trên ứng dụng Trung Nguyên Legend để nhân viên tích điểm và áp dụng các ưu đãi dành cho hạng thành viên của mình.`,
+        membership: `<strong>💳 CHƯƠNG TRÌNH THÀNH VIÊN TRUNG NGUYÊN LEGEND</strong><br><br>
+<strong>Đăng ký & sử dụng</strong><br>
+Anh/chị có thể đăng ký thành viên miễn phí trên ứng dụng Trung Nguyên Legend và sử dụng thẻ thành viên hoặc mã QR trên app khi thanh toán để tích điểm và nhận ưu đãi.<br><br>
+<strong>Cách tích điểm</strong><br>
+• Mỗi 30.000đ mua hàng = 1 điểm tích lũy.<br>
+• Điểm tích lũy có thời hạn sử dụng theo quy định của chương trình.<br>
+• Điểm có thể quy đổi khi thanh toán với tỷ lệ 1 điểm = 1.000đ.<br>
+• Mỗi lần đổi điểm cần tối thiểu 30 điểm.<br><br>
+<strong>🥈 Hạng Bạc</strong><br>
+• Mỗi 30.000đ mua hàng được tích 1 điểm.<br>
+• Đổi điểm thanh toán với tỷ lệ 1 điểm = 1.000đ.<br><br>
+<strong>🥇 Hạng Vàng</strong><br>
+• Đạt từ 100 điểm tích lũy.<br>
+• Quà tặng sinh nhật.<br>
+• Giảm 10% trên hóa đơn thức ăn và thức uống.<br>
+• Được đổi điểm mua hàng.<br>
+• Duy trì hạng: tối thiểu 70 điểm trong 12 tháng kể từ ngày nâng hạng.<br><br>
+<strong>💎 Hạng Bạch Kim</strong><br>
+• Đạt từ 300 điểm tích lũy.<br>
+• Quà tặng sinh nhật.<br>
+• Giảm 15% trên hóa đơn thức ăn và thức uống.<br>
+• Được đổi điểm mua hàng.<br>
+• Duy trì hạng: tối thiểu 200 điểm trong 12 tháng kể từ ngày nâng hạng.<br><br>
+<strong>Lưu ý khi thanh toán</strong><br>
+Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ thành viên trên ứng dụng Trung Nguyên Legend để nhân viên tích điểm và áp dụng ưu đãi dành cho hạng thành viên của mình.`,
 
         location: `<strong>🚗 Thông tin liên hệ & Thời gian mở cửa:</strong><br>
 • <strong>Địa chỉ:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế.<br>
-• <strong>Giờ mở cửa:</strong> 006:30 - 21:30 hàng ngày.<br>
+• <strong>Giờ mở cửa:</strong> 6:30 - 21:30 hàng ngày.<br>
 • <strong>Hotline đặt hàng:</strong> 0389726999`
       };
 
@@ -5796,7 +5829,7 @@ Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 n�
       "địa điểm",
       "mở cửa"
     ],
-    "reply": "<strong>📍 Vị trí & Giờ hoạt động của quán:</strong><br>\n• <strong>Địa chỉ:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế (nằm ngay đối diện siêu thị <strong>Aeon Mall Huế</strong> 🏬).<br>\n• <strong>Giờ mở cửa:</strong> <strong>006:30 - 21:30</strong> hàng ngày (kể cả cuối tuần và ngày lễ).<br>\n• Rất hân hạnh được đón tiếp quý khách ghé thăm để tận hưởng không gian mát lạnh, yên tĩnh lý tưởng để học tập và làm việc! 🤎"
+    "reply": "<strong>📍 Vị trí & Giờ hoạt động của quán:</strong><br>\n• <strong>Địa chỉ:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế (nằm ngay đối diện siêu thị <strong>Aeon Mall Huế</strong> 🏬).<br>\n• <strong>Giờ mở cửa:</strong> <strong>6:30 - 21:30</strong> hàng ngày (kể cả cuối tuần và ngày lễ).<br>\n• Rất hân hạnh được đón tiếp quý khách ghé thăm để tận hưởng không gian mát lạnh, yên tĩnh lý tưởng để học tập và làm việc! 🤎"
   },
   {
     "name": "coffee",
@@ -6101,7 +6134,7 @@ Từ khóa vật phẩm: ${merchKeywords}
       if (q.includes("địa chỉ") || q.includes("dia chi") || q.includes("ở đâu") || q.includes("o dau") || q.includes("giờ") || q.includes("gio") || q.includes("mở cửa") || q.includes("mo cua")) {
         return `<strong>📍 Thông tin cửa hàng:</strong><br>
 • Địa chỉ: Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế.<br>
-• Giờ mở cửa: 006:30 - 21:30.<br>
+• Giờ mở cửa: 6:30 - 21:30.<br>
 • Hotline: 0389726999.`;
       }
 
