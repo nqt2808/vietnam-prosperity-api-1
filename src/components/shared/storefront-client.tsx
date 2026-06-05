@@ -412,35 +412,7 @@ const chatbotIntents: ChatbotIntent[] = [
     "keywords": ["vÄƒn minh", "van minh", "ottoman", "roman", "thiá» n", "thien", "3 ná» n vÄƒn minh", "ná» n vÄƒn minh", "lá»‹ch sá»­"],
     "reply": `<strong>ðŸ ›ï¸  KHÃ M PHÃ  3 Ná»€N VÄ‚N MINH CÃ€ PHÃŠ THáº¾ GIá»šI</strong><br><br><strong><strong>TRUNG NGUYÃŠN LEGEND</strong> â€“ HÃ nh trÃ¬nh tá»« cÃ  phÃª Ä‘áº¿n vÄƒn hÃ³a vÃ  lá»‘i sá»‘ng</strong><br><br><strong>TRUNG NGUYÃŠN LEGEND</strong> khÃ´ng chá»‰ mang Ä‘áº¿n nhá»¯ng ly cÃ  phÃª Ä‘áº·c biá»‡t, mÃ  cÃ²n tÃ¡i hiá»‡n tinh hoa cá»§a 3 ná» n vÄƒn minh cÃ  phÃª tiÃªu biá»ƒu cá»§a nhÃ¢n loáº¡i: Ottoman â€“ Roman â€“ Thiá» n.<br><br><strong>â˜• VÄƒn minh cÃ  phÃª Ottoman:</strong><br>Ä áº¡i diá»‡n cho chiá» u sÃ¢u phÆ°Æ¡ng Ä Ã´ng huyá» n bÃ­, nÆ¡i cÃ  phÃª trá»Ÿ thÃ nh biá»ƒu tÆ°á»£ng cá»§a sá»± káº¿t ná»‘i, trÃ² chuyá»‡n vÃ  chiÃªm nghiá»‡m. KhÃ´ng gian cÃ  phÃª Ottoman mang tinh tháº§n thÆ° thÃ¡i, nghá»‡ thuáº­t vÃ  cáº£m xÃºc sÃ¢u láº¯ng.<br><br><strong>â˜• VÄƒn minh cÃ  phÃª Roman:</strong><br>Tinh tháº§n phÆ°Æ¡ng TÃ¢y hiá»‡n Ä‘áº¡i, sÃ¡ng táº¡o vÃ  Ä‘áº§y nÄƒng lÆ°á»£ng. Tá»« Espresso Ä‘áº¿n Cappuccino, vÄƒn minh Roman tÃ´n vinh phong cÃ¡ch sá»‘ng nÄƒng Ä‘á»™ng, tinh táº¿ vÃ  cáº£m há»©ng sÃ¡ng táº¡o khÃ´ng ngá»«ng.<br><br><strong>â˜• VÄƒn minh cÃ  phÃª Thiá» n:</strong><br>Tinh tháº§n cÃ  phÃª Ä‘áº·c trÆ°ng do <strong>TRUNG NGUYÃŠN LEGEND</strong> kiáº¿n táº¡o. KhÃ´ng chá»‰ thÆ°á»Ÿng thá»©c cÃ  phÃª, Ä‘Ã¢y cÃ²n lÃ  hÃ nh trÃ¬nh tÃ¬m vá»  sá»± cÃ¢n báº±ng, tá»‰nh thá»©c vÃ  bÃ¬nh an trong nhá»‹p sá»‘ng hiá»‡n Ä‘áº¡i.<br><br>âœ¨ Má»—i ly cÃ  phÃª táº¡i <strong>TRUNG NGUYÃŠN LEGEND</strong> lÃ  sá»± giao thoa giá»¯a vÄƒn hÃ³a, nghá»‡ thuáº­t vÃ  triáº¿t lÃ½ sá»‘ng.`
   },
-  {
-  name: "membership",
-  keywords: ["thành viên", "tích điểm", "membership", "ưu đãi", "hạng bạc", "hạng vàng", "hạng bạch kim"],
-  reply: `<strong>💳 CHƯƠNG TRÌNH THÀNH VIÊN TRUNG NGUYÊN LEGEND</strong><br><br>
-<strong>Đăng ký & sử dụng</strong><br>
-Anh/chị có thể đăng ký thành viên miễn phí trên ứng dụng Trung Nguyên Legend và sử dụng thẻ thành viên hoặc mã QR trên app khi thanh toán để tích điểm và nhận ưu đãi.<br><br>
-<strong>Cách tích điểm</strong><br>
-• Mỗi 30.000đ mua hàng = 1 điểm tích lũy.<br>
-• Điểm tích lũy có thời hạn sử dụng theo quy định của chương trình.<br>
-• Điểm có thể quy đổi khi thanh toán với tỷ lệ 1 điểm = 1.000đ.<br>
-• Mỗi lần đổi điểm cần tối thiểu 30 điểm.<br><br>
-<strong>🥈 Hạng Bạc</strong><br>
-• Mỗi 30.000đ mua hàng được tích 1 điểm.<br>
-• Đổi điểm thanh toán với tỷ lệ 1 điểm = 1.000đ.<br><br>
-<strong>🥇 Hạng Vàng</strong><br>
-• Đạt từ 100 điểm tích lũy.<br>
-• Quà tặng sinh nhật.<br>
-• Giảm 10% trên hóa đơn thức ăn và thức uống.<br>
-• Được đổi điểm mua hàng.<br>
-• Duy trì hạng: tối thiểu 70 điểm trong 12 tháng kể từ ngày nâng hạng.<br><br>
-<strong>💎 Hạng Bạch Kim</strong><br>
-• Đạt từ 300 điểm tích lũy.<br>
-• Quà tặng sinh nhật.<br>
-• Giảm 15% trên hóa đơn thức ăn và thức uống.<br>
-• Được đổi điểm mua hàng.<br>
-• Duy trì hạng: tối thiểu 200 điểm trong 12 tháng kể từ ngày nâng hạng.<br><br>
-<strong>Lưu ý khi thanh toán</strong><br>
-Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ thành viên trên ứng dụng Trung Nguyên Legend để nhân viên tích điểm và áp dụng ưu đãi dành cho hạng thành viên của mình.`
-},
+  
   {
     "name": "vinfast_event",
     "keywords": [
