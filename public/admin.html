@@ -213,6 +213,22 @@
     .badge.bad { background: rgba(185, 59, 59, 0.22); color: #ffb0b0; }
     .badge.blue { background: rgba(54, 122, 194, 0.22); color: #a8d1ff; }
     .actions { display:flex; gap:8px; flex-wrap:wrap; }
+    .status-option-select {
+      width: 170px;
+      min-width: 170px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(247, 211, 123, 0.28);
+      background: #0f1212;
+      color: var(--text);
+      font-weight: 900;
+      font-size: 13px;
+      outline: none;
+    }
+    .status-option-select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(210, 162, 58, 0.18);
+    }
 
     .editable-cell { display: grid; gap: 6px; min-width: 130px; }
     .editable-cell input, .editable-cell select { min-width: 110px; padding: 8px 9px; }
@@ -422,11 +438,39 @@
     function sortOrders(arr){ const s=document.getElementById("orderSort")?.value || "newest"; return [...(arr||[])].sort((a,b)=>{ const da=getOrderDate(a).getTime(); const db=getOrderDate(b).getTime(); return s === "oldest" ? da-db : db-da; }); }
 
     function renderStatusOptions(){ const sel=document.getElementById("orderStatusFilter"); if(!sel) return; const statuses=[...new Set((window.adminOrders||[]).map(getOrderStatus))]; sel.innerHTML = `<option value="">Tất cả trạng thái</option>` + statuses.map(s=>`<option value="${safeText(s)}">${safeText(statusLabels[s]||s)}</option>`).join(""); }
+    const adminStatusOptions = [
+      "don_moi",
+      "da_dat_don",
+      "cho_chuyen_khoan",
+      "khach_bao_da_chuyen_khoan",
+      "da_chuyen_khoan",
+      "da_thanh_toan",
+      "da_nhan_don",
+      "dang_lam_don",
+      "da_giao_shipper",
+      "dang_giao",
+      "da_giao",
+      "hoan_thanh",
+      "tu_choi_don",
+      "da_huy"
+    ];
+
+    function renderStatusSelect(code, currentStatus){
+      const options = adminStatusOptions.map(st => `<option value="${safeText(st)}" ${st===currentStatus?'selected':''}>${safeText(statusLabels[st]||st)}</option>`).join("");
+      return `<select class="status-option-select" onchange="updateOrderStatusFromSelect('${safeText(code)}', this)">${options}</select>`;
+    }
+
     function renderOrders(){
       const tbody=document.getElementById("ordersBody"); const q=(document.getElementById("orderSearch")?.value||"").toLowerCase(); const sf=document.getElementById("orderStatusFilter")?.value||"";
       let orders=sortOrders(window.adminOrders||[]).filter(o=>{ const t=(getOrderCode(o)+" "+getCustomerName(o)+" "+getCustomerPhone(o)).toLowerCase(); return (!q || t.includes(q)) && (!sf || getOrderStatus(o)===sf); });
       if(!orders.length){ tbody.innerHTML=`<tr><td colspan="9">Chưa có đơn phù hợp.</td></tr>`; return; }
-      tbody.innerHTML=orders.map((o,idx)=>{ const items=getOrderItems(o); const itemText=items.length?items.slice(0,3).map(i=>`• ${safeText(getItemName(i))} x${getItemQty(i)}`).join("<br>"):"<span class='muted'>Không có items</span>"; const st=getOrderStatus(o); return `<tr class="clickable-row" onclick="openOrderModal('${safeText(getOrderCode(o))}')"><td><strong>${safeText(getOrderCode(o))}</strong></td><td>${formatDate(o.created_at||o.ngay_tao||o.createdAt)}</td><td><strong>${safeText(getCustomerName(o))}</strong><br><span class="muted">${safeText(getCustomerPhone(o))}</span></td><td>${itemText}</td><td>${safeText(getPayment(o))}</td><td>${safeText(getDelivery(o))}</td><td class="money">${formatMoney(getOrderTotal(o))}</td><td><span class="badge ${paidStatuses.includes(st)?'good':'blue'}">${safeText(statusLabels[st]||st)}</span></td><td onclick="event.stopPropagation()"><div class="actions"><button class="btn btn-small" onclick="updateOrderStatus('${safeText(getOrderCode(o))}','da_chuyen_khoan')">Đã CK</button><button class="btn btn-small btn-dark" onclick="updateOrderStatus('${safeText(getOrderCode(o))}','dang_lam_don')">Làm đơn</button><button class="btn btn-small" onclick="updateOrderStatus('${safeText(getOrderCode(o))}','hoan_thanh')">Xong</button></div></td></tr>`; }).join("");
+      tbody.innerHTML=orders.map((o,idx)=>{
+        const items=getOrderItems(o);
+        const itemText=items.length?items.slice(0,3).map(i=>`• ${safeText(getItemName(i))} x${getItemQty(i)}`).join("<br>"):"<span class='muted'>Không có items</span>";
+        const st=getOrderStatus(o);
+        const code=getOrderCode(o);
+        return `<tr class="clickable-row" onclick="openOrderModal('${safeText(code)}')"><td><strong>${safeText(code)}</strong></td><td>${formatDate(o.created_at||o.ngay_tao||o.createdAt)}</td><td><strong>${safeText(getCustomerName(o))}</strong><br><span class="muted">${safeText(getCustomerPhone(o))}</span></td><td>${itemText}</td><td>${safeText(getPayment(o))}</td><td>${safeText(getDelivery(o))}</td><td class="money">${formatMoney(getOrderTotal(o))}</td><td><span class="badge ${paidStatuses.includes(st)?'good':'blue'}">${safeText(statusLabels[st]||st)}</span></td><td onclick="event.stopPropagation()"><div class="actions">${renderStatusSelect(code, st)}</div></td></tr>`;
+      }).join("");
     }
     function openOrderModal(code){ const o=(window.adminOrders||[]).find(x=>getOrderCode(x)===code); if(!o) return; const items=getOrderItems(o); document.getElementById("orderDetail").innerHTML=`<div class="detail-grid"><div class="detail-item"><strong>Mã đơn</strong>${safeText(getOrderCode(o))}</div><div class="detail-item"><strong>Thời gian</strong>${formatDate(o.created_at||o.ngay_tao||o.createdAt)}</div><div class="detail-item"><strong>Khách hàng</strong>${safeText(getCustomerName(o))}</div><div class="detail-item"><strong>Số điện thoại</strong>${safeText(getCustomerPhone(o))}</div><div class="detail-item"><strong>Thanh toán</strong>${safeText(getPayment(o))}</div><div class="detail-item"><strong>Nhận hàng</strong>${safeText(getDelivery(o))}</div><div class="detail-item"><strong>Tổng tiền</strong><span class="money">${formatMoney(getOrderTotal(o))}</span></div><div class="detail-item"><strong>Trạng thái</strong>${safeText(statusLabels[getOrderStatus(o)]||getOrderStatus(o))}</div><div class="detail-item full"><strong>Sản phẩm</strong>${items.length?items.map(i=>`<div>• ${safeText(getItemName(i))} x${getItemQty(i)} - ${safeText(i.priceLabel||i.price_label||i.gia||i.price||"")}</div>`).join(""):"Không có dữ liệu sản phẩm"}</div><div class="detail-item full"><strong>Địa chỉ / ghi chú</strong>${safeText(o.dia_chi_giao_hang||o.address||"")}<br>${safeText(o.ghi_chu||o.note||"")}</div></div>`; document.getElementById("orderModal").classList.add("open"); }
     function closeOrderModal(){ document.getElementById("orderModal").classList.remove("open"); }
@@ -438,7 +482,26 @@
     async function patchAPI(paths, id, body){ let last; for(const p of paths){ try{ const r=await fetch(API_URL+p.replace(':id', encodeURIComponent(id)), {method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)}); if(r.ok) return await r.json(); last=await r.text(); }catch(e){ last=e.message; } } throw new Error(last || 'Patch failed'); }
     async function saveDrink(i){ const p=window.adminDrinks[i]; const id=p.id||p.slug; const body={gia_den:Number(document.getElementById(`drink_den_${i}`).value||0), gia_sua:Number(document.getElementById(`drink_sua_${i}`).value||0), la_mon_noi_bat:document.getElementById(`drink_hot_${i}`).value==='true', hien_thi:document.getElementById(`drink_show_${i}`).value==='true'}; try{ await patchAPI(['/api/do-uong/:id','/api/admin/do-uong/:id'], id, body); alert('Đã lưu món nước.'); loadDrinks(); }catch(e){ alert('Backend chưa hỗ trợ cập nhật menu nước hoặc API lỗi.'); } }
     async function saveMerch(i){ const p=window.adminMerch[i]; const id=p.id||p.slug; const body={gia:Number(document.getElementById(`merch_gia_${i}`).value||0), con_ban:document.getElementById(`merch_stock_${i}`).value==='true', hien_thi:document.getElementById(`merch_show_${i}`).value==='true'}; try{ await patchAPI(['/api/merchandise/:id','/api/vat-pham/:id','/api/admin/merchandise/:id'], id, body); alert('Đã lưu vật phẩm.'); loadMerch(); }catch(e){ alert('Backend chưa hỗ trợ cập nhật vật phẩm hoặc API lỗi.'); } }
-    async function updateOrderStatus(code,status){ try{ await patchAPI(['/api/don-hang/:id','/api/orders/:id'], code, {trang_thai:status,status}); alert('Đã cập nhật trạng thái.'); loadOrders(); }catch(e){ alert('Backend chưa hỗ trợ cập nhật đơn hàng hoặc API lỗi.'); } }
+    async function updateOrderStatus(code,status){
+      try{
+        await patchAPI(['/api/don-hang/:id','/api/orders/:id'], code, {trang_thai:status,status});
+        await loadOrders();
+        buildAnalytics();
+      }catch(e){
+        alert('Backend chưa hỗ trợ cập nhật đơn hàng hoặc API lỗi.');
+        loadOrders();
+      }
+    }
+
+    async function updateOrderStatusFromSelect(code, selectEl){
+      const newStatus = selectEl.value;
+      selectEl.disabled = true;
+      try{
+        await updateOrderStatus(code, newStatus);
+      }finally{
+        selectEl.disabled = false;
+      }
+    }
 
     function buildCustomersFromOrders(){ const map={}; (window.adminOrders||[]).forEach(o=>{ const phone=getCustomerPhone(o)||'Không rõ'; if(!map[phone]) map[phone]={ho_ten:getCustomerName(o), so_dien_thoai:phone, email:'', dia_chi:o.dia_chi_giao_hang||'', order_count:0, total_spent:0, created_at:o.created_at}; map[phone].order_count++; map[phone].total_spent+=getOrderTotal(o); }); window.adminCustomers=Object.values(map); }
     function renderCustomers(){ if(!window.adminCustomers.length) buildCustomersFromOrders(); const tbody=document.getElementById('customersBody'); const rows=window.adminCustomers||[]; if(!rows.length){ tbody.innerHTML=`<tr><td colspan="8">Chưa có dữ liệu.</td></tr>`; return; } const orderStats={}; (window.adminOrders||[]).forEach(o=>{ const ph=getCustomerPhone(o)||'Không rõ'; if(!orderStats[ph]) orderStats[ph]={count:0,total:0}; orderStats[ph].count++; orderStats[ph].total+=getOrderTotal(o); }); tbody.innerHTML=rows.map(c=>{ const ph=String(c.so_dien_thoai||c.phone||''); const st=orderStats[ph]||{count:c.order_count||0,total:c.total_spent||0}; const returns=Math.max(0, st.count-1); return `<tr><td><strong>${safeText(c.ho_ten||c.name||'Khách hàng')}</strong></td><td>${safeText(ph)}</td><td>${safeText(c.email||'')}</td><td>${safeText(c.dia_chi||c.address||'')}</td><td>${st.count}</td><td>${returns}</td><td class="money">${formatMoney(st.total)}</td><td>${formatDate(c.created_at||c.createdAt)}</td></tr>`; }).join(''); }
