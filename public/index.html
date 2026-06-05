@@ -5919,7 +5919,9 @@ Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 n�
           body: JSON.stringify({
             question,
             context: buildChatContextFromIndex(),
-            page: "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc"
+            page: "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc",
+            instruction: "Gemini/chatbox phải nạp kiến thức cơ bản của web từ các page: Bài viết, Về chúng tôi, Menu nước và Vật phẩm trước khi trả lời. Ưu tiên dữ liệu có sẵn trên website/database, không bịa nếu thiếu thông tin.",
+            knowledge_pages: ["Bài viết", "Về chúng tôi", "Menu nước", "Vật phẩm"]
           })
         });
 
@@ -5991,7 +5993,7 @@ Hotline: 038 972 6999.
 Địa chỉ: Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế.
 Thanh toán chuyển khoản: VietinBank - NGO QUYNH TRANG - 101882692631.
 Quy tắc thanh toán: Khách chuyển khoản đúng số tiền và ghi đúng mã đơn VPC-DH-... trong nội dung. SePay webhook sẽ tự cập nhật đơn sang đã chuyển khoản khi nhận đủ tiền.
-Yêu cầu trả lời AI: đọc nội dung index.html, trang Bài viết, trang Giới thiệu/Về chúng tôi trước; nếu không đủ thì dùng database Supabase qua backend /api/chat-ai để tìm món, vật phẩm, danh mục.
+Yêu cầu bắt buộc cho Gemini/chatbox: trước khi trả lời khách, hãy nạp và ưu tiên kiến thức cơ bản của website từ 4 khu vực chính: (1) trang Bài viết, (2) trang Về chúng tôi/Giới thiệu, (3) trang Menu nước, (4) trang Vật phẩm. Khi khách hỏi về món, giá, danh mục, sản phẩm, câu chuyện thương hiệu, thông tin quán hoặc bài viết, hãy trả lời dựa trên dữ liệu website hiện có trước. Nếu dữ liệu hiển thị chưa đủ, hãy dùng database Supabase qua backend /api/chat-ai để tra thêm. Không bịa thông tin không có trong website/database; nếu chưa có dữ liệu thì nói rõ và hướng khách gọi hotline 038 972 6999.
 
 Nội dung đang hiển thị trên website:
 ${pageText}
@@ -6006,7 +6008,7 @@ Từ khóa menu đồ uống: ${drinkKeywords}
 Từ khóa vật phẩm: ${merchKeywords}
         `.trim().slice(0, 20000);
       } catch (error) {
-        return "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc. Hotline 038 972 6999. Thanh toán VietinBank 101882692631 - NGO QUYNH TRANG. AI cần đọc index.html, bài viết, giới thiệu và database Supabase.";
+        return "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc. Hotline 038 972 6999. Thanh toán VietinBank 101882692631 - NGO QUYNH TRANG. Gemini/chatbox cần nạp kiến thức cơ bản từ page Bài viết, Về chúng tôi, Menu nước, Vật phẩm và database Supabase trước khi trả lời.";
       }
     }
 
