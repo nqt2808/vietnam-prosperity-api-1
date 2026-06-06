@@ -5972,10 +5972,11 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            question,
-            context: buildChatContextFromIndex(),
-            page: "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc"
-          })
+  message: question,
+  question: question,
+  context: buildChatContextFromIndex(),
+  page: "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc"
+})
         });
 
         const result = await response.json().catch(() => ({}));
