@@ -1,75 +1,44 @@
-require("dotenv").config();
+const fs = require("fs");
+const path = require("path");
+const dotenv = require("dotenv");
+
+// Load .env.local if exists, fallback to default .env
+const envLocalPath = path.join(__dirname, ".env.local");
+if (fs.existsSync(envLocalPath)) {
+  dotenv.config({ path: envLocalPath });
+} else {
+  dotenv.config();
+}
 
 const express = require("express");
 const cors = require("cors");
 const crypto = require("crypto");
-const fs = require("fs");
-const path = require("path");
 const { createClient } = require("@supabase/supabase-js");
+const { Client } = require("pg");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json({
-  const OpenAI = require("openai");
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
-app.post("/api/chat-ai", async (req, res) => {
-  try {
-    const { question, adminContext } = req.body;
-
-    const response = await openai.responses.create({
-      model: "gpt-4.1-mini",
-      input: `
-Bạn là trợ lý AI cho trang admin quán Trung Nguyên Legend Âu Lạc.
-
-Nhiệm vụ:
-- Phân tích đơn hàng, doanh thu, khách hàng, sản phẩm.
-- Trả lời bằng tiếng Việt.
-- Ngắn gọn, rõ ràng, có gạch đầu dòng.
-- Đưa ra đề xuất kinh doanh thực tế.
-
-Câu hỏi admin:
-${question}
-
-Dữ liệu hiện tại:
-${JSON.stringify(adminContext || {}, null, 2).slice(0, 30000)}
-`
-    });
-
-    res.json({
-      success: true,
-      answer: response.output_text
-    });
-  } catch (err) {
-    console.error("AI error:", err);
-    res.status(500).json({
-      success: false,
-      message: "AI backend lỗi"
-    });
-  }
-});
   limit: "10mb",
   verify: (req, res, buf) => {
     req.rawBody = buf.toString("utf8");
   }
 }));
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Tọa độ quán Trung Nguyên Legend Âu Lạc
 const STORE_LAT = 16.4512064;
 const STORE_LNG = 107.6117266;
 
 console.log("Đang kết nối Supabase:");
-console.log("SUPABASE_URL:", process.env.SUPABASE_URL);
+console.log("SUPABASE_URL:", supabaseUrl);
+
 
 /* =========================================================
    HÀM HỖ TRỢ
@@ -685,28 +654,58 @@ app.get("/api/customers", async (req, res) => {
   }
 });
 
-app.patch("/api/orders/:id/status", async (req, res) => {
+app.patch("/api/don-hang/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { trang_thai } = req.body;
+    const { trang_thai, status } = req.body;
+    const newStatus = trang_thai || status;
 
-    if (!trang_thai) {
+    if (!newStatus) {
       return res.status(400).json({ message: "Thiếu trạng thái đơn hàng" });
     }
 
-    const { data, error } = await supabase
+    // Thử cập nhật theo ma_don_hang trước
+    let { data, error } = await supabase
       .from("don_hang")
-      .update({ trang_thai })
-      .eq("id", id)
-      .select("*")
-      .single();
+      .update({ trang_thai: newStatus })
+      .eq("ma_don_hang", id)
+      .select("*");
 
-    if (error) throw error;
-    res.json({ message: "Cập nhật trạng thái đơn hàng thành công", data });
+    // Nếu không cập nhật được dòng nào (hoặc error do không phải ma_don_hang), thử cập nhật theo id số
+    if (error || !data || data.length === 0) {
+      const numericId = Number(id);
+      if (!Number.isNaN(numericId)) {
+        const { data: numData, error: numError } = await supabase
+          .from("don_hang")
+          .update({ trang_thai: newStatus })
+          .eq("id", numericId)
+          .select("*");
+        if (numError) throw numError;
+        data = numData;
+      } else {
+        if (error) throw error;
+      }
+    }
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ message: "Không tìm thấy đơn hàng tương ứng." });
+    }
+
+    res.json({ message: "Cập nhật trạng thái đơn hàng thành công", data: data[0] });
   } catch (error) {
     console.error("Lỗi cập nhật trạng thái đơn hàng:", error);
     res.status(500).json({ message: "Lỗi cập nhật trạng thái đơn hàng", error: error.message });
   }
+});
+
+app.patch("/api/orders/:id", async (req, res, next) => {
+  req.url = `/api/don-hang/${encodeURIComponent(req.params.id)}`;
+  next();
+});
+
+app.patch("/api/orders/:id/status", async (req, res, next) => {
+  req.url = `/api/don-hang/${encodeURIComponent(req.params.id)}`;
+  next();
 });
 
 /* =========================================================
@@ -893,6 +892,24 @@ app.patch("/api/admin/categories/:id", async (req, res) => {
 });
 
 /* =========================================================
+   ADMIN API - SEPAY TRANSACTIONS
+========================================================= */
+app.get("/api/admin/sepay-transactions", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("sepay_transactions")
+      .select("*")
+      .order("transaction_date", { ascending: false });
+
+    if (error) throw error;
+    res.json(data || []);
+  } catch (error) {
+    console.error("Lỗi lấy danh sách giao dịch SePay:", error);
+    res.status(500).json({ message: "Lỗi lấy danh sách giao dịch SePay", error: error.message });
+  }
+});
+
+/* =========================================================
    KHỞI ĐỘNG SERVER
 ========================================================= */
 
@@ -911,7 +928,7 @@ function getHeader(req, names) {
 }
 
 function verifySepayRequest(req) {
-  const apiKey = process.env.SEPAY_WEBHOOK_API_KEY || "";
+  const apiKey = process.env.SEPAY_WEBHOOK_API_KEY || process.env.SEPAY_WEBHOOK_TOKEN || "";
   const hmacSecret = process.env.SEPAY_WEBHOOK_SECRET || "";
 
   if (apiKey) {
@@ -939,8 +956,32 @@ function verifySepayRequest(req) {
 }
 
 function extractOrderCodeFromText(text) {
-  const match = String(text || "").match(/VPC-DH-[0-9]{8}-[0-9]{6}/i);
-  return match ? match[0].toUpperCase() : "";
+  if (!text) return "";
+  
+  // 1. Chuẩn hóa: xóa khoảng trắng, dấu gạch ngang, dấu gạch dưới, đổi thành chữ hoa
+  const normalized = String(text)
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, ""); // Chỉ giữ lại ký tự chữ cái và số
+
+  // 2. Tìm kiếm chuỗi "VPCDH" theo sau là 14 chữ số (định dạng YYYYMMDDHHMMSS)
+  const match = normalized.match(/VPCDH[0-9]{14}/);
+  if (match) {
+    const code = match[0]; // VPCDH20260606162012
+    // Tách và ghép lại thành định dạng chuẩn: VPC-DH-YYYYMMDD-HHMMSS
+    return `VPC-DH-${code.slice(5, 13)}-${code.slice(13)}`;
+  }
+  
+  // 3. Fallback: Nếu nội dung chứa DH + timestamp (ví dụ DH171...)
+  const matchDH = normalized.match(/DH[0-9]+/);
+  if (matchDH) {
+    return matchDH[0];
+  }
+
+  // 4. Fallback 2: Regex nguyên bản có dấu gạch ngang
+  const matchOriginal = String(text).match(/VPC-DH-[0-9]{8}-[0-9]{6}/i);
+  if (matchOriginal) return matchOriginal[0].toUpperCase();
+
+  return "";
 }
 
 function extractSepayTransaction(payload) {
@@ -979,13 +1020,39 @@ function extractSepayTransaction(payload) {
 app.post("/api/sepay/webhook", async (req, res) => {
   try {
     if (!verifySepayRequest(req)) {
-      return res.status(401).json({ ok: false, message: "Webhook không hợp lệ." });
+      return res.status(401).json({ success: false, ok: false, message: "Webhook không hợp lệ." });
     }
 
     const { orderCode, amount, content } = extractSepayTransaction(req.body);
 
+    // Lưu thông tin giao dịch vào bảng sepay_transactions
+    const body = req.body || {};
+    const sepayTxId = Number(body.id || body.transactionId || body.transaction_id || body.data?.id || 0);
+    if (sepayTxId > 0) {
+      const { error: insertTxError } = await supabase
+        .from("sepay_transactions")
+        .upsert({
+          sepay_id: sepayTxId,
+          gateway: body.gateway || body.bank || body.data?.gateway || "",
+          transaction_date: body.transactionDate || body.transaction_date || body.data?.transactionDate || new Date().toISOString(),
+          amount_in: amount,
+          amount_out: Number(body.amountOut || body.amount_out || body.data?.amountOut || 0),
+          transaction_content: content,
+          reference_number: body.referenceNumber || body.reference_number || body.code || body.data?.referenceNumber || "",
+          accumulated_balance: Number(body.accumulatedBalance || body.accumulated_balance || body.balance || body.data?.accumulatedBalance || 0),
+          order_code: orderCode || null
+        }, { onConflict: 'sepay_id' });
+        
+      if (insertTxError) {
+        console.error("❌ Lỗi lưu nhật ký giao dịch SePay (Express Webhook):", insertTxError.message);
+      } else {
+        console.log("💾 Đã lưu nhật ký giao dịch SePay (Express Webhook) thành công!");
+      }
+    }
+
     if (!orderCode) {
       return res.status(200).json({
+        success: true,
         ok: false,
         ignored: true,
         message: "Không tìm thấy mã đơn VPC-DH trong nội dung chuyển khoản."
@@ -1000,6 +1067,7 @@ app.post("/api/sepay/webhook", async (req, res) => {
 
     if (findError || !order) {
       return res.status(200).json({
+        success: true,
         ok: false,
         ignored: true,
         orderCode,
@@ -1027,7 +1095,7 @@ app.post("/api/sepay/webhook", async (req, res) => {
     const { data: updated, error: updateError } = await supabase
       .from("don_hang")
       .update({
-        trang_thai: "da_chuyen_khoan",
+        trang_thai: "da_tt",
         ghi_chu: nextNote
       })
       .eq("id", order.id)
@@ -1037,6 +1105,7 @@ app.post("/api/sepay/webhook", async (req, res) => {
     if (updateError) throw updateError;
 
     return res.json({
+      success: true,
       ok: true,
       message: "SePay webhook đã xác nhận thanh toán.",
       orderCode,
@@ -1045,7 +1114,121 @@ app.post("/api/sepay/webhook", async (req, res) => {
     });
   } catch (error) {
     console.error("Lỗi SePay webhook:", error);
-    return res.status(500).json({ ok: false, error: error.message });
+    return res.status(500).json({ success: false, ok: false, error: error.message });
+  }
+});
+
+// API đồng bộ giao dịch từ SePay chủ động
+app.get("/api/sepay/sync", async (req, res) => {
+  try {
+    const apiKey = process.env.SEPAY_API_KEY || process.env.SEPAY_WEBHOOK_API_KEY || "";
+    if (!apiKey) {
+      return res.status(400).json({ ok: false, message: "Chưa cấu hình API Key của SePay trên máy chủ." });
+    }
+
+    // Gọi API SePay v2 để lấy danh sách giao dịch
+    const response = await fetch("https://userapi.sepay.vn/v2/transactions?limit=50", {
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`SePay API trả về mã lỗi: ${response.status}`);
+    }
+
+    const result = await response.json();
+    const transactions = result.data || [];
+
+    const updatedOrders = [];
+
+    for (const tx of transactions) {
+      // Chỉ xử lý giao dịch nhận tiền vào
+      const isIncoming = tx.transfer_type === "in" || Number(tx.amount_in || 0) > 0;
+      if (!isIncoming) continue;
+
+      const content = tx.description || tx.transaction_content || "";
+      const amount = Number(tx.amount_in || 0);
+      const orderCode = extractOrderCodeFromText(content);
+
+      // Lưu thông tin giao dịch vào bảng sepay_transactions
+      const sepayTxId = Number(tx.id || 0);
+      if (sepayTxId > 0) {
+        const { error: insertTxError } = await supabase
+          .from("sepay_transactions")
+          .upsert({
+            sepay_id: sepayTxId,
+            gateway: tx.gateway || tx.bank || "",
+            transaction_date: tx.transaction_date || tx.transactionDate || new Date().toISOString(),
+            amount_in: amount,
+            amount_out: Number(tx.amount_out || tx.amountOut || 0),
+            transaction_content: content,
+            reference_number: tx.reference_number || tx.referenceNumber || tx.code || "",
+            accumulated_balance: Number(tx.accumulated_balance || tx.accumulatedBalance || tx.balance || 0),
+            order_code: orderCode || null
+          }, { onConflict: 'sepay_id' });
+          
+        if (insertTxError) {
+          console.error(`❌ Lỗi lưu nhật ký giao dịch SePay ${sepayTxId} (Sync):`, insertTxError.message);
+        }
+      }
+
+      if (!orderCode) continue;
+
+      // Tìm đơn hàng tương ứng trong cơ sở dữ liệu
+      const { data: order, error: findError } = await supabase
+        .from("don_hang")
+        .select("id, ma_don_hang, tong_tien, trang_thai, ghi_chu")
+        .eq("ma_don_hang", orderCode)
+        .single();
+
+      if (findError || !order) continue;
+
+      // Nếu đơn hàng đã hoàn tất hoặc đã thanh toán thì bỏ qua
+      const skipStatuses = [
+        "da_tt", "dang_lam", "dang_giao", "hoan_tat",
+        "da_thanh_toan", "da_chuyen_khoan", "dang_lam_don", "da_giao_shipper", "dang_giao", "da_giao", "hoan_thanh"
+      ];
+      if (skipStatuses.includes(order.trang_thai)) continue;
+
+      const expectedAmount = Number(order.tong_tien || 0);
+      if (expectedAmount > 0 && amount < expectedAmount) continue; // Chưa chuyển đủ tiền
+
+      const sepayNote = `[SePay đồng bộ ${new Date().toLocaleString("vi-VN")}] ${content || "Đã nhận giao dịch"}`;
+      const currentNote = order.ghi_chu || "";
+      const nextNote = currentNote.includes("[SePay")
+        ? currentNote
+        : `${currentNote}${currentNote ? "\n" : ""}${sepayNote}`;
+
+      const { data: updated, error: updateError } = await supabase
+        .from("don_hang")
+        .update({
+          trang_thai: "da_tt",
+          ghi_chu: nextNote
+        })
+        .eq("id", order.id)
+        .select()
+        .single();
+
+      if (!updateError && updated) {
+        updatedOrders.push({
+          ma_don_hang: orderCode,
+          so_tien: amount,
+          ngay_gd: tx.transaction_date || ""
+        });
+      }
+    }
+
+    res.json({
+      success: true,
+      ok: true,
+      message: `Đồng bộ hoàn tất. Đã cập nhật tự động ${updatedOrders.length} đơn hàng.`,
+      updated: updatedOrders
+    });
+  } catch (error) {
+    console.error("Lỗi đồng bộ SePay:", error);
+    res.status(500).json({ ok: false, error: error.message });
   }
 });
 
@@ -1075,6 +1258,7 @@ function htmlToKnowledgeText(html) {
 
 function loadIndexKnowledge() {
   const now = Date.now();
+
   if (cachedIndexKnowledge.text && now - cachedIndexKnowledge.loadedAt < 60_000) {
     return cachedIndexKnowledge;
   }
@@ -1082,23 +1266,38 @@ function loadIndexKnowledge() {
   const candidates = [
     path.join(process.cwd(), "index.html"),
     path.join(process.cwd(), "public", "index.html"),
+    path.join(process.cwd(), "src", "app", "page.tsx"),
+    path.join(process.cwd(), "src", "app", "page.tsx.bak"),
     path.join(__dirname, "index.html"),
-    path.join(__dirname, "public", "index.html")
+    path.join(__dirname, "public", "index.html"),
+    path.join(__dirname, "src", "app", "page.tsx"),
+    path.join(__dirname, "src", "app", "page.tsx.bak")
   ];
+
+  const texts = [];
 
   for (const filePath of candidates) {
     if (fs.existsSync(filePath)) {
-      const html = fs.readFileSync(filePath, "utf8");
-      cachedIndexKnowledge = {
-        loadedAt: now,
-        source: filePath,
-        text: htmlToKnowledgeText(html).slice(0, 50000)
-      };
-      return cachedIndexKnowledge;
+      const raw = fs.readFileSync(filePath, "utf8");
+      const clean = htmlToKnowledgeText(raw);
+
+      if (clean.length > 30) {
+        texts.push(`FILE: ${filePath}
+${clean}`);
+      }
     }
   }
 
-  cachedIndexKnowledge = { loadedAt: now, source: "", text: "" };
+  cachedIndexKnowledge = {
+    loadedAt: now,
+    source: texts.length ? "index.html + src/app/page.tsx/page.tsx.bak" : "",
+    text: texts.join("
+
+---
+
+").slice(0, 120000)
+  };
+
   return cachedIndexKnowledge;
 }
 
@@ -1208,11 +1407,69 @@ function stripUnsafeHtml(text) {
     .replace(/javascript:/gi, "");
 }
 
+const MENU_AND_MERCH_KNOWLEDGE = `
+--- TOÀN BỘ THỰC ĐƠN ĐỒ UỐNG & VẬT PHẨM BÁN HÀNG CỦA VPC ---
+A. THỰC ĐƠN ĐỒ UỐNG & BÁNH NGỌT:
+1. Cà phê phin truyền thống:
+   - Legend Đen Đá / Legend Sữa Đá: 50.000đ (đen) / 55.000đ (sữa)
+   - Coffee Legend (Cà phê phin đặc biệt, đậm đà nguyên bản): 165.000đ
+   - Năng Lượng Tư Duy: 36.000đ (đen) / 41.000đ (sữa)
+   - Năng Lượng Sáng Tạo: 32.000đ (đen) / 37.000đ (sữa)
+2. Cà phê máy Ý hiện đại:
+   - Double Espresso / Americano: 48.000đ
+   - Latte / Cappuccino: 73.000đ (latte) / 68.000đ (cappuccino)
+   - Latte Yến Mạch / Cappuccino Yến Mạch: 79.000đ (latte) / 73.000đ (cappuccino)
+   - Success Đen Đá / Success Sữa Đá: 45.000đ (đen) / 50.000đ (sữa)
+3. Cà phê pha chế đặc biệt (Signature):
+   - Cà phê muối Legend / Cold Brew Phương Đông: 63.000đ
+   - Cà phê trứng / Cà phê cốt dừa (Cà phê dừa): 79.000đ
+   - Cà phê hạnh nhân / Cà phê Mother Land: 68.000đ
+   - Cà phê Cold Brew / Bạc xỉu: 48.000đ
+4. Trà & Trà sữa:
+   - Trà đào cam sả / Trà vải hoa hồng / Trà cam quế đá: 68.000đ
+   - Trà sen vàng (Lá nếp sen vàng): 68.000đ
+   - Trà sữa Legend / Trà sữa ô long: 58.000đ
+5. Sinh tố & Đá xay:
+   - Sinh tố theo mùa (Xoài, Bơ, Chanh Dây, Dâu): 68.000đ
+   - Kim quất đá xay / Trà xanh đá xay: 58.000đ
+   - Đá xay Cacao hạt dẻ: 68.000đ
+6. Nước ép trái cây tươi & Nước giải nhiệt:
+   - Nước ép (Cam vắt, Nước ép chanh dây, Thơm, Dưa hấu): 58.000đ
+   - Nước chanh dây thơm sả / Chanh sả gừng hạt chia: 58.000đ
+   - Nước chanh muối mật ong: 45.000đ
+   - Trà Hibiscus thanh nhiệt: 63.000đ
+   - Nước suối đóng chai: 19.000đ
+7. Matcha & Cacao:
+   - Matcha sữa đá / Sữa tươi trân châu đường đen: 68.000đ
+   - Cacao sữa: 53.000đ
+   - Sữa tươi: 38.000đ
+8. Bánh ngọt ăn kèm:
+   - Bánh Mousse (Chanh dây / Dâu), Bánh Tiramisu, Croissant thực dưỡng: 39.000đ
+   - Panna Cotta (Xoài / Chanh dây): 29.000đ
+
+B. VẬT PHẨM & CÀ PHÊ GÓI (MERCHANDISE):
+1. Bộ quà tặng cao cấp:
+   - Hộp quà giàu có Legend (hộp set quà giàu có 225g): 850.000đ
+2. Cà phê hạt & Cà phê bột phin:
+   - Cà phê hạt mộc Espresso (Robusta/Arabica - gói 1kg): 750.000đ
+   - Cà phê Drip phin giấy (Sáng tạo 1/2/3/4/5 - hộp 10 sticks): 120.000đ
+3. Ly sứ, phin pha chế:
+   - Phin nhôm Trung Nguyên Legend: 130.000đ
+   - Phin sứ cao cấp: 290.000đ
+   - Ly sứ Legend VIP (Đen/Trắng): 350.000đ
+   - Bình giữ nhiệt Trung Nguyên Legend (Trắng/Đen): 380.000đ
+4. Vật phẩm phong cách sống VPC:
+   - Sổ tay VPC: 95.000đ
+   - Túi vải canvas VPC: 120.000đ
+   - Khăn rằn Nam Bộ: 60.000đ
+`;
+
 function buildAiSystemPrompt(context) {
   return `Bạn là Trang, trợ lý tư vấn khách hàng của Vietnam Prosperity Coffee / Trung Nguyên Legend Âu Lạc.\n`
     + `Trả lời bằng tiếng Việt, thân thiện, ngắn gọn, ưu tiên tư vấn món, đặt hàng, thanh toán SePay/VietinBank, tra cứu đơn, địa chỉ và khuyến mãi.\n`
     + `Không bịa thông tin ngoài ngữ cảnh. Nếu không chắc, hướng khách gọi 038 972 6999.\n`
-    + `Thông tin website: ${context || "Không có ngữ cảnh bổ sung."}`;
+    + `Thông tin thực đơn sản phẩm của quán:\n${MENU_AND_MERCH_KNOWLEDGE}\n\n`
+    + `Thông tin ngữ cảnh website bổ sung khác: ${context || "Không có."}`;
 }
 
 async function askGemini(question, context) {
@@ -1245,9 +1502,9 @@ async function askGemini(question, context) {
 }
 
 async function askOpenAI(question, context) {
-  const model = process.env.OPENAI_MODEL || "gpt-4.1-mini";
+  const model = process.env.OPENAI_MODEL || "gpt-4o";
 
-  const response = await fetch("https://api.openai.com/v1/responses", {
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -1255,18 +1512,18 @@ async function askOpenAI(question, context) {
     },
     body: JSON.stringify({
       model,
-      input: [
+      messages: [
         { role: "system", content: buildAiSystemPrompt(context) },
         { role: "user", content: String(question || "") }
       ],
       temperature: 0.4,
-      max_output_tokens: 700
+      max_tokens: 700
     })
   });
 
   const result = await response.json();
   if (!response.ok) throw new Error(result.error?.message || "OpenAI API lỗi");
-  return result.output_text || result.output?.flatMap(o => o.content || []).map(c => c.text || "").join("\n").trim() || "";
+  return result.choices?.[0]?.message?.content?.trim() || "";
 }
 
 
@@ -1276,30 +1533,37 @@ app.post("/api/chat", (req, res, next) => {
   next();
 });
 
-// Code này cho chatbox gọi AI qua backend, ưu tiên Gemini rồi tới ChatGPT
+// Code này cho chatbox gọi AI qua backend, ưu tiên ChatGPT rồi tới Gemini
 app.post("/api/chat-ai", async (req, res) => {
   try {
-    const { question, message, context } = req.body || {};
+    const { question, message, context, adminContext } = req.body || {};
     const userQuestion = String(question || message || "").trim();
 
     if (!userQuestion) {
       return res.status(400).json({ error: "Thiếu câu hỏi." });
     }
 
-    const websiteContext = await buildWebsiteContextForAi(userQuestion, context);
+    let websiteContext = await buildWebsiteContextForAi(userQuestion, context);
+
+    if (adminContext) {
+      websiteContext += `
+
+Dữ liệu admin hiện tại:
+${JSON.stringify(adminContext, null, 2).slice(0, 30000)}`;
+    }
 
     let answer = "";
     let provider = "local";
 
-    if (process.env.AI_PROVIDER === "openai" && process.env.OPENAI_API_KEY) {
-      provider = "openai";
-      answer = await askOpenAI(userQuestion, websiteContext);
-    } else if (process.env.GEMINI_API_KEY) {
+    if (process.env.AI_PROVIDER === "gemini" && process.env.GEMINI_API_KEY) {
       provider = "gemini";
       answer = await askGemini(userQuestion, websiteContext);
     } else if (process.env.OPENAI_API_KEY) {
       provider = "openai";
       answer = await askOpenAI(userQuestion, websiteContext);
+    } else if (process.env.GEMINI_API_KEY) {
+      provider = "gemini";
+      answer = await askGemini(userQuestion, websiteContext);
     } else {
       answer = "Trang đã nhận được câu hỏi của bạn. Hiện backend chưa cấu hình GEMINI_API_KEY hoặc OPENAI_API_KEY, bạn vui lòng gọi 038 972 6999 nếu cần hỗ trợ nhanh.";
     }
@@ -1307,6 +1571,7 @@ app.post("/api/chat-ai", async (req, res) => {
     return res.json({
       provider,
       reply: stripUnsafeHtml(answer),
+      answer: stripUnsafeHtml(answer),
       knowledgeSource: websiteContext.includes("Thông tin tìm thấy trong index.html") ? "index.html" : "keyword-fallback"
     });
   } catch (error) {
@@ -1319,6 +1584,86 @@ app.post("/api/chat-ai", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+async function initDatabase() {
+  const dbUrl = process.env.DATABASE_URL;
+  if (!dbUrl) {
+    console.log("⚠️ Không tìm thấy DATABASE_URL trong môi trường. Bỏ qua khởi tạo bảng Postgres.");
+    return;
+  }
+
+  const client = new Client({
+    connectionString: dbUrl,
+    ssl: {
+      rejectUnauthorized: false
+    }
+  });
+
+  try {
+    await client.connect();
+    console.log("🔌 Kết nối PostgreSQL thành công để kiểm tra cấu trúc DB.");
+
+    const createTableQuery = `
+      CREATE TABLE IF NOT EXISTS public.sepay_transactions (
+        id bigint GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+        sepay_id bigint UNIQUE,
+        gateway text,
+        transaction_date timestamp with time zone,
+        amount_in numeric(15,2) DEFAULT 0,
+        amount_out numeric(15,2) DEFAULT 0,
+        transaction_content text,
+        reference_number text,
+        accumulated_balance numeric(15,2) DEFAULT 0,
+        order_code text,
+        created_at timestamp with time zone DEFAULT now()
+      );
+      CREATE INDEX IF NOT EXISTS idx_sepay_transactions_sepay_id ON public.sepay_transactions(sepay_id);
+      CREATE INDEX IF NOT EXISTS idx_sepay_transactions_order_code ON public.sepay_transactions(order_code);
+    `;
+
+    await client.query(createTableQuery);
+    console.log("✅ Đã xác minh/khởi tạo thành công bảng public.sepay_transactions và các indexes.");
+  } catch (err) {
+    console.error("❌ Lỗi khi khởi tạo cơ sở dữ liệu Postgres:", err.message);
+  } finally {
+    await client.end();
+  }
+}
+// Code này cập nhật trạng thái đơn hàng theo mã đơn
+app.patch("/api/don-hang/:maDonHang", async (req, res) => {
+  try {
+    const { maDonHang } = req.params;
+    const { trang_thai } = req.body;
+
+    if (!maDonHang || !trang_thai) {
+      return res.status(400).json({
+        error: "Thiếu mã đơn hàng hoặc trạng thái"
+      });
+    }
+
+    const { data, error } = await supabase
+      .from("don_hang")
+      .update({
+        trang_thai,
+        updated_at: new Date().toISOString()
+      })
+      .eq("ma_don_hang", maDonHang)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    return res.json({
+      success: true,
+      data
+    });
+  } catch (error) {
+    console.error("Lỗi cập nhật trạng thái:", error);
+    return res.status(500).json({
+      error: "Không cập nhật được trạng thái đơn hàng"
+    });
+  }
+});
+app.listen(PORT, async () => {
   console.log(`API đang chạy tại http://localhost:${PORT}`);
+  await initDatabase();
 });

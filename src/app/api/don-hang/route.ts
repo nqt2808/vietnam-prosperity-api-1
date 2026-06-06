@@ -94,8 +94,8 @@ export async function POST(req: NextRequest) {
     }
 
     // 4. Sinh VietQR URL động
-    const encodedMemo = encodeURIComponent(ma_don_hang)
-    const vietqr_url = `https://img.vietqr.io/image/vietinbank-101882692631-compact2.png?amount=${tong_tien}&addInfo=${encodedMemo}&accountName=NGO%20QUYNH%20TRANG`
+    const encodedMemo = encodeURIComponent(`SEVQR ${ma_don_hang}`)
+    const vietqr_url = `https://qr.sepay.vn/img?acc=101882692631&bank=VietinBank&amount=${tong_tien}&des=${encodedMemo}`
 
     console.log(`✅ Order ${ma_don_hang} created successfully with customer ID ${khach_hang_id}`)
     

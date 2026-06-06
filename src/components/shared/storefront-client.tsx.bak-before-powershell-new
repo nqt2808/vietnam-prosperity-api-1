@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
 import {
@@ -706,7 +706,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
         setDistance(computedDistance)
         
         if (computedDistance > 10) {
-          setDistanceError(`Vui lòng kiểm tra lại địa chỉ đã nhập. Khoảng cách quá xa (${computedDistance}km > 10km) nên cửa hàng không thể nhận đơn của bạn. Cảm ơn vì đã quan tâm đến Trung Nguyên Legend Âu Lạc. Bạn có thể đặt nước ở chi nhánh gần nhất ạ. Cảm ơn khách yêu ạ.`)
+          setDistanceError(`Vui l�ng kiểm tra lại địa chỉ đ� nhập. Khoảng c�ch qu� xa (${computedDistance}km > 10km) n�n cửa h�ng kh�ng thể nhận đơn của bạn. Cảm ơn v� đ� quan t�m đến Trung Nguy�n Legend �u Lạc. Bạn c� thể đặt nước ở chi nh�nh gần nhất ạ. Cảm ơn kh�ch y�u ạ.`)
           setShippingFee(0)
         } else {
           setDistanceError('')
@@ -719,14 +719,14 @@ export function StorefrontClient({ categories: initialCategories, products: init
         }
         return computedDistance
       } else {
-        setDistanceError('Không tìm thấy địa chỉ của bạn tại Thừa Thiên Huế. Vui lòng nhập địa chỉ cụ thể hơn (v� dụ: 12 Bến Ngh�, Huế) để kiểm tra khoảng c�ch giao h�ng.')
+        setDistanceError('Kh�ng t�m thấy địa chỉ của bạn tại Thừa Thi�n Huế. Vui l�ng nhập địa chỉ cụ thể hơn (v� dụ: 12 Bến Ngh�, Huế) để kiểm tra khoảng c�ch giao h�ng.')
         setDistance('')
         setShippingFee(0)
         return null
       }
     } catch (err) {
       console.error("OSM Geocoding Error:", err)
-      setDistanceError('Có lỗi xảy ra khi kiểm tra địa chỉ. Vui lòng thử lại sau.')
+      setDistanceError('C� lỗi xảy ra khi kiểm tra địa chỉ. Vui l�ng thử lại sau.')
       return null
     } finally {
       setIsGeocoding(false)
@@ -924,7 +924,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
         address: deliveryType === 'delivery' ? address : 'Nhận tại cửa hàng',
         note: mappedNote,
         deliveryType,
-        distance: deliveryType === 'delivery' ? Number(distance) : 0,
+        distance: deliveryType === 'delivery' ? Number(currentDistance) : 0,
         paymentMethod,
         subtotal: totalCartPrice,
         shippingFee,
@@ -2038,8 +2038,8 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 {/* QR code box */}
                 <div className="relative aspect-square w-64 h-64 border border-[#decdb9]/10 rounded-2xl overflow-hidden p-2.5 bg-white shadow-lg">
                   <img
-                    src={`https://qr.sepay.vn/img?acc=101882692631&bank=VietinBank&amount=${finalPayPrice}&des=${encodeURIComponent('SEVQR ' + orderCode)}`}
-                    alt="SePay QR code"
+                    src={`https://img.vietqr.io/image/vietinbank-101882692631-compact2.png?amount=${finalPayPrice}&addInfo=${encodeURIComponent(fullName + ' ' + orderCode)}&accountName=NGO%20QUYNH%20TRANG`}
+                    alt="VietQR code"
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -2048,7 +2048,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 <div className="w-full p-4.5 bg-[#170e0a] rounded-2xl border border-[#decdb9]/10 text-[11px] text-left space-y-2 leading-relaxed">
                   <div className="flex justify-between">
                     <span className="text-[#a89882]">Ngân hàng:</span>
-                    <strong className="text-white">VietinBank (Công Thương Việt Nam)</strong>
+                    <strong className="text-white">VietinBank (C�ng Thương Việt Nam)</strong>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-[#a89882]">Số tài khoản:</span>

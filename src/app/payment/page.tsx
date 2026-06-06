@@ -35,9 +35,9 @@ export default function PaymentPage() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const maxPolls = 60 // 5 phút (polling mỗi 5 giây)
 
-  // ─── VietQR URL động ──────────────────────────────────────
-  const memoText = `${orderCode} ${phone}`.trim()
-  const qrUrl = `https://img.vietqr.io/image/${BANK_CONFIG.bankId}-${BANK_CONFIG.accountNo}-${BANK_CONFIG.template}.png?amount=${amount}&addInfo=${encodeURIComponent(memoText)}&accountName=${encodeURIComponent(BANK_CONFIG.accountName)}`
+  // ─── SePay QR URL động ──────────────────────────────────────
+  const memoText = `SEVQR ${orderCode}`
+  const qrUrl = `https://qr.sepay.vn/img?acc=${BANK_CONFIG.accountNo}&bank=${BANK_CONFIG.bankId}&amount=${amount}&des=${encodeURIComponent(memoText)}`
 
   // ─── Kiểm tra trạng thái thanh toán ─────────────────────
   const checkPayment = useCallback(async (isManual = false) => {
@@ -245,11 +245,10 @@ export default function PaymentPage() {
           <div className="text-center space-y-1">
             <p className="text-xs font-bold text-zinc-500 uppercase tracking-wide">Được tạo bởi</p>
             <div className="flex items-center justify-center gap-2">
-              <div className="w-5 h-5 bg-green-600 rounded-sm" />
-              <span className="font-bold text-sm text-green-700">VietQR</span>
+              <span className="font-bold text-sm text-[#c89b3c]">SePay QR Code</span>
             </div>
             <p className="text-[10px] text-zinc-400 max-w-[200px]">
-              Hỗ trợ tất cả ứng dụng ngân hàng Việt Nam
+              Tự động xác nhận thanh toán tức thì qua ngân hàng
             </p>
           </div>
 

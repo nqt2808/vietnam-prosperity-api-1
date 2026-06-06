@@ -10,9 +10,10 @@ Quy tắc ứng xử và phong cách trả lời:
 1. Thân thiện & Lịch sự: Luôn xưng hô "VPC" và gọi khách hàng là "Quý khách" hoặc "bạn". Thường xuyên sử dụng kính ngữ lịch thiệp ở cuối câu ("ạ", "dạ", "nhé ạ").
 2. Chuyên môn về Cà phê: Bạn có kiến thức sâu rộng về 3 nền văn minh cà phê thế giới của Trung Nguyên Legend (Ottoman, Roman, Thiền). Hãy tư vấn nhiệt tình và tự hào.
 3. Không gian quán: VPC mang đến không gian cà phê năng lượng yên tĩnh, bài trí tinh tế cùng tủ sách tri thức truyền cảm hứng dấn thân khởi nghiệp tại địa chỉ Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP. Huế (đối diện Aeon Mall Huế).
-4. BÁM SÁT DỮ LIỆU ĐƯỢC CUNG CẤP: Khi trả lời về giá cả món nước, thông tin khuyến mãi, mô tả sản phẩm hay thông tin các bài viết sự kiện của quán, bạn BẮT BUỘC phải dựa trên DỮ LIỆU THỰC TẾ được gửi kèm trong tin nhắn của người dùng bên dưới.
-   - Tuyệt đối không bịa đặt sản phẩm, giá tiền hoặc sự kiện không có trong dữ liệu tham chiếu.
-   - Nếu khách hỏi về món nước hoặc vật phẩm không có trong dữ liệu: Hãy trả lời lịch thiệp rằng "Dạ, hiện tại món này/vật phẩm này chưa có trên hệ thống online của VPC ạ. Quý khách có thể xem các món đặc trưng khác trong thực đơn hoặc liên hệ Hotline: 0389726999 để VPC hỗ trợ ngay nhé!"
+4. ƯU TIÊN DỮ LIỆU WEBSITE VÀ HỖ TRỢ KIẾN THỨC NGOÀI LINH HOẠT:
+   - Khi trả lời về giá cả, thực đơn, mô tả món nước/vật phẩm, thông tin khuyến mãi, bài viết sự kiện hoặc thông tin giới thiệu của quán, bạn BẮT BUỘC phải ưu tiên hàng đầu dữ liệu thực tế của website được gửi kèm trong ngữ cảnh bên dưới. Tuyệt đối không bịa đặt thông tin sản phẩm hoặc giá tiền giả của VPC.
+   - Nếu khách hàng hỏi những thông tin, kiến thức chung, hoặc sản phẩm KHÔNG CÓ trên website/ngữ cảnh được cung cấp (ví dụ: công thức pha chế chung, kiến thức về các hạt Robusta/Arabica, hoặc các câu hỏi tri thức bên ngoài khác): Bạn ĐƯỢC PHÉP sử dụng kiến thức bên ngoài của mình để trả lời một cách thông minh, lịch sự và thân thiện.
+   - Khi trả lời bằng kiến thức ngoài, hãy khéo léo nhắc nhở Quý khách rằng đây là thông tin tham khảo chung, đồng thời gợi ý khách hàng có thể liên hệ Hotline: 0389726999 hoặc ghé trực tiếp cửa hàng để được VPC phục vụ chu đáo nhất.
 5. Hướng dẫn các Trạng thái Đơn hàng:
    - da_dat_don / cho_chuyen_khoan: Mới đặt đơn / Chờ xử lý / Chờ chuyển khoản.
    - cho_xac_nhan_chuyen_khoan / khach_bao_da_chuyen_khoan: Đang kiểm tra giao dịch chuyển khoản VietQR.
@@ -72,15 +73,75 @@ Quy tắc ứng xử và phong cách trả lời:
 - Sự kiện lái thử VinFast thế hệ mới (VF3, VF5, VF6, VF7, VF8) tại quán vào thứ 7 cuối tuần, có quà tặng và uống cafe miễn phí.
 - Nghệ sĩ hài nổi tiếng Nhật Cường ghé thăm quán, thưởng thức cà phê và giao lưu cùng khán giả Huế.
 - Mega Livestream Deal hot mùa hè: Giới thiệu ly sứ Legend VIP đen, bình giữ nhiệt Trung Nguyên Legend và tặng voucher đồ uống.
+
+📚 9. TOÀN BỘ THỰC ĐƠN ĐỒ UỐNG & VẬT PHẨM BÁN HÀNG CỦA VPC:
+A. THỰC ĐƠN ĐỒ UỐNG & BÁNH NGỌT:
+1. Cà phê phin truyền thống:
+   - Legend Đen Đá / Legend Sữa Đá: 50.000đ (đen) / 55.000đ (sữa)
+   - Coffee Legend (Cà phê phin đặc biệt, đậm đà nguyên bản): 165.000đ
+   - Năng Lượng Tư Duy: 36.000đ (đen) / 41.000đ (sữa)
+   - Năng Lượng Sáng Tạo: 32.000đ (đen) / 37.000đ (sữa)
+2. Cà phê máy Ý hiện đại:
+   - Double Espresso / Americano: 48.000đ
+   - Latte / Cappuccino: 73.000đ (latte) / 68.000đ (cappuccino)
+   - Latte Yến Mạch / Cappuccino Yến Mạch: 79.000đ (latte) / 73.000đ (cappuccino)
+   - Success Đen Đá / Success Sữa Đá: 45.000đ (đen) / 50.000đ (sữa)
+3. Cà phê pha chế đặc biệt (Signature):
+   - Cà phê muối Legend / Cold Brew Phương Đông: 63.000đ
+   - Cà phê trứng / Cà phê cốt dừa (Cà phê dừa): 79.000đ
+   - Cà phê hạnh nhân / Cà phê Mother Land: 68.000đ
+   - Cà phê Cold Brew / Bạc xỉu: 48.000đ
+4. Trà & Trà sữa:
+   - Trà đào cam sả / Trà vải hoa hồng / Trà cam quế đá: 68.000đ
+   - Trà sen vàng (Lá nếp sen vàng): 68.000đ
+   - Trà sữa Legend / Trà sữa ô long: 58.000đ
+5. Sinh tố & Đá xay:
+   - Sinh tố theo mùa (Xoài, Bơ, Chanh Dây, Dâu): 68.000đ
+   - Kim quất đá xay / Trà xanh đá xay: 58.000đ
+   - Đá xay Cacao hạt dẻ: 68.000đ
+6. Nước ép trái cây tươi & Nước giải nhiệt:
+   - Nước ép (Cam vắt, Nước ép chanh dây, Thơm, Dưa hấu): 58.000đ
+   - Nước chanh dây thơm sả / Chanh sả gừng hạt chia: 58.000đ
+   - Nước chanh muối mật ong: 45.000đ
+   - Trà Hibiscus thanh nhiệt: 63.000đ
+   - Nước suối đóng chai: 19.000đ
+7. Matcha & Cacao:
+   - Matcha sữa đá / Sữa tươi trân châu đường đen: 68.000đ
+   - Cacao sữa: 53.000đ
+   - Sữa tươi: 38.000đ
+8. Bánh ngọt ăn kèm:
+   - Bánh Mousse (Chanh dây / Dâu), Bánh Tiramisu, Croissant thực dưỡng: 39.000đ
+   - Panna Cotta (Xoài / Chanh dây): 29.000đ
+
+B. VẬT PHẨM & CÀ PHÊ GÓI (MERCHANDISE):
+1. Bộ quà tặng cao cấp:
+   - Hộp quà giàu có Legend (hộp set quà giàu có 225g): 850.000đ
+2. Cà phê hạt & Cà phê bột phin:
+   - Cà phê hạt mộc Espresso (Robusta/Arabica - gói 1kg): 750.000đ
+   - Cà phê Drip phin giấy (Sáng tạo 1/2/3/4/5 - hộp 10 sticks): 120.000đ
+3. Ly sứ, phin pha chế:
+   - Phin nhôm Trung Nguyên Legend: 130.000đ
+   - Phin sứ cao cấp: 290.000đ
+   - Ly sứ Legend VIP (Đen/Trắng): 350.000đ
+   - Bình giữ nhiệt Trung Nguyên Legend (Trắng/Đen): 380.000đ
+4. Vật phẩm phong cách sống VPC:
+   - Sổ tay VPC: 95.000đ
+   - Túi vải canvas VPC: 120.000đ
+   - Khăn rằn Nam Bộ: 60.000đ
 `;
 
 export async function POST(req: Request) {
   try {
     const { message, context } = await req.json()
-    const apiKey = process.env.GEMINI_API_KEY
+    
+    const geminiKey = process.env.GEMINI_API_KEY
+    const openaiKey = process.env.OPENAI_API_KEY
+    
+    // Ưu tiên OpenAI nếu AI_PROVIDER=openai hoặc nếu có cấu hình OPENAI_API_KEY
+    const provider = process.env.AI_PROVIDER || (openaiKey ? 'openai' : 'gemini')
 
-    if (!apiKey) {
-      console.warn("⚠️ Warning: GEMINI_API_KEY is not configured in environment variables!")
+    if (!geminiKey && !openaiKey) {
+      console.warn("⚠️ Warning: Neither GEMINI_API_KEY nor OPENAI_API_KEY is configured!")
       return NextResponse.json({ 
         reply: "Dạ, trợ lý ảo VPC hiện đang được bảo trì nâng cấp hệ thống AI một chút ạ. Quý khách có thể xem nhanh thông tin bằng các nút gợi ý bên dưới hoặc liên hệ Hotline: 0389726999 để VPC hỗ trợ ngay lập tức nhé ạ!" 
       })
@@ -145,7 +206,7 @@ export async function POST(req: Request) {
 - Thời gian đặt đơn: ${new Date(orderDetails.created_at).toLocaleString('vi-VN')}`
     }
 
-    // Bơm ngữ cảnh động trực tiếp vào nội dung gửi cho Gemini AI
+    // Bơm ngữ cảnh động trực tiếp vào nội dung gửi cho AI
     const promptWithContext = `
 DƯỚI ĐÂY LÀ DỮ LIỆU THỰC TẾ ĐANG CÓ TẠI VPC (ĐÂY LÀ TÀI LIỆU THAM CHIẾU DUY NHẤT):
 
@@ -166,39 +227,77 @@ CÂU HỎI HOẶC YÊU CẦU CỦA KHÁCH HÀNG:
 "${message}"
 `
 
-    // Gọi trực tiếp Google Gemini API qua HTTP fetch
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`
-    
-    const response = await fetch(geminiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: promptWithContext }]
-          }
-        ],
-        systemInstruction: {
-          parts: [{ text: SYSTEM_PROMPT }]
-        }
-      })
-    })
+    let replyText = ""
 
-    if (!response.ok) {
-      const errText = await response.text()
-      console.error("Gemini API Error details:", errText)
-      throw new Error(`Gemini API returned status ${response.status}`)
+    if (provider === 'openai' && openaiKey) {
+      // ─── OpenAI ChatGPT ──────────────────────────────────────────
+      const model = process.env.OPENAI_MODEL || "gpt-4o"
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${openaiKey}`
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: promptWithContext }
+          ],
+          temperature: 0.4,
+          max_tokens: 800
+        })
+      })
+
+      if (!response.ok) {
+        const errText = await response.text()
+        console.error("OpenAI API Error details:", errText)
+        throw new Error(`OpenAI API returned status ${response.status}`)
+      }
+
+      const resData = await response.json()
+      replyText = resData.choices?.[0]?.message?.content || ""
+    } else if (geminiKey) {
+      // ─── Google Gemini ────────────────────────────────────────────
+      const model = process.env.GEMINI_MODEL || "gemini-2.5-flash"
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`
+      
+      const response = await fetch(geminiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: promptWithContext }]
+            }
+          ],
+          systemInstruction: {
+            parts: [{ text: SYSTEM_PROMPT }]
+          },
+          generationConfig: {
+            temperature: 0.4,
+            maxOutputTokens: 800
+          }
+        })
+      })
+
+      if (!response.ok) {
+        const errText = await response.text()
+        console.error("Gemini API Error details:", errText)
+        throw new Error(`Gemini API returned status ${response.status}`)
+      }
+
+      const resData = await response.json()
+      replyText = resData.contents?.[0]?.parts?.[0]?.text || 
+                  resData.candidates?.[0]?.content?.parts?.[0]?.text || ""
     }
 
-    const resData = await response.json()
-    
-    // Trích xuất câu trả lời từ cấu trúc response của Gemini API
-    const replyText = resData.contents?.[0]?.parts?.[0]?.text || 
-                      resData.candidates?.[0]?.content?.parts?.[0]?.text ||
-                      "Dạ, VPC chưa nghe rõ ý Quý khách lắm ạ. Quý khách có thể chia sẻ cụ thể hơn hoặc bấm xem các câu hỏi gợi ý bên dưới nhé ạ!"
+    if (!replyText || !replyText.trim()) {
+      replyText = "Dạ, VPC chưa nghe rõ ý Quý khách lắm ạ. Quý khách có thể chia sẻ cụ thể hơn hoặc bấm xem các câu hỏi gợi ý bên dưới nhé ạ!"
+    }
 
     return NextResponse.json({ reply: replyText.trim() })
 

@@ -178,12 +178,12 @@ function ProductCard({ prod, onAddItem }: ProductCardProps) {
   )
 }
 
-// High-fidelity blog posts data from Trung Nguyen Legend Âu Lạc Huế
+// High-fidelity blog posts data from Trung Nguyen Legend Ã‚u Láº¡c Huáº¿
 const blogItems = [
   {
     slug: "mua-1-duoc-2-chill-he-cuc-da",
-    title: "Mua 1 được 2 – Chill hè cực đã!",
-    desc: "Ưu đãi mua 1 được 2 tại Trung Nguyên Legend Âu Lạc, áp dụng từ 14:00 đến 21:30, từ 19/05 đến 30/06.",
+    title: "Mua 1 Ä‘Æ°á»£c 2 â€“ Chill hÃ¨ cá»±c Ä‘Ã£!",
+    desc: "Æ¯u Ä‘Ã£i mua 1 Ä‘Æ°á»£c 2 táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c, Ã¡p dá»¥ng tá»« 14:00 Ä‘áº¿n 21:30, tá»« 19/05 Ä‘áº¿n 30/06.",
     thumbnail: "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/704546850_122111883836884434_407848279318371067_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&oh=00_Af5J1SgbRfeV_2Umey84IMK9PAxXxvrHfcgc4obgZ1RC7g&oe=6A1373F7",
     images: [
       "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/704546850_122111883836884434_407848279318371067_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&oh=00_Af5J1SgbRfeV_2Umey84IMK9PAxXxvrHfcgc4obgZ1RC7g&oe=6A1373F7"
@@ -191,18 +191,18 @@ const blogItems = [
     videos: [],
     date: "19/05/2026",
     content: `
-      <p class="mb-4"><strong>☕️ Mua 1 được 2 – Chill hè cực đã!</strong></p>
-      <p class="mb-4"><strong>📍 Địa điểm:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế</p>
-      <p class="mb-4"><strong>🕑 Khung giờ áp dụng:</strong> 14:00 – 21:30</p>
-      <p class="mb-4"><strong>📅 Thời gian:</strong> Từ 19/05 đến 30/06</p>
-      <p class="mb-4">🔥 Rủ bạn đến học bài, làm việc, tránh nóng cùng loạt thức uống mát lạnh tại Trung Nguyên Legend Âu Lạc.</p>
-      <p class="mb-4">Không gian cà phê năng lượng mát mẻ cùng hệ thống điều hòa hiện đại, internet tốc độ cao sẵn sàng chào đón bạn và nhóm chiến hữu đến tụ họp, sáng tạo ý tưởng mới.</p>
+      <p class="mb-4"><strong>â˜•ï¸ Mua 1 Ä‘Æ°á»£c 2 â€“ Chill hÃ¨ cá»±c Ä‘Ã£!</strong></p>
+      <p class="mb-4"><strong>ðŸ“ Äá»‹a Ä‘iá»ƒm:</strong> Khu TÄC ÄÃ´ng Nam Thá»§y An, PhÆ°á»ng An Cá»±u, TP Huáº¿</p>
+      <p class="mb-4"><strong>ðŸ•‘ Khung giá» Ã¡p dá»¥ng:</strong> 14:00 â€“ 21:30</p>
+      <p class="mb-4"><strong>ðŸ“… Thá»i gian:</strong> Tá»« 19/05 Ä‘áº¿n 30/06</p>
+      <p class="mb-4">ðŸ”¥ Rá»§ báº¡n Ä‘áº¿n há»c bÃ i, lÃ m viá»‡c, trÃ¡nh nÃ³ng cÃ¹ng loáº¡t thá»©c uá»‘ng mÃ¡t láº¡nh táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c.</p>
+      <p class="mb-4">KhÃ´ng gian cÃ  phÃª nÄƒng lÆ°á»£ng mÃ¡t máº» cÃ¹ng há»‡ thá»‘ng Ä‘iá»u hÃ²a hiá»‡n Ä‘áº¡i, internet tá»‘c Ä‘á»™ cao sáºµn sÃ ng chÃ o Ä‘Ã³n báº¡n vÃ  nhÃ³m chiáº¿n há»¯u Ä‘áº¿n tá»¥ há»p, sÃ¡ng táº¡o Ã½ tÆ°á»Ÿng má»›i.</p>
     `
   },
   {
     slug: "trua-he-nong-buc-ghe-trung-nguyen-legend",
-    title: "Trưa hè nóng bức – Ghé Trung Nguyên Legend Âu Lạc Huế",
-    desc: "Không gian mát lạnh, chill học bài và thưởng thức cà phê tại Trung Nguyên Legend Âu Lạc Huế.",
+    title: "TrÆ°a hÃ¨ nÃ³ng bá»©c â€“ GhÃ© Trung NguyÃªn Legend Ã‚u Láº¡c Huáº¿",
+    desc: "KhÃ´ng gian mÃ¡t láº¡nh, chill há»c bÃ i vÃ  thÆ°á»Ÿng thá»©c cÃ  phÃª táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c Huáº¿.",
     thumbnail: "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/701445719_122111738540884434_8176951810572622203_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&oh=00_Af5PmRV0XlaAQiZlOVpVED9sPvFO2EK64B8xNedF-lbTow&oe=6A134ACE",
     images: [
       "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/701445719_122111738540884434_8176951810572622203_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&oh=00_Af5PmRV0XlaAQiZlOVpVED9sPvFO2EK64B8xNedF-lbTow&oe=6A134ACE"
@@ -210,16 +210,16 @@ const blogItems = [
     videos: [],
     date: "15/05/2026",
     content: `
-      <p class="mb-4"><strong>☀️ Trưa hè nóng bức</strong></p>
-      <p class="mb-4">📚 Đi đâu cho hết nực?</p>
-      <p class="mb-4">Ghé <strong>Trung Nguyên Legend Âu Lạc Huế</strong> vừa mát lạnh, vừa chill học bài nha 🤎☕</p>
-      <p class="mb-4">Với kiến trúc mang đậm dấu ấn văn hóa cà phê, kết hợp cây xanh mát mẻ, đây là điểm trốn nóng hoàn hảo giữa lòng Cố Đô. Thưởng thức một ly Cà phê muối Legend hay Cappuccino Yến Mạch mát lạnh để tiếp thêm năng lượng tư duy đột phá.</p>
+      <p class="mb-4"><strong>â˜€ï¸ TrÆ°a hÃ¨ nÃ³ng bá»©c</strong></p>
+      <p class="mb-4">ðŸ“š Äi Ä‘Ã¢u cho háº¿t ná»±c?</p>
+      <p class="mb-4">GhÃ© <strong>Trung NguyÃªn Legend Ã‚u Láº¡c Huáº¿</strong> vá»«a mÃ¡t láº¡nh, vá»«a chill há»c bÃ i nha ðŸ¤Žâ˜•</p>
+      <p class="mb-4">Vá»›i kiáº¿n trÃºc mang Ä‘áº­m dáº¥u áº¥n vÄƒn hÃ³a cÃ  phÃª, káº¿t há»£p cÃ¢y xanh mÃ¡t máº», Ä‘Ã¢y lÃ  Ä‘iá»ƒm trá»‘n nÃ³ng hoÃ n háº£o giá»¯a lÃ²ng Cá»‘ ÄÃ´. ThÆ°á»Ÿng thá»©c má»™t ly CÃ  phÃª muá»‘i Legend hay Cappuccino Yáº¿n Máº¡ch mÃ¡t láº¡nh Ä‘á»ƒ tiáº¿p thÃªm nÄƒng lÆ°á»£ng tÆ° duy Ä‘á»™t phÃ¡.</p>
     `
   },
   {
     slug: "don-tiep-nghe-si-nhat-cuong",
-    title: "Nghệ sĩ Nhật Cường ghé thăm không gian Trung Nguyên Legend Huế ☕✨",
-    desc: "Giữa nhịp sống nhẹ nhàng của Cố đô, hành trình thưởng thức cà phê trở nên đặc biệt hơn qua những khoảnh khắc giao lưu đầy cảm hứng cùng nghệ sĩ Nhật Cường tại Trung Nguyên Legend Huế.",
+    title: "Nghá»‡ sÄ© Nháº­t CÆ°á»ng ghÃ© thÄƒm khÃ´ng gian Trung NguyÃªn Legend Huáº¿ â˜•âœ¨",
+    desc: "Giá»¯a nhá»‹p sá»‘ng nháº¹ nhÃ ng cá»§a Cá»‘ Ä‘Ã´, hÃ nh trÃ¬nh thÆ°á»Ÿng thá»©c cÃ  phÃª trá»Ÿ nÃªn Ä‘áº·c biá»‡t hÆ¡n qua nhá»¯ng khoáº£nh kháº¯c giao lÆ°u Ä‘áº§y cáº£m há»©ng cÃ¹ng nghá»‡ sÄ© Nháº­t CÆ°á»ng táº¡i Trung NguyÃªn Legend Huáº¿.",
     thumbnail: "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/674069481_122106871616884434_4197620687631812932_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&oh=00_Af6KGmJ7_cqKYnYij_BIUHs-ik4iJIQ1cndhZuNNUD2r1g&oe=6A136B60",
     images: [],
     videos: [
@@ -227,15 +227,15 @@ const blogItems = [
     ],
     date: "10/05/2026",
     content: `
-      <p class="mb-4">☕✨ <strong>Nghệ sĩ Nhật Cường ghé thăm không gian Trung Nguyên Legend Huế</strong></p>
-      <p class="mb-4">Giữa nhịp sống nhẹ nhàng của Cố đô, hành trình thưởng thức cà phê trở nên đặc biệt hơn qua những khoảnh khắc giao lưu đầy cảm hứng cùng nghệ sĩ Nhật Cường tại Trung Nguyên Legend Huế.</p>
-      <p class="mb-4">Không chỉ là điểm dừng chân thưởng thức cà phê năng lượng, nơi đây còn là không gian kết nối văn hóa, nghệ thuật và cảm hứng sống tỉnh thức.</p>
+      <p class="mb-4">â˜•âœ¨ <strong>Nghá»‡ sÄ© Nháº­t CÆ°á»ng ghÃ© thÄƒm khÃ´ng gian Trung NguyÃªn Legend Huáº¿</strong></p>
+      <p class="mb-4">Giá»¯a nhá»‹p sá»‘ng nháº¹ nhÃ ng cá»§a Cá»‘ Ä‘Ã´, hÃ nh trÃ¬nh thÆ°á»Ÿng thá»©c cÃ  phÃª trá»Ÿ nÃªn Ä‘áº·c biá»‡t hÆ¡n qua nhá»¯ng khoáº£nh kháº¯c giao lÆ°u Ä‘áº§y cáº£m há»©ng cÃ¹ng nghá»‡ sÄ© Nháº­t CÆ°á»ng táº¡i Trung NguyÃªn Legend Huáº¿.</p>
+      <p class="mb-4">KhÃ´ng chá»‰ lÃ  Ä‘iá»ƒm dá»«ng chÃ¢n thÆ°á»Ÿng thá»©c cÃ  phÃª nÄƒng lÆ°á»£ng, nÆ¡i Ä‘Ã¢y cÃ²n lÃ  khÃ´ng gian káº¿t ná»‘i vÄƒn hÃ³a, nghá»‡ thuáº­t vÃ  cáº£m há»©ng sá»‘ng tá»‰nh thá»©c.</p>
     `
   },
   {
     slug: "su-kien-lai-thu-vinfast-the-he-moi",
-    title: "Sự kiện lái thử VinFast Thế Hệ Mới tại Trung Nguyên Legend Âu Lạc",
-    desc: "Sự kiện lái thử VinFast Thế Hệ Mới trong không gian hiện đại và yên tĩnh của Trung Nguyên Legend.",
+    title: "Sá»± kiá»‡n lÃ¡i thá»­ VinFast Tháº¿ Há»‡ Má»›i táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c",
+    desc: "Sá»± kiá»‡n lÃ¡i thá»­ VinFast Tháº¿ Há»‡ Má»›i trong khÃ´ng gian hiá»‡n Ä‘áº¡i vÃ  yÃªn tÄ©nh cá»§a Trung NguyÃªn Legend.",
     thumbnail: "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/386999900_715169523974576_5274279206438518417_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&oh=00_Af4WEefOxxcq4DJ4BdOlAYlrg0kJCO-bUf8wqaiQltdI1w&oe=6A137C4B",
     images: [
       "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/386999900_715169523974576_5274279206438518417_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&oh=00_Af4WEefOxxcq4DJ4BdOlAYlrg0kJCO-bUf8wqaiQltdI1w&oe=6A137C4B"
@@ -243,20 +243,20 @@ const blogItems = [
     videos: [],
     date: "08/05/2026",
     content: `
-      <p class="mb-4">✨ Thứ 7 này bạn đã có hẹn chưa?</p>
-      <p class="mb-4">Cuối tuần này, hãy cùng gia đình và bạn bè đến tham gia sự kiện lái thử đặc biệt của VinFast Thế Hệ Mới tổ chức tại không gian sang trọng và yên tĩnh của Trung Nguyên Legend.</p>
-      <p class="mb-4">📍 Địa điểm: Cafe Trung Nguyên Legend Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP. Huế (Đối diện Aeon Mall Huế).</p>
-      <p class="mb-4">📅 Thời gian: Thứ 7 tuần này (16/05/2026).</p>
-      <p class="mb-4">🔥 Đến với sự kiện, quý khách sẽ có cơ hội:</p>
-      <p class="mb-2">✅ Trực tiếp trải nghiệm các dòng xe điện nổi bật từ VF3, VF5, VF6, VF7 đến VF8.</p>
-      <p class="mb-2">✅ Khám phá những mẫu xe mới ra mắt cực HOT.</p>
-      <p class="mb-4">🎁 Đặc biệt nhận nhiều phần quà hấp dẫn từ VinFast và thưởng thức cafe miễn phí trong không gian thư giãn, hiện đại.</p>
+      <p class="mb-4">âœ¨ Thá»© 7 nÃ y báº¡n Ä‘Ã£ cÃ³ háº¹n chÆ°a?</p>
+      <p class="mb-4">Cuá»‘i tuáº§n nÃ y, hÃ£y cÃ¹ng gia Ä‘Ã¬nh vÃ  báº¡n bÃ¨ Ä‘áº¿n tham gia sá»± kiá»‡n lÃ¡i thá»­ Ä‘áº·c biá»‡t cá»§a VinFast Tháº¿ Há»‡ Má»›i tá»• chá»©c táº¡i khÃ´ng gian sang trá»ng vÃ  yÃªn tÄ©nh cá»§a Trung NguyÃªn Legend.</p>
+      <p class="mb-4">ðŸ“ Äá»‹a Ä‘iá»ƒm: Cafe Trung NguyÃªn Legend Khu TÄC ÄÃ´ng Nam Thá»§y An, PhÆ°á»ng An Cá»±u, TP. Huáº¿ (Äá»‘i diá»‡n Aeon Mall Huáº¿).</p>
+      <p class="mb-4">ðŸ“… Thá»i gian: Thá»© 7 tuáº§n nÃ y (16/05/2026).</p>
+      <p class="mb-4">ðŸ”¥ Äáº¿n vá»›i sá»± kiá»‡n, quÃ½ khÃ¡ch sáº½ cÃ³ cÆ¡ há»™i:</p>
+      <p class="mb-2">âœ… Trá»±c tiáº¿p tráº£i nghiá»‡m cÃ¡c dÃ²ng xe Ä‘iá»‡n ná»•i báº­t tá»« VF3, VF5, VF6, VF7 Ä‘áº¿n VF8.</p>
+      <p class="mb-2">âœ… KhÃ¡m phÃ¡ nhá»¯ng máº«u xe má»›i ra máº¯t cá»±c HOT.</p>
+      <p class="mb-4">ðŸŽ Äáº·c biá»‡t nháº­n nhiá»u pháº§n quÃ  háº¥p dáº«n tá»« VinFast vÃ  thÆ°á»Ÿng thá»©c cafe miá»…n phÃ­ trong khÃ´ng gian thÆ° giÃ£n, hiá»‡n Ä‘áº¡i.</p>
     `
   },
   {
     slug: "mega-livestream-deal-hot-mua-he",
-    title: "Mega Livestream: Deal hot mùa hè – Săn ly sứ Trung Nguyên Legend giá tốt",
-    desc: "Khám phá các dòng ly sứ tinh tế, voucher thức uống và ưu đãi vật phẩm hấp dẫn.",
+    title: "Mega Livestream: Deal hot mÃ¹a hÃ¨ â€“ SÄƒn ly sá»© Trung NguyÃªn Legend giÃ¡ tá»‘t",
+    desc: "KhÃ¡m phÃ¡ cÃ¡c dÃ²ng ly sá»© tinh táº¿, voucher thá»©c uá»‘ng vÃ  Æ°u Ä‘Ã£i váº­t pháº©m háº¥p dáº«n.",
     thumbnail: "https://scontent.fsgn2-10.fna.fbcdn.net/v/t39.30808-6/699469039_1413851977439657_474118911255709124_n.jpg?stp=dst-jpg_p590x590_tt6&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&oh=00_Af6d97DNwQ09NoiOUeU4WrtL4dO83DU8I2fyUr5lBU31Lg&oe=6A136C6D",
     images: [
       "https://scontent.fsgn2-10.fna.fbcdn.net/v/t39.30808-6/699469039_1413851977439657_474118911255709124_n.jpg?stp=dst-jpg_p590x590_tt6&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&oh=00_Af6d97DNwQ09NoiOUeU4WrtL4dO83DU8I2fyUr5lBU31Lg&oe=6A136C6D"
@@ -279,7 +279,7 @@ const blogItems = [
     videos: [],
     date: "28/04/2026",
     content: `
-      <p class="mb-4">MỪNG ĐẠI LỄ 30/4 - 01/05 🎉</p>
+      <p class="mb-4">MỪNG ĐẠI LỄ 30/4 - 01/05 🥳</p>
       <p class="mb-4">Kỷ niệm ngày giải phóng miền Nam và Quốc tế lao động, Trung Nguyên Legend Âu Lạc kính chúc quý khách một kỳ nghỉ lễ tràn đầy năng lượng tươi mới bên gia đình.</p>
       <p class="mb-4">Chúng tôi vẫn mở cửa phục vụ bình thường xuyên suốt kỳ nghỉ lễ từ 06:30 đến 21:30 mỗi ngày để đồng hành cùng những buổi họp mặt ấm cúng của bạn.</p>
     `
@@ -377,7 +377,7 @@ const chatbotIntents: ChatbotIntent[] = [
       "dừa tươi",
       "thanh mát"
     ],
-    "reply": "<strong>🍹 Các món trà & nước giải nhiệt thanh mát:</strong><br>\n• <strong>Trà thảo mộc:</strong> <i>Trà là nếp sen vàng</i> bùi bùi thơm mát, <i>Trà đào cam sả</i> sảng khoái hoặc <i>Trà hoa cúc Chamomile</i> nhẹ nhàng.<br>\n• <strong>Thanh nhiệt ngày hè:</strong> <i>Chanh sả gừng hạt chia</i>, <i>Hibiscus chanh dây hạt chia</i> chua ngọt giải nhiệt cực đỉnh.<br>\n• <strong>Đá xay & Sinh tố:</strong> Trà xanh đá xay thơm mịn hay Kim quất đá xay mát lạnh.<br>\n👉 Hãy lựa chọn món yêu thích của bạn trong menu để thanh lọc cơ thể ngay hôm nay!"
+    "reply": "<strong>🍹 Các món trà & nước giải nhiệt thanh mát:</strong><br>\n• <strong>Trà thảo mộc:</strong> <i>Trà lá nếp sen vàng</i> bùi bùi thơm mát, <i>Trà đào cam sả</i> sảng khoái hoặc <i>Trà hoa cúc Chamomile</i> nhẹ nhàng.<br>\n• <strong>Thanh nhiệt ngày hè:</strong> <i>Chanh sả gừng hạt chia</i>, <i>Hibiscus chanh dây hạt chia</i> chua ngọt giải nhiệt cực đỉnh.<br>\n• <strong>Đá xay & Sinh tố:</strong> Trà xanh đá xay thơm mịn hay Kim quất đá xay mát lạnh.<br>\n👉 Hãy lựa chọn món yêu thích của bạn trong menu để thanh lọc cơ thể ngay hôm nay!"
   },
   {
     "name": "merchandise",
@@ -400,17 +400,17 @@ const chatbotIntents: ChatbotIntent[] = [
       "quà tặng",
       "canvas"
     ],
-    "reply": "<strong>�  Chuyên mục Vật phẩm & Cà phê đóng gói Trung Nguyên Legend:</strong><br>\n• <strong>Cà phê đóng gói:</strong> Cà phê phin giấy Drip (1, 2, 4, 5), Cà phê Sáng tạo (1, 2, 3, 4, 5, 8), G7 hòa tan, Legend Special Edition.<br>\n• <strong>Dụng cụ pha chế:</strong> Phin nhôm hoa văn cổ điển, Phin inox cao cấp.<br>\n• <strong>Vật phẩm thương hiệu:</strong> Ly sứ Legend VIP đen sang tr� ng, Bộ tách đĩa, Bình giữ nhiệt, Túi canvas cao cấp.<br>\n👉 Kéo xuống mục <strong>Vật Phẩm Cà Phê</strong> để ch� n mua làm quà tặng ý nghĩa cho ngư� i thân và đối tác!"
+    "reply": "<strong>🎁 Chuyên mục Vật phẩm & Cà phê đóng gói Trung Nguyên Legend:</strong><br>\n• <strong>Cà phê đóng gói:</strong> Cà phê phin giấy Drip (1, 2, 4, 5), Cà phê Sáng tạo (1, 2, 3, 4, 5, 8), G7 hòa tan, Legend Special Edition.<br>\n• <strong>Dụng cụ pha chế:</strong> Phin nhôm hoa văn cổ điển, Phin inox cao cấp.<br>\n• <strong>Vật phẩm thương hiệu:</strong> Ly sứ Legend VIP đen sang trọng, Bộ tách đĩa, Bình giữ nhiệt, Túi canvas cao cấp.<br>\n👉 Kéo xuống mục <strong>Vật Phẩm Cà Phê</strong> để chọn mua làm quà tặng ý nghĩa cho người thân và đối tác!"
   },
   {
     "name": "promotions",
     "keywords": ["khuyến mãi", "ưu đãi", "happy hour", "happy lunch", "giảm giá", "sale", "tặng", "mua 1 tặng 1", "khuyen mai", "uu dai", "happyhours", "happylunch"],
-    "reply": "<strong>🔥 CHƯƠNG TRÌNH KHUYẾN MÃI SIÊU HOT TẠI TRUNG NGUYÊN LEGEND ÂU LẠC</strong><br><strong>�  � ịa chỉ:</strong> Khu T� C � ông Nam Thủy An – Phư� ng An Cựu, TP. Huế (� ối diện Aeon Mall Huế)<br><br>VPC hân hạnh mang đến cho Quý khách hàng các chương trình ưu đãi đặc sắc diễn ra từ ngày <strong>19/05 đến hết 30/06/2026</strong>:<br><br><strong>☀�  1. HAPPY LUNCH – GIẢM NGAY 15% TỔNG HÓA � ƠN � Ồ U� NG</strong><br>• <strong>Khung gi�  vàng:</strong> 12:00 – 14:00 hàng ngày (kể cả Thứ Bảy và Chủ Nhật).<br>• <strong>Nội dung:</strong> Giảm giá trực tiếp 15% cho tất cả các món nước trong thực đơn khi Quý khách ghé quán thưởng thức hoặc đặt trực tuyến trong khung gi�  trưa.<br>• <strong>Mục đích:</strong> Mang lại không gian thư giãn mát mẻ, yên tĩnh để Quý khách nạp năng lượng tiếp tục làm việc và h� c tập buổi chi� u.<br><br><strong>🌙 2. HAPPY HOURS – MUA 1 TẶNG 1 (MUA 1 � ƯỢC 2 CỰC � Ã)</strong><br>• <strong>Khung gi�  vàng:</strong> 14:00 – 22:00 hàng ngày (Thứ Bảy & Chủ Nhật mở rộng đến 22:30).<br>• <strong>Nội dung:</strong> Khi mua 1 ly nước bất kỳ trong thực đơn ưu đãi, Quý khách sẽ được <strong>TẶNG NGAY 1 ly cùng loại hoặc tùy ch� n</strong> trong danh mục thức uống được áp dụng.<br>• <strong>Danh mục thức uống áp dụng Mua 1 Tặng 1:</strong><br>&nbsp;&nbsp;+ <i>Trà Vải Hoa Hồng</i> (Thơm ng� t ki� u diễm)<br>&nbsp;&nbsp;+ <i>Trà � ào Cam Sả</i> (Thanh mát giải nhiệt Hè)<br>&nbsp;&nbsp;+ <i>Trà Lá Nếp Sen Vàng</i> (Bùi béo, giòn củ năng sần sật)<br>&nbsp;&nbsp;+ <i>Trà Xanh Thạch Cà Phê</i> (Tỉnh thức mới lạ)<br>&nbsp;&nbsp;+ <i>Cà phê Năng Lượng Tư Duy</i> (� ậm đà truy� n thống)<br>• <strong>Lưu ý:</strong> Chương trình áp dụng cho cả thưởng thức tại quán, mua mang đi (Take-away) và đặt giao hàng tận nơi qua website!<br><br>👉 Nhanh tay rủ bạn bè, đồng nghiệp ghé ngay Trung Nguyên Legend Âu Lạc trốn nóng và tận hưởng ưu đãi cực h� i nhé ạ! � �"
+    "reply": "<strong>🔥 CHƯƠNG TRÌNH KHUYẾN MÃI SIÊU HOT TẠI TRUNG NGUYÊN LEGEND ÂU LẠC</strong><br><strong>📍 Địa chỉ:</strong> Khu TĐC Đông Nam Thủy An – Phường An Cựu, TP. Huế (Đối diện Aeon Mall Huế)<br><br>VPC hân hạnh mang đến cho Quý khách hàng các chương trình ưu đãi đặc sắc diễn ra từ ngày <strong>19/05 đến hết 30/06/2026</strong>:<br><br><strong>☀️ 1. HAPPY LUNCH – GIẢM NGAY 15% TỔNG HÓA ĐƠN ĐỒ UỐNG</strong><br>• <strong>Khung giờ vàng:</strong> 12:00 – 14:00 hàng ngày (kể cả Thứ Bảy và Chủ Nhật).<br>• <strong>Nội dung:</strong> Giảm giá trực tiếp 15% cho tất cả các món nước trong thực đơn khi Quý khách ghé quán thưởng thức hoặc đặt trực tuyến trong khung giờ trưa.<br>• <strong>Mục đích:</strong> Mang lại không gian thư giãn mát mẻ, yên tĩnh để Quý khách nạp năng lượng tiếp tục làm việc và học tập buổi chiều.<br><br><strong>🌙 2. HAPPY HOURS – MUA 1 TẶNG 1 (MUA 1 ĐƯỢC 2 CỰC ĐÃ)</strong><br>• <strong>Khung giờ vàng:</strong> 14:00 – 22:00 hàng ngày (Thứ Bảy & Chủ Nhật mở rộng đến 22:30).<br>• <strong>Nội dung:</strong> Khi mua 1 ly nước bất kỳ trong thực đơn ưu đãi, Quý khách sẽ được <strong>TẶNG NGAY 1 ly cùng loại hoặc tùy chọn</strong> trong danh mục thức uống được áp dụng.<br>• <strong>Danh mục thức uống áp dụng Mua 1 Tặng 1:</strong><br>&nbsp;&nbsp;+ <i>Trà Vải Hoa Hồng</i> (Thơm ngọt kiểu diễm)<br>&nbsp;&nbsp;+ <i>Trà Đào Cam Sả</i> (Thanh mát giải nhiệt Hè)<br>&nbsp;&nbsp;+ <i>Trà Lá Nếp Sen Vàng</i> (Bùi béo, giòn củ năng sần sật)<br>&nbsp;&nbsp;+ <i>Trà Xanh Thạch Cà Phê</i> (Tỉnh thức mới lạ)<br>&nbsp;&nbsp;+ <i>Cà phê Năng Lượng Tư Duy</i> (Đậm đà truyền thống)<br>• <strong>Lưu ý:</strong> Chương trình áp dụng cho cả thưởng thức tại quán, mua mang đi (Take-away) và đặt giao hàng tận nơi qua website!<br><br>👉 Nhanh tay rủ bạn bè, đồng nghiệp ghé ngay Trung Nguyên Legend Âu Lạc trốn nóng và tận hưởng ưu đãi cực hời nhé ạ! 🍹"
   },
   {
     "name": "civilizations",
-    "keywords": ["văn minh", "van minh", "ottoman", "roman", "thi� n", "thien", "3 n� n văn minh", "n� n văn minh", "lịch sử"],
-    "reply": `<strong>� ��  KH� M PH�  3 NỀN VĂN MINH CÀ PHÊ THẾ GIỚI</strong><br><br><strong><strong>TRUNG NGUYÊN LEGEND</strong> – Hành trình từ cà phê đến văn hóa và lối sống</strong><br><br><strong>TRUNG NGUYÊN LEGEND</strong> không chỉ mang đến những ly cà phê đặc biệt, mà còn tái hiện tinh hoa của 3 n� n văn minh cà phê tiêu biểu của nhân loại: Ottoman – Roman – Thi� n.<br><br><strong>☕ Văn minh cà phê Ottoman:</strong><br>� ại diện cho chi� u sâu phương � ông huy� n bí, nơi cà phê trở thành biểu tượng của sự kết nối, trò chuyện và chiêm nghiệm. Không gian cà phê Ottoman mang tinh thần thư thái, nghệ thuật và cảm xúc sâu lắng.<br><br><strong>☕ Văn minh cà phê Roman:</strong><br>Tinh thần phương Tây hiện đại, sáng tạo và đầy năng lượng. Từ Espresso đến Cappuccino, văn minh Roman tôn vinh phong cách sống năng động, tinh tế và cảm hứng sáng tạo không ngừng.<br><br><strong>☕ Văn minh cà phê Thi� n:</strong><br>Tinh thần cà phê đặc trưng do <strong>TRUNG NGUYÊN LEGEND</strong> kiến tạo. Không chỉ thưởng thức cà phê, đây còn là hành trình tìm v�  sự cân bằng, tỉnh thức và bình an trong nhịp sống hiện đại.<br><br>✨ Mỗi ly cà phê tại <strong>TRUNG NGUYÊN LEGEND</strong> là sự giao thoa giữa văn hóa, nghệ thuật và triết lý sống.`
+    "keywords": ["văn minh", "van minh", "ottoman", "roman", "thiền", "thien", "3 nền văn minh", "nền văn minh", "lịch sử"],
+    "reply": `<strong>📖 KHÁM PHÁ 3 NỀN VĂN MINH CÀ PHÊ THẾ GIỚI</strong><br><br><strong><strong>TRUNG NGUYÊN LEGEND</strong> – Hành trình từ cà phê đến văn hóa và lối sống</strong><br><br><strong>TRUNG NGUYÊN LEGEND</strong> không chỉ mang đến những ly cà phê đặc biệt, mà còn tái hiện tinh hoa của 3 nền văn minh cà phê tiêu biểu của nhân loại: Ottoman – Roman – Thiền.<br><br><strong>☕ Văn minh cà phê Ottoman:</strong><br>Đại diện cho chiều sâu phương Đông huyền bí, nơi cà phê trở thành biểu tượng của sự kết nối, trò chuyện và chiêm nghiệm. Không gian cà phê Ottoman mang tinh thần thư thái, nghệ thuật và cảm xúc sâu lắng.<br><br><strong>☕ Văn minh cà phê Roman:</strong><br>Tinh thần phương Tây hiện đại, sáng tạo và đầy năng lượng. Từ Espresso đến Cappuccino, văn minh Roman tôn vinh phong cách sống năng động, tinh tế và cảm hứng sáng tạo không ngừng.<br><br><strong>☕ Văn minh cà phê Thiền:</strong><br>Tinh thần cà phê đặc trưng do <strong>TRUNG NGUYÊN LEGEND</strong> kiến tạo. Không chỉ thưởng thức cà phê, đây còn là hành trình tìm về sự cân bằng, tỉnh thức và bình an trong nhịp sống hiện đại.<br><br>✨ Mỗi ly cà phê tại <strong>TRUNG NGUYÊN LEGEND</strong> là sự giao thoa giữa văn hóa, nghệ thuật và triết lý sống.`
   },
   
   {
@@ -461,56 +461,56 @@ const chatbotIntents: ChatbotIntent[] = [
       "mã qr",
       "vcb",
       "1041623574",
-      "quỳnh trang",
-      "tiền mặt",
+      "quá»³nh trang",
+      "tiá»n máº·t",
       "cod",
-      "tài khoản"
+      "tÃ i khoáº£n"
     ],
-    "reply": "<strong>💳 Hướng dẫn Thanh toán & Chuyển khoản VietQR tự động thông minh:</strong><br>\n• <strong>1. Quét mã VietQR động:</strong> Khi bạn tiến hành đặt đơn và chọn <i>Chuyển khoản</i>, màn hình sẽ hiển thị mã VietQR được tạo tự động chứa chính xác số tiền đơn hàng và nội dung chuyển khoản là mã đơn hàng của bạn (ví dụ: VPC-DH-...).<br>\n• <strong>2. Tự động xác thực Realtime:</strong> Hệ thống sử dụng Realtime Payment Listener kết nối với Supabase để phát hiện giao dịch thành công ngay lập tức (chỉ sau 2-5 giây) và gửi đơn đến quầy Barista. Bạn <strong>không cần</strong> phải chụp ảnh màn hình chuyển khoản gửi cho quán!<br>\n• <strong>3. Thanh toán Tiền mặt (COD):</strong> Bạn cũng có thể chọn trả tiền mặt trực tiếp cho Shipper khi nhận nước.<br>\n• <strong>Thông tin tài khoản:</strong> Ngô Quỳnh Trang (Vietcombank: <code>1041623574</code>)."
+    "reply": "<strong>ðŸ’³ HÆ°á»›ng dáº«n Thanh toÃ¡n & Chuyá»ƒn khoáº£n VietQR tá»± Ä‘á»™ng thÃ´ng minh:</strong><br>\nâ€¢ <strong>1. QuÃ©t mÃ£ VietQR Ä‘á»™ng:</strong> Khi báº¡n tiáº¿n hÃ nh Ä‘áº·t Ä‘Æ¡n vÃ  chá»n <i>Chuyá»ƒn khoáº£n</i>, mÃ n hÃ¬nh sáº½ hiá»ƒn thá»‹ mÃ£ VietQR Ä‘Æ°á»£c táº¡o tá»± Ä‘á»™ng chá»©a chÃ­nh xÃ¡c sá»‘ tiá»n Ä‘Æ¡n hÃ ng vÃ  ná»™i dung chuyá»ƒn khoáº£n lÃ  mÃ£ Ä‘Æ¡n hÃ ng cá»§a báº¡n (vÃ­ dá»¥: VPC-DH-...).<br>\nâ€¢ <strong>2. Tá»± Ä‘á»™ng xÃ¡c thá»±c Realtime:</strong> Há»‡ thá»‘ng sá»­ dá»¥ng Realtime Payment Listener káº¿t ná»‘i vá»›i Supabase Ä‘á»ƒ phÃ¡t hiá»‡n giao dá»‹ch thÃ nh cÃ´ng ngay láº­p tá»©c (chá»‰ sau 2-5 giÃ¢y) vÃ  gá»­i Ä‘Æ¡n Ä‘áº¿n quáº§y Barista. Báº¡n <strong>khÃ´ng cáº§n</strong> pháº£i chá»¥p áº£nh mÃ n hÃ¬nh chuyá»ƒn khoáº£n gá»­i cho quÃ¡n!<br>\nâ€¢ <strong>3. Thanh toÃ¡n Tiá»n máº·t (COD):</strong> Báº¡n cÅ©ng cÃ³ thá»ƒ chá»n tráº£ tiá»n máº·t trá»±c tiáº¿p cho Shipper khi nháº­n nÆ°á»›c.<br>\nâ€¢ <strong>ThÃ´ng tin tÃ i khoáº£n:</strong> NgÃ´ Quá»³nh Trang (Vietcombank: <code>1041623574</code>)."
   },
   {
     "name": "about_us",
     "keywords": [
       "vietnam prosperity coffee",
-      "tuyết mai",
-      "minh đức",
-      "quản lý",
-      "sở hữu",
-      "thành lập",
-      "nguyễn minh đức",
-      "nguyễn thị tuyết mai",
+      "tuyáº¿t mai",
+      "minh Ä‘á»©c",
+      "quáº£n lÃ½",
+      "sá»Ÿ há»¯u",
+      "thÃ nh láº­p",
+      "nguyá»…n minh Ä‘á»©c",
+      "nguyá»…n thá»‹ tuyáº¿t mai",
       "ngo quynh trang",
-      "ai sở hữu",
-      "ai quản lý",
-      "chủ quán",
-      "chủ sở hữu",
-      "lịch sử",
-      "năm thành lập",
-      "ngô quỳnh trang",
-      "quỳnh trang"
+      "ai sá»Ÿ há»¯u",
+      "ai quáº£n lÃ½",
+      "chá»§ quÃ¡n",
+      "chá»§ sá»Ÿ há»¯u",
+      "lá»‹ch sá»­",
+      "nÄƒm thÃ nh láº­p",
+      "ngÃ´ quá»³nh trang",
+      "quá»³nh trang"
     ],
-    "reply": "<strong>🏛️ Về VIETNAM PROSPERITY COFFEE & Nhà sáng lập:</strong><br>\n• <strong>Lịch sử & Vận hành:</strong> <strong>VIETNAM PROSPERITY COFFEE</strong> được thành lập vào năm 2025 với định hướng hoạt động trong lĩnh vực dịch vụ phục vụ đồ uống và là đơn vị nhượng quyền, vận hành chính thức cửa hàng & website hỗ trợ khách hàng kết nối với <strong>TRUNG NGUYÊN LEGEND ÂU LẠC</strong> tại Huế.<br>\n• <strong>Đồng sở hữu:</strong> Công ty được đồng sáng lập bởi <strong>ÔNG NGUYỄN MINH ĐỨC</strong> và <strong>BÀ NGUYỄN THỊ TUYẾT MAI</strong>, hướng đến việc xây dựng một điểm đến cà phê chuyên nghiệp, tiện lợi và giàu cảm hứng số một tại Huế.<br>\n• <strong>Thông tin thanh toán:</strong> Tài khoản đại diện giao dịch là Bà <strong>Ngô Quỳnh Trang</strong> (Vietinbank: <code>101882692631</code>)."
+    "reply": "<strong>ðŸ›ï¸ Vá» VIETNAM PROSPERITY COFFEE & NhÃ  sÃ¡ng láº­p:</strong><br>\nâ€¢ <strong>Lá»‹ch sá»­ & Váº­n hÃ nh:</strong> <strong>VIETNAM PROSPERITY COFFEE</strong> Ä‘Æ°á»£c thÃ nh láº­p vÃ o nÄƒm 2025 vá»›i Ä‘á»‹nh hÆ°á»›ng hoáº¡t Ä‘á»™ng trong lÄ©nh vá»±c dá»‹ch vá»¥ phá»¥c vá»¥ Ä‘á»“ uá»‘ng vÃ  lÃ  Ä‘Æ¡n vá»‹ nhÆ°á»£ng quyá»n, váº­n hÃ nh chÃ­nh thá»©c cá»­a hÃ ng & website há»— trá»£ khÃ¡ch hÃ ng káº¿t ná»‘i vá»›i <strong>TRUNG NGUYÃŠN LEGEND Ã‚U Láº C</strong> táº¡i Huáº¿.<br>\nâ€¢ <strong>Äá»“ng sá»Ÿ há»¯u:</strong> CÃ´ng ty Ä‘Æ°á»£c Ä‘á»“ng sÃ¡ng láº­p bá»Ÿi <strong>Ã”NG NGUYá»„N MINH Äá»¨C</strong> vÃ  <strong>BÃ€ NGUYá»„N THá»Š TUYáº¾T MAI</strong>, hÆ°á»›ng Ä‘áº¿n viá»‡c xÃ¢y dá»±ng má»™t Ä‘iá»ƒm Ä‘áº¿n cÃ  phÃª chuyÃªn nghiá»‡p, tiá»‡n lá»£i vÃ  giÃ u cáº£m há»©ng sá»‘ má»™t táº¡i Huáº¿.<br>\nâ€¢ <strong>ThÃ´ng tin thanh toÃ¡n:</strong> TÃ i khoáº£n Ä‘áº¡i diá»‡n giao dá»‹ch lÃ  BÃ  <strong>NgÃ´ Quá»³nh Trang</strong> (Vietinbank: <code>101882692631</code>)."
   },
   {
     "name": "april30_event",
     "keywords": [
-      "30/4", "đại lễ", "lễ 30", "giải phóng", "30 tháng 4", "mừng đại lễ", "1/5", "ngày lễ", "lễ quốc gia", "nghỉ lễ"
+      "30/4", "Ä‘áº¡i lá»…", "lá»… 30", "giáº£i phÃ³ng", "30 thÃ¡ng 4", "má»«ng Ä‘áº¡i lá»…", "1/5", "ngÃ y lá»…", "lá»… quá»‘c gia", "nghá»‰ lá»…"
     ],
-    "reply": "<strong>🎆 Sự kiện Mừng Đại Lễ 30/4 & 1/5 tại Trung Nguyên Legend Âu Lạc:</strong><br>\n• Nhân dịp kỷ niệm Ngày Giải phóng miền Nam Thống nhất đất nước 30/4 và Quốc tế Lao động 1/5, quán tổ chức chương trình ưu đãi đặc biệt tri ân khách hàng.<br>\n• <strong>Không gian quán:</strong> Được trang trí với cờ hoa rực rỡ, mang không khí lễ hội tươi vui và đoàn kết dân tộc.<br>\n• <strong>Ưu đãi ngày lễ:</strong> Nhiều chương trình khuyến mãi và quà tặng hấp dẫn được áp dụng trong các ngày nghỉ lễ. 🇻🇳<br>\n👉 Ghé thăm quán trong dịp lễ để cùng chia sẻ niềm vui và thưởng thức cà phê năng lượng chính hiệu!"
+    "reply": "<strong>ðŸŽ† Sá»± kiá»‡n Má»«ng Äáº¡i Lá»… 30/4 & 1/5 táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c:</strong><br>\nâ€¢ NhÃ¢n dá»‹p ká»· niá»‡m NgÃ y Giáº£i phÃ³ng miá»n Nam Thá»‘ng nháº¥t Ä‘áº¥t nÆ°á»›c 30/4 vÃ  Quá»‘c táº¿ Lao Ä‘á»™ng 1/5, quÃ¡n tá»• chá»©c chÆ°Æ¡ng trÃ¬nh Æ°u Ä‘Ã£i Ä‘áº·c biá»‡t tri Ã¢n khÃ¡ch hÃ ng.<br>\nâ€¢ <strong>KhÃ´ng gian quÃ¡n:</strong> ÄÆ°á»£c trang trÃ­ vá»›i cá» hoa rá»±c rá»¡, mang khÃ´ng khÃ­ lá»… há»™i tÆ°Æ¡i vui vÃ  Ä‘oÃ n káº¿t dÃ¢n tá»™c.<br>\nâ€¢ <strong>Æ¯u Ä‘Ã£i ngÃ y lá»…:</strong> Nhiá»u chÆ°Æ¡ng trÃ¬nh khuyáº¿n mÃ£i vÃ  quÃ  táº·ng háº¥p dáº«n Ä‘Æ°á»£c Ã¡p dá»¥ng trong cÃ¡c ngÃ y nghá»‰ lá»…. ðŸ‡»ðŸ‡³<br>\nðŸ‘‰ GhÃ© thÄƒm quÃ¡n trong dá»‹p lá»… Ä‘á»ƒ cÃ¹ng chia sáº» niá»m vui vÃ  thÆ°á»Ÿng thá»©c cÃ  phÃª nÄƒng lÆ°á»£ng chÃ­nh hiá»‡u!"
   },
   {
     "name": "study_cafe",
     "keywords": [
-      "học bài", "làm việc", "work", "study", "wifi", "tránh nóng", "mùa hè", "ôn thi", "học", "yên tĩnh", "không gian học", "ngồi học", "ổ điện", "sạc máy"
+      "há»c bÃ i", "lÃ m viá»‡c", "work", "study", "wifi", "trÃ¡nh nÃ³ng", "mÃ¹a hÃ¨", "Ã´n thi", "há»c", "yÃªn tÄ©nh", "khÃ´ng gian há»c", "ngá»“i há»c", "á»• Ä‘iá»‡n", "sáº¡c mÃ¡y"
     ],
-    "reply": "<strong>📚 Không gian học tập & làm việc lý tưởng tại Trung Nguyên Legend Âu Lạc:</strong><br>\n• <strong>Không gian mát lạnh, yên tĩnh:</strong> Điều hòa 24/7, ánh sáng dịu nhẹ, hoàn toàn phù hợp cho việc học tập, làm việc và ôn thi hiệu quả.<br>\n• <strong>WiFi miễn phí:</strong> Kết nối nhanh và ổn định, không giới hạn thời gian sử dụng.<br>\n• <strong>Ổ cắm điện:</strong> Được bố trí tại nhiều vị trí bàn để bạn thoải mái sạc máy tính và điện thoại.<br>\n• <strong>Cà phê năng lượng:</strong> Uống cà phê Trung Nguyên Legend vừa giải nhiệt vừa tăng sức tập trung tuyệt vời! ☕🧠<br>\n👉 Ghé quán bất cứ lúc nào từ <strong>06:30 - 21:30</strong> để có một buổi học/làm việc thật hiệu quả!"
+    "reply": "<strong>ðŸ“š KhÃ´ng gian há»c táº­p & lÃ m viá»‡c lÃ½ tÆ°á»Ÿng táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c:</strong><br>\nâ€¢ <strong>KhÃ´ng gian mÃ¡t láº¡nh, yÃªn tÄ©nh:</strong> Äiá»u hÃ²a 24/7, Ã¡nh sÃ¡ng dá»‹u nháº¹, hoÃ n toÃ n phÃ¹ há»£p cho viá»‡c há»c táº­p, lÃ m viá»‡c vÃ  Ã´n thi hiá»‡u quáº£.<br>\nâ€¢ <strong>WiFi miá»…n phÃ­:</strong> Káº¿t ná»‘i nhanh vÃ  á»•n Ä‘á»‹nh, khÃ´ng giá»›i háº¡n thá»i gian sá»­ dá»¥ng.<br>\nâ€¢ <strong>á»” cáº¯m Ä‘iá»‡n:</strong> ÄÆ°á»£c bá»‘ trÃ­ táº¡i nhiá»u vá»‹ trÃ­ bÃ n Ä‘á»ƒ báº¡n thoáº£i mÃ¡i sáº¡c mÃ¡y tÃ­nh vÃ  Ä‘iá»‡n thoáº¡i.<br>\nâ€¢ <strong>CÃ  phÃª nÄƒng lÆ°á»£ng:</strong> Uá»‘ng cÃ  phÃª Trung NguyÃªn Legend vá»«a giáº£i nhiá»‡t vá»«a tÄƒng sá»©c táº­p trung tuyá»‡t vá»i! â˜•ðŸ§ <br>\nðŸ‘‰ GhÃ© quÃ¡n báº¥t cá»© lÃºc nÃ o tá»« <strong>06:30 - 21:30</strong> Ä‘á»ƒ cÃ³ má»™t buá»•i há»c/lÃ m viá»‡c tháº­t hiá»‡u quáº£!"
   },
   {
     "name": "order_guide",
     "keywords": [
-      "đặt hàng", "đặt đơn", "cách đặt", "order", "mua", "gọi món", "đặt nước", "đặt đồ uống", "làm sao đặt", "hướng dẫn"
+      "Ä‘áº·t hÃ ng", "Ä‘áº·t Ä‘Æ¡n", "cÃ¡ch Ä‘áº·t", "order", "mua", "gá»i mÃ³n", "Ä‘áº·t nÆ°á»›c", "Ä‘áº·t Ä‘á»“ uá»‘ng", "lÃ m sao Ä‘áº·t", "hÆ°á»›ng dáº«n"
     ],
-    "reply": "<strong>📱 Hướng dẫn đặt hàng nhanh tại website:</strong><br>\n• <strong>Bước 1:</strong> Bấm vào mục <strong>Menu Đồ Uống</strong> hoặc <strong>Vật Phẩm Cà Phê</strong> ở thanh điều hướng phía trên.<br>\n• <strong>Bước 2:</strong> Chọn món yêu thích, điều chỉnh số lượng và bấm <strong>Thêm vào giỏ hàng</strong>.<br>\n• <strong>Bước 3:</strong> Bấm icon 🛒 Giỏ hàng → Điền thông tin giao hàng.<br>\n• <strong>Bước 4:</strong> Chọn hình thức thanh toán (Chuyển khoản VietQR hoặc Tiền mặt COD) → Xác nhận đặt hàng.<br>\n• <strong>Bước 5:</strong> Nhận mã đơn hàng và theo dõi tình trạng pha chế qua mục <strong>Tra cứu đơn</strong> nhé! 📦"
+    "reply": "<strong>ðŸ“± HÆ°á»›ng dáº«n Ä‘áº·t hÃ ng nhanh táº¡i website:</strong><br>\nâ€¢ <strong>BÆ°á»›c 1:</strong> Báº¥m vÃ o má»¥c <strong>Menu Äá»“ Uá»‘ng</strong> hoáº·c <strong>Váº­t Pháº©m CÃ  PhÃª</strong> á»Ÿ thanh Ä‘iá»u hÆ°á»›ng phÃ­a trÃªn.<br>\nâ€¢ <strong>BÆ°á»›c 2:</strong> Chá»n mÃ³n yÃªu thÃ­ch, Ä‘iá»u chá»‰nh sá»‘ lÆ°á»£ng vÃ  báº¥m <strong>ThÃªm vÃ o giá» hÃ ng</strong>.<br>\nâ€¢ <strong>BÆ°á»›c 3:</strong> Báº¥m icon ðŸ›’ Giá» hÃ ng â†’ Äiá»n thÃ´ng tin giao hÃ ng.<br>\nâ€¢ <strong>BÆ°á»›c 4:</strong> Chá»n hÃ¬nh thá»©c thanh toÃ¡n (Chuyá»ƒn khoáº£n VietQR hoáº·c Tiá»n máº·t COD) â†’ XÃ¡c nháº­n Ä‘áº·t hÃ ng.<br>\nâ€¢ <strong>BÆ°á»›c 5:</strong> Nháº­n mÃ£ Ä‘Æ¡n hÃ ng vÃ  theo dÃµi tÃ¬nh tráº¡ng pha cháº¿ qua má»¥c <strong>Tra cá»©u Ä‘Æ¡n</strong> nhÃ©! ðŸ“¦"
   }
 ]
 interface StorefrontClientProps {
@@ -576,7 +576,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
   const [chatMessages, setChatMessages] = useState<Array<{ sender: 'user' | 'bot'; text: string; time: string }>>([
     {
       sender: 'bot',
-      text: 'Kính chào quý khách! Tôi là Barista ảo của Trung Nguyên Legend Âu Lạc Huế. Quý khách cần tư vấn món ngon hay tìm hiểu ưu đãi gì hôm nay ạ? ☕️',
+      text: 'KÃ­nh chÃ o quÃ½ khÃ¡ch! TÃ´i lÃ  Barista áº£o cá»§a Trung NguyÃªn Legend Ã‚u Láº¡c Huáº¿. QuÃ½ khÃ¡ch cáº§n tÆ° váº¥n mÃ³n ngon hay tÃ¬m hiá»ƒu Æ°u Ä‘Ã£i gÃ¬ hÃ´m nay áº¡? â˜•ï¸',
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ])
@@ -587,7 +587,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
   useEffect(() => {
     const handleHashChange = () => {
       let hash = window.location.hash || '#home'
-      // Đồng bộ h�a hash #merch từ tempi gốc với tab #merchandise của React
+      // Đồng bộ hóa hash #merch từ tempi gốc với tab #merchandise của React
       if (hash === '#merch') {
         hash = '#merchandise'
       }
@@ -615,7 +615,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
     return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
 
-  // Tự động ch� n tab danh mục đầu tiên (không phải merchandise) nếu 'ca-phe-phin' không tồn tại
+  // Tá»± Ä‘á»™ng chá» n tab danh má»¥c Ä‘áº§u tiÃªn (khÃ´ng pháº£i merchandise) náº¿u 'ca-phe-phin' khÃ´ng tá»“n táº¡i
   useEffect(() => {
     if (categories.length > 0) {
       const drinkCats = categories.filter(c => c.slug !== 'merchandise')
@@ -640,7 +640,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
     if (!orderCode || activeTab !== '#payment') return
 
     const supabase = createBrowserClient()
-    console.log("📡 Listening for realtime payment updates:", orderCode)
+    console.log("ðŸ“¡ Listening for realtime payment updates:", orderCode)
 
     const channel = supabase
       .channel('public:don_hang')
@@ -653,7 +653,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
           filter: `ma_don_hang=eq.${orderCode}`
         },
         (payload) => {
-          console.log("🔄 Realtime update received:", payload)
+          console.log("ðŸ”„ Realtime update received:", payload)
           const newStatus = payload.new.trang_thai
           if (newStatus === 'da_chuyen_khoan' || newStatus === 'da_thanh_toan' || newStatus === 'dang_lam_don') {
             clearCart()
@@ -676,7 +676,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
     
     try {
       // Append Huế, Việt Nam to make the search local and highly accurate
-      const query = `${userAddress}, Thừa Thi�n Huế, Việt Nam`
+      const query = `${userAddress}, Thừa Thiên Huế, Việt Nam`
       const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(query)}`, {
         headers: {
           'Accept-Language': 'vi'
@@ -688,7 +688,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
         const lat = parseFloat(data[0].lat)
         const lon = parseFloat(data[0].lon)
         
-        // Shop coordinates: 16.4512061, 107.6117266 (Trung Nguy�n Legend �u Lạc Huế)
+        // Shop coordinates: 16.4512061, 107.6117266 (Trung Nguyên Legend Âu Lạc Huế)
         const shopLat = 16.4512061
         const shopLon = 107.6117266
         
@@ -719,7 +719,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
         }
         return computedDistance
       } else {
-        setDistanceError('Không tìm thấy địa chỉ của bạn tại Thừa Thiên Huế. Vui lòng nhập địa chỉ cụ thể hơn (v� dụ: 12 Bến Ngh�, Huế) để kiểm tra khoảng c�ch giao h�ng.')
+        setDistanceError('Không tìm thấy địa chỉ của bạn tại Thừa Thiên Huế. Vui lòng nhập địa chỉ cụ thể hơn (ví dụ: 12 Bến Nghé, Huế) để kiểm tra khoảng cách giao hàng.')
         setDistance('')
         setShippingFee(0)
         return null
@@ -741,7 +741,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
     } else if (distance !== '') {
       const d = Number(distance)
       if (d > 10) {
-        setDistanceError(`Vui lòng kiểm tra lại địa chỉ đã nhập. Khoảng cách quá xa (${d}km > 10km) nên cửa hàng không thể nhận đơn của bạn. Cảm ơn vì đã quan tâm đến Trung Nguyên Legend Âu Lạc. Bạn có thể đặt nước ở chi nhánh gần nhất ạ. Cảm ơn khách yêu ạ.`)
+        setDistanceError(`Vui lÃ²ng kiá»ƒm tra láº¡i Ä‘á»‹a chá»‰ Ä‘Ã£ nháº­p. Khoáº£ng cÃ¡ch quÃ¡ xa (${d}km > 10km) nÃªn cá»­a hÃ ng khÃ´ng thá»ƒ nháº­n Ä‘Æ¡n cá»§a báº¡n. Cáº£m Æ¡n vÃ¬ Ä‘Ã£ quan tÃ¢m Ä‘áº¿n Trung NguyÃªn Legend Ã‚u Láº¡c. Báº¡n cÃ³ thá»ƒ Ä‘áº·t nÆ°á»›c á»Ÿ chi nhÃ¡nh gáº§n nháº¥t áº¡. Cáº£m Æ¡n khÃ¡ch yÃªu áº¡.`)
         setShippingFee(0)
       } else {
         setDistanceError('')
@@ -777,7 +777,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
     setChatMessages(prev => [...prev, { sender: 'user', text, time }])
     setIsTyping(true)
 
-    // So khớp tĩnh trước (Rule-based) để phản hồi nhanh và chính xác các chủ đề cơ bản
+    // So khá»›p tÄ©nh trÆ°á»›c (Rule-based) Ä‘á»ƒ pháº£n há»“i nhanh vÃ  chÃ­nh xÃ¡c cÃ¡c chá»§ Ä‘á» cÆ¡ báº£n
     const lower = text.toLowerCase()
     let bestIntent: ChatbotIntent | null = null
     let maxScore = 0
@@ -789,9 +789,9 @@ export function StorefrontClient({ categories: initialCategories, products: init
         const regex = new RegExp(`\\b${escapedKeyword}\\b`, 'i')
 
         if (regex.test(lower)) {
-          score += 3 // Khớp nguyên từ
+          score += 3 // Khá»›p nguyÃªn tá»«
         } else if (lower.includes(keyword)) {
-          score += 1 // Khớp một phần
+          score += 1 // Khá»›p má»™t pháº§n
         }
       })
 
@@ -802,16 +802,16 @@ export function StorefrontClient({ categories: initialCategories, products: init
     })
 
     if (maxScore > 0 && bestIntent) {
-      // Giả lập thời gian gõ chữ của chatbot để tự nhiên
+      // Giáº£ láº­p thá»i gian gÃµ chá»¯ cá»§a chatbot Ä‘á»ƒ tá»± nhiÃªn
       setTimeout(() => {
         setIsTyping(false)
         const reply = (bestIntent as ChatbotIntent).reply
         setChatMessages(prev => [...prev, { sender: 'bot', text: reply, time }])
       }, 600)
     } else {
-      // Nếu không khớp kịch bản tĩnh -> Gọi lên API Route của Gemini AI kèm Ngữ cảnh động
+      // Náº¿u khÃ´ng khá»›p ká»‹ch báº£n tÄ©nh -> Gá»i lÃªn API Route cá»§a Gemini AI kÃ¨m Ngá»¯ cáº£nh Ä‘á»™ng
       try {
-        // Chuẩn bị ngữ cảnh sản phẩm từ props và bài viết từ blogItems
+        // Chuáº©n bá»‹ ngá»¯ cáº£nh sáº£n pháº©m tá»« props vÃ  bÃ i viáº¿t tá»« blogItems
         const currentProducts = (products || []).map((p: any) => ({
           ten: p.name,
           gia: p.price,
@@ -847,13 +847,13 @@ export function StorefrontClient({ categories: initialCategories, products: init
       } catch (err) {
         console.error("VPC AI Chatbot Error:", err)
         setIsTyping(false)
-        // Fallback tĩnh khi gặp sự cố kết nối AI
-        const fallbackReply = `Dạ, trợ lý ảo VPC đang gặp chút gián đoạn kết nối AI. Bạn có thể hỏi VPC về các chủ đề sau nhé:<br><br>
-• ☕️ <strong>Cà phê & Đồ uống</strong> (ví dụ: "Có cà phê muối không?")<br>
-• 🎁 <strong>Vật phẩm quà tặng</strong> (ví dụ: "Mua ly sứ")<br>
-• 🚚 <strong>Giao nhận & Ship hàng</strong> (ví dụ: "Phí ship bao nhiêu?")<br>
-• 📍 <strong>Địa chỉ & Giờ mở cửa</strong><br>
-• 📞 Hoặc liên hệ Hotline: <strong>0389726999</strong> để được hỗ trợ tức thì ạ!`
+        // Fallback tÄ©nh khi gáº·p sá»± cá»‘ káº¿t ná»‘i AI
+        const fallbackReply = `Dáº¡, trá»£ lÃ½ áº£o VPC Ä‘ang gáº·p chÃºt giÃ¡n Ä‘oáº¡n káº¿t ná»‘i AI. Báº¡n cÃ³ thá»ƒ há»i VPC vá» cÃ¡c chá»§ Ä‘á» sau nhÃ©:<br><br>
+â€¢ â˜•ï¸ <strong>CÃ  phÃª & Äá»“ uá»‘ng</strong> (vÃ­ dá»¥: "CÃ³ cÃ  phÃª muá»‘i khÃ´ng?")<br>
+â€¢ ðŸŽ <strong>Váº­t pháº©m quÃ  táº·ng</strong> (vÃ­ dá»¥: "Mua ly sá»©")<br>
+â€¢ ðŸšš <strong>Giao nháº­n & Ship hÃ ng</strong> (vÃ­ dá»¥: "PhÃ­ ship bao nhiÃªu?")<br>
+â€¢ ðŸ“ <strong>Äá»‹a chá»‰ & Giá» má»Ÿ cá»­a</strong><br>
+â€¢ ðŸ“ž Hoáº·c liÃªn há»‡ Hotline: <strong>0389726999</strong> Ä‘á»ƒ Ä‘Æ°á»£c há»— trá»£ tá»©c thÃ¬ áº¡!`
         setChatMessages(prev => [...prev, { sender: 'bot', text: fallbackReply, time }])
       }
     }
@@ -871,11 +871,11 @@ export function StorefrontClient({ categories: initialCategories, products: init
       if (result.success && result.data) {
         setLookupResult(result.data)
       } else {
-        setLookupError(result.error || 'Không tìm thấy đơn hàng này trong hệ thống. Vui lòng kiểm tra lại mã đơn hàng.')
+        setLookupError(result.error || 'KhÃ´ng tÃ¬m tháº¥y Ä‘Æ¡n hÃ ng nÃ y trong há»‡ thá»‘ng. Vui lÃ²ng kiá»ƒm tra láº¡i mÃ£ Ä‘Æ¡n hÃ ng.')
       }
     } catch (err) {
       console.error(err)
-      setLookupError('Có lỗi xảy ra khi kết nối hệ thống. Vui lòng thử lại sau.')
+      setLookupError('CÃ³ lá»—i xáº£y ra khi káº¿t ná»‘i há»‡ thá»‘ng. Vui lÃ²ng thá»­ láº¡i sau.')
     } finally {
       setIsLookingUp(false)
     }
@@ -888,13 +888,13 @@ export function StorefrontClient({ categories: initialCategories, products: init
   const handleOrderSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!fullName.trim() || !phoneNumber.trim()) {
-      alert("Vui lòng điền đầy đủ họ tên và số điện thoại liên hệ.")
+      alert("Vui lÃ²ng Ä‘iá»n Ä‘áº§y Ä‘á»§ há» tÃªn vÃ  sá»‘ Ä‘iá»‡n thoáº¡i liÃªn há»‡.")
       return
     }
     
     if (deliveryType === 'delivery') {
       if (!address.trim()) {
-        alert("Vui lòng nhập địa chỉ nhận hàng.")
+        alert("Vui lÃ²ng nháº­p Ä‘á»‹a chá»‰ nháº­n hÃ ng.")
         return
       }
       let currentDistance = distance
@@ -904,11 +904,11 @@ export function StorefrontClient({ categories: initialCategories, products: init
       }
       const d = Number(currentDistance)
       if (!d || isNaN(d) || d <= 0) {
-        alert("Vui lòng xác thực khoảng cách giao hàng trước.")
+        alert("Vui lÃ²ng xÃ¡c thá»±c khoáº£ng cÃ¡ch giao hÃ ng trÆ°á»›c.")
         return
       }
       if (d > 10) {
-        alert("Khoảng cách giao hàng quá xa (>10km), cửa hàng không thể giao hàng. Vui lòng kiểm tra lại địa chỉ.")
+        alert("Khoáº£ng cÃ¡ch giao hÃ ng quÃ¡ xa (>10km), cá»­a hÃ ng khÃ´ng thá»ƒ giao hÃ ng. Vui lÃ²ng kiá»ƒm tra láº¡i Ä‘á»‹a chá»‰.")
         return
       }
     }
@@ -921,10 +921,10 @@ export function StorefrontClient({ categories: initialCategories, products: init
       const orderDataInput = {
         fullName,
         phoneNumber,
-        address: deliveryType === 'delivery' ? address : 'Nhận tại cửa hàng',
+        address: deliveryType === 'delivery' ? address : 'Nháº­n táº¡i cá»­a hÃ ng',
         note: mappedNote,
         deliveryType,
-        distance: deliveryType === 'delivery' ? Number(distance) : 0,
+        distance: deliveryType === 'delivery' ? Number(currentDistance) : 0,
         paymentMethod,
         subtotal: totalCartPrice,
         shippingFee,
@@ -949,11 +949,11 @@ export function StorefrontClient({ categories: initialCategories, products: init
           setIsSuccessModalOpen(true)
         }
       } else {
-        alert("Không thể đặt hàng: " + (result.error || "Lỗi hệ thống"))
+        alert("KhÃ´ng thá»ƒ Ä‘áº·t hÃ ng: " + (result.error || "Lá»—i há»‡ thá»‘ng"))
       }
     } catch (err: any) {
       console.error("Submit order error:", err)
-      alert("Có lỗi xảy ra khi gửi đơn hàng. Vui lòng thử lại sau.")
+      alert("CÃ³ lá»—i xáº£y ra khi gá»­i Ä‘Æ¡n hÃ ng. Vui lÃ²ng thá»­ láº¡i sau.")
     } finally {
       setIsSubmitting(false)
     }
@@ -972,26 +972,26 @@ export function StorefrontClient({ categories: initialCategories, products: init
   }
 
   const renderLookupProgress = (status: string, order?: any) => {
-    // --- Barista messages theo từng trạng thái ---
+    // --- Barista messages theo tá»«ng tráº¡ng thÃ¡i ---
     const baristaMessages: Record<string, { icon: string; title: string; msg: string; color: string }> = {
-      'da_dat_don':         { icon: '📋', color: 'amber', title: 'Đơn vừa được ghi nhận', msg: 'Cảm ơn bạn đã đặt hàng! Chúng mình đang chờ xác nhận thanh toán để bắt đầu pha chế nhé. ☕' },
-      'cho_chuyen_khoan':   { icon: '⏳', color: 'amber', title: 'Chờ thanh toán', msg: 'Bạn vui lòng hoàn tất chuyển khoản để Barista bắt đầu pha ngay! Hệ thống tự động xác nhận sau 2-5 giây.' },
-      'cho_xac_nhan_chuyen_khoan': { icon: '🔍', color: 'amber', title: 'Đang xác nhận giao dịch', msg: 'Chúng mình đã nhận được thông báo và đang xác nhận giao dịch của bạn. Sắp pha ngay thôi! 🤎' },
-      'khach_bao_da_chuyen_khoan': { icon: '🔔', color: 'amber', title: 'Đã báo chuyển khoản', msg: 'Cảm ơn bạn đã báo! Quán đang kiểm tra và xác nhận giao dịch. Vui lòng chờ một chút nhé.' },
-      'da_chuyen_khoan':    { icon: '✅', color: 'emerald', title: 'Thanh toán thành công', msg: 'Tuyệt vời! Barista đã nhận được thông báo và đang chuẩn bị pha chế cho bạn. 🎉' },
-      'da_thanh_toan':      { icon: '✅', color: 'emerald', title: 'Thanh toán xác nhận', msg: 'Thanh toán đã được xác nhận! Barista đang sẵn sàng bắt đầu pha chế đơn của bạn. 🤎' },
-      'da_nhan_don':        { icon: '👨‍🍳', color: 'emerald', title: 'Barista tiếp nhận', msg: 'Barista đã nhận đơn và đang chuẩn bị nguyên liệu. Đồ uống của bạn sắp được pha chế ngon lành rồi!' },
-      'dang_lam_don':       { icon: '⚗️', color: 'emerald', title: 'Đang pha chế', msg: 'Barista đang tỉ mỉ pha chế từng ly theo đúng tiêu chuẩn Trung Nguyên Legend. Chờ chút nhé! ☕✨' },
-      'da_giao_shipper':    { icon: '🛵', color: 'blue', title: 'Đang trên đường giao', msg: 'Shipper đã lấy đơn và đang trên đường đến bạn! Mở cửa đón nước thôi nào. Khoảng 15-30 phút nhé 🚀' },
-      'hoan_thanh':         { icon: '🎊', color: 'emerald', title: 'Giao hàng thành công', msg: 'Đơn hàng đã hoàn thành! Cảm ơn bạn rất nhiều. Chúc bạn thưởng thức thật ngon miệng! Hẹn gặp lại bạn sớm nhé. 🤍' },
+      'da_dat_don':         { icon: 'ðŸ“‹', color: 'amber', title: 'ÄÆ¡n vá»«a Ä‘Æ°á»£c ghi nháº­n', msg: 'Cáº£m Æ¡n báº¡n Ä‘Ã£ Ä‘áº·t hÃ ng! ChÃºng mÃ¬nh Ä‘ang chá» xÃ¡c nháº­n thanh toÃ¡n Ä‘á»ƒ báº¯t Ä‘áº§u pha cháº¿ nhÃ©. â˜•' },
+      'cho_chuyen_khoan':   { icon: 'â³', color: 'amber', title: 'Chá» thanh toÃ¡n', msg: 'Báº¡n vui lÃ²ng hoÃ n táº¥t chuyá»ƒn khoáº£n Ä‘á»ƒ Barista báº¯t Ä‘áº§u pha ngay! Há»‡ thá»‘ng tá»± Ä‘á»™ng xÃ¡c nháº­n sau 2-5 giÃ¢y.' },
+      'cho_xac_nhan_chuyen_khoan': { icon: 'ðŸ”', color: 'amber', title: 'Äang xÃ¡c nháº­n giao dá»‹ch', msg: 'ChÃºng mÃ¬nh Ä‘Ã£ nháº­n Ä‘Æ°á»£c thÃ´ng bÃ¡o vÃ  Ä‘ang xÃ¡c nháº­n giao dá»‹ch cá»§a báº¡n. Sáº¯p pha ngay thÃ´i! ðŸ¤Ž' },
+      'khach_bao_da_chuyen_khoan': { icon: 'ðŸ””', color: 'amber', title: 'ÄÃ£ bÃ¡o chuyá»ƒn khoáº£n', msg: 'Cáº£m Æ¡n báº¡n Ä‘Ã£ bÃ¡o! QuÃ¡n Ä‘ang kiá»ƒm tra vÃ  xÃ¡c nháº­n giao dá»‹ch. Vui lÃ²ng chá» má»™t chÃºt nhÃ©.' },
+      'da_chuyen_khoan':    { icon: 'âœ…', color: 'emerald', title: 'Thanh toÃ¡n thÃ nh cÃ´ng', msg: 'Tuyá»‡t vá»i! Barista Ä‘Ã£ nháº­n Ä‘Æ°á»£c thÃ´ng bÃ¡o vÃ  Ä‘ang chuáº©n bá»‹ pha cháº¿ cho báº¡n. ðŸŽ‰' },
+      'da_thanh_toan':      { icon: 'âœ…', color: 'emerald', title: 'Thanh toÃ¡n xÃ¡c nháº­n', msg: 'Thanh toÃ¡n Ä‘Ã£ Ä‘Æ°á»£c xÃ¡c nháº­n! Barista Ä‘ang sáºµn sÃ ng báº¯t Ä‘áº§u pha cháº¿ Ä‘Æ¡n cá»§a báº¡n. ðŸ¤Ž' },
+      'da_nhan_don':        { icon: 'ðŸ‘¨â€ðŸ³', color: 'emerald', title: 'Barista tiáº¿p nháº­n', msg: 'Barista Ä‘Ã£ nháº­n Ä‘Æ¡n vÃ  Ä‘ang chuáº©n bá»‹ nguyÃªn liá»‡u. Äá»“ uá»‘ng cá»§a báº¡n sáº¯p Ä‘Æ°á»£c pha cháº¿ ngon lÃ nh rá»“i!' },
+      'dang_lam_don':       { icon: 'âš—ï¸', color: 'emerald', title: 'Äang pha cháº¿', msg: 'Barista Ä‘ang tá»‰ má»‰ pha cháº¿ tá»«ng ly theo Ä‘Ãºng tiÃªu chuáº©n Trung NguyÃªn Legend. Chá» chÃºt nhÃ©! â˜•âœ¨' },
+      'da_giao_shipper':    { icon: 'ðŸ›µ', color: 'blue', title: 'Äang trÃªn Ä‘Æ°á»ng giao', msg: 'Shipper Ä‘Ã£ láº¥y Ä‘Æ¡n vÃ  Ä‘ang trÃªn Ä‘Æ°á»ng Ä‘áº¿n báº¡n! Má»Ÿ cá»­a Ä‘Ã³n nÆ°á»›c thÃ´i nÃ o. Khoáº£ng 15-30 phÃºt nhÃ© ðŸš€' },
+      'hoan_thanh':         { icon: 'ðŸŽŠ', color: 'emerald', title: 'Giao hÃ ng thÃ nh cÃ´ng', msg: 'ÄÆ¡n hÃ ng Ä‘Ã£ hoÃ n thÃ nh! Cáº£m Æ¡n báº¡n ráº¥t nhiá»u. ChÃºc báº¡n thÆ°á»Ÿng thá»©c tháº­t ngon miá»‡ng! Háº¹n gáº·p láº¡i báº¡n sá»›m nhÃ©. ðŸ¤' },
     }
-    const bInfo = baristaMessages[status] || { icon: '📦', color: 'amber', title: 'Đang xử lý', msg: 'Đơn hàng đang được xử lý. Cảm ơn bạn đã kiên nhẫn chờ đợi!' }
+    const bInfo = baristaMessages[status] || { icon: 'ðŸ“¦', color: 'amber', title: 'Äang xá»­ lÃ½', msg: 'ÄÆ¡n hÃ ng Ä‘ang Ä‘Æ°á»£c xá»­ lÃ½. Cáº£m Æ¡n báº¡n Ä‘Ã£ kiÃªn nháº«n chá» Ä‘á»£i!' }
 
     const steps = [
-      { key: 'init', label: 'Tiếp nhận', icon: '📋', desc: 'Đơn hàng mới / Chờ xác nhận', activeCodes: ['da_dat_don', 'cho_chuyen_khoan', 'cho_xac_nhan_chuyen_khoan', 'khach_bao_da_chuyen_khoan'] },
-      { key: 'prepare', label: 'Pha chế', icon: '⚗️', desc: 'Barista đang chuẩn bị', activeCodes: ['da_thanh_toan', 'da_nhan_don', 'dang_lam_don', 'da_chuyen_khoan'] },
-      { key: 'shipping', label: 'Đang giao', icon: '🛵', desc: 'Shipper đang trên đường', activeCodes: ['da_giao_shipper'] },
-      { key: 'done', label: 'Hoàn thành', icon: '✅', desc: 'Đã giao thành công', activeCodes: ['hoan_thanh'] }
+      { key: 'init', label: 'Tiáº¿p nháº­n', icon: 'ðŸ“‹', desc: 'ÄÆ¡n hÃ ng má»›i / Chá» xÃ¡c nháº­n', activeCodes: ['da_dat_don', 'cho_chuyen_khoan', 'cho_xac_nhan_chuyen_khoan', 'khach_bao_da_chuyen_khoan'] },
+      { key: 'prepare', label: 'Pha cháº¿', icon: 'âš—ï¸', desc: 'Barista Ä‘ang chuáº©n bá»‹', activeCodes: ['da_thanh_toan', 'da_nhan_don', 'dang_lam_don', 'da_chuyen_khoan'] },
+      { key: 'shipping', label: 'Äang giao', icon: 'ðŸ›µ', desc: 'Shipper Ä‘ang trÃªn Ä‘Æ°á»ng', activeCodes: ['da_giao_shipper'] },
+      { key: 'done', label: 'HoÃ n thÃ nh', icon: 'âœ…', desc: 'ÄÃ£ giao thÃ nh cÃ´ng', activeCodes: ['hoan_thanh'] }
     ]
 
     if (status === 'tu_choi_don') {
@@ -1000,8 +1000,8 @@ export function StorefrontClient({ categories: initialCategories, products: init
           <div className="p-4 bg-rose-950/20 border border-rose-800/40 rounded-xl flex items-center gap-3">
             <AlertTriangle className="w-5 h-5 text-rose-500 font-bold shrink-0" />
             <div>
-              <h5 className="font-bold text-rose-500 text-sm">ĐƢN HÀNG ĐÃ BỊ HỦY</h5>
-              <p className="text-[11px] text-[#a89882]">Đơn hàng này đã bị từ chối hoặc hủy bởi cửa hàng. Xin lỗi vì sự bất tiện này.</p>
+              <h5 className="font-bold text-rose-500 text-sm">ÄÆ¢N HÃ€NG ÄÃƒ Bá»Š Há»¦Y</h5>
+              <p className="text-[11px] text-[#a89882]">ÄÆ¡n hÃ ng nÃ y Ä‘Ã£ bá»‹ tá»« chá»‘i hoáº·c há»§y bá»Ÿi cá»­a hÃ ng. Xin lá»—i vÃ¬ sá»± báº¥t tiá»‡n nÃ y.</p>
             </div>
           </div>
         </div>
@@ -1049,14 +1049,14 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     isUpcoming && "bg-[#170e0a] border-zinc-800 text-zinc-600"
                   )}
                 >
-                  {isCompleted ? '✓' : step.icon}
+                  {isCompleted ? 'âœ“' : step.icon}
                 </div>
                 <div className="text-left md:text-center">
                   <h5 className={cn("text-xs font-black uppercase tracking-wider", isActive || isCompleted ? "text-[#c89b3c]" : "text-zinc-600")}>
                     {step.label}
                   </h5>
                   <p className="text-[10px] text-[#a89882] mt-0.5">
-                    {isActive ? step.desc : (isCompleted ? 'Đã hoàn tất ✓' : 'Chờ xử lý')}
+                    {isActive ? step.desc : (isCompleted ? 'ÄÃ£ hoÃ n táº¥t âœ“' : 'Chá» xá»­ lÃ½')}
                   </p>
                 </div>
               </div>
@@ -1069,12 +1069,12 @@ export function StorefrontClient({ categories: initialCategories, products: init
 
   // totalCartPrice and finalPayPrice moved to top
 
-  // renderProductCard đ� được t�ch th�nh ProductCard component ở tr�n file
-  // để tu�n thủ React Rules of Hooks
+  // renderProductCard đã được tách thành ProductCard component ở trên file
+  // để tuân thủ React Rules of Hooks
 
   // Filter Menu Items
   const filteredProducts = products.filter(prod => {
-    // Lọc bỏ Cà phê Sáng tạo 1 - 250gr và G7 Gu mạnh 12 sticks theo yêu cầu của user
+    // Lá»c bá» CÃ  phÃª SÃ¡ng táº¡o 1 - 250gr vÃ  G7 Gu máº¡nh 12 sticks theo yÃªu cáº§u cá»§a user
     if (prod.slug === 'ca-phe-sang-tao-1-250gr' || prod.slug === 'g7-gu-manh-12-sticks') {
       return false
     }
@@ -1114,7 +1114,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
 
               <div className="max-w-4xl mx-auto text-center relative z-20 space-y-7 animate-in fade-in slide-in-from-bottom-6 duration-700">
                 <span className="text-[#c89b3c] text-xs font-black tracking-[0.25em] uppercase block">
-                  TRUNG NGUYÊN LEGEND ÂU LẠC
+                  TRUNG NGUYÃŠN LEGEND Ã‚U Láº C
                 </span>
                 
                 <h1 className="text-5xl md:text-7.5xl font-black tracking-tight leading-[1.05] text-white">
@@ -1122,15 +1122,15 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 </h1>
                 
                 <h2 className="text-xl md:text-3.5xl font-extrabold text-[#fff8ed]/90 tracking-wide">
-                  Trung Nguyên Legend Âu Lạc
+                  Trung NguyÃªn Legend Ã‚u Láº¡c
                 </h2>
 
                 <p className="text-[#c89b3c] text-xl md:text-2.5xl italic font-serif font-extrabold tracking-wide py-2">
-                  “Cà phê năng lượng – Cà phê đổi đời”
+                  â€œCÃ  phÃª nÄƒng lÆ°á»£ng â€“ CÃ  phÃª Ä‘á»•i Ä‘á»iâ€
                 </p>
                 
                 <p className="text-[#e2d4c0] text-xs md:text-sm tracking-widest uppercase font-bold max-w-xl mx-auto opacity-90 leading-relaxed">
-                  Đặt đồ uống, mua cà phê phin, cà phê hạt và Merchandise tại đây.
+                  Äáº·t Ä‘á»“ uá»‘ng, mua cÃ  phÃª phin, cÃ  phÃª háº¡t vÃ  Merchandise táº¡i Ä‘Ã¢y.
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
@@ -1138,7 +1138,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     href="#menu"
                     className="flex items-center justify-center gap-2 w-full sm:w-auto px-9 py-4 rounded-full font-black text-xs uppercase tracking-widest bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all hover:shadow-lg hover:-translate-y-0.5"
                   >
-                    Menu đồ uống
+                    Menu Ä‘á»“ uá»‘ng
                   </a>
                   <a
                     href="#merchandise"
@@ -1150,12 +1150,12 @@ export function StorefrontClient({ categories: initialCategories, products: init
               </div>
             </section>
 
-            {/* FEATURED CATEGORIES ("Món nổi bật") - EXACTLY AS SHOWN IN SCREENSHOTS */}
+            {/* FEATURED CATEGORIES ("MÃ³n ná»•i báº­t") - EXACTLY AS SHOWN IN SCREENSHOTS */}
             <section className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-12">
               <div className="text-center max-w-xl mx-auto space-y-3">
-                <h2 className="text-4.5xl font-black text-white tracking-tight">Món nổi bật</h2>
+                <h2 className="text-4.5xl font-black text-white tracking-tight">MÃ³n ná»•i báº­t</h2>
                 <p className="text-[#a89882] text-xs uppercase tracking-widest font-extrabold">
-                  Những thức uống đặc trưng được yêu thích tại Trung Nguyên Legend Âu Lạc.
+                  Nhá»¯ng thá»©c uá»‘ng Ä‘áº·c trÆ°ng Ä‘Æ°á»£c yÃªu thÃ­ch táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c.
                 </p>
               </div>
 
@@ -1193,7 +1193,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                         {/* Price & Action */}
                         <div className="flex items-center justify-between pt-3 border-t border-[#decdb9]/10 mt-auto">
                           <span className="text-sm font-black text-[#c89b3c]">
-                            {prod.price.toLocaleString('vi-VN')}đ
+                            {prod.price.toLocaleString('vi-VN')}Ä‘
                           </span>
                           <button
                             onClick={() => {
@@ -1209,7 +1209,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                             }}
                             className="px-3.5 py-1.5 rounded-full font-bold bg-[#170e0a] border border-[#c89b3c]/40 hover:bg-[#c89b3c] text-[#c89b3c] hover:text-[#1c120c] transition-all text-[10px] uppercase tracking-wider"
                           >
-                            Đặt món
+                            Äáº·t mÃ³n
                           </button>
                         </div>
                       </div>
@@ -1226,19 +1226,19 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 <div className="lg:col-span-5 rounded-3xl overflow-hidden shadow-xl border border-[#decdb9]/10 bg-[#1c120c]">
                   <img
                     src="https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/701445719_122111738540884434_8176951810572622203_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&oh=00_Af5PmRV0XlaAQiZlOVpVED9sPvFO2EK64B8xNedF-lbTow&oe=6A134ACE"
-                    alt="Không gian góc bàn tròn"
+                    alt="KhÃ´ng gian gÃ³c bÃ n trÃ²n"
                     className="w-full h-full object-cover min-h-[350px] hover:scale-102 transition-transform duration-500"
                   />
                 </div>
 
                 {/* Right Side: Double Cards */}
                 <div className="lg:col-span-7 flex flex-col justify-between gap-6">
-                  {/* Card 1: Menu Đồ Uống */}
+                  {/* Card 1: Menu Äá»“ Uá»‘ng */}
                   <div className="p-8 md:p-10 rounded-3xl bg-[#1c120c] border border-[#decdb9]/10 shadow-lg flex flex-col justify-between items-start space-y-4.5 flex-1">
                     <div className="space-y-2">
-                      <h3 className="text-xl md:text-2xl font-black text-[#c89b3c]">Menu đồ uống</h3>
+                      <h3 className="text-xl md:text-2xl font-black text-[#c89b3c]">Menu Ä‘á»“ uá»‘ng</h3>
                       <p className="text-xs md:text-sm text-[#e2d4c0] leading-relaxed">
-                        Cà phê phin, cà phê máy, cà phê pha chế, trà, đá xay, nước ép, bánh và các món extra.
+                        CÃ  phÃª phin, cÃ  phÃª mÃ¡y, cÃ  phÃª pha cháº¿, trÃ , Ä‘Ã¡ xay, nÆ°á»›c Ã©p, bÃ¡nh vÃ  cÃ¡c mÃ³n extra.
                       </p>
                     </div>
                     <a
@@ -1254,26 +1254,26 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     <div className="space-y-2">
                       <h3 className="text-xl md:text-2xl font-black text-[#c89b3c]">Merchandise</h3>
                       <p className="text-xs md:text-sm text-[#e2d4c0] leading-relaxed">
-                        Các sản phẩm cà phê, dụng cụ pha chế, ly tách, bộ quà tặng và vật phẩm thương hiệu của Trung Nguyên Legend.
+                        CÃ¡c sáº£n pháº©m cÃ  phÃª, dá»¥ng cá»¥ pha cháº¿, ly tÃ¡ch, bá»™ quÃ  táº·ng vÃ  váº­t pháº©m thÆ°Æ¡ng hiá»‡u cá»§a Trung NguyÃªn Legend.
                       </p>
                     </div>
                     <a
                       href="#merchandise"
                       className="px-6 py-3 rounded-full font-black text-[10px] uppercase tracking-widest bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all"
                     >
-                      Xem sản phẩm
+                      Xem sáº£n pháº©m
                     </a>
                   </div>
                 </div>
               </div>
             </section>
 
-            {/* GALLERY "KHÔNG GIAN QUÁN" (IMAGES 5 & 6) */}
+            {/* GALLERY "KHÃ”NG GIAN QUÃN" (IMAGES 5 & 6) */}
             <section className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-12">
               <div className="text-center max-w-xl mx-auto space-y-3">
-                <h2 className="text-4xl font-black text-white tracking-tight">Không gian quán</h2>
+                <h2 className="text-4xl font-black text-white tracking-tight">KhÃ´ng gian quÃ¡n</h2>
                 <p className="text-[#a89882] text-xs uppercase tracking-widest font-extrabold leading-relaxed">
-                  Không gian hiện đại, yên tĩnh, phù hợp để gặp gỡ, làm việc và thưởng thức cà phê.
+                  KhÃ´ng gian hiá»‡n Ä‘áº¡i, yÃªn tÄ©nh, phÃ¹ há»£p Ä‘á»ƒ gáº·p gá»¡, lÃ m viá»‡c vÃ  thÆ°á»Ÿng thá»©c cÃ  phÃª.
                 </p>
               </div>
 
@@ -1303,7 +1303,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                   >
                     <img
                       src={imgUrl}
-                      alt={`Không gian Âu Lạc ${idx + 1}`}
+                      alt={`KhÃ´ng gian Ã‚u Láº¡c ${idx + 1}`}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
                     />
@@ -1321,9 +1321,9 @@ export function StorefrontClient({ categories: initialCategories, products: init
         {activeTab === '#menu' && (
           <div className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-12 pt-10">
             <div className="text-center max-w-xl mx-auto space-y-3">
-              <h2 className="text-3.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight">Thực Đơn Đồ Uống</h2>
+              <h2 className="text-3.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight">Thá»±c ÄÆ¡n Äá»“ Uá»‘ng</h2>
               <p className="text-[#78675d] dark:text-[#a89882] text-sm leading-relaxed">
-                Nơi khơi gợi tinh thần sáng tạo với các dòng cà phê phin tinh túy, nước thanh lọc thanh nhiệt bổ dưỡng và bánh thực dưỡng.
+                NÆ¡i khÆ¡i gá»£i tinh tháº§n sÃ¡ng táº¡o vá»›i cÃ¡c dÃ²ng cÃ  phÃª phin tinh tÃºy, nÆ°á»›c thanh lá»c thanh nhiá»‡t bá»• dÆ°á»¡ng vÃ  bÃ¡nh thá»±c dÆ°á»¡ng.
               </p>
             </div>
 
@@ -1351,7 +1351,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 <Search className="w-4 h-4 text-[#78675d] absolute top-1/2 left-3.5 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Tìm món ngon..."
+                  placeholder="TÃ¬m mÃ³n ngon..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-full border border-[#decdb9] dark:border-[#3a2114] bg-white dark:bg-[#2b1810] text-[#2b1810] dark:text-[#f7efe3] placeholder-[#78675d] text-sm focus:outline-none focus:ring-2 focus:ring-[#c89b3c]/40"
@@ -1364,7 +1364,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
               <div className="text-center py-20 bg-white dark:bg-[#2b1810] border border-[#decdb9] dark:border-[#3a2114] rounded-3xl">
                 <Coffee className="w-12 h-12 text-[#decdb9] mx-auto mb-3" />
                 <p className="text-[#78675d] dark:text-[#a89882] text-sm">
-                  Không tìm thấy thức uống nào phù hợp. Vui lòng thử lại.
+                  KhÃ´ng tÃ¬m tháº¥y thá»©c uá»‘ng nÃ o phÃ¹ há»£p. Vui lÃ²ng thá»­ láº¡i.
                 </p>
               </div>
             ) : (
@@ -1381,15 +1381,15 @@ export function StorefrontClient({ categories: initialCategories, products: init
         {activeTab === '#merchandise' && (
           <div className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-12 pt-10">
             <div className="text-center max-w-xl mx-auto space-y-3">
-              <h2 className="text-3.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight">Cà Phê & Vật Phẩm Quà Tặng</h2>
+              <h2 className="text-3.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight">CÃ  PhÃª & Váº­t Pháº©m QuÃ  Táº·ng</h2>
               <p className="text-[#78675d] dark:text-[#a89882] text-sm leading-relaxed">
-                Những dụng cụ pha chế truyền thống, phin nhôm in hoa văn Trống đồng sắc sảo cùng các hộp quà tặng cà phê đặc sản cao cấp nhất.
+                Nhá»¯ng dá»¥ng cá»¥ pha cháº¿ truyá»n thá»‘ng, phin nhÃ´m in hoa vÄƒn Trá»‘ng Ä‘á»“ng sáº¯c sáº£o cÃ¹ng cÃ¡c há»™p quÃ  táº·ng cÃ  phÃª Ä‘áº·c sáº£n cao cáº¥p nháº¥t.
               </p>
             </div>
 
             {filteredProducts.length === 0 ? (
               <div className="text-center py-20 bg-white/40 dark:bg-[#2b1810]/40 border border-[#decdb9]/60 rounded-3xl">
-                <p className="text-[#78675d]">Danh sách vật phẩm đang được cập nhật thêm.</p>
+                <p className="text-[#78675d]">Danh sÃ¡ch váº­t pháº©m Ä‘ang Ä‘Æ°á»£c cáº­p nháº­t thÃªm.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -1405,9 +1405,9 @@ export function StorefrontClient({ categories: initialCategories, products: init
         {activeTab === '#blog' && (
           <div className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-12 pt-10">
             <div className="text-center max-w-xl mx-auto space-y-3">
-              <h2 className="text-3.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight">Tin Tức & Sự Kiện Nổi Bật</h2>
+              <h2 className="text-3.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight">Tin Tá»©c & Sá»± Kiá»‡n Ná»•i Báº­t</h2>
               <p className="text-[#78675d] dark:text-[#a89882] text-sm leading-relaxed">
-                Khám phá những khoảnh khắc nghệ sĩ ghé quán, sự kiện khai trương cùng các tin tức ưu đãi hot nhất tại Trung Nguyên Legend Âu Lạc Huế.
+                KhÃ¡m phÃ¡ nhá»¯ng khoáº£nh kháº¯c nghá»‡ sÄ© ghÃ© quÃ¡n, sá»± kiá»‡n khai trÆ°Æ¡ng cÃ¹ng cÃ¡c tin tá»©c Æ°u Ä‘Ã£i hot nháº¥t táº¡i Trung NguyÃªn Legend Ã‚u Láº¡c Huáº¿.
               </p>
             </div>
 
@@ -1439,7 +1439,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                         href={`#blog-detail/${article.slug}`}
                         className="inline-flex items-center gap-1 text-xs font-black text-[#c89b3c] hover:underline uppercase tracking-wider"
                       >
-                        Xem chi tiết bài viết
+                        Xem chi tiáº¿t bÃ i viáº¿t
                         <ChevronRight className="w-3.5 h-3.5" />
                       </a>
                     </div>
@@ -1458,17 +1458,17 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 href="#blog"
                 className="inline-flex items-center gap-1.5 text-xs font-black text-[#c89b3c] hover:underline uppercase tracking-widest"
               >
-                ← Quay lại danh sách tin tức
+                â† Quay láº¡i danh sÃ¡ch tin tá»©c
               </a>
             </div>
 
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-xs text-[#78675d] dark:text-[#a89882]">
                 <Calendar className="w-4 h-4 text-[#c89b3c]" />
-                <span>Đăng ngày: {selectedArticle.date}</span>
-                <span className="mx-2">•</span>
+                <span>ÄÄƒng ngÃ y: {selectedArticle.date}</span>
+                <span className="mx-2">â€¢</span>
                 <User className="w-4 h-4 text-[#c89b3c]" />
-                <span>Ban biên tập Âu Lạc</span>
+                <span>Ban biÃªn táº­p Ã‚u Láº¡c</span>
               </div>
               <h1 className="text-3xl md:text-4.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight leading-tight">
                 {selectedArticle.title}
@@ -1526,12 +1526,12 @@ export function StorefrontClient({ categories: initialCategories, products: init
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(window.location.href)
-                  alert("Đã sao chép liên kết bài viết!")
+                  alert("ÄÃ£ sao chÃ©p liÃªn káº¿t bÃ i viáº¿t!")
                 }}
                 className="flex items-center gap-1.5 text-xs font-bold text-[#c89b3c] hover:underline uppercase tracking-wider"
               >
                 <Share2 className="w-4 h-4" />
-                Chia sẻ bài viết
+                Chia sáº» bÃ i viáº¿t
               </button>
             </div>
           </div>
@@ -1552,7 +1552,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                   1
                 </span>
                 <span className={cn("text-xs font-black uppercase tracking-wider", checkoutStep === 1 ? "text-[#c89b3c]" : "text-zinc-500")}>
-                  Giỏ hàng
+                  Giá» hÃ ng
                 </span>
               </div>
               <div className="w-12 h-0.5 bg-zinc-800" />
@@ -1566,17 +1566,17 @@ export function StorefrontClient({ categories: initialCategories, products: init
                   2
                 </span>
                 <span className={cn("text-xs font-black uppercase tracking-wider", checkoutStep === 2 ? "text-[#c89b3c]" : "text-zinc-500")}>
-                  Thông tin giao nhận
+                  ThÃ´ng tin giao nháº­n
                 </span>
               </div>
             </div>
 
-            {/* STEP 1: GIỎ HÀNG */}
+            {/* STEP 1: GIá»Ž HÃ€NG */}
             {checkoutStep === 1 && (
               <div className="max-w-4xl mx-auto space-y-6">
                 <div className="flex items-center justify-between border-b border-[#decdb9]/20 pb-4">
                   <h2 className="text-2xl font-black text-white tracking-tight">
-                    Giỏ Hàng Của Bạn
+                    Giá» HÃ ng Cá»§a Báº¡n
                   </h2>
                   <span className="text-xs font-extrabold px-3 py-1 rounded-full bg-[#c89b3c]/20 text-[#c89b3c] border border-[#c89b3c]/40">
                     {mounted ? getTotalItems() : 0} sản phẩm
@@ -1587,13 +1587,13 @@ export function StorefrontClient({ categories: initialCategories, products: init
                   <div className="text-center py-20 bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl">
                     <ShoppingBag className="w-12 h-12 text-[#decdb9]/25 mx-auto mb-3" />
                     <p className="text-[#a89882] text-sm mb-5">
-                      Giỏ hàng của bạn đang trống rỗng. Hãy ghé thực đơn để chọn món nước yêu thích!
+                      Giá» hÃ ng cá»§a báº¡n Ä‘ang trá»‘ng rá»—ng. HÃ£y ghÃ© thá»±c Ä‘Æ¡n Ä‘á»ƒ chá»n mÃ³n nÆ°á»›c yÃªu thÃ­ch!
                     </p>
                     <a
                       href="#menu"
                       className="inline-flex items-center gap-1.5 px-6 py-3 rounded-full font-bold bg-[#c89b3c] text-[#1f120b] hover:bg-[#f4d17b] transition-all text-[10px] uppercase tracking-wider"
                     >
-                      Đặt món ngay
+                      Äáº·t mÃ³n ngay
                     </a>
                   </div>
                 ) : (
@@ -1613,7 +1613,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                               {item.name}
                             </h4>
                             <span className="text-xs text-[#c89b3c] font-black">
-                              {item.price.toLocaleString('vi-VN')}đ
+                              {item.price.toLocaleString('vi-VN')}Ä‘
                             </span>
                           </div>
 
@@ -1654,10 +1654,10 @@ export function StorefrontClient({ categories: initialCategories, products: init
                         onClick={clearCart}
                         className="text-[10px] font-extrabold text-rose-500 hover:underline uppercase tracking-wider"
                       >
-                        Xóa toàn bộ giỏ hàng
+                        XÃ³a toÃ n bá»™ giá» hÃ ng
                       </button>
                       <span className="text-xs text-[#a89882]">
-                        Tạm tính: <strong className="text-white text-base">{totalCartPrice.toLocaleString('vi-VN')}đ</strong>
+                        Táº¡m tÃ­nh: <strong className="text-white text-base">{totalCartPrice.toLocaleString('vi-VN')}Ä‘</strong>
                       </span>
                     </div>
 
@@ -1666,13 +1666,13 @@ export function StorefrontClient({ categories: initialCategories, products: init
                         href="#menu"
                         className="flex-1 py-4 text-center rounded-full font-black text-[10px] uppercase tracking-widest border-2 border-zinc-800 text-white hover:bg-zinc-800/40 transition-all"
                       >
-                        Chọn thêm sản phẩm
+                        Chá»n thÃªm sáº£n pháº©m
                       </a>
                       <button
                         onClick={() => setCheckoutStep(2)}
                         className="flex-1 py-4 rounded-full font-black text-[10px] uppercase tracking-widest bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all hover:shadow-lg"
                       >
-                        Tiếp tục
+                        Tiáº¿p tá»¥c
                       </button>
                     </div>
                   </div>
@@ -1680,7 +1680,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
               </div>
             )}
 
-            {/* STEP 2: THÔNG TIN GIAO NHẬN */}
+            {/* STEP 2: THÃ”NG TIN GIAO NHáº¬N */}
             {checkoutStep === 2 && (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-6xl mx-auto">
                 
@@ -1688,13 +1688,13 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 <div className="lg:col-span-7 bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl p-8 shadow-xl space-y-6">
                   <div className="flex items-center justify-between border-b border-[#decdb9]/10 pb-4">
                     <h3 className="text-lg font-black text-[#c89b3c] uppercase tracking-wide">
-                      Thông Tin Khách Hàng
+                      ThÃ´ng Tin KhÃ¡ch HÃ ng
                     </h3>
                     <button
                       onClick={() => setCheckoutStep(1)}
                       className="text-[10px] font-bold text-[#a89882] hover:text-white uppercase tracking-wider transition-colors"
                     >
-                      ← Quay lại giỏ hàng
+                      â† Quay láº¡i giá» hÃ ng
                     </button>
                   </div>
 
@@ -1702,12 +1702,12 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-extrabold text-[#a89882] uppercase tracking-wider">
-                          Họ và Tên Khách Hàng *
+                          Há» vÃ  TÃªn KhÃ¡ch HÃ ng *
                         </label>
                         <input
                           type="text"
                           required
-                          placeholder="Nguyễn Văn A"
+                          placeholder="Nguyá»…n VÄƒn A"
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                           className="w-full px-4 py-3 rounded-xl border border-[#decdb9]/15 bg-[#170e0a] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#c89b3c]/40"
@@ -1716,7 +1716,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
 
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-extrabold text-[#a89882] uppercase tracking-wider">
-                          Số Điện Thoại *
+                          Sá»‘ Äiá»‡n Thoáº¡i *
                         </label>
                         <input
                           type="tel"
@@ -1732,7 +1732,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-extrabold text-[#a89882] uppercase tracking-wider">
-                          Email (Không bắt buộc)
+                          Email (KhÃ´ng báº¯t buá»™c)
                         </label>
                         <input
                           type="email"
@@ -1745,11 +1745,11 @@ export function StorefrontClient({ categories: initialCategories, products: init
 
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-extrabold text-[#a89882] uppercase tracking-wider">
-                          Ghi Chú Đơn Hàng
+                          Ghi ChÃº ÄÆ¡n HÃ ng
                         </label>
                         <input
                           type="text"
-                          placeholder="Ít ngọt, nhiều đá, giao giờ hành chính..."
+                          placeholder="Ãt ngá»t, nhiá»u Ä‘Ã¡, giao giá» hÃ nh chÃ­nh..."
                           value={note}
                           onChange={(e) => setNote(e.target.value)}
                           className="w-full px-4 py-3 rounded-xl border border-[#decdb9]/15 bg-[#170e0a] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#c89b3c]/40"
@@ -1760,7 +1760,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     {/* Delivery Options */}
                     <div className="space-y-2">
                       <label className="text-[10px] font-extrabold text-[#a89882] uppercase tracking-wider block">
-                        Hình Thức Nhận Hàng *
+                        HÃ¬nh Thá»©c Nháº­n HÃ ng *
                       </label>
                       <div className="flex gap-4">
                         <button
@@ -1773,7 +1773,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                               : "border-zinc-800 text-[#a89882] hover:bg-zinc-800/30"
                           )}
                         >
-                          🛵 Giao hàng tận nơi
+                          ðŸ›µ Giao hÃ ng táº­n nÆ¡i
                         </button>
                         <button
                           type="button"
@@ -1785,7 +1785,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                               : "border-zinc-800 text-[#a89882] hover:bg-zinc-800/30"
                           )}
                         >
-                          🏛️ Tự lấy tại cửa hàng
+                          ðŸ›ï¸ Tá»± láº¥y táº¡i cá»­a hÃ ng
                         </button>
                       </div>
                     </div>
@@ -1796,13 +1796,13 @@ export function StorefrontClient({ categories: initialCategories, products: init
                         <div className="space-y-2">
                           <label className="text-[10px] font-extrabold text-[#c89b3c] uppercase tracking-widest flex items-center gap-1.5">
                             <MapPin className="w-3.5 h-3.5" />
-                            Địa chỉ giao hàng (Tại Huế) *
+                            Äá»‹a chá»‰ giao hÃ ng (Táº¡i Huáº¿) *
                           </label>
                           <div className="flex gap-2.5">
                             <input
                               type="text"
                               required={deliveryType === 'delivery'}
-                              placeholder="Ví dụ: 12 Bến Nghé, Huế"
+                              placeholder="VÃ­ dá»¥: 12 Báº¿n NghÃ©, Huáº¿"
                               value={address}
                               onChange={(e) => setAddress(e.target.value)}
                               className="flex-1 px-3 py-2.5 rounded-lg border border-[#decdb9]/15 bg-[#1c120c] text-white text-xs"
@@ -1813,7 +1813,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                               disabled={isGeocoding || !address.trim()}
                               className="px-4 py-2.5 rounded-lg bg-[#c89b3c]/20 hover:bg-[#c89b3c]/35 border border-[#c89b3c]/40 text-[#c89b3c] font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-50"
                             >
-                              {isGeocoding ? 'Đang tính...' : 'Kiểm tra'}
+                              {isGeocoding ? 'Äang tÃ­nh...' : 'Kiá»ƒm tra'}
                             </button>
                           </div>
                         </div>
@@ -1824,20 +1824,20 @@ export function StorefrontClient({ categories: initialCategories, products: init
                             <div className="flex gap-2 items-start text-rose-400">
                               <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
                               <p className="text-xs font-extrabold leading-relaxed">
-                                Vui lòng kiểm tra lại địa chỉ đã nhập. Khoảng cách quá xa (&gt;10km) nên cửa hàng không thể nhận đơn của bạn. Cảm ơn vì đã quan tâm đến Trung Nguyên Legend Âu Lạc. Bạn có thể đặt nước ở chi nhánh gần nhất ạ. Cảm ơn khách yêu ạ.
+                                Vui lÃ²ng kiá»ƒm tra láº¡i Ä‘á»‹a chá»‰ Ä‘Ã£ nháº­p. Khoáº£ng cÃ¡ch quÃ¡ xa (&gt;10km) nÃªn cá»­a hÃ ng khÃ´ng thá»ƒ nháº­n Ä‘Æ¡n cá»§a báº¡n. Cáº£m Æ¡n vÃ¬ Ä‘Ã£ quan tÃ¢m Ä‘áº¿n Trung NguyÃªn Legend Ã‚u Láº¡c. Báº¡n cÃ³ thá»ƒ Ä‘áº·t nÆ°á»›c á»Ÿ chi nhÃ¡nh gáº§n nháº¥t áº¡. Cáº£m Æ¡n khÃ¡ch yÃªu áº¡.
                               </p>
                             </div>
                           </div>
                         ) : distance !== '' ? (
                           <div className="flex items-center justify-between text-xs p-3 bg-[#1c120c] rounded-lg border border-emerald-500/10">
-                            <span className="text-[#a89882]">Khoảng cách tính toán:</span>
+                            <span className="text-[#a89882]">Khoáº£ng cÃ¡ch tÃ­nh toÃ¡n:</span>
                             <span className="text-emerald-400 font-bold">
-                              {distance}km {Number(distance) <= 2 ? '(Miễn phí ship < 2km)' : `(Ship: ${shippingFee.toLocaleString('vi-VN')}đ)`}
+                              {distance}km {Number(distance) <= 2 ? '(Miá»…n phÃ­ ship < 2km)' : `(Ship: ${shippingFee.toLocaleString('vi-VN')}Ä‘)`}
                             </span>
                           </div>
                         ) : (
                           <p className="text-[10px] text-[#a89882] italic">
-                            * Vui lòng click "Kiểm tra" để hệ thống tính toán khoảng cách tự động qua OpenStreetMap.
+                            * Vui lÃ²ng click "Kiá»ƒm tra" Ä‘á»ƒ há»‡ thá»‘ng tÃ­nh toÃ¡n khoáº£ng cÃ¡ch tá»± Ä‘á»™ng qua OpenStreetMap.
                           </p>
                         )}
                       </div>
@@ -1846,7 +1846,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     {/* Payment Option Selection */}
                     <div className="space-y-2">
                       <label className="text-[10px] font-extrabold text-[#a89882] uppercase tracking-wider block">
-                        Phương Thức Thanh Toán *
+                        PhÆ°Æ¡ng Thá»©c Thanh ToÃ¡n *
                       </label>
                       <div className="flex gap-4">
                         <button
@@ -1859,7 +1859,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                               : "border-zinc-800 text-[#a89882] hover:bg-zinc-800/30"
                           )}
                         >
-                          💳 Chuyển khoản nhanh (VietQR)
+                          ðŸ’³ Chuyá»ƒn khoáº£n nhanh (VietQR)
                         </button>
                         <button
                           type="button"
@@ -1871,7 +1871,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                               : "border-zinc-800 text-[#a89882] hover:bg-zinc-800/30"
                           )}
                         >
-                          💵 Tiền mặt khi nhận (COD)
+                          ðŸ’µ Tiá»n máº·t khi nháº­n (COD)
                         </button>
                       </div>
                     </div>
@@ -1881,7 +1881,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 {/* Order Summary column (Right) */}
                 <div className="lg:col-span-5 bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl p-8 shadow-xl space-y-6">
                   <h3 className="text-lg font-black text-[#c89b3c] uppercase tracking-wide border-b border-[#decdb9]/10 pb-4">
-                    Tóm Tắt Đơn Hàng
+                    TÃ³m Táº¯t ÄÆ¡n HÃ ng
                   </h3>
 
                   {/* Minified items list */}
@@ -1896,7 +1896,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                         </div>
                         <div className="flex-1 min-w-0">
                           <h5 className="font-bold text-white truncate">{item.name}</h5>
-                          <span className="text-[10px] text-[#c89b3c] font-black">{(item.price * item.quantity).toLocaleString('vi-VN')}đ</span>
+                          <span className="text-[10px] text-[#c89b3c] font-black">{(item.price * item.quantity).toLocaleString('vi-VN')}Ä‘</span>
                         </div>
                       </div>
                     ))}
@@ -1905,18 +1905,18 @@ export function StorefrontClient({ categories: initialCategories, products: init
                   {/* Summary Pricing */}
                   <div className="pt-4 border-t border-[#decdb9]/10 space-y-2.5 text-xs">
                     <div className="flex justify-between text-[#a89882]">
-                      <span>Tổng tiền hàng:</span>
-                      <span className="text-white font-bold">{totalCartPrice.toLocaleString('vi-VN')}đ</span>
+                      <span>Tá»•ng tiá»n hÃ ng:</span>
+                      <span className="text-white font-bold">{totalCartPrice.toLocaleString('vi-VN')}Ä‘</span>
                     </div>
                     {deliveryType === 'delivery' && (
                       <div className="flex justify-between text-[#a89882]">
-                        <span>Phí giao hàng ({distance || 0}km):</span>
-                        <span className="text-white font-bold">{shippingFee > 0 ? `${shippingFee.toLocaleString('vi-VN')}đ` : 'Miễn phí'}</span>
+                        <span>PhÃ­ giao hÃ ng ({distance || 0}km):</span>
+                        <span className="text-white font-bold">{shippingFee > 0 ? `${shippingFee.toLocaleString('vi-VN')}Ä‘` : 'Miá»…n phÃ­'}</span>
                       </div>
                     )}
                     <div className="flex justify-between text-sm border-t border-[#decdb9]/10 pt-3 mt-1">
-                      <span className="text-white font-extrabold uppercase tracking-wide">Tổng cộng thanh toán:</span>
-                      <span className="text-[#c89b3c] font-black text-lg">{finalPayPrice.toLocaleString('vi-VN')}đ</span>
+                      <span className="text-white font-extrabold uppercase tracking-wide">Tá»•ng cá»™ng thanh toÃ¡n:</span>
+                      <span className="text-[#c89b3c] font-black text-lg">{finalPayPrice.toLocaleString('vi-VN')}Ä‘</span>
                     </div>
                   </div>
 
@@ -1925,7 +1925,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     disabled={isSubmitting || !mounted || cartItems.length === 0 || (deliveryType === 'delivery' && (distance === '' || Number(distance) > 10))}
                     className="w-full py-4 rounded-full font-black text-[10px] uppercase tracking-widest bg-[#c89b3c] hover:bg-[#f4d17b] disabled:bg-zinc-800 disabled:text-zinc-600 transition-all hover:shadow-lg"
                   >
-                    {isSubmitting ? 'Đang xử lý...' : (paymentMethod === 'bank' ? 'Thanh toán chuyển khoản' : 'Xác nhận đặt hàng')}
+                    {isSubmitting ? 'Äang xá»­ lÃ½...' : (paymentMethod === 'bank' ? 'Thanh toÃ¡n chuyá»ƒn khoáº£n' : 'XÃ¡c nháº­n Ä‘áº·t hÃ ng')}
                   </button>
                 </div>
 
@@ -1942,10 +1942,10 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 <CheckCircle2 className="w-7 h-7" />
               </div>
               <h2 className="text-3xl font-black text-white tracking-tight">
-                Đặt Hàng Thành Công!
+                Äáº·t HÃ ng ThÃ nh CÃ´ng!
               </h2>
               <p className="text-[#a89882] text-xs uppercase tracking-widest font-extrabold">
-                Vui lòng thanh toán để Barista bắt đầu chuẩn bị ly nước thơm ngon.
+                Vui lÃ²ng thanh toÃ¡n Ä‘á»ƒ Barista báº¯t Ä‘áº§u chuáº©n bá»‹ ly nÆ°á»›c thÆ¡m ngon.
               </p>
             </div>
 
@@ -1955,47 +1955,47 @@ export function StorefrontClient({ categories: initialCategories, products: init
               <div className="lg:col-span-6 bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl p-8 flex flex-col justify-between space-y-6 shadow-xl">
                 <div className="space-y-5">
                   <h3 className="text-base font-black text-[#c89b3c] uppercase tracking-wider border-b border-[#decdb9]/10 pb-3.5">
-                    Thông Tin Đơn Hàng
+                    ThÃ´ng Tin ÄÆ¡n HÃ ng
                   </h3>
                   
                   <div className="space-y-4 text-xs">
                     <div className="flex justify-between items-center py-2.5 border-b border-[#decdb9]/5">
-                      <span className="text-[#a89882]">Mã hóa đơn:</span>
+                      <span className="text-[#a89882]">MÃ£ hÃ³a Ä‘Æ¡n:</span>
                       <div className="flex items-center gap-1.5">
                         <strong className="text-[#c89b3c] font-black text-sm">{orderCode || 'VPC-BILL'}</strong>
                         <button
                           onClick={() => {
                             navigator.clipboard.writeText(orderCode || 'VPC-BILL')
-                            alert("Đã sao chép mã đơn hàng!")
+                            alert("ÄÃ£ sao chÃ©p mÃ£ Ä‘Æ¡n hÃ ng!")
                           }}
                           className="p-1 hover:bg-[#170e0a] rounded text-[#a89882] hover:text-white"
-                          title="Sao chép mã đơn"
+                          title="Sao chÃ©p mÃ£ Ä‘Æ¡n"
                         >
                           <Share2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </div>
                     <div className="flex justify-between items-center py-2.5 border-b border-[#decdb9]/5">
-                      <span className="text-[#a89882]">Khách hàng:</span>
+                      <span className="text-[#a89882]">KhÃ¡ch hÃ ng:</span>
                       <strong className="text-white font-bold">{fullName}</strong>
                     </div>
                     <div className="flex justify-between items-center py-2.5 border-b border-[#decdb9]/5">
-                      <span className="text-[#a89882]">Số điện thoại:</span>
+                      <span className="text-[#a89882]">Sá»‘ Ä‘iá»‡n thoáº¡i:</span>
                       <strong className="text-white font-bold">{phoneNumber}</strong>
                     </div>
                     <div className="flex justify-between items-center py-2.5 border-b border-[#decdb9]/5">
-                      <span className="text-[#a89882]">Giao nhận:</span>
+                      <span className="text-[#a89882]">Giao nháº­n:</span>
                       <strong className="text-white font-bold">
-                        {deliveryType === 'delivery' ? `Giao tận nơi (${distance}km)` : 'Nhận tại cửa hàng'}
+                        {deliveryType === 'delivery' ? `Giao táº­n nÆ¡i (${distance}km)` : 'Nháº­n táº¡i cá»­a hÃ ng'}
                       </strong>
                     </div>
                     <div className="flex justify-between items-center py-2.5 border-b border-[#decdb9]/5">
-                      <span className="text-[#a89882]">Nội dung chuyển khoản:</span>
+                      <span className="text-[#a89882]">Ná»™i dung chuyá»ƒn khoáº£n:</span>
                       <strong className="text-[#c89b3c] font-black text-sm uppercase">{fullName} {orderCode}</strong>
                     </div>
                     <div className="flex justify-between items-center py-3 bg-[#170e0a] rounded-xl px-4 border border-emerald-500/10 mt-4">
-                      <span className="text-white font-extrabold">Số tiền cần chuyển:</span>
-                      <strong className="text-[#c89b3c] font-black text-base">{finalPayPrice.toLocaleString('vi-VN')}đ</strong>
+                      <span className="text-white font-extrabold">Sá»‘ tiá»n cáº§n chuyá»ƒn:</span>
+                      <strong className="text-[#c89b3c] font-black text-base">{finalPayPrice.toLocaleString('vi-VN')}Ä‘</strong>
                     </div>
                   </div>
                 </div>
@@ -2008,18 +2008,18 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     }}
                     className="flex-1 py-3.5 text-center rounded-full font-black text-[10px] uppercase tracking-widest border border-zinc-800 text-white hover:bg-zinc-800/40 transition-all"
                   >
-                    Quay lại Trang Chủ
+                    Quay láº¡i Trang Chá»§
                   </a>
                   <button
                     onClick={async () => {
                       await updateOrderStatusAction(orderCode, 'khach_bao_da_chuyen_khoan')
-                      alert("Đã ghi nhận thông báo chuyển khoản của bạn. Barista sẽ xác nhận ngay trên hệ thống!")
+                      alert("ÄÃ£ ghi nháº­n thÃ´ng bÃ¡o chuyá»ƒn khoáº£n cá»§a báº¡n. Barista sáº½ xÃ¡c nháº­n ngay trÃªn há»‡ thá»‘ng!")
                       clearCart()
                       window.location.hash = '#home'
                     }}
                     className="flex-1 py-3.5 rounded-full font-black text-[10px] uppercase tracking-widest bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all hover:shadow-lg"
                   >
-                    Tôi Đã Thanh Toán
+                    TÃ´i ÄÃ£ Thanh ToÃ¡n
                   </button>
                 </div>
               </div>
@@ -2028,18 +2028,18 @@ export function StorefrontClient({ categories: initialCategories, products: init
               <div className="lg:col-span-6 bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl p-8 flex flex-col items-center justify-center space-y-6 shadow-xl">
                 <div className="text-center space-y-1.5">
                   <h4 className="text-sm font-extrabold text-[#fff8ed] uppercase tracking-wide">
-                    Quét mã VietQR chuyển khoản
+                    QuÃ©t mÃ£ VietQR chuyá»ƒn khoáº£n
                   </h4>
                   <p className="text-[10px] text-[#a89882] max-w-sm mx-auto leading-relaxed">
-                    Mã QR đã chứa đầy đủ số tiền và thông tin chuyển khoản chính xác nhất. Quý khách chỉ cần quét và thanh toán.
+                    MÃ£ QR Ä‘Ã£ chá»©a Ä‘áº§y Ä‘á»§ sá»‘ tiá»n vÃ  thÃ´ng tin chuyá»ƒn khoáº£n chÃ­nh xÃ¡c nháº¥t. QuÃ½ khÃ¡ch chá»‰ cáº§n quÃ©t vÃ  thanh toÃ¡n.
                   </p>
                 </div>
 
                 {/* QR code box */}
                 <div className="relative aspect-square w-64 h-64 border border-[#decdb9]/10 rounded-2xl overflow-hidden p-2.5 bg-white shadow-lg">
                   <img
-                    src={`https://qr.sepay.vn/img?acc=101882692631&bank=VietinBank&amount=${finalPayPrice}&des=${encodeURIComponent('SEVQR ' + orderCode)}`}
-                    alt="SePay QR code"
+                    src={`https://img.vietqr.io/image/vietinbank-101882692631-compact2.png?amount=${finalPayPrice}&addInfo=${encodeURIComponent(fullName + ' ' + orderCode)}&accountName=NGO%20QUYNH%20TRANG`}
+                    alt="VietQR code"
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -2047,17 +2047,17 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 {/* Account card */}
                 <div className="w-full p-4.5 bg-[#170e0a] rounded-2xl border border-[#decdb9]/10 text-[11px] text-left space-y-2 leading-relaxed">
                   <div className="flex justify-between">
-                    <span className="text-[#a89882]">Ngân hàng:</span>
+                    <span className="text-[#a89882]">NgÃ¢n hÃ ng:</span>
                     <strong className="text-white">VietinBank (Công Thương Việt Nam)</strong>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-[#a89882]">Số tài khoản:</span>
+                    <span className="text-[#a89882]">Sá»‘ tÃ i khoáº£n:</span>
                     <div className="flex items-center gap-1.5">
                       <strong className="text-[#c89b3c] font-black">101882692631</strong>
                       <button
                         onClick={() => {
                           navigator.clipboard.writeText('101882692631')
-                          alert("Đã sao chép số tài khoản!")
+                          alert("ÄÃ£ sao chÃ©p sá»‘ tÃ i khoáº£n!")
                         }}
                         className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-zinc-800 text-[#a89882] hover:text-white"
                       >
@@ -2066,8 +2066,8 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     </div>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#a89882]">Chủ tài khoản:</span>
-                    <strong className="text-white uppercase">NGÔ QUỲNH TRANG</strong>
+                    <span className="text-[#a89882]">Chá»§ tÃ i khoáº£n:</span>
+                    <strong className="text-white uppercase">NGÃ” QUá»²NH TRANG</strong>
                   </div>
                 </div>
               </div>
@@ -2086,7 +2086,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 <div className="relative aspect-[16/10] rounded-3xl overflow-hidden shadow-xl border border-[#decdb9]/10">
                   <img
                     src="https://res.cloudinary.com/dojibbcof/image/upload/v1779773457/660455604_1376016174556571_698903480620260313_n_gfnhyd.jpg"
-                    alt="VPC Cà phê năng lượng"
+                    alt="VPC CÃ  phÃª nÄƒng lÆ°á»£ng"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -2095,13 +2095,13 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     <Award className="w-4.5 h-4.5" /> <strong>Vietnam Prosperity Coffee</strong>
                   </div>
                   <h2 className="text-3.5xl font-black text-white leading-snug">
-                    Về chúng tôi
+                    Vá» chÃºng tÃ´i
                   </h2>
                   <p className="text-sm md:text-base leading-relaxed text-[#a89882]">
-                    <strong>Vietnam Prosperity Coffee</strong> (VPC) tự hào là thương hiệu kết nối và mang đến không gian cà phê năng lượng đặc trưng của <strong>Trung Nguyên Legend</strong> giữa lòng Cố đô Huế.
+                    <strong>Vietnam Prosperity Coffee</strong> (VPC) tá»± hÃ o lÃ  thÆ°Æ¡ng hiá»‡u káº¿t ná»‘i vÃ  mang Ä‘áº¿n khÃ´ng gian cÃ  phÃª nÄƒng lÆ°á»£ng Ä‘áº·c trÆ°ng cá»§a <strong>Trung NguyÃªn Legend</strong> giá»¯a lÃ²ng Cá»‘ Ä‘Ã´ Huáº¿.
                   </p>
                   <p className="text-sm md:text-base leading-relaxed text-[#a89882]">
-                    Với sứ mệnh lan tỏa văn hóa cà phê tỉnh thức, chúng tôi không chỉ phục vụ đồ uống mà còn đồng hành cùng sự sáng tạo và năng lượng tư duy của khách hàng.
+                    Vá»›i sá»© má»‡nh lan tá»a vÄƒn hÃ³a cÃ  phÃª tá»‰nh thá»©c, chÃºng tÃ´i khÃ´ng chá»‰ phá»¥c vá»¥ Ä‘á»“ uá»‘ng mÃ  cÃ²n Ä‘á»“ng hÃ nh cÃ¹ng sá»± sÃ¡ng táº¡o vÃ  nÄƒng lÆ°á»£ng tÆ° duy cá»§a khÃ¡ch hÃ ng.
                   </p>
                 </div>
               </div>
@@ -2110,16 +2110,16 @@ export function StorefrontClient({ categories: initialCategories, products: init
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div className="space-y-6 lg:order-1 order-2">
                   <p className="text-sm md:text-base leading-relaxed text-[#a89882]">
-                    Không gian tại cửa hàng <strong>Âu Lạc</strong> được thiết kế hiện đại, bài trí tinh tế cùng tủ sách tri thức truyền cảm hứng dấn thân, lập nghiệp mạnh mẽ.
+                    KhÃ´ng gian táº¡i cá»­a hÃ ng <strong>Ã‚u Láº¡c</strong> Ä‘Æ°á»£c thiáº¿t káº¿ hiá»‡n Ä‘áº¡i, bÃ i trÃ­ tinh táº¿ cÃ¹ng tá»§ sÃ¡ch tri thá»©c truyá»n cáº£m há»©ng dáº¥n thÃ¢n, láº­p nghiá»‡p máº¡nh máº½.
                   </p>
                   <p className="text-sm md:text-base leading-relaxed text-[#a89882]">
-                    Đây là điểm hẹn lý tưởng để học tập, làm việc, kết nối bạn bè và cùng nhau chia sẻ những ý tưởng sáng tạo đột phá.
+                    ÄÃ¢y lÃ  Ä‘iá»ƒm háº¹n lÃ½ tÆ°á»Ÿng Ä‘á»ƒ há»c táº­p, lÃ m viá»‡c, káº¿t ná»‘i báº¡n bÃ¨ vÃ  cÃ¹ng nhau chia sáº» nhá»¯ng Ã½ tÆ°á»Ÿng sÃ¡ng táº¡o Ä‘á»™t phÃ¡.
                   </p>
                 </div>
                 <div className="relative aspect-[16/10] rounded-3xl overflow-hidden shadow-xl border border-[#decdb9]/10 lg:order-2 order-1">
                   <img
                     src="https://res.cloudinary.com/dojibbcof/image/upload/v1779773457/658147470_1376016321223223_8548167742163448076_n_axvtps.jpg"
-                    alt="Không gian Trung Nguyên Legend Âu Lạc"
+                    alt="KhÃ´ng gian Trung NguyÃªn Legend Ã‚u Láº¡c"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -2130,16 +2130,16 @@ export function StorefrontClient({ categories: initialCategories, products: init
                 <div className="relative aspect-[16/10] rounded-3xl overflow-hidden shadow-xl border border-[#decdb9]/10">
                   <img
                     src="https://res.cloudinary.com/dojibbcof/image/upload/v1779773453/z7635707229351_3a55bdc90f6cd62dd840a98fe0846012_nzeb9y.jpg"
-                    alt="Sách tri thức và vật phẩm"
+                    alt="SÃ¡ch tri thá»©c vÃ  váº­t pháº©m"
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="space-y-6">
                   <p className="text-sm md:text-base leading-relaxed text-[#a89882]">
-                    Thông qua hệ thống website tiện lợi, khách hàng có thể dễ dàng tra cứu menu, đặt đồ uống giao tận nhà hoặc mua sắm các sản phẩm đóng gói và quà tặng.
+                    ThÃ´ng qua há»‡ thá»‘ng website tiá»‡n lá»£i, khÃ¡ch hÃ ng cÃ³ thá»ƒ dá»… dÃ ng tra cá»©u menu, Ä‘áº·t Ä‘á»“ uá»‘ng giao táº­n nhÃ  hoáº·c mua sáº¯m cÃ¡c sáº£n pháº©m Ä‘Ã³ng gÃ³i vÃ  quÃ  táº·ng.
                   </p>
                   <p className="text-sm md:text-base leading-relaxed text-[#a89882]">
-                    Chúng tôi cam kết phục vụ tận tâm từ trái tim, mang lại trải nghiệm hoàn hảo nhất cho quý khách trong từng khoảnh khắc thưởng thức.
+                    ChÃºng tÃ´i cam káº¿t phá»¥c vá»¥ táº­n tÃ¢m tá»« trÃ¡i tim, mang láº¡i tráº£i nghiá»‡m hoÃ n háº£o nháº¥t cho quÃ½ khÃ¡ch trong tá»«ng khoáº£nh kháº¯c thÆ°á»Ÿng thá»©c.
                   </p>
                 </div>
               </div>
@@ -2149,23 +2149,23 @@ export function StorefrontClient({ categories: initialCategories, products: init
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-10">
               <div className="p-6.5 bg-white dark:bg-[#2b1810] border border-[#decdb9] dark:border-[#3a2114] rounded-3xl space-y-3.5">
                 <Coffee className="w-10 h-10 text-[#c89b3c]" />
-                <h4 className="text-lg font-extrabold text-[#2b1810] dark:text-[#f7efe3]">Sản phẩm tinh hoa</h4>
+                <h4 className="text-lg font-extrabold text-[#2b1810] dark:text-[#f7efe3]">Sáº£n pháº©m tinh hoa</h4>
                 <p className="text-xs text-[#78675d] dark:text-[#a89882] leading-relaxed">
-                  Sử dụng nguồn hạt cà phê Robusta Buôn Ma Thuột ngon nhất thế giới kết hợp công nghệ chế tác độc quyền.
+                  Sá»­ dá»¥ng nguá»“n háº¡t cÃ  phÃª Robusta BuÃ´n Ma Thuá»™t ngon nháº¥t tháº¿ giá»›i káº¿t há»£p cÃ´ng nghá»‡ cháº¿ tÃ¡c Ä‘á»™c quyá»n.
                 </p>
               </div>
               <div className="p-6.5 bg-white dark:bg-[#2b1810] border border-[#decdb9] dark:border-[#3a2114] rounded-3xl space-y-3.5">
                 <Compass className="w-10 h-10 text-[#c89b3c]" />
-                <h4 className="text-lg font-extrabold text-[#2b1810] dark:text-[#f7efe3]">Không gian năng lượng</h4>
+                <h4 className="text-lg font-extrabold text-[#2b1810] dark:text-[#f7efe3]">KhÃ´ng gian nÄƒng lÆ°á»£ng</h4>
                 <p className="text-xs text-[#78675d] dark:text-[#a89882] leading-relaxed">
-                  Góc ngồi yên tĩnh cao cấp, bài trí hài hòa, sách tri thức đặc trưng truyền cảm hứng khởi nghiệp mạnh mẽ.
+                  GÃ³c ngá»“i yÃªn tÄ©nh cao cáº¥p, bÃ i trÃ­ hÃ i hÃ²a, sÃ¡ch tri thá»©c Ä‘áº·c trÆ°ng truyá»n cáº£m há»©ng khá»Ÿi nghiá»‡p máº¡nh máº½.
                 </p>
               </div>
               <div className="p-6.5 bg-white dark:bg-[#2b1810] border border-[#decdb9] dark:border-[#3a2114] rounded-3xl space-y-3.5">
                 <Clock className="w-10 h-10 text-[#c89b3c]" />
-                <h4 className="text-lg font-extrabold text-[#2b1810] dark:text-[#f7efe3]">Đồng hành bền bỉ</h4>
+                <h4 className="text-lg font-extrabold text-[#2b1810] dark:text-[#f7efe3]">Äá»“ng hÃ nh bá»n bá»‰</h4>
                 <p className="text-xs text-[#78675d] dark:text-[#a89882] leading-relaxed">
-                  Đội ngũ nhân sự được đào tạo chuyên nghiệp từ trái tim, tận tụy chăm sóc từng trải nghiệm nhỏ của quý khách hàng.
+                  Äá»™i ngÅ© nhÃ¢n sá»± Ä‘Æ°á»£c Ä‘Ã o táº¡o chuyÃªn nghiá»‡p tá»« trÃ¡i tim, táº­n tá»¥y chÄƒm sÃ³c tá»«ng tráº£i nghiá»‡m nhá» cá»§a quÃ½ khÃ¡ch hÃ ng.
                 </p>
               </div>
             </div>
@@ -2176,9 +2176,9 @@ export function StorefrontClient({ categories: initialCategories, products: init
         {activeTab === '#contact' && (
           <div className="max-w-[1600px] mx-auto px-4 max-[520px]:px-2 space-y-12 pt-10">
             <div className="text-center max-w-xl mx-auto space-y-3">
-              <h2 className="text-3.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight">Liên Hệ Với Chúng Tôi</h2>
+              <h2 className="text-3.5xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight">LiÃªn Há»‡ Vá»›i ChÃºng TÃ´i</h2>
               <p className="text-[#78675d] dark:text-[#a89882] text-sm leading-relaxed">
-                Đóng góp ý kiến phản hồi hoặc liên hệ hỗ trợ đặt món nước giao tận nơi cực kỳ nhanh chóng.
+                ÄÃ³ng gÃ³p Ã½ kiáº¿n pháº£n há»“i hoáº·c liÃªn há»‡ há»— trá»£ Ä‘áº·t mÃ³n nÆ°á»›c giao táº­n nÆ¡i cá»±c ká»³ nhanh chÃ³ng.
               </p>
             </div>
 
@@ -2187,20 +2187,20 @@ export function StorefrontClient({ categories: initialCategories, products: init
               <div className="lg:col-span-12 flex justify-center w-full">
                 <div className="w-full max-w-2xl bg-white dark:bg-[#2b1810] border border-[#decdb9] dark:border-[#3a2114] rounded-3xl p-8 shadow-lg">
                   <h3 className="text-2xl font-black text-[#2b1810] dark:text-[#f7efe3] tracking-tight border-b border-[#f7efe3] dark:border-[#1f120b] pb-3.5 mb-6 text-center">
-                    Gửi Ý Kiến Phản Hồi
+                    Gá»­i Ã Kiáº¿n Pháº£n Há»“i
                   </h3>
 
                   <form
                     onSubmit={(e) => {
                       e.preventDefault()
-                      alert("Cảm ơn ý kiến đóng góp chân thành của quý khách. Chúng tôi sẽ phản hồi sớm nhất!")
+                      alert("Cáº£m Æ¡n Ã½ kiáº¿n Ä‘Ã³ng gÃ³p chÃ¢n thÃ nh cá»§a quÃ½ khÃ¡ch. ChÃºng tÃ´i sáº½ pháº£n há»“i sá»›m nháº¥t!")
                       e.currentTarget.reset()
                     }}
                     className="space-y-5"
                   >
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-[#78675d] dark:text-[#a89882]">Tên của bạn</label>
+                        <label className="text-xs font-bold text-[#78675d] dark:text-[#a89882]">TÃªn cá»§a báº¡n</label>
                         <input
                           type="text"
                           required
@@ -2208,7 +2208,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-[#78675d] dark:text-[#a89882]">Số điện thoại</label>
+                        <label className="text-xs font-bold text-[#78675d] dark:text-[#a89882]">Sá»‘ Ä‘iá»‡n thoáº¡i</label>
                         <input
                           type="tel"
                           required
@@ -2218,7 +2218,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-[#78675d] dark:text-[#a89882]">Email liên hệ</label>
+                      <label className="text-xs font-bold text-[#78675d] dark:text-[#a89882]">Email liÃªn há»‡</label>
                       <input
                         type="email"
                         required
@@ -2227,7 +2227,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-[#78675d] dark:text-[#a89882]">Nội dung phản hồi</label>
+                      <label className="text-xs font-bold text-[#78675d] dark:text-[#a89882]">Ná»™i dung pháº£n há»“i</label>
                       <textarea
                         required
                         rows={4}
@@ -2240,7 +2240,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                         type="submit"
                         className="w-full max-w-xs py-3.5 rounded-xl font-bold bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all hover:shadow-lg text-xs uppercase tracking-wider font-extrabold"
                       >
-                        Gửi phản hồi của bạn
+                        Gá»­i pháº£n há»“i cá»§a báº¡n
                       </button>
                     </div>
                   </form>
@@ -2255,31 +2255,31 @@ export function StorefrontClient({ categories: initialCategories, products: init
         {activeTab === '#lookup' && (
           <div className="max-w-4xl mx-auto px-4 max-[520px]:px-2 pt-10 space-y-8 animate-in fade-in duration-300">
             <div className="text-center max-w-xl mx-auto space-y-3">
-              <h2 className="text-3.5xl font-black text-white tracking-tight">Tra Cứu Đơn Hàng</h2>
+              <h2 className="text-3.5xl font-black text-white tracking-tight">Tra Cá»©u ÄÆ¡n HÃ ng</h2>
               <p className="text-[#a89882] text-xs uppercase tracking-widest font-extrabold leading-relaxed">
-                Theo dõi trạng thái chuẩn bị thức uống của bạn theo thời gian thực từ quầy Barista.
+                Theo dÃµi tráº¡ng thÃ¡i chuáº©n bá»‹ thá»©c uá»‘ng cá»§a báº¡n theo thá»i gian thá»±c tá»« quáº§y Barista.
               </p>
             </div>
             <div className="bg-[#1c120c] border border-[#decdb9]/10 rounded-3xl p-8 shadow-xl space-y-6">
               <form onSubmit={handleLookupSubmit} className="flex flex-col sm:flex-row gap-4">
-                <input type="text" required placeholder="Nhập mã đơn hàng của bạn (Ví dụ: VPC-812903)" value={lookupCode} onChange={(e) => setLookupCode(e.target.value)} className="flex-1 px-4.5 py-3.5 rounded-xl border border-[#decdb9]/15 bg-[#170e0a] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#c89b3c]" />
-                <button type="submit" disabled={isLookingUp} className="px-8 py-3.5 rounded-xl font-black bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all text-xs uppercase tracking-wider disabled:bg-zinc-800 disabled:text-zinc-600">{isLookingUp ? 'Đang tra cứu...' : 'Tra cứu'}</button>
+                <input type="text" required placeholder="Nháº­p mÃ£ Ä‘Æ¡n hÃ ng cá»§a báº¡n (VÃ­ dá»¥: VPC-812903)" value={lookupCode} onChange={(e) => setLookupCode(e.target.value)} className="flex-1 px-4.5 py-3.5 rounded-xl border border-[#decdb9]/15 bg-[#170e0a] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#c89b3c]" />
+                <button type="submit" disabled={isLookingUp} className="px-8 py-3.5 rounded-xl font-black bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] transition-all text-xs uppercase tracking-wider disabled:bg-zinc-800 disabled:text-zinc-600">{isLookingUp ? 'Äang tra cá»©u...' : 'Tra cá»©u'}</button>
               </form>
               {lookupError && (<p className="text-xs text-rose-500 font-bold text-center bg-rose-950/10 p-3 rounded-xl border border-rose-800/20">{lookupError}</p>)}
               {lookupResult && (
                 <div className="space-y-6 pt-4 animate-in fade-in duration-300">
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-[#170e0a] rounded-2xl border border-[#decdb9]/10 text-xs leading-relaxed">
-                    <div><span className="text-[#a89882] block">Mã đơn hàng:</span><strong className="text-[#c89b3c] font-black text-sm">{lookupResult.order_number}</strong></div>
-                    <div><span className="text-[#a89882] block">Khách hàng:</span><strong className="text-white font-bold">{lookupResult.full_name}</strong></div>
-                    <div><span className="text-[#a89882] block">Tổng tiền đơn:</span><strong className="text-[#c89b3c] font-black">{lookupResult.total_amount?.toLocaleString('vi-VN')}đ</strong></div>
-                    <div><span className="text-[#a89882] block">Thanh toán:</span><strong className="text-white font-bold">{lookupResult.payment_method === 'bank' ? 'Chuyển khoản' : 'Tiền mặt'}</strong></div>
+                    <div><span className="text-[#a89882] block">MÃ£ Ä‘Æ¡n hÃ ng:</span><strong className="text-[#c89b3c] font-black text-sm">{lookupResult.order_number}</strong></div>
+                    <div><span className="text-[#a89882] block">KhÃ¡ch hÃ ng:</span><strong className="text-white font-bold">{lookupResult.full_name}</strong></div>
+                    <div><span className="text-[#a89882] block">Tá»•ng tiá»n Ä‘Æ¡n:</span><strong className="text-[#c89b3c] font-black">{lookupResult.total_amount?.toLocaleString('vi-VN')}Ä‘</strong></div>
+                    <div><span className="text-[#a89882] block">Thanh toÃ¡n:</span><strong className="text-white font-bold">{lookupResult.payment_method === 'bank' ? 'Chuyá»ƒn khoáº£n' : 'Tiá»n máº·t'}</strong></div>
                   </div>
                   <div className="space-y-3">
-                    <h4 className="text-xs font-black text-[#c89b3c] uppercase tracking-widest border-b border-[#decdb9]/10 pb-2">Trạng thái chuẩn bị</h4>
+                    <h4 className="text-xs font-black text-[#c89b3c] uppercase tracking-widest border-b border-[#decdb9]/10 pb-2">Tráº¡ng thÃ¡i chuáº©n bá»‹</h4>
                     {renderLookupProgress(lookupResult.status, lookupResult)}
                   </div>
                   <div className="space-y-3">
-                    <h4 className="text-xs font-black text-[#c89b3c] uppercase tracking-widest border-b border-[#decdb9]/10 pb-2">Hóa đơn chi tiết</h4>
+                    <h4 className="text-xs font-black text-[#c89b3c] uppercase tracking-widest border-b border-[#decdb9]/10 pb-2">HÃ³a Ä‘Æ¡n chi tiáº¿t</h4>
                     <div className="bg-[#170e0a] rounded-2xl border border-[#decdb9]/10 overflow-hidden">
                       <div className="divide-y divide-[#decdb9]/5">
                         {lookupResult.order_items && lookupResult.order_items.map((item: any) => (
@@ -2322,37 +2322,37 @@ export function StorefrontClient({ categories: initialCategories, products: init
             
             <div className="space-y-2">
               <h3 className="text-2xl font-black text-[#fff8ed]">
-                Đặt Hàng Thành Công!
+                Äáº·t HÃ ng ThÃ nh CÃ´ng!
               </h3>
               <p className="text-xs text-[#a89882] leading-relaxed">
-                Đơn hàng <strong className="text-[#c89b3c]">{orderCode}</strong> đã được gửi tới quầy Barista. Chúng tôi sẽ nhanh chóng chuẩn bị và giao hàng cho bạn!
+                ÄÆ¡n hÃ ng <strong className="text-[#c89b3c]">{orderCode}</strong> Ä‘Ã£ Ä‘Æ°á»£c gá»­i tá»›i quáº§y Barista. ChÃºng tÃ´i sáº½ nhanh chÃ³ng chuáº©n bá»‹ vÃ  giao hÃ ng cho báº¡n!
               </p>
             </div>
 
             <div className="p-4 bg-[#170e0a] rounded-2xl text-xs space-y-2 text-left border border-[#decdb9]/10 leading-relaxed">
               <div className="flex justify-between">
-                <span className="text-[#a89882]">Khách hàng:</span>
+                <span className="text-[#a89882]">KhÃ¡ch hÃ ng:</span>
                 <strong className="text-white">{fullName}</strong>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#a89882]">Số điện thoại:</span>
+                <span className="text-[#a89882]">Sá»‘ Ä‘iá»‡n thoáº¡i:</span>
                 <strong className="text-white">{phoneNumber}</strong>
               </div>
               {deliveryType === 'delivery' && (
                 <div className="flex justify-between">
-                  <span className="text-[#a89882]">Hình thức:</span>
-                  <strong className="text-emerald-400 font-bold">Giao hàng tận nhà ({distance}km)</strong>
+                  <span className="text-[#a89882]">HÃ¬nh thá»©c:</span>
+                  <strong className="text-emerald-400 font-bold">Giao hÃ ng táº­n nhÃ  ({distance}km)</strong>
                 </div>
               )}
               {deliveryType === 'pickup' && (
                 <div className="flex justify-between">
-                  <span className="text-[#a89882]">Hình thức:</span>
-                  <strong className="text-[#c89b3c] font-bold">Tự lấy tại cửa hàng</strong>
+                  <span className="text-[#a89882]">HÃ¬nh thá»©c:</span>
+                  <strong className="text-[#c89b3c] font-bold">Tá»± láº¥y táº¡i cá»­a hÃ ng</strong>
                 </div>
               )}
               <div className="flex justify-between border-t border-[#decdb9]/10 pt-2 mt-2 font-black text-sm">
-                <span className="text-white">Thanh toán:</span>
-                <span className="text-[#c89b3c]">{finalPayPrice.toLocaleString('vi-VN')}đ</span>
+                <span className="text-white">Thanh toÃ¡n:</span>
+                <span className="text-[#c89b3c]">{finalPayPrice.toLocaleString('vi-VN')}Ä‘</span>
               </div>
             </div>
 
@@ -2360,7 +2360,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
               onClick={handleFinishCashOrder}
               className="w-full py-3.5 rounded-full font-black bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] uppercase tracking-widest text-[10px] transition-all shadow-md"
             >
-              Hoàn tất đơn hàng
+              HoÃ n táº¥t Ä‘Æ¡n hÃ ng
             </button>
           </div>
         </div>
@@ -2384,8 +2384,8 @@ export function StorefrontClient({ categories: initialCategories, products: init
                   <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-[#170e0a]" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-black text-[#c89b3c] uppercase tracking-widest">Barista Âu Lạc</h4>
-                  <span className="text-[10px] text-emerald-400 font-bold">Đang trực tuyến</span>
+                  <h4 className="text-xs font-black text-[#c89b3c] uppercase tracking-widest">Barista Ã‚u Láº¡c</h4>
+                  <span className="text-[10px] text-emerald-400 font-bold">Äang trá»±c tuyáº¿n</span>
                 </div>
               </div>
               <button
@@ -2439,57 +2439,57 @@ export function StorefrontClient({ categories: initialCategories, products: init
             <div className="p-2.5 bg-[#170e0a] border-t border-[#decdb9]/10 flex gap-2 overflow-x-auto custom-scrollbar-chat scroll-smooth shrink-0">
               <button
                 onClick={() => handleChatQuestion(
-                  'Cà phê phin đặc trưng',
-                  'Chào bạn! Dòng cà phê phin đặc trưng nhất của chúng tôi là dòng Coffee Legend và Năng lượng Tư duy. Cà phê phin Legend mang hương thơm nồng nàn quyến rũ, vị đắng đậm đà truyền thống. Bạn có thể gọi thêm Sữa đá để cảm nhận vị béo ngậy ngào ngạt!'
+                  'CÃ  phÃª phin Ä‘áº·c trÆ°ng',
+                  'ChÃ o báº¡n! DÃ²ng cÃ  phÃª phin Ä‘áº·c trÆ°ng nháº¥t cá»§a chÃºng tÃ´i lÃ  dÃ²ng Coffee Legend vÃ  NÄƒng lÆ°á»£ng TÆ° duy. CÃ  phÃª phin Legend mang hÆ°Æ¡ng thÆ¡m ná»“ng nÃ n quyáº¿n rÅ©, vá»‹ Ä‘áº¯ng Ä‘áº­m Ä‘Ã  truyá»n thá»‘ng. Báº¡n cÃ³ thá»ƒ gá»i thÃªm Sá»¯a Ä‘Ã¡ Ä‘á»ƒ cáº£m nháº­n vá»‹ bÃ©o ngáº­y ngÃ o ngáº¡t!'
                 )}
                 className="shrink-0 text-[9px] font-extrabold px-3 py-1.5 rounded-full bg-[#c89b3c]/15 hover:bg-[#c89b3c]/25 text-[#c89b3c] border border-[#c89b3c]/30 transition-colors"
               >
-                ☕ Gợi ý Cà phê
+                â˜• Gá»£i Ã½ CÃ  phÃª
               </button>
               <button
                 onClick={() => handleChatQuestion(
-                  'Món uống thanh mát',
-                  'Chào bạn! Các món trà & nước giải nhiệt thanh mát của chúng tôi bao gồm: Trà là nếp sen vàng bùi béo bổ dưỡng, Trà đào cam sả sảng khoái thơm mát, Hibiscus chanh dây hạt chia chua ngọt giải nhiệt cực đỉnh. Hãy chọn ly nước yêu thích của bạn trên menu nhé!'
+                  'MÃ³n uá»‘ng thanh mÃ¡t',
+                  'ChÃ o báº¡n! CÃ¡c mÃ³n trÃ  & nÆ°á»›c giáº£i nhiá»‡t thanh mÃ¡t cá»§a chÃºng tÃ´i bao gá»“m: TrÃ  lÃ  náº¿p sen vÃ ng bÃ¹i bÃ©o bá»• dÆ°á»¡ng, TrÃ  Ä‘Ã o cam sáº£ sáº£ng khoÃ¡i thÆ¡m mÃ¡t, Hibiscus chanh dÃ¢y háº¡t chia chua ngá»t giáº£i nhiá»‡t cá»±c Ä‘á»‰nh. HÃ£y chá»n ly nÆ°á»›c yÃªu thÃ­ch cá»§a báº¡n trÃªn menu nhÃ©!'
                 )}
                 className="shrink-0 text-[9px] font-extrabold px-3 py-1.5 rounded-full bg-[#c89b3c]/15 hover:bg-[#c89b3c]/25 text-[#c89b3c] border border-[#c89b3c]/30 transition-colors"
               >
-                🍹 Món uống thanh mát
+                ðŸ¹ MÃ³n uá»‘ng thanh mÃ¡t
               </button>
               <button
                 onClick={() => handleChatQuestion(
-                  '3 Nền Văn Minh Cà Phê',
-                  'Chúng tôi tự hào hội tụ 3 nền văn minh cà phê thế giới: Ottoman (cà phê tâm linh gắn kết), Roman (cà phê khai phóng sáng tạo khoa học kỹ thuật) và Thiền (cà phê chiêm nghiệm bản thân sâu lắng phương Đông). Hãy trực tiếp ghé thăm quán hoặc đặt hàng để khám phá nhé!'
+                  '3 Ná»n VÄƒn Minh CÃ  PhÃª',
+                  'ChÃºng tÃ´i tá»± hÃ o há»™i tá»¥ 3 ná»n vÄƒn minh cÃ  phÃª tháº¿ giá»›i: Ottoman (cÃ  phÃª tÃ¢m linh gáº¯n káº¿t), Roman (cÃ  phÃª khai phÃ³ng sÃ¡ng táº¡o khoa há»c ká»¹ thuáº­t) vÃ  Thiá»n (cÃ  phÃª chiÃªm nghiá»‡m báº£n thÃ¢n sÃ¢u láº¯ng phÆ°Æ¡ng ÄÃ´ng). HÃ£y trá»±c tiáº¿p ghÃ© thÄƒm quÃ¡n hoáº·c Ä‘áº·t hÃ ng Ä‘á»ƒ khÃ¡m phÃ¡ nhÃ©!'
                 )}
                 className="shrink-0 text-[9px] font-extrabold px-3 py-1.5 rounded-full bg-[#c89b3c]/15 hover:bg-[#c89b3c]/25 text-[#c89b3c] border border-[#c89b3c]/30 transition-colors"
               >
-                🏛️ 3 Nền Văn Minh
+                ðŸ›ï¸ 3 Ná»n VÄƒn Minh
               </button>
               <button
                 onClick={() => handleChatQuestion(
-                  'Chương trình Khuyến mãi',
-                  'Tin vui cho tín đồ mê nước mát! Chương trình khuyến mãi "Mua 1 Được 2" đang diễn ra cực nhiệt trong khung giờ 14:00 - 21:30 hàng ngày từ 19/05 đến 30/06. Rủ ngay cạ cứng đi tránh nóng thôi nào!'
+                  'ChÆ°Æ¡ng trÃ¬nh Khuyáº¿n mÃ£i',
+                  'Tin vui cho tÃ­n Ä‘á»“ mÃª nÆ°á»›c mÃ¡t! ChÆ°Æ¡ng trÃ¬nh khuyáº¿n mÃ£i "Mua 1 ÄÆ°á»£c 2" Ä‘ang diá»…n ra cá»±c nhiá»‡t trong khung giá» 14:00 - 21:30 hÃ ng ngÃ y tá»« 19/05 Ä‘áº¿n 30/06. Rá»§ ngay cáº¡ cá»©ng Ä‘i trÃ¡nh nÃ³ng thÃ´i nÃ o!'
                 )}
                 className="shrink-0 text-[9px] font-extrabold px-3 py-1.5 rounded-full bg-[#c89b3c]/15 hover:bg-[#c89b3c]/25 text-[#c89b3c] border border-[#c89b3c]/30 transition-colors"
               >
-                🔥 Chương trình Khuyến mãi
+                ðŸ”¥ ChÆ°Æ¡ng trÃ¬nh Khuyáº¿n mÃ£i
               </button>
               <button
                 onClick={() => handleChatQuestion(
-                  'Chương trình thành viên',
-                  '💳 Chương trình thành viên Premium tích lũy điểm: Nhận Voucher giảm 10% khi đăng ký thành viên. Tích lũy đạt hạng Bạc (giảm 5%), hạng Vàng (giảm 10% + quà sinh nhật), và Kim Cương (giảm 15% + miễn phí ship trọn đời). Bấm đăng ký ở góc phải màn hình nhé!'
+                  'ChÆ°Æ¡ng trÃ¬nh thÃ nh viÃªn',
+                  'ðŸ’³ ChÆ°Æ¡ng trÃ¬nh thÃ nh viÃªn Premium tÃ­ch lÅ©y Ä‘iá»ƒm: Nháº­n Voucher giáº£m 10% khi Ä‘Äƒng kÃ½ thÃ nh viÃªn. TÃ­ch lÅ©y Ä‘áº¡t háº¡ng Báº¡c (giáº£m 5%), háº¡ng VÃ ng (giáº£m 10% + quÃ  sinh nháº­t), vÃ  Kim CÆ°Æ¡ng (giáº£m 15% + miá»…n phÃ­ ship trá»n Ä‘á»i). Báº¥m Ä‘Äƒng kÃ½ á»Ÿ gÃ³c pháº£i mÃ n hÃ¬nh nhÃ©!'
                 )}
                 className="shrink-0 text-[9px] font-extrabold px-3 py-1.5 rounded-full bg-[#c89b3c]/15 hover:bg-[#c89b3c]/25 text-[#c89b3c] border border-[#c89b3c]/30 transition-colors"
               >
-                💳 Chương trình thành viên
+                ðŸ’³ ChÆ°Æ¡ng trÃ¬nh thÃ nh viÃªn
               </button>
               <button
                 onClick={() => handleChatQuestion(
-                  'Địa điểm, giờ mở cửa',
-                  '📍 Vị trí & Giờ hoạt động của quán:\n• Địa chỉ: Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế (đối diện Aeon Mall Huế).\n• Giờ mở cửa: 06:30 AM - 09:30 PM hàng ngày. Rất hân hạnh được phục vụ quý khách!'
+                  'Äá»‹a Ä‘iá»ƒm, giá» má»Ÿ cá»­a',
+                  'ðŸ“ Vá»‹ trÃ­ & Giá» hoáº¡t Ä‘á»™ng cá»§a quÃ¡n:\nâ€¢ Äá»‹a chá»‰: Khu TÄC ÄÃ´ng Nam Thá»§y An, PhÆ°á»ng An Cá»±u, TP Huáº¿ (Ä‘á»‘i diá»‡n Aeon Mall Huáº¿).\nâ€¢ Giá» má»Ÿ cá»­a: 06:30 AM - 09:30 PM hÃ ng ngÃ y. Ráº¥t hÃ¢n háº¡nh Ä‘Æ°á»£c phá»¥c vá»¥ quÃ½ khÃ¡ch!'
                 )}
                 className="shrink-0 text-[9px] font-extrabold px-3 py-1.5 rounded-full bg-[#c89b3c]/15 hover:bg-[#c89b3c]/25 text-[#c89b3c] border border-[#c89b3c]/30 transition-colors"
               >
-                🚗 Địa điểm, giờ mở cửa
+                ðŸš— Äá»‹a Ä‘iá»ƒm, giá» má»Ÿ cá»­a
               </button>
             </div>
 
@@ -2497,7 +2497,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
             <form onSubmit={handleChatSubmit} className="p-3 bg-[#170e0a] border-t border-[#decdb9]/10 flex gap-2 shrink-0">
               <input
                 type="text"
-                placeholder="Nhập tin nhắn để tư vấn món..."
+                placeholder="Nháº­p tin nháº¯n Ä‘á»ƒ tÆ° váº¥n mÃ³n..."
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
                 className="flex-1 px-3 py-2 rounded-xl border border-[#decdb9]/15 bg-[#1c120c] text-xs text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-[#c89b3c]"
@@ -2516,7 +2516,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
         <button
           onClick={() => setIsChatOpen(!isChatOpen)}
           className="w-14 h-14 rounded-full bg-[#c89b3c] hover:bg-[#f4d17b] text-[#1f120b] flex items-center justify-center shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
-          aria-label="Tư vấn Barista"
+          aria-label="TÆ° váº¥n Barista"
         >
           {isChatOpen ? <X className="w-6 h-6 stroke-[2.5]" /> : <MessageSquare className="w-6 h-6 stroke-[2.5]" />}
         </button>
