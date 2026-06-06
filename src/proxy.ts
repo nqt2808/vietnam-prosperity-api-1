@@ -1,58 +1,32 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@supabase/ssr'
+import { NextRequest, NextResponse } from "next/server";
 
-export async function proxy(request: NextRequest) {
-  let response = NextResponse.next({ request })
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll().map((cookie) => ({
-            name: cookie.name,
-            value: cookie.value,
-          }))
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            request.cookies.set(name, value)
-            response = NextResponse.next({ request })
-            response.cookies.set({ name, value, ...options })
-          })
-        },
-      },
+export function proxy(request: NextRequest) {
+  if (request.nextUrl.pathname.startsWith("/api/")) {
+    if (request.method === "OPTIONS") {
+      return new NextResponse(null, {
+        status: 204,
+        headers: corsHeaders,
+      });
     }
-  )
 
-  // Refresh token if expired
-  const { data: { user } } = await supabase.auth.getUser()
+    const response = NextResponse.next();
 
-  const path = request.nextUrl.pathname
+    Object.entries(corsHeaders).forEach(([key, value]) => {
+      response.headers.set(key, value);
+    });
 
-  // Protect /account routes (admin routes are self-protected inside admin.html local auth)
-  if (!user && path.startsWith('/account')) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    return response;
   }
 
-  // Redirect logged-in users away from auth pages
-  if (user && (path.startsWith('/login') || path.startsWith('/register'))) {
-    return NextResponse.redirect(new URL('/account/profile', request.url))
-  }
-
-  return response
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - Images / assets in public folder
-     */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-  ],
-}
+  matcher: "/api/:path*",
+};
