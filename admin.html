@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -830,14 +831,14 @@
 
               <select id="orderStatusFilter" onchange="renderOrders()">
                 <option value="">Tất cả trạng thái</option>
-                <option value="moi">Mới</option>
-                <option value="cho_tt">Chờ TT</option>
-                <option value="da_tt">Đã TT</option>
-                <option value="dang_lam">Đang làm</option>
-                <option value="dang_giao">Đang giao</option>
-                <option value="hoan_tat">Hoàn tất</option>
-                <option value="tu_choi">Từ chối</option>
-                <option value="da_huy">Đã hủy</option>
+<option value="moi">Mới</option>
+<option value="cho_tt">Chờ thanh toán</option>
+<option value="da_tt">Đã thanh toán</option>
+<option value="dang_lam">Đang làm</option>
+<option value="dang_giao">Đang giao</option>
+<option value="hoan_tat">Hoàn tất</option>
+<option value="tu_choi">Từ chối</option>
+<option value="da_huy">Đã hủy</option>
               </select>
 
               <select id="adminOrderSort" onchange="renderOrders(); buildAdminAnalytics(window.adminOrders || []);">
@@ -847,7 +848,8 @@
             </div>
           </div>
 
-          <div class="admin-note">Click vào một đơn hàng để xem chi tiết sản phẩm, khách hàng, thanh toán và ghi chú.</div>
+          <div class="admin-note">Click vào một đơn hàng để xem chi tiết sản phẩm, khách hàng, thanh toán và ghi chú.
+          </div>
 
           <div class="table-wrap">
             <table>
@@ -1012,12 +1014,14 @@
           <div class="form-grid">
             <div class="form-field full">
               <label>Nhập yêu cầu phân tích</label>
-              <textarea id="aiPrompt" placeholder="Ví dụ: dựa vào doanh thu cũ, dự đoán doanh thu ngày mai..."></textarea>
+              <textarea id="aiPrompt"
+                placeholder="Ví dụ: dựa vào doanh thu cũ, dự đoán doanh thu ngày mai..."></textarea>
             </div>
 
             <div class="form-field full">
               <button class="btn btn-primary" onclick="runAdminAI()">Phân tích bằng AI</button>
-              <button class="btn btn-light" onclick="runLocalRevenueForecast()" style="margin-left: 8px;">Dự đoán nhanh bằng dữ liệu hiện có</button>
+              <button class="btn btn-light" onclick="runLocalRevenueForecast()" style="margin-left: 8px;">Dự đoán nhanh
+                bằng dữ liệu hiện có</button>
             </div>
 
             <div class="form-field full">
@@ -1044,7 +1048,8 @@
             </div>
           </div>
           <div class="admin-note">
-            Danh sách giao dịch nhận khoản thanh toán từ SePay qua cổng VietQR. Những giao dịch hợp lệ sẽ tự động cập nhật trạng thái đơn hàng tương ứng.
+            Danh sách giao dịch nhận khoản thanh toán từ SePay qua cổng VietQR. Những giao dịch hợp lệ sẽ tự động cập
+            nhật trạng thái đơn hàng tương ứng.
           </div>
           <div class="table-wrap">
             <table>
@@ -1082,9 +1087,7 @@
   </div>
 
   <script>
-    const API_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-      ? ""
-      : "https://vpc-70cs.onrender.com";
+    const API_URL = "https://vpc-70cs.onrender.com";
     const ADMIN_USERNAME = "admin";
     const ADMIN_PASSWORD = "28082005";
 
@@ -1121,15 +1124,15 @@
     };
 
     const statusLabels = {
-      moi: "Mới",
-      cho_tt: "Chờ TT",
-      da_tt: "Đã TT",
-      dang_lam: "Đang làm",
-      dang_giao: "Đang giao",
-      hoan_tat: "Hoàn tất",
-      tu_choi: "Từ chối",
-      da_huy: "Đã hủy"
-    };
+  moi: "Mới",
+  cho_tt: "Chờ thanh toán",
+  da_tt: "Đã thanh toán",
+  dang_lam: "Đang làm",
+  dang_giao: "Đang giao",
+  hoan_tat: "Hoàn tất",
+  tu_choi: "Từ chối",
+  da_huy: "Đã hủy"
+};
 
     function handleAdminLogin(event) {
       event.preventDefault();
@@ -1566,10 +1569,10 @@
 
         const itemHtml = items.length
           ? items.slice(0, 3).map(item => {
-              const name = item.name || item.ten_san_pham || item.product_name || "Sản phẩm";
-              const qty = item.qty || item.quantity || item.so_luong || 1;
-              return `<div>• ${safeText(name)} x${safeText(qty)}</div>`;
-            }).join("") + (items.length > 3 ? `<div class="muted">+${items.length - 3} sản phẩm khác</div>` : "")
+            const name = item.name || item.ten_san_pham || item.product_name || "Sản phẩm";
+            const qty = item.qty || item.quantity || item.so_luong || 1;
+            return `<div>• ${safeText(name)} x${safeText(qty)}</div>`;
+          }).join("") + (items.length > 3 ? `<div class="muted">+${items.length - 3} sản phẩm khác</div>` : "")
           : `<span class="muted">Không có dữ liệu sản phẩm</span>`;
 
         return `
@@ -1588,15 +1591,15 @@
             <td><span class="status-badge status-${safeText(status)}">${safeText(statusLabels[status] || status)}</span></td>
             <td onclick="event.stopPropagation()">
               <select class="status-select" onchange="updateOrderStatus('${safeText(code)}', this.value)">
-                <option value="moi" ${status === "moi" ? "selected" : ""}>Mới</option>
-                <option value="cho_tt" ${status === "cho_tt" ? "selected" : ""}>Chờ TT</option>
-                <option value="da_tt" ${status === "da_tt" ? "selected" : ""}>Đã TT</option>
-                <option value="dang_lam" ${status === "dang_lam" ? "selected" : ""}>Đang làm</option>
-                <option value="dang_giao" ${status === "dang_giao" ? "selected" : ""}>Đang giao</option>
-                <option value="hoan_tat" ${status === "hoan_tat" ? "selected" : ""}>Hoàn tất</option>
-                <option value="tu_choi" ${status === "tu_choi" ? "selected" : ""}>Từ chối</option>
-                <option value="da_huy" ${status === "da_huy" ? "selected" : ""}>Đã hủy</option>
-              </select>
+  <option value="moi" ${status === "moi" ? "selected" : ""}>Mới</option>
+  <option value="cho_tt" ${status === "cho_tt" ? "selected" : ""}>Chờ thanh toán</option>
+  <option value="da_tt" ${status === "da_tt" ? "selected" : ""}>Đã thanh toán</option>
+  <option value="dang_lam" ${status === "dang_lam" ? "selected" : ""}>Đang làm</option>
+  <option value="dang_giao" ${status === "dang_giao" ? "selected" : ""}>Đang giao</option>
+  <option value="hoan_tat" ${status === "hoan_tat" ? "selected" : ""}>Hoàn tất</option>
+  <option value="tu_choi" ${status === "tu_choi" ? "selected" : ""}>Từ chối</option>
+  <option value="da_huy" ${status === "da_huy" ? "selected" : ""}>Đã hủy</option>
+</select>
             </td>
           </tr>
         `;
@@ -1781,7 +1784,7 @@
             alert(successMessage);
             return;
           }
-        } catch (error) {}
+        } catch (error) { }
       }
 
       alert("Đã cập nhật trên giao diện admin. Backend có thể chưa có route PATCH để lưu vĩnh viễn.");
@@ -2198,4 +2201,5 @@
     });
   </script>
 </body>
+
 </html>

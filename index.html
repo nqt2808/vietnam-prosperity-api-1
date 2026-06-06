@@ -2876,7 +2876,7 @@ body {
             style="display: none; padding: 14px; background: #e6f7ed; border: 1px solid #a3e2bb; border-radius: 12px; color: #155724; margin-top: 14px; font-weight: 800; text-align: center; font-size: 14px; line-height: 1.5;">
             ✓ Chuyển khoản thành công!<br>
             <span style="font-weight: normal; font-size: 12px; opacity: 0.9;">Cửa hàng đã nhận được thanh toán của bạn
-              và đang chuẩn bị chuẩn bị đơn. Hệ thống sẽ tự động về trang chủ sau 5 giây.</span>
+              và đang chuẩn bị chuẩn bị đơn. Hệ thống sẽ tự động về trang chủ sau 4 giây.</span>
           </div>
 
           <div class="payment-pending" id="paymentPending"
@@ -4237,7 +4237,18 @@ body {
           (payload) => {
             console.log('🔄 Realtime update received:', payload);
             const newStatus = payload.new.trang_thai;
-            const successStatuses = ["da_thanh_toan", "da_nhan_don", "dang_lam_don", "da_giao_shipper", "hoan_thanh", "da_chuyen_khoan"];
+            const successStatuses = [
+  "da_tt",
+  "da_thanh_toan",
+  "da_chuyen_khoan",
+  "da_nhan_don",
+  "dang_lam",
+  "dang_lam_don",
+  "dang_giao",
+  "da_giao_shipper",
+  "hoan_tat",
+  "hoan_thanh"
+];
             if (successStatuses.includes(newStatus)) {
               console.log("💰 Payment confirmed in real-time!");
 
@@ -4273,7 +4284,32 @@ body {
         )
         .subscribe();
     }
+    let autoPaymentCheckTimer = null;
 
+function startAutoCheckPayment() {
+  if (autoPaymentCheckTimer) {
+    clearInterval(autoPaymentCheckTimer);
+  }
+
+  autoPaymentCheckTimer = setInterval(() => {
+    const paymentPage = document.getElementById("payment");
+    const successBox = document.getElementById("paymentSuccess");
+
+    if (!paymentPage || !paymentPage.classList.contains("active")) {
+      clearInterval(autoPaymentCheckTimer);
+      autoPaymentCheckTimer = null;
+      return;
+    }
+
+    if (successBox && successBox.style.display === "block") {
+      clearInterval(autoPaymentCheckTimer);
+      autoPaymentCheckTimer = null;
+      return;
+    }
+
+    checkBankPaymentStatus();
+  }, 3000);
+}
     function loadPaymentPage() {
       const paymentItems = document.getElementById("paymentItems");
       const paymentOrderCode = document.getElementById("paymentOrderCode");
@@ -4320,6 +4356,7 @@ body {
 
       // Kích hoạt lắng nghe thanh toán thời gian thực qua Supabase Realtime Websocket
       listenForPaymentRealtime(finalCode);
+startAutoCheckPayment();
     }
 
     async function checkBankPaymentStatus() {
@@ -4382,7 +4419,7 @@ body {
               btn.textContent = "Kiểm tra trạng thái thanh toán";
             }
             successBox.style.display = "none";
-          }, 5000);
+          }, 4000);
 
         } else {
           // Đơn hàng vẫn ở trạng thái chờ chuyển khoản
@@ -5498,7 +5535,6 @@ Bạn có muốn đặt ngay một ly để trải nghiệm không? ☕`,
 • <strong>Roman:</strong> Biểu trưng cho sự chính xác, khoa học và lối sống hiện đại, năng động.<br>
 • <strong>Thiền:</strong> Cà phê triết đạo, mang đậm bản sắc văn hóa Việt Nam hướng vào nội tâm.<br><br>
 Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 nền văn minh này!`,
-
         promotions: `<strong>🔥 Chương trình Khuyến mãi cực HOT tại Trung Nguyên Legend Âu Lạc (19/05 - 30/06):</strong><br><br>
 <strong>1. 🍹 MUA 1 TẶNG 1 (Khung giờ 14:00 - 22:00 hàng ngày):</strong><br>
 • <strong>Áp dụng khi mua:</strong> Trà Vải Hoa Hồng, Trà Đào Cam Sả, Trà Lá Nếp Sen Vàng, hoặc Trà Xanh Thạch Cà Phê.<br>
@@ -5507,15 +5543,40 @@ Tại Trung Nguyên Legend Âu Lạc, chúng tôi tự hào hội tụ cả 3 n�
 • <strong>Ưu đãi:</strong> Giảm giá trực tiếp <strong>15%</strong> cho tất cả các loại thức uống trong thực đơn.<br><br>
 📍 <strong>Địa điểm áp dụng:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP. Huế.`,
 
-        membership: `<strong>💳 Chương trình thẻ thành viên Trung Nguyên Legend:</strong><br>
-• Tích điểm nhanh chóng cho mỗi đơn hàng để đổi quà tặng hấp dẫn.<br>
-• Nhận ưu đãi giảm giá riêng biệt vào ngày sinh nhật của bạn.<br>
-• Tham gia các sự kiện trải nghiệm văn hóa cà phê độc quyền và miễn phí.`,
+       membership: `<strong>💳 Chương trình Thành viên Trung Nguyên Legend</strong><br><br>
+Anh/chị có thể đăng ký thành viên miễn phí trên ứng dụng <strong>Trung Nguyên Legend</strong>. Khi thanh toán, vui lòng xuất trình thẻ thành viên hoặc mã QR trên app để được tích điểm và áp dụng ưu đãi.<br><br>
+
+<strong>✅ Cách tích điểm</strong><br>
+• Mỗi <strong>30.000đ</strong> mua hàng = <strong>1 điểm</strong> tích lũy.<br>
+• Điểm có thể quy đổi khi thanh toán với tỷ lệ <strong>1 điểm = 1.000đ</strong>.<br>
+• Mỗi lần đổi điểm cần tối thiểu <strong>30 điểm</strong>.<br>
+• Điểm tích lũy có thời hạn sử dụng theo quy định chương trình.<br><br>
+
+<strong>🥈 Hạng Bạc</strong><br>
+• Mỗi 30.000đ mua hàng được tích 1 điểm.<br>
+• Đổi điểm thanh toán với tỷ lệ 1 điểm = 1.000đ.<br><br>
+
+<strong>🥇 Hạng Vàng</strong><br>
+• Đạt từ <strong>100 điểm</strong> tích lũy.<br>
+• Có quà tặng sinh nhật.<br>
+• Giảm <strong>10%</strong> trên hóa đơn thức ăn và thức uống.<br>
+• Được đổi điểm mua hàng.<br>
+• Duy trì hạng: tích lũy tối thiểu <strong>70 điểm</strong> trong 12 tháng kể từ ngày nâng hạng.<br><br>
+
+<strong>💎 Hạng Bạch Kim</strong><br>
+• Đạt từ <strong>300 điểm</strong> tích lũy.<br>
+• Có quà tặng sinh nhật.<br>
+• Giảm <strong>15%</strong> trên hóa đơn thức ăn và thức uống.<br>
+• Được đổi điểm mua hàng.<br>
+• Duy trì hạng: tích lũy tối thiểu <strong>200 điểm</strong> trong 12 tháng kể từ ngày nâng hạng.<br><br>
+
+<strong>📌 Lưu ý khi thanh toán</strong><br>
+Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ thành viên trên ứng dụng Trung Nguyên Legend để nhân viên tích điểm và áp dụng ưu đãi theo hạng thành viên.`,
 
         location: `<strong>🚗 Thông tin liên hệ & Thời gian mở cửa:</strong><br>
 • <strong>Địa chỉ:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế.<br>
-• <strong>Giờ mở cửa:</strong> 06:00 - 22:30 hàng ngày.<br>
-• <strong>Hotline đặt hàng:</strong> 0905.772.338`
+• <strong>Giờ mở cửa:</strong> 06:30 - 21:30 hàng ngày.<br>
+• <strong>Hotline đặt hàng:</strong> 038 972 6999`
       };
 
       const userTextMap = {
