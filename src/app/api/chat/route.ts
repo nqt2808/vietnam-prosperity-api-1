@@ -43,10 +43,50 @@ function htmlToKnowledgeText(input: string) {
     .trim();
 }
 
+function extractWebsiteKnowledge(raw: string) {
+  const textOnly = htmlToKnowledgeText(raw);
+
+  const productMatches = Array.from(
+    raw.matchAll(/(?:ten_san_pham|ten|name|title)\s*:\s*["'`]([^"'`]+)["'`][\s\S]{0,500}?(?:mo_ta|description|desc|short_description)\s*:\s*["'`]([^"'`]+)["'`][\s\S]{0,300}?(?:gia|gia_den|price|priceNum)\s*:\s*([0-9]+)/gi)
+  ).map((match) => {
+    return `Sản phẩm: ${match[1]}\nMô tả: ${match[2]}\nGiá: ${Number(match[3]).toLocaleString("vi-VN")}đ`;
+  });
+
+  const articleMatches = Array.from(
+    raw.matchAll(/(?:title|tieu_de)\s*:\s*["'`]([^"'`]+)["'`][\s\S]{0,700}?(?:desc|tom_tat|summary|content)\s*:\s*["'`]([^"'`]+)["'`]/gi)
+  ).map((match) => {
+    return `Bài viết: ${match[1]}\nNội dung: ${match[2]}`;
+  });
+
+  const aboutMatches = Array.from(
+    raw.matchAll(/(?:Về chúng tôi|Giới thiệu|about|founder|sáng lập|Vietnam Prosperity Coffee|Trung Nguyên Legend Âu Lạc)[\s\S]{0,2000}/gi)
+  ).map((match) => htmlToKnowledgeText(match[0]));
+
+  const footerMatches = Array.from(
+    raw.matchAll(/(?:footer|Hotline|0389726999|038 972 6999|Facebook|TikTok|Google Map|Địa chỉ|Aeon Mall)[\s\S]{0,2000}/gi)
+  ).map((match) => htmlToKnowledgeText(match[0]));
+
+  return [
+    "=== TEXT HIỂN THỊ TRONG WEBSITE ===",
+    textOnly.slice(0, 70000),
+
+    "=== SẢN PHẨM BÓC TÁCH TỪ INDEX ===",
+    productMatches.length ? productMatches.join("\n\n") : "Không bóc tách được sản phẩm từ index.",
+
+    "=== BÀI VIẾT BÓC TÁCH TỪ INDEX ===",
+    articleMatches.length ? articleMatches.join("\n\n") : "Không bóc tách được bài viết từ index.",
+
+    "=== GIỚI THIỆU / VỀ CHÚNG TÔI ===",
+    aboutMatches.length ? aboutMatches.join("\n\n") : "Không tìm thấy phần giới thiệu.",
+
+    "=== FOOTER / LIÊN HỆ ===",
+    footerMatches.length ? footerMatches.join("\n\n") : "Không tìm thấy footer/liên hệ."
+  ].join("\n\n");
+}
+
 function readWebsiteKnowledge() {
   const now = Date.now();
 
-  // Cache 60 giây để không đọc file quá nhiều.
   if (cachedWebsiteKnowledge.text && now - cachedWebsiteKnowledge.loadedAt < 60_000) {
     return cachedWebsiteKnowledge.text;
   }
@@ -66,10 +106,10 @@ function readWebsiteKnowledge() {
       if (!fs.existsSync(filePath)) continue;
 
       const raw = fs.readFileSync(filePath, "utf8");
-      const clean = htmlToKnowledgeText(raw);
+      const extracted = extractWebsiteKnowledge(raw);
 
-      if (clean.length > 40) {
-        chunks.push(`FILE: ${path.relative(process.cwd(), filePath)}\n${clean}`);
+      if (extracted.length > 40) {
+        chunks.push(`FILE: ${path.relative(process.cwd(), filePath)}\n${extracted}`);
       }
     } catch (error) {
       console.error("Không đọc được file knowledge:", filePath, error);
@@ -78,7 +118,7 @@ function readWebsiteKnowledge() {
 
   cachedWebsiteKnowledge = {
     loadedAt: now,
-    text: chunks.join("\n\n---\n\n").slice(0, 120_000)
+    text: chunks.join("\n\n---\n\n").slice(0, 180000)
   };
 
   return cachedWebsiteKnowledge.text || "Chưa đọc được nội dung website/index.";
