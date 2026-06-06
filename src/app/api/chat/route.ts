@@ -342,7 +342,9 @@ THÔNG TIN CỐ ĐỊNH QUAN TRỌNG:
 - Địa chỉ: Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế, đối diện Aeon Mall Huế.
 - Hotline: 0389726999 hoặc 038 972 6999.
 - Giờ mở cửa: 06:30 - 21:30 hằng ngày.
+- Chủ sở hữu / nhà sáng lập: Vietnam Prosperity Coffee được đồng sáng lập bởi Ông Nguyễn Minh Đức và Bà Nguyễn Thị Tuyết Mai.
 - Tài khoản đại diện giao dịch: Ngô Quỳnh Trang, Vietinbank: 101882692631.
+
 - Quán có không gian yên tĩnh, điều hòa, WiFi miễn phí, phù hợp học tập, làm việc, gặp gỡ, đọc sách.
 
 CHƯƠNG TRÌNH THÀNH VIÊN TRUNG NGUYÊN LEGEND:
@@ -502,7 +504,9 @@ function shouldTryInternetSearch(reply: string) {
 
 export async function POST(req: Request) {
   try {
-    const { message, context } = await req.json();
+    const body = await req.json();
+const message = body.message || body.question || body.prompt || "";
+const context = body.context || {};
 
     const geminiKey = process.env.GEMINI_API_KEY;
     const openaiKey = process.env.OPENAI_API_KEY;
@@ -567,8 +571,18 @@ YÊU CẦU TRẢ LỜI:
     } else if (geminiKey) {
       replyText = await callGemini(SYSTEM_PROMPT, promptWithContext, geminiKey);
     }
-
-    if (shouldTryInternetSearch(replyText)) {
+function shouldForceInternetSearch(message: string) {
+  const text = String(message || "").toLowerCase();
+  return (
+    text.includes("ai là chủ") ||
+    text.includes("chủ là ai") ||
+    text.includes("chủ sở hữu") ||
+    text.includes("nhà sáng lập") ||
+    text.includes("founder") ||
+    text.includes("owner")
+  );
+}
+    if (shouldTryInternetSearch(replyText) || shouldForceInternetSearch(message)) {
       const internetResult = await searchInternetIfConfigured(message);
 
       if (internetResult.available) {
