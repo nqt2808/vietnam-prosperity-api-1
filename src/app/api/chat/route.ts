@@ -246,6 +246,7 @@ async function loadSupabaseKnowledge() {
 
   const [
     drinks,
+    sanPhamDoUong,
     merchandise,
     vatPham,
     articles,
@@ -254,6 +255,7 @@ async function loadSupabaseKnowledge() {
     sepayTransactions
   ] = await Promise.all([
     safeSelect(supabase, "do_uong", "*", 120),
+    safeSelect(supabase, "san_pham_do_uong", "*", 300),
     safeSelect(supabase, "merchandise", "*", 120),
     safeSelect(supabase, "vat_pham", "*", 120),
     safeSelect(supabase, "bai_viet", "*", 80),
@@ -264,6 +266,7 @@ async function loadSupabaseKnowledge() {
 
   return {
     drinks,
+    sanPhamDoUong,
     merchandise,
     vatPham,
     articles,
@@ -872,6 +875,7 @@ ${internetResult.text}
     });
   }
 }
+
 
 
 
