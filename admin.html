@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -784,7 +784,48 @@
           </div>
         </div>
 
+                <div class="analytics-summary">
+          <div class="analytics-stat">
+            <strong id="statReturningCustomers">0</strong>
+            <span>Khách quay lại</span>
+          </div>
+
+          <div class="analytics-stat">
+            <strong id="statReturnRate">0%</strong>
+            <span>Tỷ lệ quay lại</span>
+          </div>
+
+          <div class="analytics-stat">
+            <strong id="statUniqueShipAddresses">0</strong>
+            <span>Địa chỉ ship</span>
+          </div>
+
+          <div class="analytics-stat">
+            <strong id="statTopShipAddress">-</strong>
+            <span>Địa chỉ ship nhiều nhất</span>
+          </div>
+        </div>
         <div class="analytics-grid">
+          <div class="analytics-card">
+            <h3>Khách quay lại theo SĐT</h3>
+            <div id="returningCustomersChart" class="analytics-chart"></div>
+          </div>
+
+          <div class="analytics-card">
+            <h3>Địa chỉ ship đến nhiều</h3>
+            <div id="shipAddressChart" class="analytics-chart"></div>
+          </div>
+
+          <div class="analytics-card">
+            <h3>Món ít bán nhất</h3>
+            <div id="leastSoldProductsChart" class="analytics-chart"></div>
+          </div>
+
+          <div class="analytics-card">
+            <h3>Doanh thu từ khách quay lại</h3>
+            <div id="repeatCustomerRevenueChart" class="analytics-chart"></div>
+          </div>
+
           <div class="analytics-card">
             <h3>Doanh thu theo ngày</h3>
             <div id="revenueByDayChart" class="analytics-chart"></div>
@@ -1000,6 +1041,15 @@
               <p>Tìm nhóm khách có khả năng quay lại cao.</p>
             </div>
 
+                        <div class="ai-tool-card" onclick="fillAIPrompt('least-sold')">
+              <h4>Món ít bán nhất</h4>
+              <p>Tìm món bán chậm để đề xuất xử lý hoặc khuyến mãi.</p>
+            </div>
+
+            <div class="ai-tool-card" onclick="fillAIPrompt('repeat-customers')">
+              <h4>Khách hàng quay lại</h4>
+              <p>Phân tích khách quay lại theo số điện thoại và địa chỉ ship.</p>
+            </div>
             <div class="ai-tool-card" onclick="fillAIPrompt('operations')">
               <h4>Tư vấn vận hành</h4>
               <p>Gợi ý cải thiện tốc độ xử lý đơn và trạng thái đơn.</p>
@@ -1985,16 +2035,141 @@
       `;
     }
 
+    function normalizePhone(phone) {
+      return String(phone || "").replace(/\D/g, "");
+    }
+
+    function getShipAddress(order) {
+      return String(
+        order.dia_chi_giao_hang ||
+        order.dia_chi ||
+        order.address ||
+        order.shipping_address ||
+        order?.khach_hang?.dia_chi ||
+        order?.thong_tin_khach_hang?.dia_chi ||
+        ""
+      ).trim();
+    }
+
+    function getItemPrice(item) {
+      const raw = item.priceNum || item.price || item.gia || item.unit_price || item.don_gia || 0;
+      if (typeof raw === "number") return raw;
+      return Number(String(raw).replace(/[^\d]/g, "")) || 0;
+    }
+
+    function buildBusinessInsights() {
+      const orders = Array.isArray(window.adminOrders) ? window.adminOrders : [];
+      const totalRevenue = orders.reduce((sum, order) => sum + getOrderTotal(order), 0);
+      const paidOrders = orders.filter(order => paidStatuses.includes(getOrderStatus(order)));
+      const paidRevenue = paidOrders.reduce((sum, order) => sum + getOrderTotal(order), 0);
+
+      const phoneMap = {};
+      const addressMap = {};
+      const productMap = {};
+      const statusMap = {};
+      const paymentMap = {};
+      const deliveryMap = {};
+
+      orders.forEach(order => {
+        const phone = normalizePhone(getCustomerPhone(order));
+        const name = getCustomerName(order);
+        const address = getShipAddress(order);
+        const total = getOrderTotal(order);
+        const status = getOrderStatus(order);
+        const payment = getPaymentMethod(order);
+        const delivery = getDeliveryType(order);
+
+        statusMap[status] = (statusMap[status] || 0) + 1;
+        paymentMap[payment] = (paymentMap[payment] || 0) + 1;
+        deliveryMap[delivery] = (deliveryMap[delivery] || 0) + 1;
+
+        if (phone) {
+          if (!phoneMap[phone]) {
+            phoneMap[phone] = { phone, name, orders: 0, revenue: 0, addresses: {} };
+          }
+          phoneMap[phone].orders += 1;
+          phoneMap[phone].revenue += total;
+          if (address) phoneMap[phone].addresses[address] = (phoneMap[phone].addresses[address] || 0) + 1;
+        }
+
+        if (address) {
+          if (!addressMap[address]) addressMap[address] = { address, orders: 0, revenue: 0 };
+          addressMap[address].orders += 1;
+          addressMap[address].revenue += total;
+        }
+
+        getOrderItems(order).forEach(item => {
+          const itemName = item.name || item.ten_san_pham || item.product_name || item.ten || "Sản phẩm khác";
+          const qty = Number(item.qty || item.quantity || item.so_luong || 1);
+          const price = getItemPrice(item);
+
+          if (!productMap[itemName]) productMap[itemName] = { name: itemName, qty: 0, revenue: 0 };
+          productMap[itemName].qty += qty;
+          productMap[itemName].revenue += price * qty;
+        });
+      });
+
+      const customers = Object.values(phoneMap);
+      const returningCustomers = customers
+        .filter(c => c.orders > 1)
+        .sort((a, b) => b.orders - a.orders);
+
+      const addresses = Object.values(addressMap).sort((a, b) => b.orders - a.orders);
+      const products = Object.values(productMap);
+      const topProducts = [...products].sort((a, b) => b.qty - a.qty);
+      const leastSoldProducts = [...products].filter(p => p.qty > 0).sort((a, b) => a.qty - b.qty);
+
+      const dailyRevenue = getDailyRevenueArray();
+      const last7 = dailyRevenue.slice(-7);
+      const avg7 = last7.length ? last7.reduce((s, d) => s + d.revenue, 0) / last7.length : 0;
+      const last = last7[last7.length - 1]?.revenue || avg7;
+      const trend = last7.length >= 2 ? (last - last7[0].revenue) / Math.max(1, last7.length - 1) : 0;
+      const forecast = Math.max(0, Math.round(avg7 * 0.7 + (last + trend) * 0.3));
+
+      return {
+        totalOrders: orders.length,
+        totalRevenue,
+        paidOrders: paidOrders.length,
+        paidRevenue,
+        avgOrder: orders.length ? totalRevenue / orders.length : 0,
+        uniqueCustomers: customers.length,
+        returningCustomers,
+        returningCustomerCount: returningCustomers.length,
+        returnRate: customers.length ? Math.round((returningCustomers.length / customers.length) * 100) : 0,
+        addresses,
+        uniqueShipAddresses: addresses.length,
+        topShipAddress: addresses[0] || null,
+        products,
+        topProducts,
+        leastSoldProducts,
+        dailyRevenue,
+        forecast,
+        avg7,
+        lastRevenue: last,
+        trend,
+        statusMap,
+        paymentMap,
+        deliveryMap
+      };
+    }
+
     function buildAdminAnalytics(ordersInput) {
       const orders = sortAdminOrders(Array.isArray(ordersInput) ? ordersInput : []);
-      const totalRevenue = orders.reduce((sum, order) => sum + getOrderTotal(order), 0);
-      const paidOrders = orders.filter(order => paidStatuses.includes(getOrderStatus(order))).length;
-      const avgOrder = orders.length ? totalRevenue / orders.length : 0;
+      const insights = buildBusinessInsights();
 
-      document.getElementById("statTotalRevenue").textContent = formatMoney(totalRevenue);
-      document.getElementById("statTotalOrders").textContent = orders.length;
-      document.getElementById("statPaidOrders").textContent = paidOrders;
-      document.getElementById("statAvgOrder").textContent = formatMoney(avgOrder);
+      const setText = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+      };
+
+      setText("statTotalRevenue", formatMoney(insights.totalRevenue));
+      setText("statTotalOrders", insights.totalOrders);
+      setText("statPaidOrders", insights.paidOrders);
+      setText("statAvgOrder", formatMoney(insights.avgOrder));
+      setText("statReturningCustomers", insights.returningCustomerCount);
+      setText("statReturnRate", insights.returnRate + "%");
+      setText("statUniqueShipAddresses", insights.uniqueShipAddresses);
+      setText("statTopShipAddress", insights.topShipAddress ? insights.topShipAddress.address.slice(0, 18) + "…" : "-");
 
       const revenueByDay = {};
       const ordersByDay = {};
@@ -2035,14 +2210,30 @@
       const deliveryLabels = Object.keys(deliveryRevenue);
       const deliveryValues = deliveryLabels.map(label => deliveryRevenue[label]);
 
+      const returningLabels = insights.returningCustomers.slice(0, 8).map(c => c.name || c.phone);
+      const returningValues = insights.returningCustomers.slice(0, 8).map(c => c.orders);
+
+      const addressLabels = insights.addresses.slice(0, 8).map(a => a.address.length > 14 ? a.address.slice(0, 14) + "…" : a.address);
+      const addressValues = insights.addresses.slice(0, 8).map(a => a.orders);
+
+      const leastLabels = insights.leastSoldProducts.slice(0, 8).map(p => p.name.length > 12 ? p.name.slice(0, 12) + "…" : p.name);
+      const leastValues = insights.leastSoldProducts.slice(0, 8).map(p => p.qty);
+
+      const repeatRevenueLabels = insights.returningCustomers.slice(0, 8).map(c => c.name || c.phone);
+      const repeatRevenueValues = insights.returningCustomers.slice(0, 8).map(c => c.revenue);
+
       renderBarChart("revenueByDayChart", revenueLabels, revenueValues, { money: true });
       renderDonutChart("statusDonutChart", statusMap);
       renderDonutChart("paymentDonutChart", paymentMap);
       renderBarChart("topProductsChart", productLabels, productValues);
       renderBarChart("deliveryRevenueChart", deliveryLabels, deliveryValues, { money: true });
       renderBarChart("ordersByDayChart", orderDayLabels, orderDayValues);
-    }
 
+      renderBarChart("returningCustomersChart", returningLabels, returningValues);
+      renderBarChart("shipAddressChart", addressLabels, addressValues);
+      renderBarChart("leastSoldProductsChart", leastLabels, leastValues);
+      renderBarChart("repeatCustomerRevenueChart", repeatRevenueLabels, repeatRevenueValues, { money: true });
+    }
     function getDailyRevenueArray() {
       const map = {};
 
@@ -2060,31 +2251,69 @@
     }
 
     function runLocalRevenueForecast() {
-      const days = getDailyRevenueArray();
+      const insights = buildBusinessInsights();
       const resultBox = document.getElementById("aiResult");
 
-      if (!days.length) {
+      if (!insights.dailyRevenue.length) {
         resultBox.value = "Chưa có dữ liệu doanh thu để dự đoán.";
         return;
       }
 
-      const last7 = days.slice(-7);
-      const avg = last7.reduce((sum, day) => sum + day.revenue, 0) / last7.length;
-      const last = last7[last7.length - 1]?.revenue || avg;
-      const trend = last7.length >= 2 ? (last - last7[0].revenue) / Math.max(1, last7.length - 1) : 0;
-      const forecast = Math.max(0, Math.round(avg * 0.75 + (last + trend) * 0.25));
+      resultBox.value =
+`DỰ ĐOÁN DOANH THU NGÀY MỚI
 
-      resultBox.value = `Dự đoán nhanh doanh thu ngày mới:\n\n- Trung bình ${last7.length} ngày gần nhất: ${formatMoney(avg)}\n- Doanh thu ngày gần nhất: ${formatMoney(last)}\n- Xu hướng mỗi ngày: ${formatMoney(trend)}\n\n=> Dự đoán doanh thu ngày tiếp theo khoảng: ${formatMoney(forecast)}`;
+- Trung bình 7 ngày gần nhất: ${formatMoney(insights.avg7)}
+- Doanh thu ngày gần nhất: ${formatMoney(insights.lastRevenue)}
+- Xu hướng mỗi ngày: ${formatMoney(insights.trend)}
+- Số đơn hiện có: ${insights.totalOrders}
+- Giá trị đơn trung bình: ${formatMoney(insights.avgOrder)}
+
+=> Dự đoán doanh thu ngày tiếp theo: ${formatMoney(insights.forecast)}
+
+Gợi ý:
+- Đẩy món bán chạy: ${insights.topProducts[0]?.name || "chưa có dữ liệu"}
+- Xử lý món bán chậm: ${insights.leastSoldProducts[0]?.name || "chưa có dữ liệu"}
+- Nhắc lại nhóm khách quay lại: ${insights.returningCustomerCount} khách.`;
+    }
+
+    function generateLocalAIReport(prompt) {
+      const q = String(prompt || "").toLowerCase();
+      const i = buildBusinessInsights();
+
+      const topProducts = i.topProducts.slice(0, 5).map((p, idx) => `${idx + 1}. ${p.name}: ${p.qty} món`).join("\n") || "Chưa có dữ liệu.";
+      const leastProducts = i.leastSoldProducts.slice(0, 5).map((p, idx) => `${idx + 1}. ${p.name}: ${p.qty} món`).join("\n") || "Chưa có dữ liệu.";
+      const repeatCustomers = i.returningCustomers.slice(0, 5).map((c, idx) => `${idx + 1}. ${c.name || "Khách"} - ${c.phone}: ${c.orders} đơn, ${formatMoney(c.revenue)}`).join("\n") || "Chưa có khách quay lại.";
+      const topAddresses = i.addresses.slice(0, 5).map((a, idx) => `${idx + 1}. ${a.address}: ${a.orders} đơn, ${formatMoney(a.revenue)}`).join("\n") || "Chưa có địa chỉ ship.";
+
+      if (q.includes("dự đoán") || q.includes("forecast") || q.includes("doanh thu ngày")) {
+        return `DỰ ĐOÁN DOANH THU NGÀY MỚI\n\n- Dự đoán: ${formatMoney(i.forecast)}\n- Trung bình 7 ngày: ${formatMoney(i.avg7)}\n- Doanh thu gần nhất: ${formatMoney(i.lastRevenue)}\n- Xu hướng: ${formatMoney(i.trend)}/ngày\n\nGợi ý: ưu tiên đẩy ${i.topProducts[0]?.name || "món bán chạy"} và tạo combo với món bán chậm.`;
+      }
+
+      if (q.includes("ít bán") || q.includes("bán chậm")) {
+        return `MÓN ÍT BÁN NHẤT\n\n${leastProducts}\n\nGợi ý xử lý:\n- Gom món bán chậm vào combo.\n- Giảm nhẹ 5-10% trong khung giờ thấp điểm.\n- Đưa món bán chậm đi kèm món bán chạy.`;
+      }
+
+      if (q.includes("quay lại") || q.includes("khách hàng")) {
+        return `KHÁCH HÀNG QUAY LẠI\n\n- Tổng khách unique: ${i.uniqueCustomers}\n- Khách quay lại: ${i.returningCustomerCount}\n- Tỷ lệ quay lại: ${i.returnRate}%\n\nTop khách quay lại:\n${repeatCustomers}\n\nĐịa chỉ ship nổi bật:\n${topAddresses}`;
+      }
+
+      if (q.includes("khuyến mãi") || q.includes("ưu đãi")) {
+        return `ĐỀ XUẤT KHUYẾN MÃI\n\n1. Combo bán chạy + bán chậm:\n- Món bán chạy: ${i.topProducts[0]?.name || "chưa có dữ liệu"}\n- Món cần đẩy: ${i.leastSoldProducts[0]?.name || "chưa có dữ liệu"}\n\n2. Ưu đãi khách quay lại:\n- Gửi mã giảm nhẹ cho ${i.returningCustomerCount} khách quay lại.\n\n3. Ưu đãi theo địa chỉ ship:\n- Khu vực nhiều đơn: ${i.topShipAddress?.address || "chưa có dữ liệu"}\n- Có thể chạy freeship/giảm ship cho khu vực này.`;
+      }
+
+      return `TÓM TẮT KINH DOANH CHO CHỦ QUÁN\n\n- Tổng đơn: ${i.totalOrders}\n- Tổng doanh thu: ${formatMoney(i.totalRevenue)}\n- Đơn đã thanh toán: ${i.paidOrders}\n- Giá trị đơn trung bình: ${formatMoney(i.avgOrder)}\n- Dự đoán doanh thu ngày mới: ${formatMoney(i.forecast)}\n- Khách quay lại: ${i.returningCustomerCount}/${i.uniqueCustomers} khách (${i.returnRate}%)\n- Số địa chỉ ship: ${i.uniqueShipAddresses}\n- Địa chỉ ship nhiều nhất: ${i.topShipAddress?.address || "chưa có dữ liệu"}\n\nTop món bán chạy:\n${topProducts}\n\nMón ít bán:\n${leastProducts}\n\nGợi ý nhanh:\n- Đẩy combo món bán chạy + món ít bán.\n- Chăm sóc lại khách quay lại qua số điện thoại.\n- Tạo ưu đãi theo khu vực ship nhiều đơn.`;
     }
 
     function fillAIPrompt(type) {
       const prompts = {
-        forecast: "Dựa vào doanh thu cũ và đơn hàng hiện có, dự đoán doanh thu ngày mới. Nêu con số ước lượng và lý do.",
-        "best-products": "Phân tích top sản phẩm bán chạy và đề xuất món nên đẩy bán trong ngày mai.",
-        promotion: "Dựa vào đơn hàng và doanh thu, đề xuất chương trình khuyến mãi phù hợp cho Trung Nguyên Legend Âu Lạc.",
+        forecast: "Dựa vào doanh thu cũ và số đơn gần đây, dự đoán doanh thu ngày mới. Nêu số dự đoán, lý do và gợi ý tăng doanh thu.",
+        "best-products": "Phân tích top sản phẩm bán chạy, món nên đẩy bán và combo nên tạo.",
+        "least-sold": "Tìm món ít bán nhất, phân tích lý do có thể bán chậm và đề xuất cách xử lý.",
+        promotion: "Dựa vào đơn hàng, món bán chạy, món ít bán, khách quay lại và địa chỉ ship để đề xuất khuyến mãi phù hợp.",
+        "repeat-customers": "Phân tích khách hàng quay lại dựa trên số điện thoại và địa chỉ ship đến.",
         "customer-retention": "Phân tích khách hàng quay lại, nhóm khách trung thành và cách tăng số lần quay lại.",
         operations: "Phân tích trạng thái đơn hàng và gợi ý cải thiện vận hành xử lý đơn.",
-        summary: "Tóm tắt tình hình kinh doanh hiện tại: doanh thu, số đơn, món bán chạy, vấn đề cần chú ý."
+        summary: "Tóm tắt tình hình kinh doanh hiện tại cho chủ quán: doanh thu, số đơn, khách quay lại, địa chỉ ship, món bán chạy, món ít bán, khuyến mãi nên chạy."
       };
 
       document.getElementById("aiPrompt").value = prompts[type] || "Phân tích dữ liệu kinh doanh.";
@@ -2112,7 +2341,7 @@
               drinks: window.adminDrinks,
               merchandise: window.adminMerch,
               customers: window.adminCustomers,
-              dailyRevenue: getDailyRevenueArray()
+              dailyRevenue: getDailyRevenueArray(), analytics: buildBusinessInsights()
             }
           })
         });
@@ -2123,7 +2352,7 @@
         resultBox.value = data.answer || data.reply || data.message || JSON.stringify(data, null, 2);
       } catch (error) {
         console.error("Lỗi AI:", error);
-        runLocalRevenueForecast();
+        resultBox.value = generateLocalAIReport(prompt);
       }
     }
 
