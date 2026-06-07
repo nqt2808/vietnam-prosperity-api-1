@@ -2882,6 +2882,55 @@ body {
 }
 
 </style>
+<style id="force-search-icon-visible">
+  .main-nav {
+    overflow: visible !important;
+  }
+
+  .search-icon-btn {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    height: 44px !important;
+    padding: 0 !important;
+    margin-left: 4px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #fff3df !important;
+    color: #2a160f !important;
+    border-radius: 999px !important;
+    font-size: 22px !important;
+    line-height: 1 !important;
+    z-index: 999999 !important;
+  }
+
+  .cart-icon-btn {
+    margin-right: 0 !important;
+  }
+
+  @media (max-width: 768px) {
+    .main-nav {
+      gap: 4px !important;
+      flex-wrap: nowrap !important;
+    }
+
+    .main-nav .nav-btn[data-page="menu"],
+    .main-nav .nav-btn[data-page="merch"],
+    .main-nav .nav-btn[data-page="blog"] {
+      padding: 6px 7px !important;
+      font-size: 13px !important;
+    }
+
+    .search-icon-btn {
+      width: 36px !important;
+      min-width: 36px !important;
+      height: 36px !important;
+      font-size: 18px !important;
+    }
+  }
+</style>
 </head>
 
 <body>
@@ -6706,4 +6755,5 @@ initWebsite();
 </body>
 
 </html>
+
 
