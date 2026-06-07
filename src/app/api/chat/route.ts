@@ -725,12 +725,20 @@ ${internetResult.text}
   } catch (error) {
     console.error("🔴 Error in VPC RAG AI Chat Route:", error);
 
+    const debug = new URL(req.url).searchParams.get("debug") === "1";
+
     return NextResponse.json({
       reply:
-        "Dạ, kết nối mạng của trợ lý ảo VPC đang hơi gián đoạn một chút. Quý khách có thể thử hỏi lại hoặc gọi Hotline: 0389726999 để VPC phục vụ ngay ạ!"
-    });
+        "Dạ, kết nối mạng của trợ lý ảo VPC đang hơi gián đoạn một chút. Quý khách có thể thử hỏi lại hoặc gọi Hotline: 0389726999 để VPC phục vụ ngay ạ!",
+      debug: debug ? {
+        errorName: error instanceof Error ? error.name : "Unknown",
+        errorMessage: error instanceof Error ? error.message : String(error),
+        errorStack: error instanceof Error ? error.stack : ""
+      } : undefined
+    }, { status: 500 });
   }
 }
+
 
 
 
