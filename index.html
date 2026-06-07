@@ -4100,18 +4100,31 @@ body {
 
       return originalDesc || "Sản phẩm chất lượng cao mang thương hiệu Trung Nguyên Legend hảo hạng.";
     }
-    const categoryDescMap = {
-      "ca-phe-phin": "Những dòng cà phê phin đặc trưng của Trung Nguyên Legend, mang hương vị đậm đà, truyền thống và giàu năng lượng.",
-      "ca-phe-may": "Các món cà phê được chiết xuất bằng máy, mang hương vị hiện đại, đậm đà và phù hợp với nhiều phong cách thưởng thức.",
-      "ca-phe-pha-che": "Các món cà phê sáng tạo, dễ uống và phù hợp cho khách muốn trải nghiệm hương vị mới.",
-      "tra-tra-sua": "Những món trà thơm nhẹ, thanh mát và dễ uống.",
-      "sinh-to-da-xay": "Các món mát lạnh, phù hợp cho ngày nóng hoặc khi muốn đổi vị.",
-      "nuoc-ep": "Các lựa chọn trái cây tươi mát, dễ uống.",
-      "nuoc-thanh-nhiet": "Những món giải nhiệt, thanh lọc và tươi mát.",
-      "matcha-cacao": "Các món matcha, cacao và sữa tươi có hương vị nhẹ nhàng, béo thơm.",
-      "banh": "Các món ngọt dùng kèm đồ uống.",
-      "mon-extra": "Các lựa chọn thêm giúp khách hàng tùy chỉnh đồ uống theo khẩu vị."
+    const menuCategoryMap = {
+      "ca-phe-phin": { title: "Cà phê phin", order: 1, desc: "Những dòng cà phê phin đặc trưng của Trung Nguyên Legend." },
+      "ca-phe-may": { title: "Cà phê máy", order: 2, desc: "Các món cà phê được chiết xuất bằng máy." },
+      "ca-phe-pha-che": { title: "Cà phê pha chế", order: 3, desc: "Các món cà phê sáng tạo, dễ uống và nổi bật." },
+      "tra-tra-sua": { title: "Trà và Trà sữa", order: 4, desc: "Các món trà, trà sữa thanh nhẹ và dễ uống." },
+      "sinh-to-da-xay": { title: "Sinh tố và Đá xay", order: 5, desc: "Các món sinh tố và đá xay mát lạnh." },
+      "nuoc-ep": { title: "Nước ép", order: 6, desc: "Các món nước ép trái cây." },
+      "nuoc-thanh-nhiet": { title: "Nước thanh nhiệt", order: 7, desc: "Các món thanh nhiệt, giải khát." },
+      "matcha-cacao": { title: "Matcha và Cacao", order: 8, desc: "Các món matcha, cacao và sữa tươi." },
+      "banh": { title: "Bánh", order: 9, desc: "Các món bánh dùng kèm đồ uống." },
+      "mon-extra": { title: "Món Extra", order: 10, desc: "Các món thêm để tùy chỉnh đồ uống." }
     };
+
+    const categoryDescMap = Object.fromEntries(
+      Object.entries(menuCategoryMap).map(([slug, item]) => [slug, item.desc])
+    );
+
+    function getMenuCategoryInfo(slug, fallbackTitle = "") {
+      const key = String(slug || "").trim();
+      return menuCategoryMap[key] || {
+        title: fallbackTitle || key || "Khác",
+        order: 999,
+        desc: categoryDescMap[key] || ""
+      };
+    }
 
     const blogItems = [
       {
@@ -5326,7 +5339,7 @@ startAutoCheckPayment();
         grouped[item.slug_danh_muc].items.push(item);
       });
 
-      const groupList = Object.values(grouped);
+      const groupList = Object.values(grouped).sort((a, b) => (a.order || 999) - (b.order || 999));
 
       tabs.innerHTML = groupList.map(group => `
         <a class="tab-link" href="#${group.id}">${safeText(mapCategoryTitle(group.title))}</a>
@@ -6852,6 +6865,7 @@ initWebsite();
 </body>
 
 </html>
+
 
 
 
