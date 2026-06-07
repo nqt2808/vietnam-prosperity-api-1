@@ -668,8 +668,6 @@ export async function POST(req: Request) {
 const message = body.message || body.question || body.prompt || "";
 const context = body.context || {};
     const adminContext = body.adminContext || null;
-s
-
     const geminiKey = process.env.GEMINI_API_KEY;
     const openaiKey = process.env.OPENAI_API_KEY;
     const provider = process.env.AI_PROVIDER || (openaiKey ? "openai" : "gemini");
@@ -845,6 +843,7 @@ ${internetResult.text}
     }, { status: 500 });
   }
 }
+
 
 
 
