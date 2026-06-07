@@ -612,6 +612,7 @@ export async function POST(req: Request) {
     const body = await req.json();
 const message = body.message || body.question || body.prompt || "";
 const context = body.context || {};
+const adminContext = body.adminContext || null;
 
     const geminiKey = process.env.GEMINI_API_KEY;
     const openaiKey = process.env.OPENAI_API_KEY;
@@ -650,6 +651,9 @@ ${websiteKnowledge}
 --- DỮ LIỆU SUPABASE MỚI NHẤT ---
 ${compactJson(supabaseKnowledge)}
 
+--- DỮ LIỆU BÁN HÀNG ADMIN GỬI LÊN ---
+${adminContext ? compactJson(adminContext, 120000) : "Không có adminContext."}
+
 --- GIỎ HÀNG HIỆN TẠI CỦA KHÁCH HÀNG ---
 ${cartContext}
 
@@ -667,6 +671,7 @@ CÂU HỎI HOẶC YÊU CẦU CỦA KHÁCH HÀNG:
 "${message}"
 
 YÊU CẦU TRẢ LỜI:
+- Nếu câu hỏi là báo cáo admin, phân tích kinh doanh, doanh thu, món bán chạy, món ít bán, khách quay lại, khuyến mãi hoặc tóm tắt cho chủ quán thì BẮT BUỘC dùng DỮ LIỆU BÁN HÀNG ADMIN GỬI LÊN.
 - Nếu câu trả lời có trong dữ liệu nội bộ, trả lời trực tiếp.
 - Nếu dữ liệu nội bộ không đủ, trả lời rõ: "Thông tin này chưa có trong dữ liệu website/quán".
 - Không bịa thông tin chính sách, giá, khuyến mãi, menu, trạng thái đơn.
@@ -726,4 +731,5 @@ ${internetResult.text}
     });
   }
 }
+
 
