@@ -3028,6 +3028,51 @@ body {
     }
   }
 </style>
+<style id="vpc-testimonial-align-fix">
+  .testimonial-card {
+    display: grid !important;
+    grid-template-rows: 48px 185px 1px 74px !important;
+    gap: 22px !important;
+    min-height: 430px !important;
+  }
+
+  .testimonial-stars {
+    margin: 0 !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+
+  .testimonial-text {
+    margin: 0 !important;
+    min-height: 185px !important;
+    max-height: 185px !important;
+    overflow-y: auto !important;
+  }
+
+  .testimonial-line {
+    margin: 0 !important;
+    height: 1px !important;
+  }
+
+  .testimonial-user {
+    align-self: end !important;
+    min-height: 74px !important;
+  }
+
+  @media (max-width: 900px) {
+    .testimonial-card {
+      grid-template-rows: auto auto 1px auto !important;
+      min-height: auto !important;
+    }
+
+    .testimonial-text {
+      min-height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+    }
+  }
+</style>
 </head>
 
 <body>
@@ -6935,6 +6980,7 @@ initWebsite();
 </body>
 
 </html>
+
 
 
 
