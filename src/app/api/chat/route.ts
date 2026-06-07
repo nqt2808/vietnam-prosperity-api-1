@@ -697,10 +697,10 @@ KHO KIẾN THỨC WEBSITE / INDEX:
 ${websiteKnowledge}
 
 DỮ LIỆU SUPABASE:
-${compactJson(supabaseKnowledge, 120000)}
+${compactJson(supabaseKnowledge, 30000)}
 
 DỮ LIỆU ADMIN / BÁN HÀNG:
-${adminContext ? compactJson(adminContext, 120000) : "Không có adminContext."}
+${adminContext ? compactJson(adminContext, 30000) : "Không có adminContext."}
 
 GIỎ HÀNG:
 ${cartContext}
@@ -724,22 +724,22 @@ AI BẮT BUỘC ĐỌC PHẦN "DỮ LIỆU LIÊN QUAN NHẤT" TRƯỚC.
 NẾU KHÁCH HỎI NHIỀU Ý, TRẢ LỜI TỪNG Ý RÕ RÀNG.
 
 --- KHO KIẾN THỨC SẠCH VPC ---
-${VPC_KNOWLEDGE}
+${VPC_KNOWLEDGE.slice(0, 20000)}
 
 --- CÁC CÂU HỎI ĐÃ TÁCH ---
 ${customerQuestions.map((q, i) => `${i + 1}. ${q}`).join("\n")}
 
 --- DỮ LIỆU LIÊN QUAN NHẤT ĐÃ LỌC TỪ INDEX + SUPABASE + ADMIN ---
-${relevantKnowledge}
+${relevantKnowledge.slice(0, 25000)}
 
 --- NỘI DUNG WEBSITE / INDEX / ADMIN ĐỌC TỪ FILE ---
-${websiteKnowledge.slice(0, 30000)}
+${websiteKnowledge.slice(0, 12000)}
 
 --- DỮ LIỆU SUPABASE MỚI NHẤT ---
-${compactJson(supabaseKnowledge)}
+${compactJson(supabaseKnowledge, 30000)}
 
 --- DỮ LIỆU BÁN HÀNG ADMIN GỬI LÊN ---
-${adminContext ? compactJson(adminContext, 120000) : "Không có adminContext."}
+${adminContext ? compactJson(adminContext, 30000) : "Không có adminContext."}
 
 --- GIỎ HÀNG HIỆN TẠI CỦA KHÁCH HÀNG ---
 ${cartContext}
@@ -843,6 +843,7 @@ ${internetResult.text}
     }, { status: 500 });
   }
 }
+
 
 
 
