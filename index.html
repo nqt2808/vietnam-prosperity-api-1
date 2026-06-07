@@ -3073,6 +3073,57 @@ body {
     }
   }
 </style>
+<style id="vpc-testimonial-mobile-2col">
+  @media (max-width: 760px) {
+    .testimonial-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+    }
+
+    .testimonial-card {
+      padding: 18px !important;
+      min-height: 330px !important;
+      grid-template-rows: 34px 145px 1px 62px !important;
+      gap: 14px !important;
+      border-radius: 18px !important;
+    }
+
+    .testimonial-stars {
+      font-size: 20px !important;
+      letter-spacing: 1px !important;
+      height: 34px !important;
+    }
+
+    .testimonial-text {
+      font-size: 13.5px !important;
+      line-height: 1.55 !important;
+      min-height: 145px !important;
+      max-height: 145px !important;
+      overflow-y: auto !important;
+    }
+
+    .testimonial-avatar {
+      width: 44px !important;
+      height: 44px !important;
+    }
+
+    .testimonial-name {
+      font-size: 15px !important;
+      line-height: 1.15 !important;
+    }
+
+    .testimonial-role {
+      font-size: 13px !important;
+      line-height: 1.2 !important;
+    }
+
+    .testimonial-user {
+      min-height: 62px !important;
+      gap: 10px !important;
+    }
+  }
+</style>
 </head>
 
 <body>
@@ -5375,8 +5426,8 @@ startAutoCheckPayment();
         { "ten_san_pham": "Cam vắt", "slug": "cam-vat", "mo_ta": "Cam sành chín vắt mọng nước ngọt mát dồi dào đề kháng.", "gia_den": 58000, "gia_sua": 0, "slug_danh_muc": "nuoc-ep", "ten_danh_muc": "Nước ép", "sold_out": false },
         { "ten_san_pham": "Matcha Yến Mạch", "slug": "matcha-yen-mach", "mo_ta": "Matcha Uji Nhật Bản xanh mướt quyện sữa yến mạch thanh thuần béo thơm.", "gia_den": 68000, "gia_sua": 0, "slug_danh_muc": "matcha-cacao", "ten_danh_muc": "Matcha & Cacao", "sold_out": false },
         { "ten_san_pham": "Cacao sữa", "slug": "cacao-sua", "mo_ta": "Cacao nguyên chất đắng thơm nồng quyện sữa béo ngậy ngọt ngào.", "gia_den": 53000, "gia_sua": 0, "slug_danh_muc": "matcha-cacao", "ten_danh_muc": "Matcha & Cacao", "sold_out": false },
-        { "ten_san_pham": "Panna Cotta", "slug": "panna-cotta", "mo_ta": "Bánh Panna Cotta ngọt mát mềm mịn núng nính kèm mứt dâu rừng ngọt ngào.", "gia_den": 25000, "gia_sua": 0, "slug_danh_muc": "banh", "ten_danh_muc": "Bánh ngọt", "sold_out": false },
-        { "ten_san_pham": "Bánh Mousse Chanh Dây", "slug": "banh-mousse-chanh-day", "mo_ta": "Bánh mousse mousse chanh dây mềm tan chua ngọt dịu mắt.", "gia_den": 39000, "gia_sua": 0, "slug_danh_muc": "banh", "ten_danh_muc": "Bánh ngọt", "sold_out": false }
+        { "ten_san_pham": "Panna Cotta", "slug": "panna-cotta", "mo_ta": "Bánh Panna Cotta ngọt mát mềm mịn núng nính kèm mứt dâu rừng ngọt ngào.", "gia_den": 25000, "gia_sua": 0, "slug_danh_muc": "banh", "ten_danh_muc": "Bánh", "sold_out": false },
+        { "ten_san_pham": "Bánh Mousse Chanh Dây", "slug": "banh-mousse-chanh-day", "mo_ta": "Bánh mousse mousse chanh dây mềm tan chua ngọt dịu mắt.", "gia_den": 39000, "gia_sua": 0, "slug_danh_muc": "banh", "ten_danh_muc": "Bánh", "sold_out": false }
       ];
     }
 
@@ -5457,12 +5508,12 @@ startAutoCheckPayment();
       const groupList = Object.values(grouped).sort((a, b) => (a.order || 999) - (b.order || 999));
 
       tabs.innerHTML = groupList.map(group => `
-        <a class="tab-link" href="#${group.id}">${safeText(mapCategoryTitle(group.title))}</a>
+        <a class="tab-link" href="#${group.id}">${safeText(group.title)}</a>
       `).join("");
 
       groups.innerHTML = groupList.map(group => `
         <section class="menu-group" id="${group.id}">
-          <h2>${safeText(mapCategoryTitle(group.title))}</h2>
+          <h2>${safeText(group.title)}</h2>
           <p class="menu-group-desc">${safeText(group.desc)}</p>
 
           <div class="menu-list">
@@ -5730,7 +5781,7 @@ startAutoCheckPayment();
 
       groupsBox.innerHTML = groupList.map(group => `
         <section class="menu-group" id="${group.id}">
-          <h2>${safeText(mapCategoryTitle(group.title))}</h2>
+          <h2>${safeText(group.title)}</h2>
           <p class="menu-group-desc">${safeText(group.desc)}</p>
 
           <div class="grid grid-4">
@@ -6980,6 +7031,8 @@ initWebsite();
 </body>
 
 </html>
+
+
 
 
 
