@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import fs from "node:fs";
 import path from "node:path";
@@ -427,7 +427,7 @@ CHƯƠNG TRÌNH THÀNH VIÊN TRUNG NGUYÊN LEGEND:
 `;
 
 async function callOpenAI(systemPrompt: string, userPrompt: string, openaiKey: string) {
-  const model = process.env.OPENAI_MODEL || "gpt-4o";
+  const model = process.env.OPENAI_MODEL || "gpt-5.5";
 
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
@@ -442,7 +442,7 @@ async function callOpenAI(systemPrompt: string, userPrompt: string, openaiKey: s
         { role: "user", content: userPrompt }
       ],
       temperature: 0.35,
-      max_tokens: 1000
+      max_tokens: 3000
     })
   });
 
@@ -726,3 +726,4 @@ ${internetResult.text}
     });
   }
 }
+
