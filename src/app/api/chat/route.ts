@@ -679,7 +679,7 @@ const context = body.context || {};
 
     const geminiKey = process.env.GEMINI_API_KEY;
     const openaiKey = process.env.OPENAI_API_KEY;
-    const provider = process.env.AI_PROVIDER || (openaiKey ? "openai" : "gemini");
+    const provider = (process.env.AI_PROVIDER || "gemini").toLowerCase();
 
     if (!geminiKey && !openaiKey) {
       console.warn("⚠️ Warning: Neither GEMINI_API_KEY nor OPENAI_API_KEY is configured!");
@@ -878,6 +878,7 @@ ${internetResult.text}
     });
   }
 }
+
 
 
 
