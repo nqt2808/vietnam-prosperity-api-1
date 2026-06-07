@@ -457,7 +457,7 @@ async function callOpenAI(systemPrompt: string, userPrompt: string, openaiKey: s
 }
 
 async function callGemini(systemPrompt: string, userPrompt: string, geminiKey: string) {
-  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+  const model = process.env.GEMINI_MODEL || "gemini-2.5-pro";
   const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
 
   const response = await fetch(geminiUrl, {
@@ -756,6 +756,7 @@ ${internetResult.text}
     }, { status: 500 });
   }
 }
+
 
 
 
