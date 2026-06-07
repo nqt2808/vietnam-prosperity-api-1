@@ -1,2 +1,1 @@
-﻿export { POST } from '../chat/route'
-
+export { POST } from '../chat/route'
