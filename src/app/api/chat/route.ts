@@ -461,10 +461,13 @@ async function callOpenAI(systemPrompt: string, userPrompt: string, openaiKey: s
 }
 
 async function callGemini(systemPrompt: string, userPrompt: string, geminiKey: string) {
-  const model = process.env.GEMINI_MODEL || "gemini-1.5-flash";
+  const model = process.env.GEMINI_MODEL || "gemini-2.0-flash";
   console.log("AI_PROVIDER =", process.env.AI_PROVIDER);
 console.log("GEMINI_MODEL =", process.env.GEMINI_MODEL);
 const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
+
+  const isAdminPrompt = userPrompt.includes("adminContext") || userPrompt.includes("ordersPage") || userPrompt.includes("reportPage");
+  const maxOutputTokens = isAdminPrompt ? 8192 : 1200;
 
   const response = await fetch(geminiUrl, {
     method: "POST",
@@ -875,6 +878,7 @@ ${internetResult.text}
     });
   }
 }
+
 
 
 
