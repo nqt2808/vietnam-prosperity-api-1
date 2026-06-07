@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import fs from "node:fs";
 import path from "node:path";
-
+import { VPC_KNOWLEDGE } from "./knowledge";
 /**
  * API Chat AI cho Vietnam Prosperity Coffee / Trung Nguyên Legend Âu Lạc.
  *
@@ -640,6 +640,9 @@ const context = body.context || {};
     const promptWithContext = `
 DƯỚI ĐÂY LÀ DỮ LIỆU THỰC TẾ ĐANG CÓ TẠI VPC.
 AI PHẢI ƯU TIÊN DỮ LIỆU NÀY TRƯỚC KHI DÙNG KIẾN THỨC BÊN NGOÀI.
+
+--- KHO KIẾN THỨC SẠCH VPC ---
+${VPC_KNOWLEDGE}
 
 --- NỘI DUNG WEBSITE / INDEX / ADMIN ĐỌC TỪ FILE ---
 ${websiteKnowledge}
