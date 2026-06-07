@@ -662,6 +662,48 @@ function shouldTryInternetSearch(reply: string) {
   );
 }
 
+
+function normalizeFallbackText(input: string) {
+  return String(input || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d");
+}
+
+function getVPCQuickFallback(message: string) {
+  const q = normalizeFallbackText(message);
+
+  if (q.includes("gio") || q.includes("mo cua") || q.includes("dong cua") || q.includes("may gio")) {
+    return "Dạ, VPC mở cửa từ 06:30 đến 21:30 hằng ngày ạ.";
+  }
+
+  if (q.includes("dia chi") || q.includes("o dau") || q.includes("aeon")) {
+    return "Dạ, VPC ở Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế, đối diện Aeon Mall Huế ạ. Hotline: 038 972 6999.";
+  }
+
+  if (q.includes("hotline") || q.includes("so dien thoai") || q.includes("lien he")) {
+    return "Dạ, hotline của VPC là 038 972 6999 ạ.";
+  }
+
+  if (q.includes("thanh vien") || q.includes("tich diem") || q.includes("hang vang") || q.includes("bach kim")) {
+    return "Dạ, Quý khách có thể đăng ký thành viên miễn phí trên app Trung Nguyên Legend. Mỗi 30.000đ mua hàng = 1 điểm, 1 điểm = 1.000đ khi quy đổi, mỗi lần đổi cần tối thiểu 30 điểm. Hạng Vàng từ 100 điểm được giảm 10%, hạng Bạch Kim từ 300 điểm được giảm 15% ạ.";
+  }
+
+  if (q.includes("chuyen khoan") || q.includes("thanh toan") || q.includes("vietinbank") || q.includes("qr")) {
+    return "Dạ, Quý khách chuyển khoản VietinBank - chủ tài khoản NGO QUYNH TRANG - số tài khoản 101882692631. Nội dung chuyển khoản vui lòng ghi đúng mã đơn VPC-DH-... để hệ thống ghi nhận nhé ạ.";
+  }
+
+  if (q.includes("ship") || q.includes("giao hang") || q.includes("phi giao")) {
+    return "Dạ, để báo phí giao chính xác, VPC cần địa chỉ nhận hàng của Quý khách ạ. Cửa hàng sẽ kiểm tra phạm vi giao và xác nhận phí ship cụ thể nhé ạ.";
+  }
+
+  if (q.includes("dat hang") || q.includes("gio hang") || q.includes("order")) {
+    return "Dạ, Quý khách chọn món trong Menu/Vật phẩm, thêm vào giỏ hàng, nhập họ tên, số điện thoại, hình thức nhận hàng và phương thức thanh toán để gửi đơn ạ.";
+  }
+
+  return "Dạ, VPC đã nhận câu hỏi của Quý khách ạ. Hiện hệ thống AI đang hơi gián đoạn, nhưng VPC có thể hỗ trợ nhanh về giờ mở cửa, địa chỉ, hotline, menu, đặt hàng, thanh toán, thành viên hoặc giao hàng. Hotline hỗ trợ trực tiếp: 038 972 6999 ạ.";
+}
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -675,174 +717,12 @@ const context = body.context || {};
     if (!geminiKey && !openaiKey) {
       console.warn("⚠️ Warning: Neither GEMINI_API_KEY nor OPENAI_API_KEY is configured!");
       return NextResponse.json({
-        reply:
-          "Dạ, trợ lý ảo VPC hiện đang được bảo trì nâng cấp hệ thống AI một chút ạ. Quý khách có thể xem nhanh thông tin bằng các nút gợi ý bên dưới hoặc liên hệ Hotline: 0389726999 để VPC hỗ trợ ngay lập tức nhé ạ!"
-      });
-    }
-
-    if (!message || !String(message).trim()) {
-      return NextResponse.json({
-        reply: "Dạ, Quý khách cần VPC hỗ trợ thông tin gì thêm không ạ?"
-      });
-    }
-
-    const websiteKnowledge = readWebsiteKnowledge();
-    const supabaseKnowledge = await loadSupabaseKnowledge();
-    const orderDetails = await findOrderDetails(message);
-    const orderContext = buildOrderContext(orderDetails);
-    const { productsContext, articlesContext, cartContext } = buildFrontendContext(context);
-
-    const fullInternalKnowledge = `
-KHO KIẾN THỨC WEBSITE / INDEX:
-${websiteKnowledge}
-
-DỮ LIỆU SUPABASE:
-${compactJson(supabaseKnowledge, 120000)}
-
-DỮ LIỆU ADMIN / BÁN HÀNG:
-${adminContext ? compactJson(adminContext, 120000) : "Không có adminContext."}
-
-GIỎ HÀNG:
-${cartContext}
-
-SẢN PHẨM FRONTEND:
-${productsContext}
-
-BÀI VIẾT FRONTEND:
-${articlesContext}
-
-ĐƠN HÀNG:
-${orderContext}
-`;
-
-    const relevantKnowledge = pickRelevantKnowledge(message, fullInternalKnowledge, 70000);
-    const customerQuestions = splitCustomerQuestions(message);
-
-    const promptWithContext = `
-DƯỚI ĐÂY LÀ DỮ LIỆU ĐÃ ĐƯỢC LỌC THEO CÂU HỎI TỪ INDEX + SUPABASE + ADMIN DATA.
-AI BẮT BUỘC ĐỌC PHẦN "DỮ LIỆU LIÊN QUAN NHẤT" TRƯỚC.
-NẾU KHÁCH HỎI NHIỀU Ý, TRẢ LỜI TỪNG Ý RÕ RÀNG.
-
---- KHO KIẾN THỨC SẠCH VPC ---
-${VPC_KNOWLEDGE}
-
---- CÁC CÂU HỎI ĐÃ TÁCH ---
-${customerQuestions.map((q, i) => `${i + 1}. ${q}`).join("\n")}
-
---- DỮ LIỆU LIÊN QUAN NHẤT ĐÃ LỌC TỪ INDEX + SUPABASE + ADMIN ---
-${relevantKnowledge}
-
---- NỘI DUNG WEBSITE / INDEX / ADMIN ĐỌC TỪ FILE ---
-${websiteKnowledge.slice(0, 30000)}
-
---- DỮ LIỆU SUPABASE MỚI NHẤT ---
-${compactJson(supabaseKnowledge)}
-
---- DỮ LIỆU BÁN HÀNG ADMIN GỬI LÊN ---
-${adminContext ? compactJson(adminContext, 120000) : "Không có adminContext."}
-
---- GIỎ HÀNG HIỆN TẠI CỦA KHÁCH HÀNG ---
-${cartContext}
-
---- KẾT QUẢ TRA CỨU ĐƠN HÀNG DATABASE ---
-${orderContext}
-
---- THỰC ĐƠN / SẢN PHẨM FRONTEND GỬI LÊN ---
-${productsContext}
-
---- BÀI VIẾT / SỰ KIỆN FRONTEND GỬI LÊN ---
-${articlesContext}
-
---------------------------------------
-CÂU HỎI HOẶC YÊU CẦU CỦA KHÁCH HÀNG:
-"${message}"
-
-YÊU CẦU TRẢ LỜI:
-- Nếu câu hỏi là báo cáo admin, phân tích kinh doanh, doanh thu, món bán chạy, món ít bán, khách quay lại, khuyến mãi hoặc tóm tắt cho chủ quán thì BẮT BUỘC dùng DỮ LIỆU BÁN HÀNG ADMIN GỬI LÊN.
-- Nếu câu trả lời có trong dữ liệu nội bộ, trả lời trực tiếp.
-- Nếu dữ liệu nội bộ không đủ, trả lời rõ: "Thông tin này chưa có trong dữ liệu website/quán".
-- Không bịa thông tin chính sách, giá, khuyến mãi, menu, trạng thái đơn.
-`;
-
-    let replyText = "";
-
-    if (provider === "openai" && openaiKey) {
-      try {
-        replyText = await callOpenAI(SYSTEM_PROMPT, promptWithContext, openaiKey);
-      } catch (openaiError) {
-        console.error("OpenAI lỗi, chuyển sang Gemini:", openaiError);
-        if (geminiKey) {
-          replyText = await callGemini(SYSTEM_PROMPT, promptWithContext, geminiKey);
-        } else {
-          throw openaiError;
-        }
-      }
-    } else if (geminiKey) {
-      replyText = await callGemini(SYSTEM_PROMPT, promptWithContext, geminiKey);
-    }
-
-    if (shouldTryInternetSearch(replyText)) {
-      const internetResult = await searchInternet(message);
-
-      if (internetResult.available) {
-        const promptWithInternet = `
-DỮ LIỆU NỘI BỘ VPC KHÔNG ĐỦ ĐỂ TRẢ LỜI ĐẦY ĐỦ CÂU HỎI.
-Dưới đây là kết quả tìm kiếm internet tham khảo. Hãy trả lời rõ rằng thông tin này là tham khảo bên ngoài, không phải chính sách xác nhận của VPC nếu dữ liệu nội bộ không có.
-
---- CÂU HỎI ---
-${message}
-
---- DỮ LIỆU NỘI BỘ ĐÃ KIỂM TRA ---
-${promptWithContext.slice(0, 80_000)}
-
---- KẾT QUẢ TÌM KIẾM INTERNET ---
-${internetResult.text}
-`;
-
-        if (provider === "openai" && openaiKey) {
-          try {
-            replyText = await callOpenAI(SYSTEM_PROMPT, promptWithInternet, openaiKey);
-          } catch (openaiError) {
-            console.error("OpenAI internet lỗi, chuyển sang Gemini:", openaiError);
-            if (geminiKey) {
-              replyText = await callGemini(SYSTEM_PROMPT, promptWithInternet, geminiKey);
-            } else {
-              throw openaiError;
-            }
-          }
-        } else if (geminiKey) {
-          replyText = await callGemini(SYSTEM_PROMPT, promptWithInternet, geminiKey);
-        }
-      } else {
-        replyText =
-          "Dạ, thông tin này chưa có trong dữ liệu website/quán ạ. Hiện backend cũng chưa cấu hình tìm kiếm internet tự động, nên VPC chưa thể xác minh thêm từ nguồn ngoài. Quý khách có thể liên hệ Hotline 0389726999 để VPC hỗ trợ chính xác nhất nhé ạ.";
-      }
-    }
-
-    if (!replyText || !replyText.trim()) {
-      replyText =
-        "Dạ, VPC chưa nghe rõ ý Quý khách lắm ạ. Quý khách có thể chia sẻ cụ thể hơn hoặc bấm xem các câu hỏi gợi ý bên dưới nhé ạ!";
-    }
-
-    return NextResponse.json({
-      reply: replyText.trim()
+      reply: getVPCQuickFallback(typeof message !== "undefined" ? message : ""),
+      provider: "local-fallback-after-error"
     });
-  } catch (error) {
-    console.error("🔴 Error in VPC RAG AI Chat Route:", error);
-
-    const debug = new URL(req.url).searchParams.get("debug") === "1";
-
-    return NextResponse.json({
-      reply:
-        "Dạ, kết nối mạng của trợ lý ảo VPC đang hơi gián đoạn một chút. Quý khách có thể thử hỏi lại hoặc gọi Hotline: 0389726999 để VPC phục vụ ngay ạ!",
-      debug: debug ? {
-        errorName: error instanceof Error ? error.name : "Unknown",
-        errorMessage: error instanceof Error ? error.message : String(error),
-        errorStack: error instanceof Error ? error.stack : ""
-      } : undefined
-    }, { status: 500 });
   }
 }
+
 
 
 
