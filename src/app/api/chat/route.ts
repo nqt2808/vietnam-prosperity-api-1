@@ -596,6 +596,60 @@ async function searchInternet(query: string) {
   };
 }
 
+function normalizeSearchText(text: string) {
+  return String(text || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function splitCustomerQuestions(message: string) {
+  return String(message || "")
+    .split(/[\n?]+|(?:\s+và\s+)|(?:\s*,\s*)/i)
+    .map(x => x.trim())
+    .filter(x => x.length > 2)
+    .slice(0, 8);
+}
+
+function pickRelevantKnowledge(message: string, corpus: string, maxChars = 70000) {
+  const questions = splitCustomerQuestions(message);
+  const queryText = normalizeSearchText(questions.join(" "));
+  const keywords = Array.from(new Set(queryText.split(" ").filter(w => w.length >= 3)));
+
+  const blocks = String(corpus || "")
+    .split(/\n{2,}|---|===/g)
+    .map(x => x.trim())
+    .filter(x => x.length > 20);
+
+  const scored = blocks.map(block => {
+    const n = normalizeSearchText(block);
+    let score = 0;
+
+    for (const kw of keywords) {
+      if (n.includes(kw)) score += 3;
+    }
+
+    if (n.includes("vietnam prosperity coffee")) score += 2;
+    if (n.includes("trung nguyen legend au lac")) score += 2;
+
+    return { block, score };
+  });
+
+  const selected = scored
+    .filter(x => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map(x => x.block);
+
+  const output = selected.length
+    ? selected.join("\n\n---\n\n")
+    : String(corpus || "").slice(0, maxChars);
+
+  return output.slice(0, maxChars);
+}
 function shouldTryInternetSearch(reply: string) {
   const text = String(reply || "").toLowerCase();
 
@@ -612,6 +666,7 @@ export async function POST(req: Request) {
     const body = await req.json();
 const message = body.message || body.question || body.prompt || "";
 const context = body.context || {};
+    const adminContext = body.adminContext || null;
 const adminContext = body.adminContext || null;
 
     const geminiKey = process.env.GEMINI_API_KEY;
@@ -638,15 +693,48 @@ const adminContext = body.adminContext || null;
     const orderContext = buildOrderContext(orderDetails);
     const { productsContext, articlesContext, cartContext } = buildFrontendContext(context);
 
+    const fullInternalKnowledge = `
+KHO KIẾN THỨC WEBSITE / INDEX:
+${websiteKnowledge}
+
+DỮ LIỆU SUPABASE:
+${compactJson(supabaseKnowledge, 120000)}
+
+DỮ LIỆU ADMIN / BÁN HÀNG:
+${adminContext ? compactJson(adminContext, 120000) : "Không có adminContext."}
+
+GIỎ HÀNG:
+${cartContext}
+
+SẢN PHẨM FRONTEND:
+${productsContext}
+
+BÀI VIẾT FRONTEND:
+${articlesContext}
+
+ĐƠN HÀNG:
+${orderContext}
+`;
+
+    const relevantKnowledge = pickRelevantKnowledge(message, fullInternalKnowledge, 70000);
+    const customerQuestions = splitCustomerQuestions(message);
+
     const promptWithContext = `
-DƯỚI ĐÂY LÀ DỮ LIỆU THỰC TẾ ĐANG CÓ TẠI VPC.
-AI PHẢI ƯU TIÊN DỮ LIỆU NÀY TRƯỚC KHI DÙNG KIẾN THỨC BÊN NGOÀI.
+DƯỚI ĐÂY LÀ DỮ LIỆU ĐÃ ĐƯỢC LỌC THEO CÂU HỎI TỪ INDEX + SUPABASE + ADMIN DATA.
+AI BẮT BUỘC ĐỌC PHẦN "DỮ LIỆU LIÊN QUAN NHẤT" TRƯỚC.
+NẾU KHÁCH HỎI NHIỀU Ý, TRẢ LỜI TỪNG Ý RÕ RÀNG.
 
 --- KHO KIẾN THỨC SẠCH VPC ---
 ${VPC_KNOWLEDGE}
 
+--- CÁC CÂU HỎI ĐÃ TÁCH ---
+${customerQuestions.map((q, i) => `${i + 1}. ${q}`).join("\n")}
+
+--- DỮ LIỆU LIÊN QUAN NHẤT ĐÃ LỌC TỪ INDEX + SUPABASE + ADMIN ---
+${relevantKnowledge}
+
 --- NỘI DUNG WEBSITE / INDEX / ADMIN ĐỌC TỪ FILE ---
-${websiteKnowledge}
+${websiteKnowledge.slice(0, 30000)}
 
 --- DỮ LIỆU SUPABASE MỚI NHẤT ---
 ${compactJson(supabaseKnowledge)}
@@ -756,6 +844,7 @@ ${internetResult.text}
     }, { status: 500 });
   }
 }
+
 
 
 
