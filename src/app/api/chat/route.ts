@@ -675,7 +675,7 @@ function getVPCLocalFallback(message: string) {
   const q = normalizeLocalChatText(message);
 
   if (q.includes("chu dau tu") || q.includes("chu so huu") || q.includes("sang lap") || q.includes("ai la chu")) {
-    return "Dạ, Vietnam Prosperity Coffee được đồng sáng lập bởi Ông Nguyễn Minh Đức và Bà Nguyễn Thị Tuyết Mai ạ.";
+    return "Da, Vietnam Prosperity Coffee duoc dong sang lap boi Ong Nguyen Minh Duc va Ba Nguyen Thi Tuyet Mai.";
   }
 
   if (q.includes("gio") || q.includes("mo cua") || q.includes("dong cua") || q.includes("may gio")) {
@@ -714,7 +714,7 @@ function getVPCLocalFallback(message: string) {
     return "Dạ, nếu Quý khách muốn món thanh mát, VPC gợi ý nhóm trà, nước ép, sinh tố hoặc nước thanh nhiệt ạ.";
   }
 
-  return "Dạ, VPC đã nhận câu hỏi của Quý khách ạ. Hiện hệ thống AI đang hơi gián đoạn, nhưng VPC vẫn có thể hỗ trợ nhanh về menu đồ uống, vật phẩm, đặt hàng, thanh toán, thành viên, địa chỉ, giờ mở cửa hoặc tra cứu đơn. Hotline hỗ trợ trực tiếp: 038 972 6999 ạ.";
+  return "Da, VPC da nhan cau hoi cua Quy khach. Hien he thong AI dang hoi gian doan, nhung VPC van co the ho tro nhanh ve menu do uong, vat pham, dat hang, thanh toan, thanh vien, dia chi, gio mo cua hoac tra cuu don. Hotline ho tro truc tiep: 038 972 6999.";
 }
 
 export async function POST(req: Request) {
@@ -901,6 +901,7 @@ ${internetResult.text}
     });
   }
 }
+
 
 
 
