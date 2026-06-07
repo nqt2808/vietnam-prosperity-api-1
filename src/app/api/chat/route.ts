@@ -459,7 +459,9 @@ async function callOpenAI(systemPrompt: string, userPrompt: string, openaiKey: s
 
 async function callGemini(systemPrompt: string, userPrompt: string, geminiKey: string) {
   const model = process.env.GEMINI_MODEL || "gemini-2.5-pro";
-  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
+  console.log("AI_PROVIDER =", process.env.AI_PROVIDER);
+console.log("GEMINI_MODEL =", process.env.GEMINI_MODEL);
+const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
 
   const response = await fetch(geminiUrl, {
     method: "POST",
@@ -662,70 +664,13 @@ function shouldTryInternetSearch(reply: string) {
   );
 }
 
-
-function normalizeLocalChatText(input: string) {
-  return String(input || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/đ/g, "d");
-}
-
-function getVPCLocalFallback(message: string) {
-  const q = normalizeLocalChatText(message);
-
-  if (q.includes("chu dau tu") || q.includes("chu so huu") || q.includes("sang lap") || q.includes("ai la chu")) {
-    return "Da, Vietnam Prosperity Coffee duoc dong sang lap boi Ong Nguyen Minh Duc va Ba Nguyen Thi Tuyet Mai.";
-  }
-
-  if (q.includes("gio") || q.includes("mo cua") || q.includes("dong cua") || q.includes("may gio")) {
-    return "Dạ, VPC mở cửa từ 06:30 đến 21:30 hằng ngày ạ.";
-  }
-
-  if (q.includes("dia chi") || q.includes("o dau") || q.includes("aeon")) {
-    return "Dạ, VPC ở Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế, đối diện Aeon Mall Huế ạ. Hotline: 038 972 6999.";
-  }
-
-  if (q.includes("hotline") || q.includes("so dien thoai") || q.includes("lien he")) {
-    return "Dạ, hotline của VPC là 038 972 6999 ạ.";
-  }
-
-  if (q.includes("thanh vien") || q.includes("tich diem") || q.includes("hang vang") || q.includes("bach kim")) {
-    return "Dạ, Quý khách có thể đăng ký thành viên miễn phí trên app Trung Nguyên Legend. Khi thanh toán, Quý khách xuất trình mã QR hoặc thẻ thành viên để tích điểm. Mỗi 30.000đ = 1 điểm, 1 điểm = 1.000đ, mỗi lần đổi cần tối thiểu 30 điểm. Hạng Vàng từ 100 điểm giảm 10%, hạng Bạch Kim từ 300 điểm giảm 15% ạ.";
-  }
-
-  if (q.includes("chuyen khoan") || q.includes("thanh toan") || q.includes("vietinbank") || q.includes("qr") || q.includes("sepay")) {
-    return "Dạ, Quý khách chuyển khoản VietinBank - chủ tài khoản NGO QUYNH TRANG - số tài khoản 101882692631. Nội dung chuyển khoản vui lòng ghi đúng mã đơn VPC-DH-... để hệ thống SePay tự ghi nhận nhé ạ.";
-  }
-
-  if (q.includes("ship") || q.includes("giao hang") || q.includes("phi giao")) {
-    return "Dạ, để báo phí giao chính xác, VPC cần địa chỉ nhận hàng của Quý khách ạ. Cửa hàng sẽ kiểm tra phạm vi giao và xác nhận phí ship cụ thể nhé ạ.";
-  }
-
-  if (q.includes("dat hang") || q.includes("gio hang") || q.includes("order")) {
-    return "Dạ, Quý khách chọn món trong Menu/Vật phẩm, thêm vào giỏ hàng, nhập họ tên, số điện thoại, hình thức nhận hàng và phương thức thanh toán để gửi đơn ạ.";
-  }
-
-  if (q.includes("ca phe") || q.includes("coffee") || q.includes("bac xiu") || q.includes("latte")) {
-    return "Dạ, nếu Quý khách thích vị đậm và tỉnh táo, VPC gợi ý nhóm cà phê phin/cà phê năng lượng. Nếu thích dễ uống hơn, Quý khách có thể thử Bạc Xỉu, Latte hoặc các món cà phê pha chế ạ.";
-  }
-
-  if (q.includes("tra") || q.includes("sinh to") || q.includes("nuoc ep") || q.includes("giai nhiet")) {
-    return "Dạ, nếu Quý khách muốn món thanh mát, VPC gợi ý nhóm trà, nước ép, sinh tố hoặc nước thanh nhiệt ạ.";
-  }
-
-  return "Da, VPC da nhan cau hoi cua Quy khach. Hien he thong AI dang hoi gian doan, nhung VPC van co the ho tro nhanh ve menu do uong, vat pham, dat hang, thanh toan, thanh vien, dia chi, gio mo cua hoac tra cuu don. Hotline ho tro truc tiep: 038 972 6999.";
-}
-
 export async function POST(req: Request) {
-  let incomingMessage = "";
-
   try {
     const body = await req.json();
 const message = body.message || body.question || body.prompt || "";
-    incomingMessage = String(message || "");
 const context = body.context || {};
     const adminContext = body.adminContext || null;
+
     const geminiKey = process.env.GEMINI_API_KEY;
     const openaiKey = process.env.OPENAI_API_KEY;
     const provider = process.env.AI_PROVIDER || (openaiKey ? "openai" : "gemini");
@@ -755,10 +700,10 @@ KHO KIẾN THỨC WEBSITE / INDEX:
 ${websiteKnowledge}
 
 DỮ LIỆU SUPABASE:
-${compactJson(supabaseKnowledge, 30000)}
+${compactJson(supabaseKnowledge, 120000)}
 
 DỮ LIỆU ADMIN / BÁN HÀNG:
-${adminContext ? compactJson(adminContext, 30000) : "Không có adminContext."}
+${adminContext ? compactJson(adminContext, 120000) : "Không có adminContext."}
 
 GIỎ HÀNG:
 ${cartContext}
@@ -782,22 +727,22 @@ AI BẮT BUỘC ĐỌC PHẦN "DỮ LIỆU LIÊN QUAN NHẤT" TRƯỚC.
 NẾU KHÁCH HỎI NHIỀU Ý, TRẢ LỜI TỪNG Ý RÕ RÀNG.
 
 --- KHO KIẾN THỨC SẠCH VPC ---
-${VPC_KNOWLEDGE.slice(0, 20000)}
+${VPC_KNOWLEDGE}
 
 --- CÁC CÂU HỎI ĐÃ TÁCH ---
 ${customerQuestions.map((q, i) => `${i + 1}. ${q}`).join("\n")}
 
 --- DỮ LIỆU LIÊN QUAN NHẤT ĐÃ LỌC TỪ INDEX + SUPABASE + ADMIN ---
-${relevantKnowledge.slice(0, 25000)}
+${relevantKnowledge}
 
 --- NỘI DUNG WEBSITE / INDEX / ADMIN ĐỌC TỪ FILE ---
-${websiteKnowledge.slice(0, 12000)}
+${websiteKnowledge.slice(0, 30000)}
 
 --- DỮ LIỆU SUPABASE MỚI NHẤT ---
-${compactJson(supabaseKnowledge, 30000)}
+${compactJson(supabaseKnowledge)}
 
 --- DỮ LIỆU BÁN HÀNG ADMIN GỬI LÊN ---
-${adminContext ? compactJson(adminContext, 30000) : "Không có adminContext."}
+${adminContext ? compactJson(adminContext, 120000) : "Không có adminContext."}
 
 --- GIỎ HÀNG HIỆN TẠI CỦA KHÁCH HÀNG ---
 ${cartContext}
@@ -891,19 +836,16 @@ ${internetResult.text}
     const debug = new URL(req.url).searchParams.get("debug") === "1";
 
     return NextResponse.json({
-      reply: getVPCLocalFallback(incomingMessage),
-      provider: "local-fallback-after-error",
+      reply:
+        "Dạ, kết nối mạng của trợ lý ảo VPC đang hơi gián đoạn một chút. Quý khách có thể thử hỏi lại hoặc gọi Hotline: 0389726999 để VPC phục vụ ngay ạ!",
       debug: debug ? {
         errorName: error instanceof Error ? error.name : "Unknown",
         errorMessage: error instanceof Error ? error.message : String(error),
         errorStack: error instanceof Error ? error.stack : ""
       } : undefined
-    });
+    }, { status: 500 });
   }
 }
-
-
-
 
 
 
