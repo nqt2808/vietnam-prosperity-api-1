@@ -2423,7 +2423,18 @@ Gợi ý:
           method: "POST",
           headers: { "Content-Type": "application/json; charset=utf-8" },
           body: JSON.stringify({
-            message: prompt,
+            message: `Bạn là AI Admin của Vietnam Prosperity Coffee.
+
+BẮT BUỘC đọc toàn bộ dữ liệu trong adminContext trước khi trả lời:
+- reportPage: dữ liệu trang Báo cáo
+- ordersPage: dữ liệu trang Đơn hàng
+- drinksPage: dữ liệu trang Menu nước
+- merchandisePage: dữ liệu trang Vật phẩm
+- customersPage: dữ liệu trang Khách hàng
+- analytics: dữ liệu phân tích đã tính sẵn
+
+Không được trả lời chung chung. Nếu thiếu dữ liệu thì nói rõ thiếu dữ liệu nào.
+Câu hỏi của admin: ${prompt}`,
             question: prompt,
             adminMode: true,
             adminContext: fullContext
@@ -2516,5 +2527,6 @@ Gợi ý:
 </body>
 
 </html>
+
 
 
