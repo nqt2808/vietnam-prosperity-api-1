@@ -680,7 +680,16 @@ YÊU CẦU TRẢ LỜI:
     let replyText = "";
 
     if (provider === "openai" && openaiKey) {
-      replyText = await callOpenAI(SYSTEM_PROMPT, promptWithContext, openaiKey);
+      try {
+        replyText = await callOpenAI(SYSTEM_PROMPT, promptWithContext, openaiKey);
+      } catch (openaiError) {
+        console.error("OpenAI lỗi, chuyển sang Gemini:", openaiError);
+        if (geminiKey) {
+          replyText = await callGemini(SYSTEM_PROMPT, promptWithContext, geminiKey);
+        } else {
+          throw openaiError;
+        }
+      }
     } else if (geminiKey) {
       replyText = await callGemini(SYSTEM_PROMPT, promptWithContext, geminiKey);
     }
@@ -704,7 +713,16 @@ ${internetResult.text}
 `;
 
         if (provider === "openai" && openaiKey) {
-          replyText = await callOpenAI(SYSTEM_PROMPT, promptWithInternet, openaiKey);
+          try {
+            replyText = await callOpenAI(SYSTEM_PROMPT, promptWithInternet, openaiKey);
+          } catch (openaiError) {
+            console.error("OpenAI internet lỗi, chuyển sang Gemini:", openaiError);
+            if (geminiKey) {
+              replyText = await callGemini(SYSTEM_PROMPT, promptWithInternet, geminiKey);
+            } else {
+              throw openaiError;
+            }
+          }
         } else if (geminiKey) {
           replyText = await callGemini(SYSTEM_PROMPT, promptWithInternet, geminiKey);
         }
@@ -738,6 +756,7 @@ ${internetResult.text}
     }, { status: 500 });
   }
 }
+
 
 
 
