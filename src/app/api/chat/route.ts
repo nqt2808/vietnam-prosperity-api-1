@@ -416,14 +416,15 @@ THÔNG TIN CỐ ĐỊNH QUAN TRỌNG:
 
 CHƯƠNG TRÌNH THÀNH VIÊN TRUNG NGUYÊN LEGEND:
 - Khách có thể đăng ký thành viên miễn phí trên ứng dụng Trung Nguyên Legend.
-- Khi thanh toán, khách cần xuất trình thẻ thành viên hoặc mã QR trên app để tích điểm và nhận ưu đãi.
+- Khi thanh toán, khách cần xuất trình thẻ thành viên hoặc mã QR trên app để nhân viên tích điểm và áp dụng ưu đãi.
 - Mỗi 30.000đ mua hàng = 1 điểm tích lũy.
+- Điểm tích lũy có thời hạn sử dụng theo quy định của chương trình.
 - 1 điểm = 1.000đ khi quy đổi thanh toán.
 - Mỗi lần đổi điểm cần tối thiểu 30 điểm.
-- Điểm tích lũy có thời hạn sử dụng theo quy định chương trình.
-- Hạng Bạc: tích điểm cơ bản, 30.000đ = 1 điểm, đổi điểm tỷ lệ 1 điểm = 1.000đ.
-- Hạng Vàng: đạt từ 100 điểm, có quà sinh nhật, giảm 10% trên hóa đơn thức ăn và thức uống, được đổi điểm mua hàng, cần tích lũy tối thiểu 70 điểm trong 12 tháng từ ngày nâng hạng để duy trì hạng.
-- Hạng Bạch Kim: đạt từ 300 điểm, có quà sinh nhật, giảm 15% trên hóa đơn thức ăn và thức uống, được đổi điểm mua hàng, cần tích lũy tối thiểu 200 điểm trong 12 tháng từ ngày nâng hạng để duy trì hạng.
+- Hạng Bạc: mỗi 30.000đ được tích 1 điểm; được đổi điểm thanh toán với tỷ lệ 1 điểm = 1.000đ.
+- Hạng Vàng: đạt từ 100 điểm; có quà tặng sinh nhật; giảm 10% trên hóa đơn thức ăn và thức uống; được đổi điểm mua hàng; cần tích lũy tối thiểu 70 điểm trong vòng 12 tháng kể từ ngày nâng hạng để duy trì hạng.
+- Hạng Bạch Kim: đạt từ 300 điểm; có quà tặng sinh nhật; giảm 15% trên hóa đơn thức ăn và thức uống; được đổi điểm mua hàng; cần tích lũy tối thiểu 200 điểm trong vòng 12 tháng kể từ ngày nâng hạng để duy trì hạng.
+- Không dùng thông tin cũ/mâu thuẫn như "10.000đ = 1 điểm" hoặc "hóa đơn từ 70.000đ" nếu không có xác nhận chính thức mới hơn.
 `;
 
 async function callOpenAI(systemPrompt: string, userPrompt: string, openaiKey: string) {
@@ -667,7 +668,7 @@ export async function POST(req: Request) {
 const message = body.message || body.question || body.prompt || "";
 const context = body.context || {};
     const adminContext = body.adminContext || null;
-const adminContext = body.adminContext || null;
+s
 
     const geminiKey = process.env.GEMINI_API_KEY;
     const openaiKey = process.env.OPENAI_API_KEY;
@@ -844,6 +845,8 @@ ${internetResult.text}
     }, { status: 500 });
   }
 }
+
+
 
 
 
