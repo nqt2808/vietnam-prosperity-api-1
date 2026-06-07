@@ -505,6 +505,108 @@ app.post("/api/orders", async (req, res, next) => {
 /* =========================================================
    CUSTOMER API - TRA CỨU ĐƠN HÀNG
 ========================================================= */
+
+/* =========================================================
+   CUSTOMER API - TRA CỨU ĐƠN HÀNG BẰNG SỐ ĐIỆN THOẠI
+========================================================= */
+app.get("/api/don-hang/tra-cuu", async (req, res) => {
+  try {
+    const phoneRaw = String(req.query.phone || "").trim();
+    const phoneDigits = phoneRaw.replace(/\D/g, "");
+
+    if (!phoneDigits || phoneDigits.length < 8) {
+      return res.status(400).json({
+        message: "Vui lòng nhập số điện thoại hợp lệ"
+      });
+    }
+
+    const normalizePhone = value => String(value || "").replace(/\D/g, "");
+
+    let orders = [];
+
+    // Cách 1: tìm trực tiếp trong bảng don_hang nếu bảng có cột số điện thoại.
+    try {
+      const direct = await supabase
+        .from("don_hang")
+        .select(`
+          *,
+          thong_tin_khach_hang (
+            ho_ten,
+            so_dien_thoai,
+            email,
+            dia_chi
+          )
+        `)
+        .or(`so_dien_thoai.eq.${phoneRaw},phone.eq.${phoneRaw},customer_phone.eq.${phoneRaw}`)
+        .order("created_at", { ascending: false })
+        .limit(20);
+
+      if (!direct.error && Array.isArray(direct.data) && direct.data.length) {
+        orders = direct.data;
+      }
+    } catch (e) {
+      console.warn("Tra cứu trực tiếp theo phone không dùng được:", e.message);
+    }
+
+    // Cách 2: fallback lấy gần đây rồi lọc theo phone trong dữ liệu quan hệ/JSON.
+    if (!orders.length) {
+      const recent = await supabase
+        .from("don_hang")
+        .select(`
+          *,
+          thong_tin_khach_hang (
+            ho_ten,
+            so_dien_thoai,
+            email,
+            dia_chi
+          )
+        `)
+        .order("created_at", { ascending: false })
+        .limit(300);
+
+      if (recent.error) throw recent.error;
+
+      orders = (recent.data || []).filter(order => {
+        const kh = order.thong_tin_khach_hang || {};
+        const candidates = [
+          order.so_dien_thoai,
+          order.phone,
+          order.customer_phone,
+          kh.so_dien_thoai,
+          order.shipping_address?.phone
+        ];
+
+        if (typeof order.shipping_address === "string") {
+          try {
+            candidates.push(JSON.parse(order.shipping_address).phone);
+          } catch {}
+        }
+
+        return candidates.some(value => normalizePhone(value) === phoneDigits);
+      }).slice(0, 20);
+    }
+
+    if (!orders.length) {
+      return res.status(404).json({
+        message: "Không tìm thấy đơn hàng với số điện thoại này",
+        data: []
+      });
+    }
+
+    res.json({
+      message: "Tìm thấy đơn hàng",
+      data: orders.map(normalizeOrderForAdmin)
+    });
+  } catch (error) {
+    console.error("Lỗi tra cứu đơn hàng bằng số điện thoại:", error);
+    res.status(500).json({
+      message: "Lỗi tra cứu đơn hàng bằng số điện thoại",
+      error: error.message
+    });
+  }
+});
+
+
 app.get("/api/don-hang/:ma_don_hang", async (req, res) => {
   try {
     const { ma_don_hang } = req.params;
@@ -1247,6 +1349,7 @@ function htmlToKnowledgeText(html) {
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<!--([\s\S]*?)-->/g, " ")
+    .replace(/<\/(h1|h2|h3|h4|p|li|section|article|div|br)>/gi, "\n")
     .replace(/<[^>]+>/g, " ")
     .replace(/&nbsp;/gi, " ")
     .replace(/&amp;/gi, "&")
@@ -1254,6 +1357,114 @@ function htmlToKnowledgeText(html) {
     .replace(/&#39;/gi, "'")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function extractWebsiteKnowledge(raw, filePath) {
+  const textOnly = htmlToKnowledgeText(raw);
+
+  const productMatches = Array.from(
+    raw.matchAll(/(?:ten_san_pham|ten|name|title)\s*:\s*["'`]([^"'`]+)["'`][\s\S]{0,500}?(?:mo_ta|description|desc|short_description)\s*:\s*["'`]([^"'`]+)["'`][\s\S]{0,300}?(?:gia|gia_den|price|priceNum)\s*:\s*([0-9]+)/gi)
+  ).map((match) => {
+    return `Sản phẩm: ${match[1]}\nMô tả: ${match[2]}\nGiá: ${Number(match[3]).toLocaleString("vi-VN")}đ`;
+  });
+
+  const articleMatches = Array.from(
+    raw.matchAll(/(?:title|tieu_de)\s*:\s*["'`]([^"'`]+)["'`][\s\S]{0,700}?(?:desc|tom_tat|summary|content)\s*:\s*["'`]([^"'`]+)["'`]/gi)
+  ).map((match) => {
+    return `Bài viết: ${match[1]}\nNội dung: ${match[2]}`;
+  });
+
+  const aboutMatches = Array.from(
+    raw.matchAll(/(?:Về chúng tôi|Giới thiệu|about|founder|sáng lập|Vietnam Prosperity Coffee|Trung Nguyên Legend Âu Lạc)[\s\S]{0,2000}/gi)
+  ).map((match) => htmlToKnowledgeText(match[0]));
+
+  const footerMatches = Array.from(
+    raw.matchAll(/(?:footer|Hotline|0389726999|038 972 6999|Facebook|TikTok|Google Map|Địa chỉ|Aeon Mall)[\s\S]{0,2000}/gi)
+  ).map((match) => htmlToKnowledgeText(match[0]));
+
+  // Trích xuất blogItems cụ thể nếu là index.html
+  let indexBlogItems = "";
+  if (filePath.endsWith("index.html")) {
+    try {
+      const blogSection = raw.match(/const\s+blogItems\s*=\s*(\[[\s\S]*?\])\s*;/);
+      if (blogSection) {
+        const itemsText = blogSection[1];
+        const itemBlocks = itemsText.split(/\}\s*,\s*\{/);
+        const parsedBlogs = [];
+        itemBlocks.forEach((block, index) => {
+          const titleMatch = block.match(/title\s*:\s*["']([\s\S]*?)["']/);
+          const descMatch = block.match(/desc\s*:\s*["']([\s\S]*?)["']/);
+          const contentMatch = block.match(/content\s*:\s*`([\s\S]*?)`/);
+          
+          const title = titleMatch ? titleMatch[1].trim() : "";
+          const desc = descMatch ? descMatch[1].trim() : "";
+          let content = contentMatch ? contentMatch[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "";
+          if (content.length > 500) content = content.slice(0, 500) + "...";
+          
+          if (title) {
+            parsedBlogs.push(`BÀI VIẾT TĨNH ${index + 1}: ${title}\n- Tóm tắt: ${desc}\n- Nội dung chi tiết: ${content}`);
+          }
+        });
+        if (parsedBlogs.length > 0) {
+          indexBlogItems = parsedBlogs.join("\n\n");
+        }
+      }
+    } catch (e) {
+      console.error("Lỗi parse blogItems từ index.html:", e);
+    }
+  }
+
+  // Trích xuất chatbotIntents cụ thể nếu là index.html
+  let indexChatbotIntents = "";
+  if (filePath.endsWith("index.html")) {
+    try {
+      const intentsSection = raw.match(/const\s+chatbotIntents\s*=\s*(\[[\s\S]*?\])\s*;/);
+      if (intentsSection) {
+        const intentsText = intentsSection[1];
+        const intentBlocks = intentsText.split(/\}\s*,\s*\{/);
+        const parsedIntents = [];
+        intentBlocks.forEach((block) => {
+          const nameMatch = block.match(/["']name["']\s*:\s*["']([^"']+)["']/);
+          const replyMatch = block.match(/["']reply["']\s*:\s*["'`]([\s\S]*?)["'`]/);
+          
+          const name = nameMatch ? nameMatch[1].trim() : "";
+          const reply = replyMatch ? replyMatch[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "";
+          
+          if (name && reply) {
+            parsedIntents.push(`TÀI LIỆU HƯỚNG DẪN VỀ [${name.toUpperCase()}]:\n${reply}`);
+          }
+        });
+        if (parsedIntents.length > 0) {
+          indexChatbotIntents = parsedIntents.join("\n\n");
+        }
+      }
+    } catch (e) {
+      console.error("Lỗi parse chatbotIntents từ index.html:", e);
+    }
+  }
+
+  return [
+    "=== TEXT HIỂN THỊ TRONG WEBSITE ===",
+    textOnly.slice(0, 50000),
+
+    "=== SẢN PHẨM BÓC TÁCH TỪ INDEX ===",
+    productMatches.length ? productMatches.join("\n\n") : "Không bóc tách được sản phẩm từ index.",
+
+    "=== BÀI VIẾT BÓC TÁCH TỪ INDEX ===",
+    articleMatches.length ? articleMatches.join("\n\n") : "Không bóc tách được bài viết từ index.",
+
+    "=== CÁC BÀI VIẾT BLOG CHI TIẾT CỦA INDEX.HTML ===",
+    indexBlogItems || "Không tìm thấy bài viết blogItems trong index.html.",
+
+    "=== TÀI LIỆU HƯỚNG DẪN PHẢN HỒI (CHATBOT INTENTS) TỪ INDEX.HTML ===",
+    indexChatbotIntents || "Không tìm thấy chatbotIntents trong index.html.",
+
+    "=== GIỚI THIỆU / VỀ CHÚNG TÔI ===",
+    aboutMatches.length ? aboutMatches.join("\n\n") : "Không tìm thấy phần giới thiệu.",
+
+    "=== FOOTER / LIÊN HỆ ===",
+    footerMatches.length ? footerMatches.join("\n\n") : "Không tìm thấy footer/liên hệ."
+  ].join("\n\n");
 }
 
 function loadIndexKnowledge() {
@@ -1279,11 +1490,10 @@ function loadIndexKnowledge() {
   for (const filePath of candidates) {
     if (fs.existsSync(filePath)) {
       const raw = fs.readFileSync(filePath, "utf8");
-      const clean = htmlToKnowledgeText(raw);
+      const clean = extractWebsiteKnowledge(raw, filePath);
 
       if (clean.length > 30) {
-        texts.push(`FILE: ${filePath}
-${clean}`);
+        texts.push(`FILE: ${filePath}\n${clean}`);
       }
     }
   }
@@ -1291,59 +1501,142 @@ ${clean}`);
   cachedIndexKnowledge = {
     loadedAt: now,
     source: texts.length ? "index.html + src/app/page.tsx/page.tsx.bak" : "",
-    text: texts.join("
-
----
-
-").slice(0, 120000)
+    text: texts.join("\n\n---\n\n").slice(0, 150000)
   };
 
   return cachedIndexKnowledge;
 }
 
-function buildKeywords(question) {
-  const stopWords = new Set([
-    "toi", "minh", "ban", "may", "tao", "cho", "hoi", "co", "khong", "la", "gi", "nao", "nhung", "cac", "mot", "cua", "ve", "va", "o", "tai", "tu", "duoc", "khach", "hang", "xin", "chao"
-  ]);
+async function searchDuckDuckGo(query) {
+  try {
+    const searchUrl = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
+    const response = await fetch(searchUrl, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
+        "Accept-Language": "vi,en-US;q=0.9,en;q=0.8"
+      }
+    });
 
-  return removeVietnameseTones(question)
-    .replace(/[^a-z0-9\s]/g, " ")
-    .split(/\s+/)
-    .map(s => s.trim())
-    .filter(s => s.length >= 3 && !stopWords.has(s))
-    .slice(0, 12);
+    if (!response.ok) {
+      return `Không thể kết nối DuckDuckGo (HTTP ${response.status}).`;
+    }
+
+    const html = await response.text();
+    const results = [];
+    const parts = html.split('<div class="result__body">');
+    
+    for (let i = 1; i < parts.length && results.length < 5; i++) {
+      const block = parts[i].split('</div>')[0];
+      const titleMatch = block.match(/<a[^>]+class="result__a"[^>]*>([\s\S]*?)<\/a>/);
+      const snippetMatch = block.match(/<a[^>]+class="result__snippet"[^>]*>([\s\S]*?)<\/a>/);
+      const linkMatch = block.match(/<a[^>]+class="result__url"[^>]*>([\s\S]*?)<\/a>/);
+      
+      if (titleMatch) {
+        const title = titleMatch[1].replace(/<[^>]+>/g, "").trim();
+        const snippet = snippetMatch ? snippetMatch[1].replace(/<[^>]+>/g, "").trim() : "";
+        const link = linkMatch ? linkMatch[1].replace(/<[^>]+>/g, "").trim() : "";
+        results.push({
+          title,
+          snippet,
+          link: link.startsWith("http") ? link : `https://${link}`
+        });
+      }
+    }
+
+    if (results.length === 0) {
+      return "Không tìm thấy kết quả internet nào phù hợp.";
+    }
+
+    return results
+      .map((r, index) => `${index + 1}. ${r.title}\n${r.snippet}\nNguồn: ${r.link}`)
+      .join("\n\n");
+  } catch (error) {
+    console.error("DuckDuckGo search error:", error);
+    return `Lỗi tìm kiếm DuckDuckGo: ${error.message || String(error)}`;
+  }
 }
 
-function findIndexSnippets(question, indexText) {
-  const keywords = buildKeywords(question);
-  if (!indexText || !keywords.length) return [];
+async function searchInternet(query) {
+  const serperKey = process.env.SERPER_API_KEY;
 
-  const rawSentences = String(indexText)
-    .split(/(?<=[.!?。！？])\s+|\s{2,}/)
-    .map(s => s.trim())
-    .filter(s => s.length >= 25 && s.length <= 500);
+  if (serperKey) {
+    try {
+      const response = await fetch("https://google.serper.dev/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": serperKey
+        },
+        body: JSON.stringify({
+          q: query,
+          gl: "vn",
+          hl: "vi",
+          num: 5
+        })
+      });
 
-  const scored = rawSentences.map(sentence => {
-    const normalized = removeVietnameseTones(sentence);
-    let score = 0;
-    for (const keyword of keywords) {
-      if (normalized.includes(keyword)) score += 1;
+      if (response.ok) {
+        const data = await response.json();
+        const organic = Array.isArray(data?.organic) ? data.organic : [];
+        if (organic.length > 0) {
+          const text = organic
+            .slice(0, 5)
+            .map((item, index) => {
+              return `${index + 1}. ${item.title || "Không có tiêu đề"}\n${item.snippet || ""}\nNguồn: ${item.link || ""}`;
+            })
+            .join("\n\n");
+
+          return {
+            available: true,
+            text
+          };
+        }
+      }
+    } catch (error) {
+      console.warn("Serper API error, falling back to DuckDuckGo:", error);
     }
-    return { sentence, score };
-  }).filter(item => item.score > 0);
+  }
 
-  scored.sort((a, b) => b.score - a.score || a.sentence.length - b.sentence.length);
-  return scored.slice(0, 8).map(item => item.sentence);
+  // Fallback to DuckDuckGo
+  const ddgText = await searchDuckDuckGo(query);
+  const ok = !ddgText.startsWith("Lỗi") && !ddgText.startsWith("Không thể");
+  return {
+    available: ok,
+    text: ddgText
+  };
+}
+
+function shouldTryInternetSearch(reply) {
+  const text = String(reply || "").toLowerCase();
+
+  return (
+    text.includes("thông tin này chưa có trong dữ liệu website/quán") ||
+    text.includes("chưa có trong dữ liệu") ||
+    text.includes("không có trong dữ liệu nội bộ") ||
+    text.includes("không đủ dữ liệu")
+  );
+}
+
+function shouldForceInternetSearch(message) {
+  const text = String(message || "").toLowerCase();
+  return (
+    text.includes("thời tiết") ||
+    text.includes("hôm nay") ||
+    text.includes("tin tức") ||
+    text.includes("giá vàng") ||
+    text.includes("thế giới") ||
+    text.includes("bên ngoài")
+  );
 }
 
 async function buildDatabaseContextForAi(question) {
-  const keywords = buildKeywords(question);
-  if (!keywords.length) return "";
-
-  const [drinkResult, merchResult, categoryResult] = await Promise.allSettled([
-    supabase.from("san_pham_do_uong").select("ten_san_pham, mo_ta, gia_den, gia_sua, hien_thi").eq("hien_thi", true).limit(100),
-    supabase.from("san_pham_merchandise").select("ten_san_pham, mo_ta, gia, hien_thi").eq("hien_thi", true).limit(100),
-    supabase.from("danh_muc_san_pham").select("ten_danh_muc, mo_ta, loai, hien_thi").eq("hien_thi", true).limit(100)
+  // Lấy toàn bộ thực đơn nước, vật phẩm để nạp đầy đủ context
+  const [drinkResult, merchResult, categoryResult, articlesResult, baiVietResult] = await Promise.allSettled([
+    supabase.from("san_pham_do_uong").select("ten_san_pham, mo_ta, gia_den, gia_sua, hien_thi").eq("hien_thi", true).limit(150),
+    supabase.from("san_pham_merchandise").select("ten_san_pham, mo_ta, gia, hien_thi").eq("hien_thi", true).limit(150),
+    supabase.from("danh_muc_san_pham").select("ten_danh_muc, mo_ta, loai, hien_thi").eq("hien_thi", true).limit(100),
+    supabase.from("articles").select("title, desc, content").limit(50),
+    supabase.from("bai_viet").select("title, desc, content").limit(50)
   ]);
 
   const rows = [];
@@ -1362,19 +1655,26 @@ async function buildDatabaseContextForAi(question) {
       rows.push(`Danh mục: ${item.ten_danh_muc}. ${item.mo_ta || ""} Loại ${item.loai || ""}.`);
     }
   }
+  if (articlesResult.status === "fulfilled" && !articlesResult.value.error) {
+    for (const item of articlesResult.value.data || []) {
+      const cleanContent = (item.content || "").replace(/<[^>]+>/g, " ").slice(0, 200);
+      rows.push(`Bài viết (database): ${item.title}. Tóm tắt: ${item.desc || ""}. Nội dung: ${cleanContent}...`);
+    }
+  }
+  if (baiVietResult.status === "fulfilled" && !baiVietResult.value.error) {
+    for (const item of baiVietResult.value.data || []) {
+      const cleanContent = (item.content || "").replace(/<[^>]+>/g, " ").slice(0, 200);
+      rows.push(`Bài viết (database): ${item.title}. Tóm tắt: ${item.desc || ""}. Nội dung: ${cleanContent}...`);
+    }
+  }
 
-  const matched = rows.filter(row => {
-    const normalized = removeVietnameseTones(row);
-    return keywords.some(keyword => normalized.includes(keyword));
-  }).slice(0, 12);
-
-  if (!matched.length) return "";
-  return `Không tìm thấy thông tin rõ trong index.html. Dữ liệu tìm theo từ khóa trong Supabase:\n- ${matched.join("\n- ")}`;
+  if (rows.length === 0) return "Cơ sở dữ liệu Supabase rỗng.";
+  
+  return `Dữ liệu sản phẩm và bài viết từ Supabase:\n- ${rows.join("\n- ")}`;
 }
 
 async function buildWebsiteContextForAi(question, extraContext) {
   const indexKnowledge = loadIndexKnowledge();
-  const snippets = findIndexSnippets(question, indexKnowledge.text);
   const databaseContext = await buildDatabaseContextForAi(question);
 
   const parts = [];
@@ -1384,20 +1684,16 @@ async function buildWebsiteContextForAi(question, extraContext) {
     parts.push(`Nguồn index backend đang đọc: ${indexKnowledge.source}`);
   }
 
-  if (snippets.length) {
-    parts.push(`Thông tin tìm thấy trong index.html backend:\n- ${snippets.join("\n- ")}`);
-  } else {
-    parts.push("Backend không tìm thấy đoạn khớp rõ trong index.html theo từ khóa; vẫn phải dùng ngữ cảnh frontend và database bên dưới, không được bịa.");
-  }
+  parts.push(`Thông tin đầy đủ từ website/index.html:\n${indexKnowledge.text}`);
 
   if (databaseContext) {
     parts.push(databaseContext);
   } else {
-    parts.push("Database Supabase không có dòng khớp từ khóa rõ ràng. Nếu thiếu thông tin, hướng khách gọi 038 972 6999.");
+    parts.push("Database Supabase rỗng hoặc lỗi. Nếu thiếu thông tin, hướng khách gọi 038 972 6999.");
   }
 
-  parts.push("Thông tin cố định: Quán Trung Nguyên Legend Âu Lạc / Vietnam Prosperity Coffee. SĐT 038 972 6999. Thanh toán VietinBank, STK 101882692631, chủ tài khoản NGO QUYNH TRANG. SePay tự cập nhật trạng thái đơn khi nhận đủ tiền và nội dung chuyển khoản có mã VPC-DH-...");
-  return parts.join("\n\n").slice(0, 22000);
+  parts.push("Thông tin cố định: Quán Trung Nguyên Legend Âu Lạc / Vietnam Prosperity Coffee. SĐT 038 972 6999. Giờ mở cửa: 06:30 - 21:30 hằng ngày. Địa chỉ: Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế, đối diện Aeon Mall Huế. Thanh toán VietinBank, STK 101882692631, chủ tài khoản NGO QUYNH TRANG. SePay tự cập nhật trạng thái đơn khi nhận đủ tiền và nội dung chuyển khoản có mã VPC-DH-...");
+  return parts.join("\n\n").slice(0, 45000);
 }
 
 function stripUnsafeHtml(text) {
@@ -1555,15 +1851,43 @@ ${JSON.stringify(adminContext, null, 2).slice(0, 30000)}`;
     let answer = "";
     let provider = "local";
 
-    if (process.env.AI_PROVIDER === "gemini" && process.env.GEMINI_API_KEY) {
-      provider = "gemini";
-      answer = await askGemini(userQuestion, websiteContext);
-    } else if (process.env.OPENAI_API_KEY) {
-      provider = "openai";
-      answer = await askOpenAI(userQuestion, websiteContext);
-    } else if (process.env.GEMINI_API_KEY) {
-      provider = "gemini";
-      answer = await askGemini(userQuestion, websiteContext);
+    const geminiKey = process.env.GEMINI_API_KEY;
+    const openaiKey = process.env.OPENAI_API_KEY;
+    provider = process.env.AI_PROVIDER || (openaiKey ? "openai" : "gemini");
+
+    async function callAi(q, ctx) {
+      if (provider === "gemini" && geminiKey) {
+        return await askGemini(q, ctx);
+      } else if (openaiKey) {
+        return await askOpenAI(q, ctx);
+      } else if (geminiKey) {
+        return await askGemini(q, ctx);
+      }
+      return "";
+    }
+
+    if (geminiKey || openaiKey) {
+      answer = await callAi(userQuestion, websiteContext);
+
+      if (shouldTryInternetSearch(answer) || shouldForceInternetSearch(userQuestion)) {
+        const internetResult = await searchInternet(userQuestion);
+        if (internetResult.available) {
+          const promptWithInternet = `
+DỮ LIỆU NỘI BỘ VPC KHÔNG ĐỦ ĐỂ TRẢ LỜI ĐẦY ĐỦ CÂU HỎI.
+Dưới đây là kết quả tìm kiếm internet tham khảo. Hãy trả lời rõ rằng thông tin này là tham khảo bên ngoài, không phải chính sách xác nhận của VPC nếu dữ liệu nội bộ không có.
+
+--- CÂU HỎI ---
+${userQuestion}
+
+--- DỮ LIỆU NỘI BỘ ĐÃ KIỂM TRA ---
+${websiteContext.slice(0, 35000)}
+
+--- KẾT QUẢ TÌM KIẾM INTERNET ---
+${internetResult.text}
+`;
+          answer = await callAi(userQuestion, promptWithInternet);
+        }
+      }
     } else {
       answer = "Trang đã nhận được câu hỏi của bạn. Hiện backend chưa cấu hình GEMINI_API_KEY hoặc OPENAI_API_KEY, bạn vui lòng gọi 038 972 6999 nếu cần hỗ trợ nhanh.";
     }
@@ -1572,7 +1896,7 @@ ${JSON.stringify(adminContext, null, 2).slice(0, 30000)}`;
       provider,
       reply: stripUnsafeHtml(answer),
       answer: stripUnsafeHtml(answer),
-      knowledgeSource: websiteContext.includes("Thông tin tìm thấy trong index.html") ? "index.html" : "keyword-fallback"
+      knowledgeSource: websiteContext.includes("Thông tin hiển thị trong website") ? "index.html" : "keyword-fallback"
     });
   } catch (error) {
     console.error("Lỗi /api/chat-ai:", error);

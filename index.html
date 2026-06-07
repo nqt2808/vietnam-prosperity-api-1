@@ -2547,6 +2547,172 @@ body {
   font-size: 14px !important;
   padding: 10px 12px !important;
 }
+
+/* SEARCH PRODUCT + COPY ORDER FEATURE */
+.search-icon-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 14px !important;
+  border-radius: 999px;
+}
+
+.search-icon-btn i {
+  font-size: 18px;
+}
+
+.product-search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200000;
+  background: rgba(31, 18, 11, 0.72);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 110px 18px 28px;
+}
+
+.product-search-overlay.open {
+  display: flex;
+}
+
+.product-search-panel {
+  width: min(760px, 100%);
+  background: #fffaf4;
+  border: 1px solid #ead0a4;
+  border-radius: 24px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+  overflow: hidden;
+}
+
+.product-search-head {
+  background: var(--coffee-dark);
+  color: #fff;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-search-head h3 {
+  color: var(--gold-light);
+  margin: 0;
+  font-size: 22px;
+}
+
+.product-search-close {
+  border: 1px solid rgba(244, 209, 123, 0.45);
+  background: transparent;
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.product-search-body {
+  padding: 18px;
+}
+
+.product-search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.product-search-form input {
+  flex: 1;
+}
+
+.product-search-results {
+  display: grid;
+  gap: 10px;
+  max-height: 55vh;
+  overflow-y: auto;
+}
+
+.product-search-item {
+  background: white;
+  border: 1px solid #eadac7;
+  border-radius: 16px;
+  padding: 14px;
+  display: grid;
+  gap: 5px;
+}
+
+.product-search-item strong {
+  color: var(--coffee-dark);
+  font-size: 17px;
+}
+
+.product-search-item span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.product-search-item button {
+  margin-top: 8px;
+  width: fit-content;
+}
+
+.product-highlight {
+  outline: 4px solid var(--gold) !important;
+  box-shadow: 0 0 0 8px rgba(200,155,60,0.18), var(--shadow) !important;
+}
+
+.copy-order-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #ead0a4;
+  background: #fff4df;
+  color: var(--coffee-dark);
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  vertical-align: middle;
+  transition: 0.2s ease;
+}
+
+.copy-order-btn:hover {
+  background: var(--gold);
+  transform: translateY(-1px);
+}
+
+.lookup-mode-note {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: -4px 0 14px;
+  text-align: center;
+}
+
+@media (max-width: 520px) {
+  .search-icon-btn {
+    min-width: 36px;
+    height: 34px;
+    padding: 0 9px !important;
+  }
+
+  .search-icon-btn i {
+    font-size: 14px;
+  }
+
+  .product-search-overlay {
+    padding-top: 90px;
+  }
+
+  .product-search-form {
+    flex-direction: column;
+  }
+}
+
 </style>
 </head>
 
@@ -2574,9 +2740,33 @@ body {
           <span class="cart-icon">🛒</span>
           <span class="cart-count" id="cartCount">0</span>
         </button>
+        <button class="nav-btn search-icon-btn" type="button" onclick="toggleProductSearch(true)" aria-label="Tìm kiếm sản phẩm" title="Tìm kiếm sản phẩm">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
       </nav>
     </div>
   </header>
+
+
+  <!-- PRODUCT SEARCH MODAL -->
+  <div class="product-search-overlay" id="productSearchOverlay" onclick="closeProductSearchOnBackdrop(event)">
+    <div class="product-search-panel" role="dialog" aria-modal="true" aria-label="Tìm kiếm sản phẩm">
+      <div class="product-search-head">
+        <h3><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm sản phẩm</h3>
+        <button class="product-search-close" type="button" onclick="toggleProductSearch(false)" aria-label="Đóng">×</button>
+      </div>
+      <div class="product-search-body">
+        <form class="product-search-form" onsubmit="handleProductSearch(event)">
+          <input id="productSearchInput" type="search" placeholder="Nhập tên món, ví dụ: Coffee Legend, Trà Đào, G7..." autocomplete="off" />
+          <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+        </form>
+        <div id="productSearchResults" class="product-search-results">
+          <p style="color: var(--muted); text-align: center;">Nhập tên sản phẩm để tìm trong Menu nước và Vật phẩm.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <!-- HOME -->
   <main id="home" class="page active">
@@ -2932,10 +3122,18 @@ body {
         <div class="cart-box">
           <h2 style="margin-bottom: 18px; text-align: center;">Theo dõi đơn hàng</h2>
           <form id="lookupForm" onsubmit="handleLookupOrder(event)">
+            <p class="lookup-mode-note">Quý khách có thể tra cứu bằng <strong>mã đơn hàng</strong> hoặc <strong>số điện thoại đặt hàng</strong>.</p>
+
             <div class="form-field full" style="margin-bottom: 16px;">
               <label>Mã đơn hàng</label>
-              <input required id="lookupOrderCode" placeholder="Ví dụ: VPC-DH-20260523-..." />
+              <input id="lookupOrderCode" placeholder="Ví dụ: VPC-DH-20260523-..." />
             </div>
+
+            <div class="form-field full" style="margin-bottom: 16px;">
+              <label>Số điện thoại đặt hàng</label>
+              <input id="lookupPhone" type="tel" placeholder="Ví dụ: 0389726999" />
+            </div>
+
             <button class="btn btn-primary" type="submit" style="width: 100%;">Tra cứu đơn hàng</button>
           </form>
 
@@ -5605,46 +5803,163 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
     }
 
 
-    // 10. Tra cứu đơn hàng thời gian thực
-    async function handleLookupOrder(event) {
-      event.preventDefault();
-      const codeInput = document.getElementById("lookupOrderCode");
-      const code = codeInput ? codeInput.value.trim() : "";
-      const resultBox = document.getElementById("lookupResultBox");
 
-      if (!code) {
-        alert("Vui lòng nhập mã đơn hàng.");
+    function normalizeSearchValue(value) {
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function toggleProductSearch(open) {
+      const overlay = document.getElementById("productSearchOverlay");
+      const input = document.getElementById("productSearchInput");
+      if (!overlay) return;
+
+      overlay.classList.toggle("open", !!open);
+
+      if (open) {
+        setTimeout(() => input && input.focus(), 80);
+      }
+    }
+
+    function closeProductSearchOnBackdrop(event) {
+      if (event.target && event.target.id === "productSearchOverlay") {
+        toggleProductSearch(false);
+      }
+    }
+
+    function collectProductCardsForSearch() {
+      const selectors = [
+        "#featuredGrid .card",
+        "#menuGroups .menu-item",
+        "#merchGroups .card"
+      ];
+
+      return selectors.flatMap(selector => {
+        return Array.from(document.querySelectorAll(selector)).map(card => {
+          const name = card.querySelector("h3")?.innerText?.trim() || "";
+          const desc = card.querySelector("p")?.innerText?.trim() || "";
+          const price = card.querySelector(".price")?.innerText?.trim() || "";
+          const page = selector.includes("merch") ? "merch" : "menu";
+          return { card, name, desc, price, page };
+        });
+      }).filter(item => item.name);
+    }
+
+    function handleProductSearch(event) {
+      event.preventDefault();
+
+      const input = document.getElementById("productSearchInput");
+      const resultsBox = document.getElementById("productSearchResults");
+      const keyword = normalizeSearchValue(input ? input.value : "");
+
+      if (!resultsBox) return;
+
+      if (!keyword) {
+        resultsBox.innerHTML = `<p style="color: var(--muted); text-align: center;">Vui lòng nhập tên sản phẩm cần tìm.</p>`;
         return;
       }
 
-      resultBox.innerHTML = "<p>Đang tìm kiếm thông tin đơn hàng...</p>";
-      resultBox.style.display = "block";
+      const products = collectProductCardsForSearch();
+      const matches = products.filter(item => {
+        const haystack = normalizeSearchValue(`${item.name} ${item.desc} ${item.price}`);
+        return haystack.includes(keyword);
+      }).slice(0, 20);
+
+      if (!matches.length) {
+        resultsBox.innerHTML = `<p style="color:#8e2b20; text-align:center;">Không tìm thấy sản phẩm phù hợp. Quý khách thử nhập tên ngắn hơn như "coffee", "trà", "g7", "drip" nhé.</p>`;
+        return;
+      }
+
+      resultsBox.innerHTML = matches.map((item, index) => `
+        <div class="product-search-item">
+          <strong>${safeText(item.name)}</strong>
+          <span>${safeText(item.price || "Xem giá trong sản phẩm")}</span>
+          <span>${safeText(item.desc || "")}</span>
+          <button class="small-btn" type="button" onclick="goToSearchProduct(${index})">Xem sản phẩm</button>
+        </div>
+      `).join("");
+
+      window.vpcSearchMatches = matches;
+    }
+
+    function goToSearchProduct(index) {
+      const item = Array.isArray(window.vpcSearchMatches) ? window.vpcSearchMatches[index] : null;
+      if (!item || !item.card) return;
+
+      toggleProductSearch(false);
+      showPage(item.page);
+
+      setTimeout(() => {
+        document.querySelectorAll(".product-highlight").forEach(el => el.classList.remove("product-highlight"));
+        item.card.classList.add("product-highlight");
+        item.card.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        setTimeout(() => {
+          item.card.classList.remove("product-highlight");
+        }, 3500);
+      }, 300);
+    }
+
+    async function copyOrderCode(code, btn) {
+      const text = String(code || "").trim();
+      if (!text) return;
 
       try {
-        const response = await fetch(`${API_URL}/api/don-hang/${code}`);
-        if (!response.ok) {
-          throw new Error("Không tìm thấy đơn hàng");
-        }
-        const result = await response.json();
-        const order = result.data || result;
+        await navigator.clipboard.writeText(text);
+      } catch (error) {
+        const tmp = document.createElement("textarea");
+        tmp.value = text;
+        document.body.appendChild(tmp);
+        tmp.select();
+        document.execCommand("copy");
+        document.body.removeChild(tmp);
+      }
 
-        if (!order || (!order.ma_don_hang && !order.order_number)) {
-          resultBox.innerHTML = "<p style='color: #8e2b20;'>Không tìm thấy đơn hàng với mã đã nhập. Vui lòng kiểm tra lại.</p>";
-          return;
-        }
+      if (btn) {
+        const old = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+        setTimeout(() => {
+          btn.innerHTML = old;
+        }, 1300);
+      }
+    }
 
-        const status = order.trang_thai || order.status;
-        const paymentMethod = order.phuong_thuc_thanh_toan || order.payment_method;
-        const total = order.tong_tien || order.total;
-        const shippingAddress = order.dia_chi || (order.shipping_address ? (typeof order.shipping_address === 'string' ? JSON.parse(order.shipping_address).address : order.shipping_address.address) : "Nhận tại cửa hàng");
-        const name = order.ho_ten || (order.shipping_address ? (typeof order.shipping_address === 'string' ? JSON.parse(order.shipping_address).name : order.shipping_address.name) : "");
-        const phone = order.so_dien_thoai || (order.shipping_address ? (typeof order.shipping_address === 'string' ? JSON.parse(order.shipping_address).phone : order.shipping_address.phone) : "");
+    function getLookupOrderCode(order) {
+      return order.ma_don_hang || order.order_code || order.order_number || order.code || "";
+    }
+
+    function getLookupCustomer(order) {
+      return order.thong_tin_khach_hang || order.khach_hang || {};
+    }
+
+    function renderLookupOrders(orders) {
+      if (!Array.isArray(orders)) orders = orders ? [orders] : [];
+
+      if (!orders.length) {
+        return "<p style='color: #8e2b20;'>Không tìm thấy đơn hàng phù hợp. Quý khách vui lòng kiểm tra lại mã đơn/số điện thoại hoặc gọi 038 972 6999.</p>";
+      }
+
+      return orders.map(order => {
+        const kh = getLookupCustomer(order);
+        const code = getLookupOrderCode(order);
+        const status = order.trang_thai || order.status || "Không rõ";
+        const paymentMethod = order.phuong_thuc_thanh_toan || order.payment_method || "";
+        const total = order.tong_tien || order.total || order.amount || 0;
+        const shippingAddress = order.dia_chi_giao_hang || order.dia_chi || kh.dia_chi || "Nhận tại cửa hàng";
+        const name = order.ho_ten || order.ten_khach_hang || kh.ho_ten || "";
+        const phone = order.so_dien_thoai || order.phone || kh.so_dien_thoai || "";
 
         let currentStepIdx = 0;
-        const initStatuses = ['don_moi', 'da_dat_don', 'cho_chuyen_khoan', 'cho_thanh_toan', 'cho_xac_nhan_chuyen_khoan', 'khach_bao_da_chuyen_khoan'];
-        const prepareStatuses = ['da_thanh_toan', 'da_chuyen_khoan', 'da_nhan_don', 'dang_lam_don'];
-        const shippingStatuses = ['da_giao_shipper', 'dang_giao', 'da_giao'];
-        const doneStatuses = ['hoan_thanh'];
+        const initStatuses = ['don_moi', 'moi', 'da_dat_don', 'cho_chuyen_khoan', 'cho_thanh_toan', 'cho_xac_nhan_chuyen_khoan', 'khach_bao_da_chuyen_khoan'];
+        const prepareStatuses = ['da_tt', 'da_thanh_toan', 'da_chuyen_khoan', 'da_nhan_don', 'dang_lam', 'dang_lam_don'];
+        const shippingStatuses = ['da_giao_shipper', 'dang_giao'];
+        const doneStatuses = ['hoan_tat', 'hoan_thanh', 'da_giao'];
 
         if (initStatuses.includes(status)) currentStepIdx = 0;
         else if (prepareStatuses.includes(status)) currentStepIdx = 1;
@@ -5652,71 +5967,104 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
         else if (doneStatuses.includes(status)) currentStepIdx = 3;
 
         let statusHtml = "";
-        if (status === 'tu_choi_don' || status === 'da_huy') {
+        if (status === 'tu_choi_don' || status === 'tu_choi' || status === 'da_huy') {
           statusHtml = `
-        <div style="padding: 14px; background: #fff1f1; border: 1px solid #f8d7da; border-radius: 12px; color: #842029; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-          <strong style="font-size: 20px;">⚠️</strong>
-          <div>
-            <strong style="display: block; font-size: 14px;">ĐƠN HÀNG ĐÃ BỊ HỦY</strong>
-            <span style="font-size: 11px; opacity: 0.85;">Đơn hàng này đã bị từ chối hoặc hủy bởi cửa hàng. Xin lỗi vì sự bất tiện này.</span>
-          </div>
-        </div>
-      `;
+            <div style="padding: 14px; background: #fff1f1; border: 1px solid #f8d7da; border-radius: 12px; color: #842029; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+              <strong style="font-size: 20px;">⚠️</strong>
+              <div>
+                <strong style="display: block; font-size: 14px;">ĐƠN HÀNG ĐÃ BỊ HỦY/TỪ CHỐI</strong>
+                <span style="font-size: 12px;">Quý khách vui lòng liên hệ 038 972 6999 để được hỗ trợ.</span>
+              </div>
+            </div>
+          `;
         } else {
           const steps = [
-            { label: 'Tiếp nhận', desc: 'Đơn mới / Chờ xác nhận' },
-            { label: 'Pha chế', desc: 'Đang pha chế thức uống' },
-            { label: 'Đang giao', desc: 'Shipper đang trên đường' },
-            { label: 'Hoàn thành', desc: 'Giao hàng thành công' }
+            { title: 'Tiếp nhận', desc: 'Đã nhận đơn' },
+            { title: 'Pha chế', desc: 'Đang chuẩn bị' },
+            { title: 'Đang giao', desc: 'Shipper giao hàng' },
+            { title: 'Hoàn thành', desc: 'Đã hoàn tất' }
           ];
 
-          const widthPct = (currentStepIdx / 3) * 100;
-
           statusHtml = `
-        <div class="timeline-container">
-          <div class="timeline-steps">
-            <div class="timeline-progress-line" style="width: ${widthPct}%;"></div>
-            ${steps.map((step, idx) => {
-            const isCompleted = idx < currentStepIdx;
-            const isActive = idx === currentStepIdx;
-            let stepClass = "";
-            if (isActive) stepClass = "active";
-            else if (isCompleted) stepClass = "completed";
-
-            return `
-                <div class="timeline-step ${stepClass}">
-                  <div class="timeline-node">${isCompleted ? '✓' : idx + 1}</div>
-                  <div class="timeline-label" style="font-size: 11px; font-weight: 800;">${step.label}</div>
-                  <div class="timeline-desc" style="font-size: 9px;">${isActive ? step.desc : (isCompleted ? 'Đã xong' : 'Chờ')}</div>
-                </div>
-              `;
-          }).join("")}
-          </div>
-        </div>
-      `;
+            <div class="timeline-container">
+              <div class="timeline-steps">
+                <div class="timeline-progress-line" style="width: ${currentStepIdx * 33.33}%;"></div>
+                ${steps.map((step, idx) => `
+                  <div class="timeline-step ${idx < currentStepIdx ? 'completed' : ''} ${idx === currentStepIdx ? 'active' : ''}">
+                    <div class="timeline-node">${idx < currentStepIdx ? '✓' : idx + 1}</div>
+                    <div class="timeline-label">${step.title}</div>
+                    <div class="timeline-desc">${step.desc}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
         }
 
-        resultBox.innerHTML = `
-      <h3 style="margin-bottom: 14px; color: var(--coffee-dark); text-align: center;">Trạng thái đơn hàng</h3>
-      <div class="invoice-code" style="text-align: center;">
-        Mã đơn hàng: <strong>${order.ma_don_hang || order.order_number}</strong>
-      </div>
+        return `
+          <div style="background: white; border-radius: 18px; box-shadow: var(--shadow); padding: 22px; border: 1px solid #eadac7; margin-bottom: 18px;">
+            <h3 style="margin-bottom: 12px; color: var(--coffee-dark);">
+              Mã đơn: <span>${safeText(code)}</span>
+              <button class="copy-order-btn" type="button" onclick="copyOrderCode('${safeText(code)}', this)" title="Copy mã đơn">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </h3>
 
-      ${statusHtml}
+            ${statusHtml}
 
-      <div style="margin-top: 20px; font-size: 13.5px; line-height: 1.6; border-top: 1px dashed #decdb9; padding-top: 16px;">
-        <p><strong>Khách hàng:</strong> ${safeText(name)}</p>
-        <p><strong>Số điện thoại:</strong> ${safeText(phone)}</p>
-        <p><strong>Địa chỉ:</strong> ${safeText(shippingAddress)}</p>
-        <p><strong>Hình thức nhận:</strong> ${order.hinh_thuc_nhan_hang === 'den_lay_tai_quan' ? 'Đến lấy tại quán' : 'Giao hàng tận nơi'}</p>
-        <p><strong>Thanh toán:</strong> ${paymentMethod === 'chuyen_khoan' ? 'Chuyển khoản VietinBank' : 'Tiền mặt (COD)'}</p>
-        <p><strong>Tổng cộng:</strong> <strong style="color: var(--gold); font-size: 16px;">${formatMoney(total)}</strong></p>
-      </div>
-    `;
+            <div style="margin-top: 20px; font-size: 13.5px; line-height: 1.6; border-top: 1px dashed #decdb9; padding-top: 16px;">
+              <p><strong>Khách hàng:</strong> ${safeText(name)}</p>
+              <p><strong>Số điện thoại:</strong> ${safeText(phone)}</p>
+              <p><strong>Địa chỉ:</strong> ${safeText(shippingAddress)}</p>
+              <p><strong>Hình thức nhận:</strong> ${order.hinh_thuc_nhan_hang === 'den_lay_tai_quan' ? 'Đến lấy tại quán' : 'Giao hàng tận nơi'}</p>
+              <p><strong>Thanh toán:</strong> ${paymentMethod === 'chuyen_khoan' || paymentMethod === 'bank_transfer' ? 'Chuyển khoản VietinBank' : 'Tiền mặt (COD)'}</p>
+              <p><strong>Tổng cộng:</strong> <strong style="color: var(--gold); font-size: 16px;">${formatMoney(total)}</strong></p>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
 
+
+    // 10. Tra cứu đơn hàng thời gian thực
+    async function handleLookupOrder(event) {
+      event.preventDefault();
+
+      const codeInput = document.getElementById("lookupOrderCode");
+      const phoneInput = document.getElementById("lookupPhone");
+      const code = codeInput ? codeInput.value.trim() : "";
+      const phone = phoneInput ? phoneInput.value.trim() : "";
+      const resultBox = document.getElementById("lookupResultBox");
+
+      if (!code && !phone) {
+        alert("Vui lòng nhập mã đơn hàng hoặc số điện thoại đặt hàng.");
+        return;
+      }
+
+      resultBox.innerHTML = "<p>Đang tìm kiếm thông tin đơn hàng...</p>";
+      resultBox.style.display = "block";
+
+      try {
+        let response;
+
+        if (code) {
+          response = await fetch(`${API_URL}/api/don-hang/${encodeURIComponent(code)}`);
+        } else {
+          response = await fetch(`${API_URL}/api/don-hang/tra-cuu?phone=${encodeURIComponent(phone)}`);
+        }
+
+        if (!response.ok) {
+          throw new Error("Không tìm thấy đơn hàng");
+        }
+
+        const result = await response.json();
+        const payload = result.data || result.orders || result;
+        const orders = Array.isArray(payload) ? payload : [payload];
+
+        resultBox.innerHTML = renderLookupOrders(orders);
       } catch (error) {
         console.error("Lỗi tra cứu đơn:", error);
-        resultBox.innerHTML = "<p style='color: #8e2b20;'>Không tìm thấy đơn hàng hoặc máy chủ bận. Bạn vui lòng kiểm tra lại mã hoặc liên hệ Số điện thoại **038 972 6999** để được hỗ trợ kiểm tra trực tiếp.</p>";
+        resultBox.innerHTML = "<p style='color: #8e2b20;'>Không tìm thấy đơn hàng hoặc máy chủ bận. Quý khách vui lòng kiểm tra lại mã/số điện thoại hoặc liên hệ 038 972 6999 để được hỗ trợ trực tiếp.</p>";
       }
     }
 
