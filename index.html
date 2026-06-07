@@ -3124,6 +3124,86 @@ body {
     }
   }
 </style>
+<style id="vpc-testimonial-mobile-final-fix">
+  .testimonial-card {
+    display: grid !important;
+    grid-template-rows: 48px 180px 1px 76px !important;
+    gap: 22px !important;
+    min-height: 430px !important;
+  }
+
+  .testimonial-stars {
+    margin: 0 !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+
+  .testimonial-text {
+    margin: 0 !important;
+    min-height: 180px !important;
+    max-height: 180px !important;
+    overflow-y: auto !important;
+  }
+
+  .testimonial-line {
+    margin: 0 !important;
+  }
+
+  .testimonial-user {
+    min-height: 76px !important;
+    align-self: end !important;
+  }
+
+  @media (max-width: 760px) {
+    .testimonial-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+    }
+
+    .testimonial-card {
+      padding: 16px !important;
+      min-height: 330px !important;
+      grid-template-rows: 32px 145px 1px 62px !important;
+      gap: 14px !important;
+      border-radius: 18px !important;
+    }
+
+    .testimonial-stars {
+      font-size: 20px !important;
+      letter-spacing: 0 !important;
+      height: 32px !important;
+    }
+
+    .testimonial-text {
+      font-size: 13px !important;
+      line-height: 1.5 !important;
+      min-height: 145px !important;
+      max-height: 145px !important;
+      overflow-y: auto !important;
+    }
+
+    .testimonial-avatar {
+      width: 42px !important;
+      height: 42px !important;
+    }
+
+    .testimonial-user {
+      gap: 9px !important;
+      min-height: 62px !important;
+    }
+
+    .testimonial-name {
+      font-size: 14px !important;
+      line-height: 1.15 !important;
+    }
+
+    .testimonial-role {
+      font-size: 12px !important;
+      line-height: 1.2 !important;
+    }
+  }
+</style>
 </head>
 
 <body>
@@ -5432,6 +5512,70 @@ startAutoCheckPayment();
     }
 
 
+    function normalizeDrinkCategory(item) {
+      const productSlug = String(item.slug || "").trim();
+      let categorySlug = String(item.slug_danh_muc || item.danh_muc_slug || item.category_slug || "").trim();
+
+      const productCategoryMap = {
+        "sinh-to-xoai": "sinh-to-da-xay",
+        "sinh-to-bo": "sinh-to-da-xay",
+        "sinh-to-chanh-day": "sinh-to-da-xay",
+        "sinh-to-dau": "sinh-to-da-xay",
+        "kim-quat-da-xay": "sinh-to-da-xay",
+        "tra-xanh-da-xay": "sinh-to-da-xay",
+
+        "nuoc-ep-chanh-day": "nuoc-ep",
+        "cam-vat": "nuoc-ep",
+        "nuoc-thom-ep": "nuoc-ep",
+        "dua-hau": "nuoc-ep",
+        "dua-tuoi": "nuoc-ep",
+
+        "nuoc-chanh-day-thom-sa": "nuoc-thanh-nhiet",
+        "hibiscus-chanh-day-hat-chia": "nuoc-thanh-nhiet",
+        "chanh-sa-gung-hat-chia": "nuoc-thanh-nhiet",
+        "nuoc-chanh-muoi-mat-ong": "nuoc-thanh-nhiet",
+        "nuoc-suoi": "nuoc-thanh-nhiet",
+
+        "tra-hoa-cuc-chamomile": "tra-tra-sua",
+        "tra-vai-hoa-hong": "tra-tra-sua",
+        "tra-dao-cam-sa": "tra-tra-sua",
+        "tra-la-nep-sen-vang": "tra-tra-sua",
+        "tra-sua-legend": "tra-tra-sua",
+        "tra-cam-que-da": "tra-tra-sua",
+
+        "matcha-yen-mach": "matcha-cacao",
+        "tra-xanh-thach-ca-phe": "matcha-cacao",
+        "tra--thach-ca-phe": "matcha-cacao",
+        "cacao-sua": "matcha-cacao",
+        "sua-tuoi": "matcha-cacao",
+
+        "panna-cotta": "banh",
+        "banh-mousse-chanh-day": "banh",
+        "banh-mousse-red-velvet": "banh",
+        "banh-mousse-dau": "banh",
+        "banh-mousse-socola": "banh",
+        "banh-croissant-khong-nhan": "banh",
+        "banh-croissant-hanh-nhan": "banh",
+        "banh-tiramisu": "banh"
+      };
+
+      const aliasCategoryMap = {
+        "banh-ngot": "banh",
+        "banh-man": "banh",
+        "tra": "tra-tra-sua",
+        "tra-sua": "tra-tra-sua",
+        "sinh-to": "sinh-to-da-xay",
+        "da-xay": "sinh-to-da-xay",
+        "ca-phe": "ca-phe-pha-che",
+        "coffee": "ca-phe-pha-che"
+      };
+
+      categorySlug = aliasCategoryMap[categorySlug] || categorySlug;
+      categorySlug = productCategoryMap[productSlug] || categorySlug;
+
+      return getMenuCategoryInfo(categorySlug, item.ten_danh_muc);
+    }
+
     function displayMenuData(drinks) {
       const tabs = document.getElementById("menuTabs");
       const groups = document.getElementById("menuGroups");
@@ -5493,19 +5637,27 @@ startAutoCheckPayment();
       const grouped = {};
 
       processedDrinks.forEach(item => {
-        if (!grouped[item.slug_danh_muc]) {
-          grouped[item.slug_danh_muc] = {
-            id: item.slug_danh_muc,
-            title: item.ten_danh_muc,
-            desc: categoryDescMap[item.slug_danh_muc] || "",
+        const categoryInfo = normalizeDrinkCategory(item);
+        const categorySlug = categoryInfo && categoryInfo.title !== "Khác"
+          ? Object.keys(menuCategoryMap).find(key => menuCategoryMap[key].title === categoryInfo.title)
+          : (item.slug_danh_muc || "khac");
+
+        if (!grouped[categorySlug]) {
+          grouped[categorySlug] = {
+            id: categorySlug,
+            title: categoryInfo.title,
+            desc: categoryInfo.desc,
+            order: categoryInfo.order,
             items: []
           };
         }
 
-        grouped[item.slug_danh_muc].items.push(item);
+        grouped[categorySlug].items.push(item);
       });
 
-      const groupList = Object.values(grouped).sort((a, b) => (a.order || 999) - (b.order || 999));
+      const groupList = Object.values(grouped)
+        .filter(group => group.id !== "khac" || group.items.length > 0)
+        .sort((a, b) => (a.order || 999) - (b.order || 999));
 
       tabs.innerHTML = groupList.map(group => `
         <a class="tab-link" href="#${group.id}">${safeText(group.title)}</a>
@@ -7031,6 +7183,7 @@ initWebsite();
 </body>
 
 </html>
+
 
 
 
