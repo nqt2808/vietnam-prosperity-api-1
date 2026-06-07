@@ -43,7 +43,7 @@ function htmlToKnowledgeText(input: string) {
     .trim();
 }
 
-function extractWebsiteKnowledge(raw: string) {
+function extractWebsiteKnowledge(raw: string, filePath: string) {
   const textOnly = htmlToKnowledgeText(raw);
 
   const productMatches = Array.from(
@@ -66,15 +66,82 @@ function extractWebsiteKnowledge(raw: string) {
     raw.matchAll(/(?:footer|Hotline|0389726999|038 972 6999|Facebook|TikTok|Google Map|Địa chỉ|Aeon Mall)[\s\S]{0,2000}/gi)
   ).map((match) => htmlToKnowledgeText(match[0]));
 
+  // Trích xuất blogItems cụ thể nếu là index.html
+  let indexBlogItems = "";
+  if (filePath.endsWith("index.html")) {
+    try {
+      const blogSection = raw.match(/const\s+blogItems\s*=\s*(\[[\s\S]*?\])\s*;/);
+      if (blogSection) {
+        const itemsText = blogSection[1];
+        const itemBlocks = itemsText.split(/\}\s*,\s*\{/);
+        const parsedBlogs: string[] = [];
+        itemBlocks.forEach((block, index) => {
+          const titleMatch = block.match(/title\s*:\s*["']([\s\S]*?)["']/);
+          const descMatch = block.match(/desc\s*:\s*["']([\s\S]*?)["']/);
+          const contentMatch = block.match(/content\s*:\s*`([\s\S]*?)`/);
+          
+          const title = titleMatch ? titleMatch[1].trim() : "";
+          const desc = descMatch ? descMatch[1].trim() : "";
+          let content = contentMatch ? contentMatch[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "";
+          if (content.length > 500) content = content.slice(0, 500) + "...";
+          
+          if (title) {
+            parsedBlogs.push(`BÀI VIẾT TĨNH ${index + 1}: ${title}\n- Tóm tắt: ${desc}\n- Nội dung chi tiết: ${content}`);
+          }
+        });
+        if (parsedBlogs.length > 0) {
+          indexBlogItems = parsedBlogs.join("\n\n");
+        }
+      }
+    } catch (e) {
+      console.error("Lỗi parse blogItems từ index.html:", e);
+    }
+  }
+
+  // Trích xuất chatbotIntents cụ thể nếu là index.html
+  let indexChatbotIntents = "";
+  if (filePath.endsWith("index.html")) {
+    try {
+      const intentsSection = raw.match(/const\s+chatbotIntents\s*=\s*(\[[\s\S]*?\])\s*;/);
+      if (intentsSection) {
+        const intentsText = intentsSection[1];
+        const intentBlocks = intentsText.split(/\}\s*,\s*\{/);
+        const parsedIntents: string[] = [];
+        intentBlocks.forEach((block) => {
+          const nameMatch = block.match(/["']name["']\s*:\s*["']([^"']+)["']/);
+          const replyMatch = block.match(/["']reply["']\s*:\s*["'`]([\s\S]*?)["'`]/);
+          
+          const name = nameMatch ? nameMatch[1].trim() : "";
+          const reply = replyMatch ? replyMatch[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "";
+          
+          if (name && reply) {
+            parsedIntents.push(`TÀI LIỆU HƯỚNG DẪN VỀ [${name.toUpperCase()}]:\n${reply}`);
+          }
+        });
+        if (parsedIntents.length > 0) {
+          indexChatbotIntents = parsedIntents.join("\n\n");
+        }
+      }
+    } catch (e) {
+      console.error("Lỗi parse chatbotIntents từ index.html:", e);
+    }
+  }
+
   return [
     "=== TEXT HIỂN THỊ TRONG WEBSITE ===",
-    textOnly.slice(0, 70000),
+    textOnly.slice(0, 50000),
 
     "=== SẢN PHẨM BÓC TÁCH TỪ INDEX ===",
     productMatches.length ? productMatches.join("\n\n") : "Không bóc tách được sản phẩm từ index.",
 
     "=== BÀI VIẾT BÓC TÁCH TỪ INDEX ===",
     articleMatches.length ? articleMatches.join("\n\n") : "Không bóc tách được bài viết từ index.",
+
+    "=== CÁC BÀI VIẾT BLOG CHI TIẾT CỦA INDEX.HTML ===",
+    indexBlogItems || "Không tìm thấy bài viết blogItems trong index.html.",
+
+    "=== TÀI LIỆU HƯỚNG DẪN PHẢN HỒI (CHATBOT INTENTS) TỪ INDEX.HTML ===",
+    indexChatbotIntents || "Không tìm thấy chatbotIntents trong index.html.",
 
     "=== GIỚI THIỆU / VỀ CHÚNG TÔI ===",
     aboutMatches.length ? aboutMatches.join("\n\n") : "Không tìm thấy phần giới thiệu.",
@@ -106,7 +173,7 @@ function readWebsiteKnowledge() {
       if (!fs.existsSync(filePath)) continue;
 
       const raw = fs.readFileSync(filePath, "utf8");
-      const extracted = extractWebsiteKnowledge(raw);
+      const extracted = extractWebsiteKnowledge(raw, filePath);
 
       if (extracted.length > 40) {
         chunks.push(`FILE: ${path.relative(process.cwd(), filePath)}\n${extracted}`);
@@ -430,65 +497,103 @@ async function callGemini(systemPrompt: string, userPrompt: string, geminiKey: s
   );
 }
 
-async function searchInternetIfConfigured(query: string) {
-  const serperKey = process.env.SERPER_API_KEY;
-
-  if (!serperKey) {
-    return {
-      available: false,
-      text: "Chưa cấu hình SERPER_API_KEY nên backend chưa thể tìm kiếm internet tự động."
-    };
-  }
-
+async function searchDuckDuckGo(query: string) {
   try {
-    const response = await fetch("https://google.serper.dev/search", {
-      method: "POST",
+    const searchUrl = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
+    const response = await fetch(searchUrl, {
       headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": serperKey
-      },
-      body: JSON.stringify({
-        q: query,
-        gl: "vn",
-        hl: "vi",
-        num: 5
-      })
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
+        "Accept-Language": "vi,en-US;q=0.9,en;q=0.8"
+      }
     });
 
     if (!response.ok) {
-      return {
-        available: false,
-        text: `Serper API lỗi HTTP ${response.status}.`
-      };
+      return `Không thể kết nối DuckDuckGo (HTTP ${response.status}).`;
     }
 
-    const data = await response.json();
-    const organic = Array.isArray(data?.organic) ? data.organic : [];
-
-    if (!organic.length) {
-      return {
-        available: true,
-        text: "Không tìm thấy kết quả internet phù hợp."
-      };
+    const html = await response.text();
+    const results: { title: string; snippet: string; link: string }[] = [];
+    const parts = html.split('<div class="result__body">');
+    
+    for (let i = 1; i < parts.length && results.length < 5; i++) {
+      const block = parts[i].split('</div>')[0];
+      const titleMatch = block.match(/<a[^>]+class="result__a"[^>]*>([\s\S]*?)<\/a>/);
+      const snippetMatch = block.match(/<a[^>]+class="result__snippet"[^>]*>([\s\S]*?)<\/a>/);
+      const linkMatch = block.match(/<a[^>]+class="result__url"[^>]*>([\s\S]*?)<\/a>/);
+      
+      if (titleMatch) {
+        const title = titleMatch[1].replace(/<[^>]+>/g, "").trim();
+        const snippet = snippetMatch ? snippetMatch[1].replace(/<[^>]+>/g, "").trim() : "";
+        const link = linkMatch ? linkMatch[1].replace(/<[^>]+>/g, "").trim() : "";
+        results.push({
+          title,
+          snippet,
+          link: link.startsWith("http") ? link : `https://${link}`
+        });
+      }
     }
 
-    const text = organic
-      .slice(0, 5)
-      .map((item: AnyRecord, index: number) => {
-        return `${index + 1}. ${item.title || "Không có tiêu đề"}\n${item.snippet || ""}\nNguồn: ${item.link || ""}`;
-      })
+    if (results.length === 0) {
+      return "Không tìm thấy kết quả internet nào phù hợp.";
+    }
+
+    return results
+      .map((r, index) => `${index + 1}. ${r.title}\n${r.snippet}\nNguồn: ${r.link}`)
       .join("\n\n");
-
-    return {
-      available: true,
-      text
-    };
   } catch (error: any) {
-    return {
-      available: false,
-      text: error?.message || String(error)
-    };
+    console.error("DuckDuckGo search error:", error);
+    return `Lỗi tìm kiếm DuckDuckGo: ${error?.message || String(error)}`;
   }
+}
+
+async function searchInternet(query: string) {
+  const serperKey = process.env.SERPER_API_KEY;
+
+  if (serperKey) {
+    try {
+      const response = await fetch("https://google.serper.dev/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": serperKey
+        },
+        body: JSON.stringify({
+          q: query,
+          gl: "vn",
+          hl: "vi",
+          num: 5
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const organic = Array.isArray(data?.organic) ? data.organic : [];
+        if (organic.length > 0) {
+          const text = organic
+            .slice(0, 5)
+            .map((item: AnyRecord, index: number) => {
+              return `${index + 1}. ${item.title || "Không có tiêu đề"}\n${item.snippet || ""}\nNguồn: ${item.link || ""}`;
+            })
+            .join("\n\n");
+
+          return {
+            available: true,
+            text
+          };
+        }
+      }
+    } catch (error) {
+      console.warn("Serper API error, falling back to DuckDuckGo:", error);
+    }
+  }
+
+  // Fallback to DuckDuckGo
+  const ddgText = await searchDuckDuckGo(query);
+  const ok = !ddgText.startsWith("Lỗi") && !ddgText.startsWith("Không thể");
+  return {
+    available: ok,
+    text: ddgText
+  };
 }
 
 function shouldTryInternetSearch(reply: string) {
@@ -571,19 +676,9 @@ YÊU CẦU TRẢ LỜI:
     } else if (geminiKey) {
       replyText = await callGemini(SYSTEM_PROMPT, promptWithContext, geminiKey);
     }
-function shouldForceInternetSearch(message: string) {
-  const text = String(message || "").toLowerCase();
-  return (
-    text.includes("ai là chủ") ||
-    text.includes("chủ là ai") ||
-    text.includes("chủ sở hữu") ||
-    text.includes("nhà sáng lập") ||
-    text.includes("founder") ||
-    text.includes("owner")
-  );
-}
-    if (shouldTryInternetSearch(replyText) || shouldForceInternetSearch(message)) {
-      const internetResult = await searchInternetIfConfigured(message);
+
+    if (shouldTryInternetSearch(replyText)) {
+      const internetResult = await searchInternet(message);
 
       if (internetResult.available) {
         const promptWithInternet = `
