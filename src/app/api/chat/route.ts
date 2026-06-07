@@ -483,7 +483,7 @@ const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${mod
       },
       generationConfig: {
         temperature: 0.25,
-        maxOutputTokens: 9800
+        maxOutputTokens: 100000000
       }
     })
   });
