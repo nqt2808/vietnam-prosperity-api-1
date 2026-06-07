@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -6080,9 +6080,28 @@ Từ khóa vật phẩm: ${merchKeywords}
         .replace(/\n/g, "<br>");
     }
 
-    // Code này là trả lời dự phòng nếu backend AI/Gemini tạm lỗi.
+    // Code này là trả lời dự phòng thông minh nếu backend AI/Gemini tạm lỗi.
     function getLocalChatFallback(question) {
       const q = String(question || "").toLowerCase();
+
+      const aboutReply = `<strong>🏛️ Về Vietnam Prosperity Coffee:</strong><br>
+• <strong>Vietnam Prosperity Coffee Company Limited</strong> được thành lập vào năm <strong>2025</strong> tại Huế.<br>
+• Công ty được đồng sở hữu bởi Ông <strong>Nguyễn Minh Đức</strong> và Bà <strong>Nguyễn Thị Tuyết Mai</strong>.<br>
+• VPC là đơn vị vận hành website và kết nối khách hàng với cửa hàng <strong>Trung Nguyên Legend Âu Lạc</strong>.`;
+
+      if (
+        q.includes("thành lập") ||
+        q.includes("năm nào") ||
+        q.includes("ai là chủ") ||
+        q.includes("chủ là ai") ||
+        q.includes("chủ sở hữu") ||
+        q.includes("nhà sáng lập") ||
+        q.includes("sáng lập") ||
+        q.includes("minh đức") ||
+        q.includes("tuyết mai")
+      ) {
+        return aboutReply;
+      }
 
       if (q.includes("địa chỉ") || q.includes("dia chi") || q.includes("ở đâu") || q.includes("o dau") || q.includes("giờ") || q.includes("gio") || q.includes("mở cửa") || q.includes("mo cua")) {
         return `<strong>📍 Thông tin cửa hàng:</strong><br>
