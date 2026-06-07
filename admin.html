@@ -2171,6 +2171,31 @@
       setText("statUniqueShipAddresses", insights.uniqueShipAddresses);
       setText("statTopShipAddress", insights.topShipAddress ? insights.topShipAddress.address.slice(0, 18) + "…" : "-");
 
+      renderBarChart(
+        "returningCustomersChart",
+        insights.returningCustomers.slice(0, 8).map(c => c.phone.slice(-4)),
+        insights.returningCustomers.slice(0, 8).map(c => c.orders)
+      );
+
+      renderBarChart(
+        "shipAddressChart",
+        insights.addresses.slice(0, 8).map(a => a.address.slice(0, 12) + "…"),
+        insights.addresses.slice(0, 8).map(a => a.orders)
+      );
+
+      renderBarChart(
+        "leastSoldProductsChart",
+        insights.leastSoldProducts.slice(0, 8).map(p => p.name.slice(0, 12) + "…"),
+        insights.leastSoldProducts.slice(0, 8).map(p => p.qty)
+      );
+
+      renderBarChart(
+        "repeatCustomerRevenueChart",
+        insights.returningCustomers.slice(0, 8).map(c => c.phone.slice(-4)),
+        insights.returningCustomers.slice(0, 8).map(c => c.revenue),
+        { money: true }
+      );
+
       const revenueByDay = {};
       const ordersByDay = {};
       const statusMap = {};
@@ -2432,3 +2457,4 @@ Gợi ý:
 </body>
 
 </html>
+
