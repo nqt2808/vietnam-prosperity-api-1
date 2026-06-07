@@ -839,17 +839,40 @@ ${internetResult.text}
 
     const debug = new URL(req.url).searchParams.get("debug") === "1";
 
+    let fallbackReply =
+      "Dạ, hệ thống AI đang hơi gián đoạn nên VPC chưa trả lời đầy đủ được ạ. Quý khách có thể hỏi lại hoặc gọi Hotline 0389726999 để được hỗ trợ nhanh nhé ạ.";
+
+    try {
+      let fallbackMessage = "";
+      try {
+        const bodyClone = await req.clone().json();
+        fallbackMessage = bodyClone.message || bodyClone.question || bodyClone.prompt || "";
+      } catch {}
+
+      if (fallbackMessage && process.env.SERPER_API_KEY) {
+        const internetResult = await searchInternet(fallbackMessage);
+
+        if (internetResult.available) {
+          fallbackReply =
+            `Dạ, hiện AI chính đang gián đoạn nên VPC tra cứu nhanh từ nguồn tham khảo bên ngoài cho Quý khách ạ.\n\n${internetResult.text}`;
+        }
+      }
+    } catch (searchError) {
+      console.error("Lỗi Serper fallback sau khi AI lỗi:", searchError);
+    }
+
     return NextResponse.json({
-      reply:
-        "Dạ, kết nối mạng của trợ lý ảo VPC đang hơi gián đoạn một chút. Quý khách có thể thử hỏi lại hoặc gọi Hotline: 0389726999 để VPC phục vụ ngay ạ!",
+      reply: fallbackReply,
+      provider: "serper-or-safe-fallback-after-ai-error",
       debug: debug ? {
         errorName: error instanceof Error ? error.name : "Unknown",
         errorMessage: error instanceof Error ? error.message : String(error),
         errorStack: error instanceof Error ? error.stack : ""
       } : undefined
-    }, { status: 500 });
+    });
   }
 }
+
 
 
 
