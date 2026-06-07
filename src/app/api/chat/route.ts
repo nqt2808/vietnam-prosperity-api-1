@@ -873,11 +873,15 @@ ${internetResult.text}
       debug: debug ? {
         errorName: error instanceof Error ? error.name : "Unknown",
         errorMessage: error instanceof Error ? error.message : String(error),
-        errorStack: error instanceof Error ? error.stack : ""
+        errorStack: error instanceof Error ? error.stack : "",
+        hasSerperKey: Boolean(process.env.SERPER_API_KEY),
+        aiProvider: process.env.AI_PROVIDER || "",
+        geminiModel: process.env.GEMINI_MODEL || ""
       } : undefined
     });
   }
 }
+
 
 
 
