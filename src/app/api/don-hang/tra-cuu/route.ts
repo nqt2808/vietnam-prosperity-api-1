@@ -14,27 +14,13 @@ function maskPhone(value: any) {
   return digits.replace(/(\d{3})\d+(\d{3})$/, "$1***$2");
 }
 
-function normalizeOrder(order: any) {
-  const kh = order?.thong_tin_khach_hang || {};
-  const phone = order?.so_dien_thoai || order?.phone || order?.customer_phone || kh?.so_dien_thoai || "";
-
-  return {
-    ...order,
-    ho_ten: order?.ho_ten || order?.ten_khach_hang || kh?.ho_ten || "",
-    so_dien_thoai: maskPhone(phone),
-    dia_chi: order?.dia_chi_giao_hang || order?.dia_chi || kh?.dia_chi || "",
-    ma_don_hang: order?.ma_don_hang || order?.order_code || order?.order_number || order?.code || ""
-  };
-}
-
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const phoneRaw = String(searchParams.get("phone") || "").trim();
-    const phoneDigits = normalizePhone(phoneRaw);
+    const phone = normalizePhone(searchParams.get("phone"));
 
-    if (!phoneDigits || phoneDigits.length < 8) {
-      return NextResponse.json({ message: "Vui lòng nhập số điện thoại hợp lệ", data: [] }, { status: 400 });
+    if (!phone || phone.length < 8) {
+      return NextResponse.json({ message: "Số điện thoại không hợp lệ", data: [] }, { status: 400 });
     }
 
     const supabase = createAdminClient();
@@ -46,7 +32,6 @@ export async function GET(req: Request) {
         thong_tin_khach_hang (
           ho_ten,
           so_dien_thoai,
-          email,
           dia_chi
         )
       `)
@@ -55,20 +40,26 @@ export async function GET(req: Request) {
 
     if (error) throw error;
 
-    const matched = (data || [])
-      .filter((order: any) => {
-        const kh = order?.thong_tin_khach_hang || {};
-        const candidates = [
-          order?.so_dien_thoai,
-          order?.phone,
-          order?.customer_phone,
-          kh?.so_dien_thoai
-        ];
+    const matched = (data || []).filter((order: any) => {
+      const kh = order.thong_tin_khach_hang || {};
+      return [
+        order.so_dien_thoai,
+        order.phone,
+        order.customer_phone,
+        kh.so_dien_thoai
+      ].some(v => normalizePhone(v) === phone);
+    }).slice(0, 20).map((order: any) => {
+      const kh = order.thong_tin_khach_hang || {};
+      const rawPhone = order.so_dien_thoai || order.phone || kh.so_dien_thoai || "";
 
-        return candidates.some((value) => normalizePhone(value) === phoneDigits);
-      })
-      .slice(0, 20)
-      .map(normalizeOrder);
+      return {
+        ...order,
+        ho_ten: order.ho_ten || kh.ho_ten || "",
+        so_dien_thoai: maskPhone(rawPhone),
+        dia_chi: order.dia_chi_giao_hang || order.dia_chi || kh.dia_chi || "",
+        ma_don_hang: order.ma_don_hang || order.order_code || order.code || ""
+      };
+    });
 
     if (!matched.length) {
       return NextResponse.json({ message: "Không tìm thấy đơn hàng với số điện thoại này", data: [] }, { status: 404 });
@@ -76,14 +67,10 @@ export async function GET(req: Request) {
 
     return NextResponse.json({ message: "Tìm thấy đơn hàng", data: matched });
   } catch (error: any) {
-    console.error("Lỗi tra cứu đơn hàng bằng số điện thoại:", error);
-    return NextResponse.json(
-      {
-        message: "Lỗi tra cứu đơn hàng bằng số điện thoại",
-        error: error?.message || String(error),
-        data: []
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      message: "Lỗi tra cứu đơn hàng bằng số điện thoại",
+      error: error?.message || String(error),
+      data: []
+    }, { status: 500 });
   }
 }
