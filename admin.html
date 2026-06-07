@@ -2171,6 +2171,14 @@
       setText("statUniqueShipAddresses", insights.uniqueShipAddresses);
       setText("statTopShipAddress", insights.topShipAddress ? insights.topShipAddress.address.slice(0, 18) + "…" : "-");
 
+      const repeatAddressCount = insights.addresses.filter(a => a.orders > 1).length;
+
+      renderBarChart(
+        "returnLevelChart",
+        ["Khách unique", "Khách quay lại", "Địa chỉ ship", "Địa chỉ lặp lại"],
+        [insights.uniqueCustomers, insights.returningCustomerCount, insights.uniqueShipAddresses, repeatAddressCount]
+      );
+
       renderBarChart(
         "returningCustomersChart",
         insights.returningCustomers.slice(0, 8).map(c => c.phone.slice(-4)),
@@ -2344,6 +2352,43 @@ Gợi ý:
       document.getElementById("aiPrompt").value = prompts[type] || "Phân tích dữ liệu kinh doanh.";
     }
 
+    function buildFullAdminAIContext() {
+      const insights = buildBusinessInsights();
+
+      return {
+        reportPage: {
+          totalRevenue: insights.totalRevenue,
+          totalOrders: insights.totalOrders,
+          paidOrders: insights.paidOrders,
+          avgOrder: insights.avgOrder,
+          uniqueCustomers: insights.uniqueCustomers,
+          returningCustomerCount: insights.returningCustomerCount,
+          returnRate: insights.returnRate,
+          uniqueShipAddresses: insights.uniqueShipAddresses,
+          topShipAddress: insights.topShipAddress,
+          statusMap: insights.statusMap,
+          paymentMap: insights.paymentMap,
+          deliveryMap: insights.deliveryMap,
+          dailyRevenue: insights.dailyRevenue,
+          forecast: insights.forecast
+        },
+        ordersPage: window.adminOrders || [],
+        drinksPage: window.adminDrinks || [],
+        merchandisePage: window.adminMerch || [],
+        customersPage: window.adminCustomers || [],
+        analytics: insights,
+        rules: [
+          "Bắt buộc phân tích dựa trên toàn bộ dữ liệu adminContext.",
+          "Khi hỏi về đơn hàng, đọc ordersPage.",
+          "Khi hỏi về menu nước, đọc drinksPage.",
+          "Khi hỏi về vật phẩm, đọc merchandisePage.",
+          "Khi hỏi về khách hàng, đọc customersPage.",
+          "Khi hỏi báo cáo, đọc reportPage và analytics.",
+          "Nếu thiếu dữ liệu, nói rõ thiếu dữ liệu nào, không bịa."
+        ]
+      };
+    }
+
     async function runAdminAI() {
       const prompt = document.getElementById("aiPrompt").value.trim();
       const resultBox = document.getElementById("aiResult");
@@ -2353,21 +2398,35 @@ Gợi ý:
         return;
       }
 
-      resultBox.value = "Đang phân tích...";
+      resultBox.value = "Đang reload toàn bộ dữ liệu Báo cáo, Đơn hàng, Menu nước, Vật phẩm, Khách hàng...";
 
       try {
-        const response = await fetch(`${API_URL}/api/chat-ai`, {
+        await Promise.allSettled([
+          loadOrders(),
+          loadDrinks(),
+          loadMerch(),
+          loadCustomers(),
+          loadSepayTransactions()
+        ]);
+
+        buildAdminAnalytics(window.adminOrders || []);
+      } catch (reloadError) {
+        console.warn("Reload trước khi chạy AI bị lỗi, vẫn phân tích dữ liệu hiện có:", reloadError);
+      }
+
+      resultBox.value = "Đang gửi toàn bộ dữ liệu cho AI phân tích...";
+
+      const fullContext = buildFullAdminAIContext();
+
+      try {
+        const response = await fetch(`${API_URL}/api/chat-ai?debug=1`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json; charset=utf-8" },
           body: JSON.stringify({
+            message: prompt,
             question: prompt,
-            adminContext: {
-              orders: window.adminOrders,
-              drinks: window.adminDrinks,
-              merchandise: window.adminMerch,
-              customers: window.adminCustomers,
-              dailyRevenue: getDailyRevenueArray(), analytics: buildBusinessInsights()
-            }
+            adminMode: true,
+            adminContext: fullContext
           })
         });
 
@@ -2457,4 +2516,5 @@ Gợi ý:
 </body>
 
 </html>
+
 
