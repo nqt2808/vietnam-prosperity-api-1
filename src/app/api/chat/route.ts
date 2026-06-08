@@ -854,7 +854,16 @@ ${internetResult.text}
 
     let fallbackReply =
       "Dạ, hệ thống AI đang hơi gián đoạn nên VPC chưa trả lời đầy đủ được ạ. Quý khách có thể hỏi lại hoặc gọi Hotline 0389726999 để được hỗ trợ nhanh nhé ạ.";
+const fallbackQuestion = String(fallbackMessageForSearch || "").toLowerCase();
 
+if (
+  fallbackQuestion.includes("arabica") ||
+  fallbackQuestion.includes("hat arabica") ||
+  fallbackQuestion.includes("hạt arabica")
+) {
+  fallbackReply =
+    "Dạ, hạt Arabica là một giống cà phê phổ biến, thường có hương thơm thanh, vị chua nhẹ, hậu vị dịu và ít đắng hơn Robusta. Arabica thường được dùng trong các dòng cà phê cần hương vị tinh tế, cân bằng và dễ uống hơn ạ.";
+}
     let serperTried = false;
     let serperAvailable = false;
 
@@ -897,6 +906,7 @@ ${internetResult.text}
     });
   }
 }
+
 
 
 
