@@ -3204,6 +3204,88 @@ body {
     }
   }
 </style>
+<style id="vpc-testimonial-final-fix">
+  .testimonial-card {
+    display: grid !important;
+    grid-template-rows: 48px 185px 1px 74px !important;
+    gap: 22px !important;
+    min-height: 430px !important;
+  }
+
+  .testimonial-stars {
+    margin: 0 !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+
+  .testimonial-text {
+    margin: 0 !important;
+    min-height: 185px !important;
+    max-height: 185px !important;
+    overflow-y: auto !important;
+  }
+
+  .testimonial-line {
+    margin: 0 !important;
+    height: 1px !important;
+  }
+
+  .testimonial-user {
+    align-self: end !important;
+    min-height: 74px !important;
+  }
+
+  @media (max-width: 760px) {
+    .testimonial-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+    }
+
+    .testimonial-card {
+      padding: 18px !important;
+      min-height: 330px !important;
+      grid-template-rows: 34px 145px 1px 62px !important;
+      gap: 14px !important;
+      border-radius: 18px !important;
+    }
+
+    .testimonial-stars {
+      font-size: 20px !important;
+      letter-spacing: 1px !important;
+      height: 34px !important;
+    }
+
+    .testimonial-text {
+      font-size: 13.5px !important;
+      line-height: 1.55 !important;
+      min-height: 145px !important;
+      max-height: 145px !important;
+      overflow-y: auto !important;
+    }
+
+    .testimonial-avatar {
+      width: 44px !important;
+      height: 44px !important;
+    }
+
+    .testimonial-name {
+      font-size: 15px !important;
+      line-height: 1.15 !important;
+    }
+
+    .testimonial-role {
+      font-size: 13px !important;
+      line-height: 1.2 !important;
+    }
+
+    .testimonial-user {
+      min-height: 62px !important;
+      gap: 10px !important;
+    }
+  }
+</style>
 </head>
 
 <body>
@@ -7183,6 +7265,7 @@ initWebsite();
 </body>
 
 </html>
+
 
 
 
