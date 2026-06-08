@@ -568,11 +568,11 @@ if (serperKey) {
         "X-API-KEY": serperKey
       },
       body: JSON.stringify({
-        q: fallbackMessage,
-        gl: "vn",
-        hl: "vi",
-        num: 5
-      })
+  q: query,
+  gl: "vn",
+  hl: "vi",
+  num: 5
+})
       });
 console.log("SERPER STATUS:", response.status);
      if (!response.ok) {
@@ -908,6 +908,7 @@ if (fallbackMessage && serperKey) {
     });
   }
 }
+
 
 
 
