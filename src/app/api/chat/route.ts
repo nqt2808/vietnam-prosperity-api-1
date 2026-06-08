@@ -573,9 +573,13 @@ async function searchInternet(query: string) {
           num: 5
         })
       });
-
-      if (response.ok) {
-        const data = await response.json();
+console.log("SERPER STATUS:", response.status);
+     if (!response.ok) {
+  const errText = await response.text();
+  console.error("SERPER ERROR:", response.status, errText);
+} else {
+  const data = await response.json();
+  console.log("SERPER DATA:", JSON.stringify(data).slice(0, 1000));
         const organic = Array.isArray(data?.organic) ? data.organic : [];
         if (organic.length > 0) {
           const text = organic
