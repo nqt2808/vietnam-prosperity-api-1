@@ -246,7 +246,6 @@ async function loadSupabaseKnowledge() {
 
   const [
     drinks,
-    sanPhamDoUong,
     merchandise,
     vatPham,
     articles,
@@ -255,7 +254,6 @@ async function loadSupabaseKnowledge() {
     sepayTransactions
   ] = await Promise.all([
     safeSelect(supabase, "do_uong", "*", 120),
-    safeSelect(supabase, "san_pham_do_uong", "*", 300),
     safeSelect(supabase, "merchandise", "*", 120),
     safeSelect(supabase, "vat_pham", "*", 120),
     safeSelect(supabase, "bai_viet", "*", 80),
@@ -266,7 +264,6 @@ async function loadSupabaseKnowledge() {
 
   return {
     drinks,
-    sanPhamDoUong,
     merchandise,
     vatPham,
     articles,
@@ -461,13 +458,10 @@ async function callOpenAI(systemPrompt: string, userPrompt: string, openaiKey: s
 }
 
 async function callGemini(systemPrompt: string, userPrompt: string, geminiKey: string) {
-  const model = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+  const model = process.env.GEMINI_MODEL || "gemini-1.5-flash";
   console.log("AI_PROVIDER =", process.env.AI_PROVIDER);
 console.log("GEMINI_MODEL =", process.env.GEMINI_MODEL);
 const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
-
-  const isAdminPrompt = userPrompt.includes("adminContext") || userPrompt.includes("ordersPage") || userPrompt.includes("reportPage");
-  const maxOutputTokens = isAdminPrompt ? 8192 : 1200;
 
   const response = await fetch(geminiUrl, {
     method: "POST",
@@ -486,7 +480,7 @@ const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${mod
       },
       generationConfig: {
         temperature: 0.25,
-        maxOutputTokens: 100000
+        maxOutputTokens: 1800
       }
     })
   });
@@ -671,18 +665,15 @@ function shouldTryInternetSearch(reply: string) {
 }
 
 export async function POST(req: Request) {
-  let fallbackMessageForSearch = "";
-
   try {
     const body = await req.json();
 const message = body.message || body.question || body.prompt || "";
-fallbackMessageForSearch = String(message || "").trim();
 const context = body.context || {};
     const adminContext = body.adminContext || null;
 
     const geminiKey = process.env.GEMINI_API_KEY;
     const openaiKey = process.env.OPENAI_API_KEY;
-    const provider = (process.env.AI_PROVIDER || "gemini").toLowerCase();
+    const provider = process.env.AI_PROVIDER || (openaiKey ? "openai" : "gemini");
 
     if (!geminiKey && !openaiKey) {
       console.warn("⚠️ Warning: Neither GEMINI_API_KEY nor OPENAI_API_KEY is configured!");
@@ -848,62 +839,17 @@ ${internetResult.text}
 
     const debug = new URL(req.url).searchParams.get("debug") === "1";
 
-    let fallbackReply =
-      "Dạ, hệ thống AI đang hơi gián đoạn nên VPC chưa trả lời đầy đủ được ạ. Quý khách có thể hỏi lại hoặc gọi Hotline 0389726999 để được hỗ trợ nhanh nhé ạ.";
-
-    let serperTried = false;
-    let serperAvailable = false;
-
-    try {
-    const fallbackMessage = String(
-  fallbackMessageForSearch || ""
-).trim();
-
-      if (fallbackMessage && process.env.SERPER_API_KEY) {
-        serperTried = true;
-        const internetResult = await searchInternet(fallbackMessage);
-        serperAvailable = Boolean(internetResult.available);
-
-        if (internetResult.available && internetResult.text) {
-          fallbackReply =
-            `Dạ, hiện AI chính đang gián đoạn nên VPC tra cứu nhanh từ nguồn tham khảo bên ngoài cho Quý khách ạ.\n\n${internetResult.text}`;
-        } else {
-          fallbackReply =
-            "Dạ, hiện hệ thống AI đang quá tải và VPC chưa tìm được kết quả internet phù hợp cho câu hỏi này ạ. Quý khách có thể hỏi lại sau ít phút hoặc gọi Hotline 0389726999 để được hỗ trợ nhanh nhé ạ.";
-        }
-      }
-    } catch (searchError) {
-      console.error("Lỗi Serper fallback sau khi AI lỗi:", searchError);
-    }
-
     return NextResponse.json({
-      reply: fallbackReply,
-      provider: "serper-or-safe-fallback-after-ai-error",
+      reply:
+        "Dạ, kết nối mạng của trợ lý ảo VPC đang hơi gián đoạn một chút. Quý khách có thể thử hỏi lại hoặc gọi Hotline: 0389726999 để VPC phục vụ ngay ạ!",
       debug: debug ? {
         errorName: error instanceof Error ? error.name : "Unknown",
         errorMessage: error instanceof Error ? error.message : String(error),
-        errorStack: error instanceof Error ? error.stack : "",
-        hasSerperKey: Boolean(process.env.SERPER_API_KEY),
-        aiProvider: process.env.AI_PROVIDER || "",
-        geminiModel: process.env.GEMINI_MODEL || "",
-        serperTried,
-        serperAvailable,
-        fallbackMessageForSearch,
+        errorStack: error instanceof Error ? error.stack : ""
       } : undefined
-    });
+    }, { status: 500 });
   }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
