@@ -485,9 +485,9 @@ const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${mod
         parts: [{ text: systemPrompt }]
       },
       generationConfig: {
-        temperature: 0.25,
-        maxOutputTokens: 100000
-      }
+  temperature: 0.25,
+  maxOutputTokens: maxOutputTokens
+}
     })
   });
 
@@ -872,7 +872,9 @@ if (
   fallbackMessageForSearch || ""
 ).trim();
 
-      if (fallbackMessage && process.env.SERPER_API_KEY) {
+      const serperKey = process.env.SERPER_API_KEY;
+
+if (fallbackMessage && serperKey) {
         serperTried = true;
         const internetResult = await searchInternet(fallbackMessage);
         serperAvailable = Boolean(internetResult.available);
