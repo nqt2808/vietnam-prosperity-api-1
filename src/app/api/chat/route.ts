@@ -859,15 +859,12 @@ ${internetResult.text}
         const internetResult = await searchInternet(fallbackMessage);
 
         if (internetResult.available) {
-          fallbackReply =
-            `Dạ, hiện AI chính đang gián đoạn nên VPC tra cứu nhanh từ nguồn tham khảo bên ngoài cho Quý khách ạ.\n\n${internetResult.text}`;
-        } else {
-          fallbackReply =
-            "Dạ, hiện hệ thống AI đang quá tải và VPC cũng chưa tra cứu được thêm nguồn ngoài cho câu hỏi này ạ. Quý khách có thể hỏi lại sau ít phút hoặc gọi Hotline 0389726999 để được hỗ trợ nhanh nhé ạ.";
-        } else {
-          fallbackReply =
-            "Dạ, hiện hệ thống AI đang quá tải và VPC cũng chưa tra cứu được thêm nguồn ngoài cho câu hỏi này ạ. Quý khách có thể hỏi lại sau ít phút hoặc gọi Hotline 0389726999 để được hỗ trợ nhanh nhé ạ.";
-        }
+  fallbackReply =
+    `Dạ, hiện AI chính đang gián đoạn nên VPC tra cứu nhanh từ nguồn tham khảo bên ngoài cho Quý khách ạ.\n\n${internetResult.text}`;
+} else {
+  fallbackReply =
+    "Dạ, hiện hệ thống AI đang quá tải và VPC cũng chưa tra cứu được thêm nguồn ngoài cho câu hỏi này ạ. Quý khách có thể hỏi lại sau ít phút hoặc gọi Hotline 0389726999 để được hỗ trợ nhanh nhé ạ.";
+}
       }
     } catch (searchError) {
       console.error("Lỗi Serper fallback sau khi AI lỗi:", searchError);
