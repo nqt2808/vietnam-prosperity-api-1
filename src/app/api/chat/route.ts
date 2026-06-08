@@ -848,23 +848,29 @@ ${internetResult.text}
     let fallbackReply =
       "Dạ, hệ thống AI đang hơi gián đoạn nên VPC chưa trả lời đầy đủ được ạ. Quý khách có thể hỏi lại hoặc gọi Hotline 0389726999 để được hỗ trợ nhanh nhé ạ.";
 
+    let serperTried = false;
+    let serperAvailable = false;
+
     try {
       let fallbackMessage = "";
       try {
         const bodyClone = await req.clone().json();
         fallbackMessage = bodyClone.message || bodyClone.question || bodyClone.prompt || "";
       } catch {}
+      fallbackMessage = String(fallbackMessage || "").trim();
 
       if (fallbackMessage && process.env.SERPER_API_KEY) {
+        serperTried = true;
         const internetResult = await searchInternet(fallbackMessage);
+        serperAvailable = Boolean(internetResult.available);
 
-        if (internetResult.available) {
-  fallbackReply =
-    `Dạ, hiện AI chính đang gián đoạn nên VPC tra cứu nhanh từ nguồn tham khảo bên ngoài cho Quý khách ạ.\n\n${internetResult.text}`;
-} else {
-  fallbackReply =
-    "Dạ, hiện hệ thống AI đang quá tải và VPC cũng chưa tra cứu được thêm nguồn ngoài cho câu hỏi này ạ. Quý khách có thể hỏi lại sau ít phút hoặc gọi Hotline 0389726999 để được hỗ trợ nhanh nhé ạ.";
-}
+        if (internetResult.available && internetResult.text) {
+          fallbackReply =
+            `Dạ, hiện AI chính đang gián đoạn nên VPC tra cứu nhanh từ nguồn tham khảo bên ngoài cho Quý khách ạ.\n\n${internetResult.text}`;
+        } else {
+          fallbackReply =
+            "Dạ, hiện hệ thống AI đang quá tải và VPC chưa tìm được kết quả internet phù hợp cho câu hỏi này ạ. Quý khách có thể hỏi lại sau ít phút hoặc gọi Hotline 0389726999 để được hỗ trợ nhanh nhé ạ.";
+        }
       }
     } catch (searchError) {
       console.error("Lỗi Serper fallback sau khi AI lỗi:", searchError);
@@ -879,11 +885,15 @@ ${internetResult.text}
         errorStack: error instanceof Error ? error.stack : "",
         hasSerperKey: Boolean(process.env.SERPER_API_KEY),
         aiProvider: process.env.AI_PROVIDER || "",
-        geminiModel: process.env.GEMINI_MODEL || ""
+        geminiModel: process.env.GEMINI_MODEL || "",
+        serperTried,
+        serperAvailable
       } : undefined
     });
   }
 }
+
+
 
 
 
