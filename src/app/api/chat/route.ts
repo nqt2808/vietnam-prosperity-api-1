@@ -671,9 +671,12 @@ function shouldTryInternetSearch(reply: string) {
 }
 
 export async function POST(req: Request) {
+  let fallbackMessageForSearch = "";
+
   try {
     const body = await req.json();
 const message = body.message || body.question || body.prompt || "";
+fallbackMessageForSearch = String(message || "").trim();
 const context = body.context || {};
     const adminContext = body.adminContext || null;
 
@@ -887,11 +890,13 @@ ${internetResult.text}
         aiProvider: process.env.AI_PROVIDER || "",
         geminiModel: process.env.GEMINI_MODEL || "",
         serperTried,
-        serperAvailable
+        serperAvailable,
+        fallbackMessageForSearch,
       } : undefined
     });
   }
 }
+
 
 
 
