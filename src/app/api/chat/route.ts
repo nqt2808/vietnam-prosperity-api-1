@@ -674,7 +674,40 @@ function shouldTryInternetSearch(reply: string) {
     text.includes("không đủ dữ liệu")
   );
 }
+function answerFromInternalKnowledge(message: string) {
+  const q = normalizeSearchText(message);
 
+  if (
+    q.includes("chu dau tu") ||
+    q.includes("chu so huu") ||
+    q.includes("nha sang lap") ||
+    q.includes("ai la chu dau tu")
+  ) {
+    return "Dạ, Vietnam Prosperity Coffee được đồng sáng lập bởi Ông Nguyễn Minh Đức và Bà Nguyễn Thị Tuyết Mai ạ.";
+  }
+
+  if (q.includes("dia chi") || q.includes("quan o dau")) {
+    return "Dạ, VPC / Trung Nguyên Legend Âu Lạc ở Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế, đối diện Aeon Mall Huế ạ.";
+  }
+
+  if (q.includes("hotline") || q.includes("so dien thoai")) {
+    return "Dạ, Hotline của VPC là 0389726999 hoặc 038 972 6999 ạ.";
+  }
+
+  if (q.includes("gio mo cua") || q.includes("may gio mo cua")) {
+    return "Dạ, quán mở cửa từ 06:30 đến 21:30 hằng ngày ạ.";
+  }
+
+  if (q.includes("arabica")) {
+    return "Dạ, hạt Arabica là giống cà phê có hương thơm thanh, vị chua nhẹ, hậu vị dịu và thường ít đắng hơn Robusta. Đây là thông tin tham khảo chung về cà phê ạ.";
+  }
+
+  if (q.includes("robusta")) {
+    return "Dạ, hạt Robusta là giống cà phê có vị đậm, đắng rõ, hàm lượng caffeine thường cao hơn Arabica. Robusta phù hợp với gu cà phê mạnh và tỉnh táo nhanh ạ.";
+  }
+
+  return "";
+}
 export async function POST(req: Request) {
   let fallbackMessageForSearch = "";
 
@@ -702,7 +735,14 @@ const context = body.context || {};
         reply: "Dạ, Quý khách cần VPC hỗ trợ thông tin gì thêm không ạ?"
       });
     }
+const internalReply = answerFromInternalKnowledge(message);
 
+if (internalReply) {
+  return NextResponse.json({
+    reply: internalReply,
+    provider: "internal-knowledge"
+  });
+}
     const websiteKnowledge = readWebsiteKnowledge();
     const supabaseKnowledge = await loadSupabaseKnowledge();
     const orderDetails = await findOrderDetails(message);
