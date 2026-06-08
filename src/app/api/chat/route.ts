@@ -686,7 +686,7 @@ const context = body.context || {};
 
     const geminiKey = process.env.GEMINI_API_KEY;
     const openaiKey = process.env.OPENAI_API_KEY;
-    const provider = (process.env.AI_PROVIDER || "gemini").toLowerCase();
+    const provider = (process.env.AI_PROVIDER || (openaiKey ? "openai" : "gemini")).toLowerCase();
 
     if (!geminiKey && !openaiKey) {
       console.warn("⚠️ Warning: Neither GEMINI_API_KEY nor OPENAI_API_KEY is configured!");
@@ -881,8 +881,7 @@ if (
           fallbackReply =
             `Dạ, hiện AI chính đang gián đoạn nên VPC tra cứu nhanh từ nguồn tham khảo bên ngoài cho Quý khách ạ.\n\n${internetResult.text}`;
         } else {
-          fallbackReply =
-            "Dạ, hiện hệ thống AI đang quá tải và VPC chưa tìm được kết quả internet phù hợp cho câu hỏi này ạ. Quý khách có thể hỏi lại sau ít phút hoặc gọi Hotline 0389726999 để được hỗ trợ nhanh nhé ạ.";
+          console.warn("Serper fallback không có kết quả phù hợp, giữ câu trả lời local/default.");
         }
       }
     } catch (searchError) {
@@ -906,6 +905,7 @@ if (
     });
   }
 }
+
 
 
 

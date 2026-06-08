@@ -3204,6 +3204,84 @@ body {
     }
   }
 </style>
+<style id="vpc-testimonial-compact-final">
+  .vpc-testimonials {
+    padding: 44px 0 !important;
+  }
+
+  .vpc-testimonials .section-head {
+    margin-bottom: 22px !important;
+  }
+
+  .vpc-testimonials .section-head h2 {
+    font-size: clamp(28px, 4vw, 46px) !important;
+  }
+
+  .testimonial-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+    margin-top: 24px !important;
+  }
+
+  .testimonial-card {
+    padding: 18px !important;
+    border-radius: 18px !important;
+    min-height: 300px !important;
+    grid-template-rows: 32px 128px 1px 58px !important;
+    gap: 12px !important;
+  }
+
+  .testimonial-stars {
+    font-size: 20px !important;
+    height: 32px !important;
+    letter-spacing: 1px !important;
+  }
+
+  .testimonial-text {
+    font-size: 13.5px !important;
+    line-height: 1.45 !important;
+    min-height: 128px !important;
+    max-height: 128px !important;
+  }
+
+  .testimonial-avatar {
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  .testimonial-name {
+    font-size: 14px !important;
+  }
+
+  .testimonial-role {
+    font-size: 12px !important;
+  }
+
+  @media (max-width: 760px) {
+    .testimonial-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 10px !important;
+    }
+
+    .testimonial-card {
+      padding: 12px !important;
+      min-height: 280px !important;
+      grid-template-rows: 28px 132px 1px 54px !important;
+      gap: 10px !important;
+    }
+
+    .testimonial-text {
+      font-size: 12px !important;
+      min-height: 132px !important;
+      max-height: 132px !important;
+    }
+
+    .testimonial-stars {
+      font-size: 17px !important;
+      height: 28px !important;
+    }
+  }
+</style>
 </head>
 
 <body>
@@ -6960,7 +7038,7 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
       try {
         // Code này gọi AI backend.
         // Backend /api/chat-ai sẽ đọc index.html trước, nếu không có thông tin thì tự dò theo từ khóa/database.
-        const response = await fetch(`${API_URL}/api/chat-ai`, {
+        const response = await fetch(`${API_URL}/api/chat`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -7183,6 +7261,7 @@ initWebsite();
 </body>
 
 </html>
+
 
 
 
