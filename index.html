@@ -2867,93 +2867,6 @@ body {
   margin-bottom: 18px;
 }
 
-@media (max-width: 520px) {
-  .header-search-btn {
-    padding: 4px 8px !important;
-  }
-
-  .product-search-modal {
-    padding-top: 90px;
-  }
-
-  .product-search-form {
-    flex-direction: column;
-  }
-}
-@media (max-width: 520px) {
-  .site-footer {
-    padding: 1px 0 80px !important;
-  }
-
-  .footer-grid {
-    gap: 12px !important;
-  }
-
-  .footer-col {
-    padding-top: 0 !important;
-  }
-
-  .footer-title {
-    font-size: 28px !important;
-    margin-bottom: 12px !important;
-  }
-
-  .footer-links {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 14px 18px !important;
-    justify-items: center !important;
-    align-items: center !important;
-  }
-
-  .footer-links a,
-  .footer-links button {
-    font-size: 18px !important;
-    text-align: center !important;
-    justify-content: center !important;
-    transform: none !important;
-    white-space: nowrap !important;
-  }
-
-  .quick-info {
-    padding: 18px 12px !important;
-  }
-
-  .quick-info .grid,
-  .quick-info .grid-2 {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 14px !important;
-  }
-
-  .quick-info h3 {
-    font-size: 20px !important;
-    margin-bottom: 4px !important;
-  }
-
-  .quick-info p {
-    font-size: 18px !important;
-  }
-
-  .footer-col:nth-child(2) .footer-links {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-
-  .footer-col:nth-child(3) .footer-links {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-
-  .footer-col:nth-child(3) .footer-links a:last-child {
-    grid-column: 1 / -1 !important;
-    justify-self: center !important;
-  }
-
-  .copyright {
-    margin-top: 16px !important;
-    padding-top: 12px !important;
-    font-size: 13px !important;
-  }
-}
 </style>
 <style id="force-search-icon-visible">
   .main-nav {
@@ -3002,7 +2915,62 @@ body {
       height: 36px !important;
       font-size: 18px !important;
     }
+@media (max-width: 768px) {
+
+  /* Giờ mở cửa + SĐT */
+  .footer-contact-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    flex-wrap:nowrap;
+    text-align:left;
   }
+
+  .footer-contact-item{
+    flex:1;
+    min-width:0;
+  }
+
+  /* Giới thiệu + Liên hệ */
+  .footer-links-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:24px;
+    flex-wrap:nowrap;
+  }
+
+  .footer-links-row a{
+    display:block;
+  }
+
+  /* Social */
+  .footer-social{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .footer-social-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    flex-wrap:nowrap;
+  }
+
+  .footer-social-row a{
+    flex:1;
+    text-align:center;
+  }
+
+  .footer-map{
+    display:flex;
+    justify-content:center;
+    margin-top:10px;
+  }
+ }
 </style>
 <style id="vpc-testimonials-css">
   .vpc-testimonials {
