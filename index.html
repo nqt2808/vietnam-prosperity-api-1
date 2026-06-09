@@ -2915,63 +2915,139 @@ body {
       height: 36px !important;
       font-size: 18px !important;
     }
-@media (max-width: 768px) {
-
-  /* Giờ mở cửa + SĐT */
-  .footer-contact-row{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:20px;
-    flex-wrap:nowrap;
-    text-align:left;
+@media (max-width: 520px) {
+  .site-footer {
+    padding: 22px 0 82px !important;
   }
 
-  .footer-contact-item{
-    flex:1;
-    min-width:0;
+  .footer-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    text-align: center !important;
   }
 
-  /* Giới thiệu + Liên hệ */
-  .footer-links-row{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:24px;
-    flex-wrap:nowrap;
+  .footer-col {
+    padding-top: 0 !important;
   }
 
-  .footer-links-row a{
-    display:block;
+  .footer-title {
+    font-size: 22px !important;
+    margin-bottom: 12px !important;
+    text-align: center !important;
   }
 
-  /* Social */
-  .footer-social{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
+  .footer-desc {
+    max-width: 100% !important;
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+    margin: 0 auto !important;
   }
 
-  .footer-social-row{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:20px;
-    flex-wrap:nowrap;
+  .info-row,
+  .contact-list,
+  .footer-links,
+  .social-links {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px 12px !important;
+    align-items: center !important;
+    justify-items: center !important;
   }
 
-  .footer-social-row a{
-    flex:1;
-    text-align:center;
+  /* Giờ mở cửa + số điện thoại nằm cùng 1 hàng */
+  .quick-info .grid,
+  .quick-info .grid-2 {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
   }
 
-  .footer-map{
-    display:flex;
-    justify-content:center;
-    margin-top:10px;
+  .quick-info {
+    padding: 14px 10px !important;
+    border-radius: 16px !important;
   }
- }
-</style>
+
+  .quick-info h3 {
+    font-size: 15px !important;
+    margin-bottom: 3px !important;
+  }
+
+  .quick-info p,
+  .quick-info a {
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Giới thiệu + Thông tin liên hệ nằm cùng 1 hàng */
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .footer-col:first-child {
+    grid-column: 1 / -1 !important;
+  }
+
+  .footer-col:nth-child(2),
+  .footer-col:nth-child(3) {
+    width: 100% !important;
+  }
+
+  .footer-col:nth-child(2) .footer-links,
+  .footer-col:nth-child(3) .footer-links,
+  .footer-col:nth-child(3) .social-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .footer-links a,
+  .footer-links button,
+  .social-link {
+    font-size: 13px !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+    justify-content: center !important;
+    white-space: normal !important;
+    transform: none !important;
+  }
+
+  .social-link {
+    display: flex !important;
+    gap: 6px !important;
+  }
+
+  .social-icon {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 13px !important;
+  }
+
+  /* Gọi ngay + Facebook cùng 1 hàng */
+  .social-links a[href^="tel"],
+  .social-links a[href*="facebook"] {
+    grid-column: auto !important;
+  }
+
+  /* TikTok chính thức + TikTok cợt nhả cùng 1 hàng */
+  .social-links a[href*="tiktok"] {
+    grid-column: auto !important;
+  }
+
+  /* Google Map nằm giữa */
+  .social-links a[href*="google"],
+  .social-links a[href*="maps"],
+  .social-links a[href*="goo.gl"] {
+    grid-column: 1 / -1 !important;
+    justify-self: center !important;
+    max-width: 180px !important;
+  }
+
+  .copyright {
+    margin-top: 18px !important;
+    padding-top: 12px !important;
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+  }
+}</style>
 <style id="vpc-testimonials-css">
   .vpc-testimonials {
     background: #2a160f;
