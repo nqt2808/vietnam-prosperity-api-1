@@ -17,7 +17,7 @@ function shouldUseFallback(reply: string) {
 
 async function chatWithOpenAI(message: string) {
   const openaiKey = process.env.OPENAI_API_KEY;
-  const model = process.env.OPENAI_MODEL || "gpt-5.5";
+  const model = process.env.OPENAI_MODEL || "gpt-5";
 
   if (!openaiKey) {
     throw new Error("Missing OPENAI_API_KEY");

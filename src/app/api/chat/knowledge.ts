@@ -1,4 +1,4 @@
-﻿export const VPC_KNOWLEDGE = String.raw`
+export const VPC_KNOWLEDGE = String.raw`
 # VPC_KNOWLEDGE - SOURCE OF TRUTH
 Vietnam Prosperity Coffee / Trung Nguyên Legend Âu Lạc
 Cập nhật: 10/06/2026
