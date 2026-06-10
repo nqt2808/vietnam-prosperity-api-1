@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import { VPC_KNOWLEDGE } from "./knowledge";
-import { chatWithGemini } from "./gemini";
-import { searchInternet } from "./serper";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function shouldUseSerper(reply: string) {
+function shouldUseFallback(reply: string) {
   const text = String(reply || "").toLowerCase();
 
   return (
@@ -17,15 +15,68 @@ function shouldUseSerper(reply: string) {
   );
 }
 
+async function chatWithOpenAI(message: string) {
+  const openaiKey = process.env.OPENAI_API_KEY;
+  const model = process.env.OPENAI_MODEL || "gpt-5.5";
+
+  if (!openaiKey) {
+    throw new Error("Missing OPENAI_API_KEY");
+  }
+
+  const systemPrompt = `
+Bạn là trợ lý AI của Vietnam Prosperity Coffee / Trung Nguyên Legend Âu Lạc.
+
+QUY TẮC BẮT BUỘC:
+1. Luôn đọc knowledge.ts trước.
+2. Chỉ trả lời theo dữ liệu trong knowledge.ts.
+3. Không đọc index.html.
+4. Không đọc admin.html.
+5. Không tự bịa thông tin.
+6. Nếu không có thông tin trong knowledge.ts, trả lời đúng:
+"Thông tin này chưa có trong dữ liệu website/quán".
+7. Trả lời tiếng Việt, ngắn gọn, lịch sự.
+`;
+
+  const userPrompt = `
+--- KNOWLEDGE.TS ---
+${VPC_KNOWLEDGE}
+
+--- CÂU HỎI ---
+${message}
+`;
+
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${openaiKey}`
+    },
+    body: JSON.stringify({
+      model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt }
+      ]
+    })
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    console.error("OpenAI API Error:", response.status, errText);
+    throw new Error(`OpenAI API returned status ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.choices?.[0]?.message?.content || "";
+}
+
 export async function POST(req: Request) {
   const debug = new URL(req.url).searchParams.get("debug") === "1";
 
   let message = "";
-  let geminiTried = false;
-  let geminiAvailable = false;
-  let geminiErrorMessage = "";
-  let serperTried = false;
-  let serperAvailable = false;
+  let openaiTried = false;
+  let openaiAvailable = false;
+  let openaiErrorMessage = "";
 
   try {
     const body = await req.json();
@@ -38,72 +89,43 @@ export async function POST(req: Request) {
       });
     }
 
-    let replyText = "";
-
-    try {
-      geminiTried = true;
-      replyText = await chatWithGemini(message, VPC_KNOWLEDGE);
-      geminiAvailable = Boolean(replyText && replyText.trim());
-    } catch (error) {
-      geminiErrorMessage =
-        error instanceof Error ? error.message : String(error);
-
-      console.error("Gemini failed:", error);
-    }
-
-    if (shouldUseSerper(replyText)) {
-      serperTried = true;
-
-      const internetResult = await searchInternet(message);
-      serperAvailable = Boolean(internetResult.available);
-
-      if (internetResult.available && internetResult.text) {
-        replyText =
-          `Dạ, thông tin này chưa có trong dữ liệu website/quán nên VPC tra cứu nhanh từ nguồn tham khảo bên ngoài cho Quý khách ạ.\n\n${internetResult.text}`;
-      } else if (!replyText || !replyText.trim()) {
-        replyText =
-          "Dạ, hiện VPC chưa tìm thấy thông tin phù hợp trong dữ liệu nội bộ và cũng chưa tra cứu được nguồn ngoài cho câu hỏi này ạ. Quý khách có thể hỏi lại rõ hơn hoặc gọi Hotline 0389726999 nhé ạ.";
-      }
-    }
+    openaiTried = true;
+    const replyText = await chatWithOpenAI(message);
+    openaiAvailable = Boolean(replyText && replyText.trim());
 
     return NextResponse.json({
-      reply: replyText.trim(),
-      provider: serperTried
-        ? "gemini-knowledge-then-serper"
-        : "gemini-knowledge",
+      reply:
+        replyText && replyText.trim()
+          ? replyText.trim()
+          : "Thông tin này chưa có trong dữ liệu website/quán.",
+      provider: "openai-knowledge",
       debug: debug
         ? {
-            sourceOrder: ["gemini", "knowledge.ts", "serper"],
-            geminiTried,
-            geminiAvailable,
-            geminiErrorMessage,
-            geminiIsOverloaded: geminiErrorMessage.includes("429"),
-            hasSerperKey: Boolean(process.env.SERPER_API_KEY),
-            serperTried,
-            serperAvailable,
-            aiProvider: "gemini",
-            geminiModel: process.env.GEMINI_MODEL || "gemini-2.0-flash"
+            sourceOrder: ["openai", "knowledge.ts"],
+            openaiTried,
+            openaiAvailable,
+            openaiModel: process.env.OPENAI_MODEL || "gpt-5.5",
+            hasOpenAIKey: Boolean(process.env.OPENAI_API_KEY),
+            shouldUseFallback: shouldUseFallback(replyText)
           }
         : undefined
     });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    openaiErrorMessage =
+      error instanceof Error ? error.message : String(error);
 
     return NextResponse.json({
       reply:
-        "Dạ, hệ thống AI đang hơi gián đoạn nên VPC chưa trả lời đầy đủ được ạ. Quý khách có thể hỏi lại hoặc gọi Hotline 0389726999 để được hỗ trợ nhanh nhé ạ.",
-      provider: "safe-fallback",
+        "Dạ, hệ thống AI đang gián đoạn nên VPC chưa đọc được dữ liệu để trả lời chính xác ạ. Quý khách vui lòng hỏi lại sau ít phút hoặc gọi Hotline 0389726999 nhé ạ.",
+      provider: "openai-error",
       debug: debug
         ? {
-            errorMessage,
-            sourceOrder: ["gemini", "knowledge.ts", "serper"],
-            geminiTried,
-            geminiAvailable,
-            geminiErrorMessage,
-            geminiIsOverloaded: geminiErrorMessage.includes("429"),
-            hasSerperKey: Boolean(process.env.SERPER_API_KEY),
-            serperTried,
-            serperAvailable,
+            sourceOrder: ["openai", "knowledge.ts"],
+            openaiTried,
+            openaiAvailable,
+            openaiErrorMessage,
+            hasOpenAIKey: Boolean(process.env.OPENAI_API_KEY),
+            openaiModel: process.env.OPENAI_MODEL || "gpt-5.5",
             message
           }
         : undefined
