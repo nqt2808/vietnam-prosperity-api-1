@@ -32,7 +32,7 @@ async function run() {
       gia_sua: p.metadata?.gia_sua || 0,
       slug_danh_muc: p.categories.slug,
       ten_danh_muc: p.categories.name,
-      sold_out: p.stock_quantity <= 0
+      sold_out: p.ton_kho <= 0
     }));
 
   const merch = rawProducts
@@ -44,7 +44,7 @@ async function run() {
       gia: p.price,
       ten_danh_muc: p.categories.name,
       slug_danh_muc: p.categories.slug,
-      stock_quantity: p.stock_quantity
+      ton_kho: p.ton_kho
     }));
 
   console.log(`🍹 Có ${drinks.length} món đồ uống.`);

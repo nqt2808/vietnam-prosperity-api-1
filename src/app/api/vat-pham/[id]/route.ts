@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 function isUUID(str: string) {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  return uuidRegex.test(str);
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  // Để bao quát hơn cho uuid v4 thông thường:
+  const uuidRegexNormal = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return uuidRegexNormal.test(str) || uuidRegex.test(str);
 }
 
 export async function PATCH(
@@ -13,7 +15,7 @@ export async function PATCH(
   try {
     const { id } = await params
     const body = await req.json()
-    const { gia, con_ban, hien_thi } = body
+    const { gia, ton_kho, con_ban, hien_thi } = body
 
     if (!id) {
       return NextResponse.json({ success: false, error: 'Thiếu ID hoặc Slug sản phẩm' }, { status: 400 })
@@ -23,44 +25,54 @@ export async function PATCH(
     const identifier = id.trim()
     const field = isUUID(identifier) ? 'id' : 'slug'
 
-    // 1. Lấy sản phẩm hiện tại để xem số lượng tồn kho cũ
-    const { data: product, error: fetchErr } = await supabase
-      .from('products')
-      .select('stock_quantity')
-      .eq(field, identifier)
-      .single()
-
-    if (fetchErr || !product) {
-      return NextResponse.json({ success: false, error: 'Không tìm thấy vật phẩm' }, { status: 404 })
+    // 1. Cập nhật bảng san_pham_merchandise (Storefront chính)
+    const updatePayload: any = {}
+    if (gia !== undefined) updatePayload.gia = Number(gia || 0)
+    if (hien_thi !== undefined) updatePayload.hien_thi = hien_thi === true
+    
+    let targetStock = 10
+    if (ton_kho !== undefined) {
+      targetStock = Number(ton_kho || 0)
+      updatePayload.ton_kho = targetStock
+    } else if (con_ban === false) {
+      targetStock = 0
+      updatePayload.ton_kho = 0
     }
 
-    // 2. Tính toán số lượng tồn kho mới
-    let newStock = product.stock_quantity || 0
-    if (con_ban === false) {
-      newStock = 0
-    } else if (newStock <= 0) {
-      newStock = 99 // Nếu trước đó hết hàng mà giờ đánh dấu còn bán thì mặc định set 99
-    }
-
-    // 3. Cập nhật vật phẩm
-    const { data: updatedProduct, error: updateErr } = await supabase
-      .from('products')
-      .update({
-        price: Number(gia || 0),
-        status: hien_thi ? 'active' : 'inactive',
-        stock_quantity: newStock
-      })
+    const { data: updatedMerch, error: updateMerchErr } = await supabase
+      .from('san_pham_merchandise')
+      .update(updatePayload)
       .eq(field, identifier)
       .select()
-      .single()
 
-    if (updateErr) {
-      throw updateErr
+    if (updateMerchErr) {
+      console.warn("⚠️ Warning updating san_pham_merchandise in PATCH:", updateMerchErr.message)
     }
 
-    return NextResponse.json({ success: true, data: updatedProduct })
+    // 2. Cập nhật bảng products (Next.js/React side)
+    const productPayload: any = {}
+    if (gia !== undefined) productPayload.price = Number(gia || 0)
+    if (hien_thi !== undefined) productPayload.status = hien_thi ? 'active' : 'inactive'
+    if (ton_kho !== undefined || con_ban === false) {
+      productPayload.ton_kho = targetStock
+    }
+
+    const { data: updatedProduct, error: updateErr } = await supabase
+      .from('products')
+      .update(productPayload)
+      .eq(field, identifier)
+      .select()
+
+    if (updateErr) {
+      console.warn("⚠️ Warning updating products table in PATCH:", updateErr.message)
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: updatedMerch?.[0] || updatedProduct?.[0] || null
+    })
   } catch (err: any) {
-    console.error("Error patching /api/vat-pham:", err)
+    console.error("❌ Error patching /api/vat-pham:", err)
     return NextResponse.json({ success: false, error: err.message || 'Lỗi hệ thống' }, { status: 500 })
   }
 }

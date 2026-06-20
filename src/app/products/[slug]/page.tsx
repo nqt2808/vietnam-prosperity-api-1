@@ -161,7 +161,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               slug: product.slug,
               price: Number(product.price),
               imageUrl: primaryImage,
-              stockQuantity: Number(product.stock_quantity || 0)
+              stockQuantity: Number(product.ton_kho || 0)
             }}
           />
         </div>

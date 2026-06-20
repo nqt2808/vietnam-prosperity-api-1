@@ -9,7 +9,7 @@ export interface ProductData {
   compare_at_price?: number | null;
   avg_rating?: number | null;
   review_count?: number | null;
-  stock_quantity?: number | null;
+  ton_kho?: number | null;
   product_images?: { url: string; is_primary: boolean }[] | null;
 }
 
@@ -45,7 +45,7 @@ export function ProductGrid({ products }: ProductGridProps) {
             imageUrl={primaryImage}
             avgRating={Number(prod.avg_rating || 0)}
             reviewCount={Number(prod.review_count || 0)}
-            stockQuantity={Number(prod.stock_quantity || 0)}
+            stockQuantity={Number(prod.ton_kho || 0)}
           />
         );
       })}

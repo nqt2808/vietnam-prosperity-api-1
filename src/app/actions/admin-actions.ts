@@ -197,36 +197,75 @@ export async function upsertMerchandiseAction(data: any) {
     const supabase = createAdminClient()
     const slug = data.slug || createSlug(data.ten_san_pham)
 
-    const merchData = {
+    const merchData: any = {
       ten_san_pham: data.ten_san_pham,
       slug: slug,
       mo_ta: data.mo_ta || '',
-      gia: data.gia ? parseFloat(data.gia) : 0,
+      gia: data.gia ? parseFloat(data.gia) : null,
+      ton_kho: data.ton_kho !== undefined ? parseInt(data.ton_kho) : 10,
       danh_muc_id: data.danh_muc_id,
       hien_thi: data.hien_thi !== undefined ? data.hien_thi : true
     }
 
     if (data.id) {
-      // Cập nhật
+      // Cập nhật bảng san_pham_merchandise
       const { error } = await supabase
         .from('san_pham_merchandise')
         .update(merchData)
         .eq('id', data.id)
 
       if (error) throw error
+
+      // Cập nhật đồng bộ bảng products (Next.js/React side)
+      const { error: errorProd } = await supabase
+        .from('products')
+        .update({
+          name: data.ten_san_pham,
+          slug: slug,
+          description: data.mo_ta || '',
+          price: data.gia ? parseFloat(data.gia) : null,
+          ton_kho: data.ton_kho !== undefined ? parseInt(data.ton_kho) : 10,
+          status: data.hien_thi !== false ? 'active' : 'inactive'
+        })
+        .eq('id', data.id)
+
+      if (errorProd) {
+        console.warn("⚠️ Warning updating products table in Action:", errorProd.message)
+      }
     } else {
-      // Thêm mới
-      const { error } = await supabase
+      // Thêm mới bảng san_pham_merchandise
+      const { data: newMerch, error } = await supabase
         .from('san_pham_merchandise')
         .insert([merchData])
+        .select()
 
       if (error) throw error
+
+      if (newMerch && newMerch.length > 0) {
+        const item = newMerch[0]
+        // Thêm đồng bộ bảng products
+        const { error: errorProd } = await supabase
+          .from('products')
+          .insert([{
+            id: item.id,
+            name: item.ten_san_pham,
+            slug: slug,
+            description: item.mo_ta || '',
+            price: item.gia,
+            ton_kho: item.ton_kho,
+            status: item.hien_thi ? 'active' : 'inactive'
+          }])
+        
+        if (errorProd) {
+          console.warn("⚠️ Warning inserting into products table in Action:", errorProd.message)
+        }
+      }
     }
 
     return { success: true }
   } catch (err: any) {
     console.error("Error upserting merchandise:", err)
-    return { success: false, error: err.message || 'Lỗi khi lưu sản phẩm vật phẩm' }
+    return { success: false, error: err.message || 'Lỗi khi lưu vật phẩm' }
   }
 }
 

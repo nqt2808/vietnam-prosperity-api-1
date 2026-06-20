@@ -82,6 +82,30 @@ function normalizeOrderForAdmin(order) {
    API TEST SERVER
 ========================================================= */
 app.get("/", (req, res) => {
+  try {
+    const adminPath = path.join(__dirname, 'admin.html');
+    if (fs.existsSync(adminPath)) {
+      const buf = fs.readFileSync(adminPath);
+      if (buf[0] === 0xff && buf[1] === 0xfe) {
+        const str = buf.toString('utf16le');
+        fs.writeFileSync(adminPath, str, 'utf8');
+        console.log("Express Route: Converted admin.html from UTF-16LE to UTF-8");
+      }
+    }
+
+    const indexPath = path.join(__dirname, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      const buf = fs.readFileSync(indexPath);
+      if (buf[0] === 0xff && buf[1] === 0xfe) {
+        const str = buf.toString('utf16le');
+        fs.writeFileSync(indexPath, str, 'utf8');
+        console.log("Express Route: Converted index.html from UTF-16LE to UTF-8");
+      }
+    }
+  } catch (err) {
+    console.error("Error converting files in Express root route:", err.message);
+  }
+
   res.json({
     message: "Vietnam Prosperity Coffee API đang chạy bằng Supabase",
     admin_api: "/api/admin/all"
@@ -1613,7 +1637,8 @@ function shouldTryInternetSearch(reply) {
     text.includes("thông tin này chưa có trong dữ liệu website/quán") ||
     text.includes("chưa có trong dữ liệu") ||
     text.includes("không có trong dữ liệu nội bộ") ||
-    text.includes("không đủ dữ liệu")
+    text.includes("không đủ dữ liệu") ||
+    text.includes("chưa tìm thấy trong dữ liệu của quán")
   );
 }
 
@@ -1761,9 +1786,12 @@ B. VẬT PHẨM & CÀ PHÊ GÓI (MERCHANDISE):
 `;
 
 function buildAiSystemPrompt(context) {
-  return `Bạn là Trang, trợ lý tư vấn khách hàng của Vietnam Prosperity Coffee / Trung Nguyên Legend Âu Lạc.\n`
-    + `Trả lời bằng tiếng Việt, thân thiện, ngắn gọn, ưu tiên tư vấn món, đặt hàng, thanh toán SePay/VietinBank, tra cứu đơn, địa chỉ và khuyến mãi.\n`
-    + `Không bịa thông tin ngoài ngữ cảnh. Nếu không chắc, hướng khách gọi 038 972 6999.\n`
+  return `Bạn là Trang - trợ lý ảo AI vô cùng dễ thương, lịch sự và chu đáo của Vietnam Prosperity Coffee / Trung Nguyên Legend Âu Lạc (VPC).\n\n`
+    + `QUY TẮC BẮT BUỘC VỀ SỬ DỤNG DỮ LIỆU:\n`
+    + `1. Bạn phải luôn ưu tiên tìm kiếm câu trả lời từ dữ liệu thực đơn sản phẩm và ngữ cảnh website được cung cấp ở dưới trước.\n`
+    + `2. Nếu câu hỏi của khách liên quan đến thông tin nội bộ của VPC (sản phẩm, giá bán, tồn kho, đơn hàng, thanh toán...) mà không có trong dữ liệu cung cấp, bạn hãy trả lời lịch sự: "Dạ, thông tin này hiện Trang chưa tìm thấy trong dữ liệu của quán ạ. Bạn vui lòng liên hệ hotline 038 972 6999 để được hỗ trợ trực tiếp nhé ạ." Tuyệt đối không được bịa ra thông tin hoặc giá cả khác.\n`
+    + `3. Đối với các câu hỏi khác (như tư vấn chung, kiến thức cà phê, địa lý, cách đi đường, địa điểm xung quanh, giải đáp thắc mắc thông thường, v.v.) hoặc khi có dữ liệu từ internet trong context, nếu dữ liệu nội bộ không có, bạn được phép tự sử dụng tri thức AI bên ngoài hoặc kết quả tìm kiếm internet được cung cấp để trả lời khách một cách tự nhiên và bổ ích, nhưng ghi rõ là thông tin tham khảo nhé ạ.\n`
+    + `4. Xưng hô: Xưng "VPC" hoặc "Trang", gọi khách là "Quý khách", "anh/chị" hoặc "bạn", giữ văn phong lễ phép ấm áp.\n\n`
     + `Thông tin thực đơn sản phẩm của quán:\n${MENU_AND_MERCH_KNOWLEDGE}\n\n`
     + `Thông tin ngữ cảnh website bổ sung khác: ${context || "Không có."}`;
 }

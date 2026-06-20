@@ -24,15 +24,22 @@ function mapDrinkCategory(catSlug: string, prodSlug: string) {
   return { slug: s, name: 'Khác' };
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const { searchParams } = new URL(req.url)
+    const showAll = searchParams.get('all') === '1'
     const supabase = await createClient()
 
-    // Truy vấn trực tiếp từ bảng san_pham_do_uong kết hợp danh_muc_san_pham
-    const { data: rawDrinks, error: drinksError } = await supabase
+    let query = supabase
       .from('san_pham_do_uong')
       .select('*, danh_muc_san_pham (slug, ten_danh_muc)')
-      .eq('hien_thi', true)
+
+    if (!showAll) {
+      query = query.eq('hien_thi', true)
+    }
+
+    // Truy vấn trực tiếp từ bảng san_pham_do_uong kết hợp danh_muc_san_pham
+    const { data: rawDrinks, error: drinksError } = await query
 
     if (drinksError) {
       throw drinksError
@@ -41,6 +48,7 @@ export async function GET() {
     // Map dữ liệu để tương thích với cấu trúc do-uong của frontend
     const drinks = (rawDrinks || []).map(p => {
       const cat = mapDrinkCategory(p.danh_muc_san_pham?.slug || "", p.slug || "");
+      const stock = p.ton_kho !== undefined && p.ton_kho !== null ? Number(p.ton_kho) : 99;
       return {
         id: p.id,
         ten_san_pham: p.ten_san_pham,
@@ -53,7 +61,8 @@ export async function GET() {
         hinh_anh: p.hinh_anh || "",
         la_mon_noi_bat: p.la_noi_bat || false,
         hien_thi: p.hien_thi === true,
-        sold_out: false
+        ton_kho: stock,
+        sold_out: stock <= 0
       };
     })
 

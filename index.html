@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -561,15 +561,23 @@
       flex-wrap: wrap;
       gap: 10px;
       justify-content: center;
-      margin: 34px 0 10px;
-
+      margin: 0 0 10px 0;
+      padding: 16px 10px;
+      position: sticky;
+      top: 80px;
+      z-index: 99;
+      background: rgba(247, 239, 227, 0.95);
+      border-bottom: 1px solid rgba(244, 209, 123, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: top 0.2s ease;
     }
 
     /* Code này căn lại footer thành 3 cột đều nhau */
     .site-footer {
       background: var(--coffee-dark);
       color: white;
-      padding: 64px 0 24px;
+      padding: 48px 0 24px;
     }
 
     .footer-grid {
@@ -1210,7 +1218,7 @@
     }
 
     .footer-col {
-      padding-top: 106px;
+      padding-top: 96px;
     }
 
     .site-footer p,
@@ -1686,6 +1694,10 @@
     }
 
     @media (max-width: 980px) {
+      .category-tabs {
+        top: 96px !important;
+      }
+
       .header-inner {
         flex-direction: column;
         padding: 8px 0;
@@ -1822,6 +1834,10 @@
     }
 
     @media (max-width: 520px) {
+      .category-tabs {
+        top: 72px !important;
+      }
+
       .container {
         width: calc(100% - 16px) !important;
       }
@@ -2045,7 +2061,7 @@
     .site-footer {
       background: var(--coffee-dark) !important;
       color: white !important;
-      padding: 64px 0 24px !important;
+      padding: 54px 0 14px !important;
     }
 
     .footer-grid {
@@ -2057,7 +2073,7 @@
 
     /* Cho 2 cột sau thẳng hàng với chữ Vietnam Prosperity Coffee */
     .footer-col {
-      padding-top: 142px !important;
+      padding-top: 122px !important;
     }
 
     /* Logo footer */
@@ -2072,7 +2088,7 @@
     .footer-title,
     .footer-col .footer-title {
       color: var(--gold-light) !important;
-      font-size: 28px !important;
+      font-size: 18px !important;
       line-height: 1.25 !important;
       margin: 0 0 22px 0 !important;
       font-weight: 900 !important;
@@ -2086,7 +2102,7 @@
 
     .footer-links button,
     .footer-links a {
-      font-size: 16px !important;
+      font-size: 14px !important;
       line-height: 1.75 !important;
       font-weight: 800 !important;
       color: #f0dfc9 !important;
@@ -2098,7 +2114,7 @@
 
     /* Icon bên mạng xã hội cùng size chữ */
     .footer-links i {
-      font-size: 16px !important;
+      font-size: 14px !important;
       width: 22px !important;
       text-align: center !important;
     }
@@ -2106,17 +2122,17 @@
     /* Chữ cột đầu */
     .site-footer p,
     .site-footer a {
-      font-size: 16px !important;
+      font-size: 14px !important;
       line-height: 1.75 !important;
     }
 
     .copyright {
       border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
-      margin-top: 64px !important;
+      margin-top: 54px !important;
       padding-top: 24px !important;
       text-align: center !important;
       color: #dac8ad !important;
-      font-size: 15px !important;
+      font-size: 14px !important;
     }
 
     @media (max-width: 980px) {
@@ -3366,7 +3382,7 @@ body {
       </div>
       <div class="product-search-body">
         <form class="product-search-form" onsubmit="handleProductSearch(event)">
-          <input id="productSearchInput" type="search" placeholder="Nhập tên món, ví dụ: Coffee Legend, Trà Đào, G7..." autocomplete="off" />
+          <input id="productSearchInput" type="search" placeholder="Nhập tên món, ví dụ: Coffee Legend, Trà Đào, G7..." autocomplete="off" oninput="handleProductSearch(event)" />
           <button class="btn btn-primary" type="submit">Tìm kiếm</button>
         </form>
         <div id="productSearchResults" class="product-search-results">
@@ -3413,64 +3429,11 @@ body {
           <p style="color:rgba(255,255,255,.72);">Những chia sẻ từ khách hàng đã trải nghiệm đồ uống, không gian và dịch vụ tại Trung Nguyên Legend Âu Lạc.</p>
         </div>
 
-        <div class="testimonial-grid">
-          <div class="testimonial-card">
-            <div class="testimonial-stars">★★★★★</div>
-            <p class="testimonial-text">"Website dễ đặt món, có tra cứu đơn tiện lợi. Không gian quán đẹp, gần Aeon Mall nên rất dễ tìm."</p>
-            <div class="testimonial-line"></div>
-            <div class="testimonial-user">
-              <img class="testimonial-avatar" src="https://res.cloudinary.com/dojibbcof/image/upload/v1780857209/%E1%BA%A2nh_ch%E1%BB%A5p_m%C3%A0n_h%C3%ACnh_2026-06-08_012506_zi9y9s.png" alt="Khách hàng">
-              <div><div class="testimonial-name">Yên Bình</div><div class="testimonial-role">Khách hàng thân thiết</div></div>
-            </div>
-          </div>
-
-          <div class="testimonial-card">
-            <div class="testimonial-stars">★★★★★</div>
-            <p class="testimonial-text">"Không gian thoáng, có điều hòa mát mẻ. View đắc địa tầng 2. Đồ uống rất ngon. 10đ."</p>
-            <div class="testimonial-line"></div>
-            <div class="testimonial-user">
-              <img class="testimonial-avatar" src="https://res.cloudinary.com/dojibbcof/image/upload/v1780857213/%E1%BA%A2nh_ch%E1%BB%A5p_m%C3%A0n_h%C3%ACnh_2026-06-08_012607_pip2ba.png" alt="Khách hàng">
-              <div><div class="testimonial-name">MinLG_</div><div class="testimonial-role">Khách hàng thân thiết</div></div>
-            </div>
-          </div>
-
-          
-          <div class="testimonial-card">
-            <div class="testimonial-stars">★★★★★</div>
-            <p class="testimonial-text">"Không gian ngồi thoải mái, yên tĩnh, phù hợp để đọc sách, làm việc. Nhân viên dễ thương. Điểm mình thấy chưa phù hợp là quán có cửa kính nhưng không có rèm. Mình đến buổi trưa, ngồi góc kính mờ thì bị tối, ngồi góc kính sáng thì bị hanh 😁"</p>
-            <div class="testimonial-line"></div>
-            <div class="testimonial-user">
-              <img class="testimonial-avatar" src="https://res.cloudinary.com/dojibbcof/image/upload/v1780857213/%E1%BA%A2nh_ch%E1%BB%A5p_m%C3%A0n_h%C3%ACnh_2026-06-08_013135_zm3ocu.png" alt="Khách hàng">
-              <div><div class="testimonial-name">Văn Mẫn</div><div class="testimonial-role">Khách hàng thân thiết</div></div>
-            </div>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-stars">★★★★★</div>
-            <p class="testimonial-text">" Trung Nguyên Legend Âu Lạc là một quán cà phê rất đáng trải nghiệm. Không gian sạch đẹp, thoải mái, cà phê đậm đà đúng chất Việt Nam và nhân viên phục vụ nhiệt tình. Đây là nơi lý tưởng để gặp gỡ bạn bè, làm việc hoặc thư giãn sau những giờ học tập và làm việc căng thẳng."</p>
-            <div class="testimonial-line"></div>
-            <div class="testimonial-user">
-              <img class="testimonial-avatar" src="https://res.cloudinary.com/dojibbcof/image/upload/v1780857219/%E1%BA%A2nh_ch%E1%BB%A5p_m%C3%A0n_h%C3%ACnh_2026-06-08_013147_xbfbtl.png" alt="Khách hàng">
-              <div><div class="testimonial-name">Thanh Huyền</div><div class="testimonial-role">Khách hàng thân thiết</div></div>
-            </div>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-stars">★★★★★</div>
-            <p class="testimonial-text">"Cà phê ngon, giao hàng khá nhanh. Đặt hàng trên web nhanh, thao tác dễ dùng."</p>
-            <div class="testimonial-line"></div>
-            <div class="testimonial-user">
-              <img class="testimonial-avatar" src="https://res.cloudinary.com/dojibbcof/image/upload/v1780857199/98125520-2fe8-4a0b-8ab9-97f17433df35_qjksng.jpg" alt="Khách hàng">
-              <div><div class="testimonial-name">Thùy Linh</div><div class="testimonial-role">Khách hàng thân thiết</div></div>
-            </div>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-stars">★★★★★</div>
-            <p class="testimonial-text">"Nhân viên nhiệt tình, 10 điểm ko nói nhiều. Đồ uống khỏi bàn, ngon lắm nhaaa."</p>
-            <div class="testimonial-line"></div>
-            <div class="testimonial-user">
-              <img class="testimonial-avatar" src="https://res.cloudinary.com/dojibbcof/image/upload/v1780857603/z7827337188926_9f2981cd086e8a3efdad45640b653eee_v8d7oy.jpg" alt="Khách hàng">
-              <div><div class="testimonial-name">Quỳnh Trang</div><div class="testimonial-role">Khách hàng thân thiết</div></div>
-            </div>
-          </div>
+        <div class="testimonial-grid" id="reviewsGrid"></div>
+        <div style="text-align: center; margin-top: 30px;">
+          <button class="btn btn-primary" onclick="openReviewModal()" style="padding: 12px 28px; font-weight: 800; font-size: 15px; border-radius: 999px; width: auto; display: inline-flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-pen-to-square"></i> Chia sẻ trải nghiệm của bạn
+          </button>
         </div>
       </div>
     </section>
@@ -4055,7 +4018,9 @@ body {
   </div>
 
   <script>
-    const API_URL = "https://website-vpc.vercel.app";
+    const API_URL = (window.location.protocol === "file:" || window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+      ? (window.location.port === "3000" ? "" : "http://localhost:3000")
+      : window.location.origin;
 
     // Code này giữ API backend chính của website.
     // Không gọi Supabase trực tiếp ở frontend để tránh lỗi sai bảng, sai key hoặc lỗi RLS.
@@ -4406,96 +4371,10 @@ body {
         "ca-phe-hat-moc-legend-success-1-tui-1kg": "Cà phê hạt mộc Success 1 (1kg) mang vị đắng đặc trưng mạnh mẽ chuẩn gu cà phê truyền thống Việt Nam, hoàn hảo cho các tách cà phê năng lượng đậm đà.",
         "ca-phe-hat-moc-legend-success-2-tui-1kg": "Cà phê hạt mộc Success 2 (1kg) tuyển chọn từ hạt Robusta Culi nguyên bản, mang vị đắng đậm sâu lắng đặc trưng của cà phê Việt.",
         "ca-phe-hat-moc-legend-success-3-lon-340gr": "Cà phê hạt mộc Success 3 (340g) mang vị chua thanh nhẹ nhàng tinh tế phong cách Ý, cực kỳ phù hợp cho các tách Espresso, Latte chuẩn vị.",
-        "ca-phe-hat-moc-legend-success-8-lon-340gr": "Siêu phẩm hạt mộc Success 8 (340g) từ những hạt cà phê quý hiếm, sự giao thoa hoàn mỹ giữa vị đắng đậm mạnh mẽ truyền thống Việt Nam và vị chua thanh nhẹ sang trọng của Ý.",
-
-        // DỤNG CỤ PHA
-        "phin-nhom-hoa-van-trung-nguyen": "Phin nhôm dập nổi họa tiết trống đồng cổ điển, biểu tượng văn hóa cà phê độc đáo.",
-        "phin-nhom-hoa-van-trung-nguyen-nau-hop-giay": "Phin nhôm hoa văn màu nâu thanh lịch đóng hộp giấy cao cấp, sang trọng.",
-        "phin-nhom-hoa-van-trung-nguyen-vang-hop-giay": "Phin nhôm hoa văn màu vàng kim hoàng gia quý phái, quà tặng cà phê đẳng cấp.",
-        "phin-nhom-den-viet-nam-hop-giay": "Phin nhôm màu đen huyền bí mạnh mẽ, thiết kế hiện đại sang trọng tinh tế.",
-        "phin-nhom-trung-nguyen": "Phin nhôm pha cà phê truyền thống bền bỉ, chiết xuất trọn vẹn tinh chất cà phê phin.",
-        "phin-inox-trung-nguyen": "Phin inox cao cấp không gỉ, bền bỉ cùng năm tháng mang lại hương vị cà phê nguyên bản.",
-
-        // LY / TÁCH / BÌNH
-        "ly-su-legend-vip-den": "Ly sứ Legend VIP đen nhám in logo vàng kim vương giả sang trọng bậc nhất.",
-        "bo-the-spirit-of-philosophy-hemingway": "Bộ quà tặng cao cấp Spirit of Philosophy Hemingway truyền cảm hứng sống và tư duy tỉnh thức.",
-        "bo-tach-dia": "Bộ tách đĩa sứ cao cấp, tinh xảo chuyên dùng thưởng thức cà phê chuẩn chuyên gia.",
-        "bo-tach-su-den-trung-nguyen-legend-300ml": "Bộ tách sứ đen Legend 300ml sang trọng, chất sứ dày dặn giữ nhiệt cà phê cực tốt.",
-        "bo-tach-dia-espresso": "Bộ tách đĩa sứ nhỏ dành riêng cho thưởng thức Espresso nóng hổi chuẩn điệu.",
-        "ly-su-trung-nguyen": "Ly sứ trắng in logo Trung Nguyên Legend bền bỉ sử dụng hằng ngày vô cùng tiện lợi.",
-        "binh-giu-nhiet-trung-nguyen": "Bình giữ nhiệt kim loại in logo thời trang năng động, giữ nóng lạnh hoàn hảo.",
-        "binh-giu-nhiet-trung-nguyen-legend-mau-trang": "Bình giữ nhiệt Legend màu trắng tinh tế tao nhã, chất liệu cao cấp giữ nhiệt cực lâu.",
-        "binh-giu-nhiet-trung-nguyen-legend-mau-den": "Bình giữ nhiệt Legend màu đen nhám bản lĩnh mạnh mẽ, thách thức thời gian bền bỉ.",
-        "binh-giu-nhiet-trung-nguyen-legend-mau-xam": "Bình giữ nhiệt Legend màu xám titan thời thượng khỏe khoắn, phong cách hiện đại.",
-        "ly-giu-nhiet-trung-nguyen-legend-vf214-350ml": "Ly giữ nhiệt VF214 350ml có nắp tiện lợi, người bạn đồng hành lý tưởng nơi bàn làm việc.",
-        "binh-giu-nhiet-ottoman": "Bình giữ nhiệt họa tiết văn minh cà phê Ottoman cổ xưa, huyền bí và đầy nghệ thuật.",
-        "binh-giu-nhiet-roman": "Bình giữ nhiệt họa tiết văn minh cà phê Roman tráng lệ hiện đại đầy chất thơ lãng mạn.",
-        "binh-giu-nhiet-thien": "Bình giữ nhiệt triết lý văn minh cà phê Thiền thanh tịnh, cân bằng tâm trí thư thái.",
-        "binh-giu-nhiet-trung-nguyen-legend-mau-den-350ml-hanh-phuc": "Bình giữ nhiệt 350ml đen nhám phiên bản Hạnh Phúc mang thông điệp ấm áp yêu thương.",
-        "binh-giu-nhiet-trung-nguyen-legend-mau-xam-350ml-thien-lanh": "Bình giữ nhiệt 350ml xám phiên bản Thiền Lành mộc mạc thư thái cho tâm hồn nhẹ nhõm.",
-        "binh-giu-nhiet-trung-nguyen-legend-mau-trang-350ml-yeu-thuong": "Bình giữ nhiệt 350ml trắng phiên bản Yêu Thương thanh lịch trang nhã đầy cảm xúc.",
-        "binh-giu-nhiet-bao-da-trung-nguyen-legend-350ml": "Bình giữ nhiệt bọc bao da bò thật khâu tay tinh xảo đẳng cấp quý phái thượng lưu.",
-
-        // PHỤ KIỆN
-        "tui-vai-trung-nguyen-legend-bo-suu-tap-3-nen-van-minh": "Túi canvas in họa tiết 3 nền văn minh Ottoman, Roman và Thiền nghệ thuật tinh tế.",
-        "tui-vai-trung-nguyen-legend-3-nen-van-minh": "Túi vải canvas cao cấp in ấn sắc nét, phụ kiện thời trang tiện lợi năng động.",
-        "tui-canvas-40x32cm": "Túi vải canvas 40x32cm tối giản chắc chắn, chứa tài liệu laptop đi làm vô cùng tiện.",
-        "tui-canvas-trung-nguyen": "Túi vải canvas thân thiện môi trường in logo Trung Nguyên Legend Café nổi bật.",
-        "so-tay-legend": "Sổ tay bìa da cao cấp dập chìm logo, truyền cảm hứng ghi chép ý tưởng mỗi ngày.",
-        "khan-ran": "Khăn rằn truyền thống Việt Nam dệt dày dặn bền đẹp, mang đậm bản sắc văn hóa Việt.",
-        "sua-dac-co-duong-brothers": "Sữa đặc Brothers béo ngậy đậm đà, bí quyết cho những ly cà phê sữa chuẩn gu quán.",
-
-        // GIFT SET
-        "gift-set-legend": "Hộp quà Legend sang trọng gồm cà phê thượng hạng, phin nhôm hoa văn cổ điển và ly sứ.",
-        "bo-qua-tang-legend": "Bộ quà tặng Legend đẳng cấp ý nghĩa trao gửi tình thân đối tác, gia đình dịp lễ Tết.",
-        "hop-set-legend-225gr": "Hộp quà tặng Giàu Có Legend chứa cà phê đặc biệt hảo hạng nguyên bản thơm ngon quý giá."
-      };
-
-      const cleanSlug = slugKey.toLowerCase().replace(/_/g, "-");
-      const cleanName = nameKey.toLowerCase().replace(/_/g, "-");
-
-      if (drinkDescriptions[cleanSlug]) return drinkDescriptions[cleanSlug];
-      if (merchDescriptions[cleanSlug]) return merchDescriptions[cleanSlug];
-
-      for (const [key, val] of Object.entries(merchDescriptions)) {
-        if (cleanName.includes(key.replace(/-/g, " "))) {
-          return val;
-        }
-      }
-
-      return originalDesc || "Sản phẩm chất lượng cao mang thương hiệu Trung Nguyên Legend hảo hạng.";
-    }
-    const menuCategoryMap = {
-      "ca-phe-phin": { title: "Cà phê phin", order: 1, desc: "Những dòng cà phê phin đặc trưng của Trung Nguyên Legend." },
-      "ca-phe-may": { title: "Cà phê máy", order: 2, desc: "Các món cà phê được chiết xuất bằng máy." },
-      "ca-phe-pha-che": { title: "Cà phê pha chế", order: 3, desc: "Các món cà phê sáng tạo, dễ uống và nổi bật." },
-      "tra-tra-sua": { title: "Trà và Trà sữa", order: 4, desc: "Các món trà, trà sữa thanh nhẹ và dễ uống." },
-      "sinh-to-da-xay": { title: "Sinh tố và Đá xay", order: 5, desc: "Các món sinh tố và đá xay mát lạnh." },
-      "nuoc-ep": { title: "Nước ép", order: 6, desc: "Các món nước ép trái cây." },
-      "nuoc-thanh-nhiet": { title: "Nước thanh nhiệt", order: 7, desc: "Các món thanh nhiệt, giải khát." },
-      "matcha-cacao": { title: "Matcha và Cacao", order: 8, desc: "Các món matcha, cacao và sữa tươi." },
-      "banh": { title: "Bánh", order: 9, desc: "Các món bánh dùng kèm đồ uống." },
-      "mon-extra": { title: "Món Extra", order: 10, desc: "Các món thêm để tùy chỉnh đồ uống." }
-    };
-
-    const categoryDescMap = Object.fromEntries(
-      Object.entries(menuCategoryMap).map(([slug, item]) => [slug, item.desc])
-    );
-
-    function getMenuCategoryInfo(slug, fallbackTitle = "") {
-      const key = String(slug || "").trim();
-      return menuCategoryMap[key] || {
-        title: fallbackTitle || key || "Khác",
-        order: 999,
-        desc: categoryDescMap[key] || ""
-      };
-    }
-
-    const blogItems = [
+        "ca-phe-hat-moc-legend-success-8-lon-340gr": "Siêu phẩm hạt mộc Suc    const blogItems = [
       {
         title: "Hè này cần gì? Một góc mát, một ly ngon và một buổi thư giãn tại Trung Nguyên Legend Âu Lạc. ☕🌿",
         desc: "Nắng hè có thể gay gắt, nhưng Trung Nguyên Legend Âu Lạc luôn có những thức uống mát lành chờ bạn ghé thưởng thức.",
-        thumbnail: "https://www.facebook.com/reel/1511949147216560",
         images: [],
         videos: [
           "https://www.facebook.com/reel/1511949147216560"
@@ -4521,7 +4400,6 @@ body {
       {
         title: "Nghệ sĩ Nhật Cường ghé thăm không gian Trung Nguyên Legend Huế ☕✨",
         desc: "Giữa nhịp sống nhẹ nhàng của Cố đô, hành trình thưởng thức cà phê trở nên đặc biệt hơn qua những khoảnh khắc giao lưu đầy cảm hứng cùng nghệ sĩ Nhật Cường tại Trung Nguyên Legend Huế.",
-        thumbnail: "https://www.facebook.com/reel/1321336266180825",
         images: [],
         videos: [
           "https://www.facebook.com/reel/1321336266180825"
@@ -4537,7 +4415,6 @@ body {
       {
         title: "Mua 1 được 2 – Chill hè cực đã!",
         desc: "Ưu đãi mua 1 được 2 tại Trung Nguyên Legend Âu Lạc, áp dụng từ 14:00 đến 21:30, từ 19/05 đến 30/06.",
-        thumbnail: "https://res.cloudinary.com/dojibbcof/image/upload/v1779773739/704546850_122111883836884434_407848279318371067_n_zgmrkn.jpg",
         images: [
           "https://res.cloudinary.com/dojibbcof/image/upload/v1779773739/704546850_122111883836884434_407848279318371067_n_zgmrkn.jpg"
         ],
@@ -4555,7 +4432,6 @@ body {
       {
         title: "Trưa hè nóng bức – Ghé Trung Nguyên Legend Âu Lạc Huế",
         desc: "Không gian mát lạnh, chill học bài và thưởng thức cà phê tại Trung Nguyên Legend Âu Lạc Huế.",
-        thumbnail: "https://res.cloudinary.com/dojibbcof/image/upload/v1779773786/701445719_122111738540884434_8176951810572622203_n_lbymde.jpg",
         images: [
           "https://res.cloudinary.com/dojibbcof/image/upload/v1779773786/701445719_122111738540884434_8176951810572622203_n_lbymde.jpg"
         ],
@@ -4570,7 +4446,6 @@ body {
       {
         title: "Trung Nguyên Legend Âu Lạc hân hạnh đón tiếp Nghệ sĩ Nhật Cường",
         desc: "Trung Nguyên Legend Âu Lạc, TP Huế hân hạnh đón tiếp Nghệ sĩ Nhật Cường.",
-        thumbnail: "https://www.facebook.com/reel/998900419486923",
         images: [
           "https://www.facebook.com/reel/998900419486923"
         ],
@@ -4585,7 +4460,6 @@ body {
       {
         title: "Sự kiện lái thử VinFast Thế Hệ Mới tại Trung Nguyên Legend Âu Lạc",
         desc: "Sự kiện lái thử VinFast Thế Hệ Mới trong không gian hiện đại và yên tĩnh của Trung Nguyên Legend.",
-        thumbnail: "https://www.facebook.com/reel/981380314649839",
         images: [
           "https://www.facebook.com/reel/981380314649839"
         ],
@@ -4629,9 +4503,187 @@ body {
       {
         title: "Mega Livestream: Deal hot mùa hè – Săn ly sứ Trung Nguyên Legend giá tốt",
         desc: "Khám phá các dòng ly sứ tinh tế, voucher thức uống và ưu đãi vật phẩm hấp dẫn.",
-        thumbnail: "https://res.cloudinary.com/dojibbcof/image/upload/v1779774313/696732110_1409669784524543_2092104120449276738_n_itbsie.jpg",
         images: [
           "https://res.cloudinary.com/dojibbcof/image/upload/v1779774313/696310350_1409668824524639_4967142172596023339_n_ntkb4l.jpg", "https://res.cloudinary.com/dojibbcof/image/upload/v1779774313/696732110_1409669784524543_2092104120449276738_n_itbsie.jpg", "https://res.cloudinary.com/dojibbcof/image/upload/v1779774313/693743852_1409669794524542_493269133735541632_n_a6dnzq.jpg"
+        ],
+        videos: [],
+        content: `
+      <p>Mega Livestream mang đến nhiều ưu đãi hấp dẫn dành cho khách hàng yêu thích sản phẩm Trung Nguyên Legend.</p>
+      <p>Các sản phẩm như ly sứ, vật phẩm thương hiệu và voucher thức uống được giới thiệu với mức giá tốt trong chương trình.</p>
+    `
+      },
+
+      {
+        title: "Mừng Đại lễ 30/4 - 01/05 cùng Trung Nguyên Legend Café",
+        desc: "Không gian cà phê năng lượng đồng hành cùng khách hàng trong kỳ nghỉ lễ.",
+        images: [
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773785/682455395_122108896268884434_1334038689435078096_n_gnfpfz.jpg"
+        ],
+        videos: [],
+        content: `
+      <p>MỪNG ĐẠI LỄ 30/4 - 01/05 🎉
+      Hướng về dấu mốc lịch sử đầy tự hào, kỷ niệm 51 năm Ngày Giải phóng miền Nam - Thống nhất đất nước 30/4 và mừng Ngày Quốc tế Lao động 1/5, Trung Nguyên Legend Café kính chúc Quý Khách một kỳ nghỉ lễ an vui, đầy năng lượng và có những giây phục kết nối, sum vầy trọn vẹn bên gia đình, bạn bè.
+      Trung Nguyên Legend Café hân hạnh là nơi gắn kết cảm xúc và lưu giữ những khoảnh khắc, kỷ niệm đẹp cùng khách hàng trong dịp Lễ đầy ý nghĩa nàyTrung Nguyên Legend Café kính chúc Quý Khách một kỳ nghỉ lễ an vui, nhiều năng lượng và nhiều trải nghiệm đáng nhớ.</p>
+      <p>Không gian Trung Nguyên Legend Âu Lạc luôn sẵn sàng phục vụ khách hàng trong những khoảnh khắc gặp gỡ, làm việc và thưởng thức cà phê.</p>
+    `
+      },
+      {
+        title: "Trung Nguyên Legend Café Âu Lạc, An Đông, Thành phố Huế",
+        desc: "Thông tin địa chỉ, giờ hoạt động và Google Map của Trung Nguyên Legend Café Âu Lạc.",
+        images: [
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773493/z7667464928722_1e5b750078aa30254190bc0d8e82fe9b_convert.io_ngreb6.png",
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773456/z7667465024917_2a81fcb4033ec5893cbd1990ebbcf187_nedupr.jpg",
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773456/z7667465045297_780351c4dfb6baa7dc3a9f95c83b4d33_seyt1f.jpg",
+
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773456/z7667465035010_f5970f76a059a938e84c7c296046c5ac_lj8pje.jpg",
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773456/z7667465020260_2c250970cd343c512e4494adcec58470_azugtk.jpg",
+
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773455/z7653060186761_ee1f52164f94afd295d2bf80d8084619_uimw79.jpg"
+        ],
+        videos: [],
+        content: `
+    <p><strong>Trung Nguyên Legend Café</strong></p>
+
+    <p>
+      <strong>📍 Địa chỉ:</strong> Âu Lạc, An Đông, Thành phố Huế
+    </p>
+
+    <p>
+      <strong>🕒 Giờ hoạt động:</strong> 06:30AM - 09:30PM
+    </p>
+
+    <p>
+      <strong>Google Map:</strong>
+      <a target="_blank" href="https://maps.app.goo.gl/fPnBsNtPVix3nDZ38?g_st=ic">
+        Xem vị trí cửa hàng
+      </a>
+    </p>
+  `,
+        sourceLink: "https://maps.app.goo.gl/fPnBsNtPVix3nDZ38?g_st=ic"
+      },
+      {
+        title: "Thành phố Huế chào đón không gian Trung Nguyên Legend",
+        desc: "Trung Nguyên Legend chính thức khai trương không gian mới tại Khu TĐC Đông Nam Thủy An, TP. Huế.",
+        images: [
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773457/658388898_1376016254556563_4157341891120198029_n_wlt2zg.jpg",
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773457/660455604_1376016174556571_698903480620260313_n_gfnhyd.jpg",
+
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773457/658147470_1376016321223223_8548167742163448076_n_axvtps.jpg",
+
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773457/661218835_1376016177889904_7242471692043866458_n_qmd25j.jpg",
+
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773457/660200377_1376016211223234_5266939805474101050_n_o8nymq.jpg",
+
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779773457/662040771_1376016134556575_4582405979555573157_n_omto1f.jpg",
+
+
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779775117/659193544_1376016287889893_6946279439609239277_n_yjzur9.jpg"
+        ],
+        videos: [],
+        content: `
+    <p><strong>🎉 THÀNH PHỐ HUẾ CHÀO ĐÓN KHÔNG GIAN TRUNG NGUYÊN LEGEND</strong></p>
+
+    <p>
+      Khu TĐC Đông Nam Thủy An - TP. Huế bỗng trở nên "nhiệt" hơn khi Trung Nguyên Legend chính thức khai trương, mang đến một không gian tinh tế, hiện đại cùng những ly cà phê năng lượng tuyệt hảo đến khách hàng yêu thích cà phê nơi đây.
+    </p>
+
+    <p>
+      Từ những cuộc hẹn rôm rả của hội bạn thân, những buổi gặp gỡ công việc, đến khoảnh khắc mỗi người chọn cho mình góc riêng thư thái bên thức uống yêu thích, tất cả tạo nên không khí tươi trẻ, cảm hứng hơn và đầy kết nối.
+    </p>
+
+    <p><strong>Hãy cùng lên lịch đến trải nghiệm với ưu đãi khai trương không thể bỏ lỡ:</strong></p>
+
+    <p>☕ Đồng giá <strong>39.000 VNĐ</strong> cho một số thức uống trà & cà phê</p>
+    <p>🎟️ Tặng Voucher Mua 1 Tặng 1</p>
+    <p>📚 Tặng Cà phê + Sách cho 200 khách hàng đầu tiên</p>
+
+    <p>
+      <strong>📍 Địa chỉ:</strong> Trung Nguyên Legend – Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế.
+    </p>
+
+    <p>
+      <strong>🕒 Giờ hoạt động:</strong> 06:30AM - 09:30PM
+    </p>
+
+    <p>
+      <strong>Google Map:</strong>
+      <a target="_blank" href="https://maps.app.goo.gl/fPnBsNtPVix3nDZ38?g_st=ic">
+        Xem vị trí cửa hàng
+      </a>
+    </p>
+
+    <p><strong>Sự kiện khai trương không gian mới nhận được quan tâm chia sẻ trên các kênh thông tin:</strong></p>
+
+    <p>
+      <a target="_blank" href="https://cafef.vn/ong-dang-le-nguyen-vu-vua-mo-quan-ca-phe">
+        CafeF
+      </a>
+    </p>
+
+    <p>
+      <a target="_blank" href="https://kenh14.vn/ong-dang-le-nguyen-vu-vua-mo-quan-ca">
+        Kenh14
+      </a>
+    </p>
+
+    <p>
+      <a target="_blank" href="https://nguoiquansat.vn/quan-ca-phe-moi-cua-ong-dang-le">
+        Người Quan Sát
+      </a>
+    </p>
+
+    <p>#TrungNguyenLegendCafe #TrungNguyenLegend #GrandOpening #Hue</p>
+  `,
+        sourceLink: ""
+      },
+
+      {
+        title: "Thêm một điểm hẹn đầy năng lượng tại thành phố Huế",
+        desc: "Không gian Trung Nguyên Legend mới chính thức cập bến tại Khu TĐC Đông Nam Thủy An, Thành phố Huế.",
+        images: [
+          "https://res.cloudinary.com/dojibbcof/image/upload/v1779775236/657327889_1371896848301837_352761613682711004_n_mrdi0g.jpg"
+        ],
+        videos: [],
+        content: `
+    <p><strong>+1 ĐIỂM HẸN ĐẦY NĂNG LƯỢNG VỪA “CẬP BẾN” TẠI THÀNH PHỐ HUẾ!</strong></p>
+
+    <p>
+      Không gian mới tọa lạc tại Khu TĐC Đông Nam Thủy An, ngay giao lộ 4 hướng kết nối trục đường. Không gian Trung Nguyên Legend không chỉ nằm ở vị trí thuận tiện, dễ dàng ghé đến từ mọi hành trình, mà còn sở hữu góc nhìn thoáng đãng, mang đến cảm hứng tích cực cho những khoảnh khắc gặp gỡ tại đây.
+    </p>
+
+    <p>
+      Đặc biệt, kề bên sông An Cựu – biểu tượng gắn liền với lịch sử Huế, bạn có thể bắt đầu buổi tản bộ nhẹ nhàng ven sông, rồi dừng chân thưởng thức cà phê tại quán như một điểm hẹn lý tưởng để câu chuyện được tiếp nối một cách trọn vẹn hơn.
+    </p>
+
+    <p>
+      Tại đây, bạn sẽ được thưởng lãm cà phê năng lượng tuyệt hảo, cùng đa dạng lựa chọn các thức uống thanh lọc – thanh nhiệt, món ăn thực dưỡng.
+    </p>
+
+    <p>
+      Không gian chính thức khai trương vào ngày <strong>02/04/2026</strong> với nhiều ưu đãi đặc biệt đang chờ đón. Hẹn gặp bạn tại không gian mới này nhé!
+    </p>
+
+    <p><strong>📅 Khai trương chính thức:</strong> 02/04/2026</p>
+
+    <p>
+      <strong>📍 Trung Nguyên Legend:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế.
+    </p>
+
+    <p>
+      <strong>🕒 Giờ hoạt động:</strong> 06:30AM - 09:30PM
+    </p>
+
+    <p>
+      <strong>Google Map:</strong>
+      <a target="_blank" href="https://maps.app.goo.gl/fPnBsNtPVix3nDZ38?g_st=ic">
+        Xem vị trí cửa hàng
+      </a>
+    </p>
+
+    <p>#TrungNguyenLegendCafe #TrungNguyenLegend #GrandOpening</p>
+  `,
+        sourceLink: ""
+      },];ad/v1779774313/696732110_1409669784524543_2092104120449276738_n_itbsie.jpg", "https://res.cloudinary.com/dojibbcof/image/upload/v1779774313/693743852_1409669794524542_493269133735541632_n_a6dnzq.jpg"
         ],
         videos: [],
         content: `
@@ -5297,19 +5349,16 @@ startAutoCheckPayment();
           // 3. Sinh mã đơn hàng mới dự phòng cho các lần mua tiếp theo
           pendingOrderCode = createOrderCode();
           localStorage.setItem("vpc_pending_order_code", pendingOrderCode);
+          
+          const savedName = orderInfo.ho_ten || "";
+          const savedPhone = orderInfo.so_dien_thoai || "";
+          
           localStorage.removeItem("vpc_pending_order_info");
 
-          // 4. Tự động chuyển hướng về trang chủ sau 5 giây
+          // 4. Mở modal đánh giá sau 1.5 giây để khách hàng nói gì về VPC
           setTimeout(() => {
-            showPage("home");
-            // Khôi phục nút nếu người dùng quay lại sau đó
-            if (btn) {
-              btn.style.display = "block";
-              btn.disabled = false;
-              btn.textContent = "Kiểm tra trạng thái thanh toán";
-            }
-            successBox.style.display = "none";
-          }, 4000);
+            openReviewModal(code, savedPhone, savedName);
+          }, 1500);
 
         } else {
           // Đơn hàng vẫn ở trạng thái chờ chuyển khoản
@@ -5793,7 +5842,7 @@ startAutoCheckPayment();
             const premiumDesc = getPremiumDescription(item.slug, item.ten_san_pham, item.mo_ta);
 
             return `
-                <div class="menu-item">
+                <div class="menu-item" id="product-${item.slug}">
                   <img
                     class="menu-item-img"
                     src="${drinkImageMap[item.slug] || defaultDrinkImage}"
@@ -6079,7 +6128,7 @@ startAutoCheckPayment();
               (item.stock_quantity !== undefined && Number(item.stock_quantity) <= 0);
 
             return `
-                <div class="card">
+                <div class="card" id="product-${item.slug}">
                   <img class="card-img" src="${img}" alt="${safeText(tenHienThi)}">
 
                   <div class="card-body">
@@ -6171,28 +6220,11 @@ startAutoCheckPayment();
       if (!grid) return;
 
       grid.innerHTML = blogItems.map((item, index) => {
-        const isVideoThumbnail = item.thumbnail.includes("facebook.com") || item.thumbnail.includes("youtube.com") || item.thumbnail.includes("youtu.be");
-        let headerMedia = "";
-
-        if (isVideoThumbnail) {
-          headerMedia = getVideoEmbedHtml(item.thumbnail);
-          // Thay đổi inline style để hiển thị video vừa khít dạng 1:1 ở thumbnail
-          headerMedia = headerMedia
-            .replace(/class="article-video facebook-reel"/g, 'class="article-video" style="width: 100%; height: 100%; margin: 0; border: 0; aspect-ratio: 1 / 1; display: block;"')
-            .replace(/class="article-video facebook-video"/g, 'class="article-video" style="width: 100%; height: 100%; margin: 0; border: 0; aspect-ratio: 1 / 1; display: block;"');
-        } else {
-          headerMedia = `<img class="card-img" src="${item.thumbnail}" alt="${safeText(item.title)}" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover;">`;
-        }
-
         return `
         <div class="card article-card">
-          <div style="width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; position: relative; border-bottom: 1px solid rgba(58, 33, 20, 0.08);">
-            ${headerMedia}
-          </div>
-
           <div class="card-body">
-            <h3 style="text-align: center;">${safeText(item.title)}</h3>
-            <p style="font-style: italic; text-align: center;">"${safeText(item.desc)}"</p>
+            <h3 style="text-align: center; margin-top: 10px;">${safeText(item.title)}</h3>
+            <p style="font-style: italic; text-align: center; color: var(--muted); margin-bottom: 18px;">"${safeText(item.desc)}"</p>
 
             <div style="display: flex; justify-content: center; width: 100%; margin-top: auto;">
               <button class="btn btn-dark" type="button" onclick="openArticle(${index})">
@@ -6218,33 +6250,11 @@ startAutoCheckPayment();
       <img class="article-content-img" src="${img}" alt="${safeText(article.title)}">
     `).join("");
 
-      const isVideoThumbnail = article.thumbnail.includes("facebook.com") || article.thumbnail.includes("youtube.com") || article.thumbnail.includes("youtu.be");
-
-      // Tránh nhân đôi video nếu video đó đã được hiển thị làm hero media
+      // Hiển thị các video đính kèm
       const videoHtml = article.videos
-        .filter(video => !isVideoThumbnail || video !== article.thumbnail)
         .map(video => getVideoEmbedHtml(video)).join("");
 
-      let heroMediaHtml = "";
-      if (isVideoThumbnail) {
-        let embedCode = getVideoEmbedHtml(article.thumbnail);
-        // Điều chỉnh style để video hero hiển thị dạng 9:16 vừa vặn trên trang chi tiết
-        embedCode = embedCode
-          .replace(/class="article-video facebook-reel"/g, 'class="article-video" style="width: 100%; height: 100%; border: 0;"')
-          .replace(/class="article-video facebook-video"/g, 'class="article-video" style="width: 100%; height: 100%; border: 0;"');
-
-        heroMediaHtml = `
-      <div class="article-hero-video-wrap" style="width: min(420px, 100%); aspect-ratio: 9 / 16; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; border-radius: 12px; border: 1px solid rgba(244, 209, 123, 0.22);">
-        ${embedCode}
-      </div>
-    `;
-      } else {
-        heroMediaHtml = `<img class="article-hero-img" src="${article.thumbnail}" alt="${safeText(article.title)}">`;
-      }
-
       box.innerHTML = `
-    ${heroMediaHtml}
-
     <h2 class="article-detail-title">${safeText(article.title)}</h2>
 
     ${imageHtml}
@@ -6458,6 +6468,11 @@ const productList = JSON.stringify(cart.map(item => {
         event.target.reset();
         showPage("home");
 
+        // Tự động mở modal đánh giá sau khi đặt hàng thành công
+        setTimeout(() => {
+          openReviewModal(finalOrderCode, orderData.so_dien_thoai, orderData.ho_ten);
+        }, 1200);
+
       } catch (error) {
         console.error("Lỗi gửi đơn hàng:", error);
         alert("Gửi đơn hàng thất bại: " + error.message);
@@ -6610,13 +6625,21 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
           const desc = card.querySelector("p")?.innerText?.trim() || "";
           const price = card.querySelector(".price")?.innerText?.trim() || "";
           const page = selector.includes("merch") ? "merch" : "menu";
-          return { card, name, desc, price, page };
+          
+          let slug = "";
+          const idAttr = card.getAttribute("id") || "";
+          if (idAttr.startsWith("product-")) {
+            slug = idAttr.substring("product-".length);
+          }
+          return { card, name, desc, price, page, slug };
         });
       }).filter(item => item.name);
     }
 
     function handleProductSearch(event) {
-      event.preventDefault();
+      if (event && event.type === 'submit') {
+        event.preventDefault();
+      }
 
       const input = document.getElementById("productSearchInput");
       const resultsBox = document.getElementById("productSearchResults");
@@ -6641,11 +6664,11 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
       }
 
       resultsBox.innerHTML = matches.map((item, index) => `
-        <div class="product-search-item">
+        <div class="product-search-item" onclick="goToSearchProduct(${index})" style="cursor: pointer;">
           <strong>${safeText(item.name)}</strong>
           <span>${safeText(item.price || "Xem giá trong sản phẩm")}</span>
           <span>${safeText(item.desc || "")}</span>
-          <button class="small-btn" type="button" onclick="goToSearchProduct(${index})">Xem sản phẩm</button>
+          <button class="small-btn" type="button" style="pointer-events: none;">Xem sản phẩm</button>
         </div>
       `).join("");
 
@@ -6654,18 +6677,29 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
 
     function goToSearchProduct(index) {
       const item = Array.isArray(window.vpcSearchMatches) ? window.vpcSearchMatches[index] : null;
-      if (!item || !item.card) return;
+      if (!item) return;
 
       toggleProductSearch(false);
       showPage(item.page);
 
+      // Định vị đúng phần tử theo ID chứa slug
+      const targetId = item.slug ? `product-${item.slug}` : "";
+      const targetElement = targetId ? document.getElementById(targetId) : item.card;
+
+      if (!targetElement) return;
+
+      // Cập nhật hash và URL chứa slug
+      if (item.slug && history && history.replaceState) {
+        history.replaceState(null, "", `#${item.page}?product=${item.slug}`);
+      }
+
       setTimeout(() => {
         document.querySelectorAll(".product-highlight").forEach(el => el.classList.remove("product-highlight"));
-        item.card.classList.add("product-highlight");
-        item.card.scrollIntoView({ behavior: "smooth", block: "center" });
+        targetElement.classList.add("product-highlight");
+        targetElement.scrollIntoView({ behavior: "smooth", block: "center" });
 
         setTimeout(() => {
-          item.card.classList.remove("product-highlight");
+          targetElement.classList.remove("product-highlight");
         }, 3500);
       }, 300);
     }
@@ -6715,7 +6749,15 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
         const status = order.trang_thai || order.status || "Không rõ";
         const paymentMethod = order.phuong_thuc_thanh_toan || order.payment_method || "";
         const total = order.tong_tien || order.total || order.amount || 0;
-        const shippingAddress = order.dia_chi_giao_hang || order.dia_chi || kh.dia_chi || "Nhận tại cửa hàng";
+        let shippingAddress = order.dia_chi_giao_hang || order.dia_chi || kh.dia_chi || "Nhận tại cửa hàng";
+        if (typeof shippingAddress === 'string' && shippingAddress.trim().startsWith('{')) {
+          try {
+            const parsed = JSON.parse(shippingAddress);
+            shippingAddress = parsed.address || shippingAddress;
+          } catch (e) {}
+        } else if (shippingAddress && typeof shippingAddress === 'object') {
+          shippingAddress = shippingAddress.address || shippingAddress.dia_chi || JSON.stringify(shippingAddress);
+        }
         const name = order.ho_ten || order.ten_khach_hang || kh.ho_ten || "";
         const phone = order.so_dien_thoai || order.phone || kh.so_dien_thoai || "";
 
@@ -6765,6 +6807,17 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
           `;
         }
 
+        let reviewBtnHtml = "";
+        if (doneStatuses.includes(status)) {
+          reviewBtnHtml = `
+            <div style="margin-top: 14px; text-align: center; border-top: 1px dashed #decdb9; padding-top: 14px;">
+              <button class="btn btn-primary" type="button" onclick="openReviewModal('${safeText(code)}', '${safeText(phone)}', '${safeText(name)}')" style="padding: 8px 18px; font-size: 13px; font-weight: 800; width: auto; display: inline-flex; gap: 6px; align-items: center; justify-content: center; cursor: pointer;">
+                ⭐ Viết đánh giá về VPC
+              </button>
+            </div>
+          `;
+        }
+
         return `
           <div style="background: white; border-radius: 18px; box-shadow: var(--shadow); padding: 22px; border: 1px solid #eadac7; margin-bottom: 18px;">
             <h3 style="margin-bottom: 12px; color: var(--coffee-dark);">
@@ -6784,6 +6837,7 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
               <p><strong>Thanh toán:</strong> ${paymentMethod === 'chuyen_khoan' || paymentMethod === 'bank_transfer' ? 'Chuyển khoản VietinBank' : 'Tiền mặt (COD)'}</p>
               <p><strong>Tổng cộng:</strong> <strong style="color: var(--gold); font-size: 16px;">${formatMoney(total)}</strong></p>
             </div>
+            ${reviewBtnHtml}
           </div>
         `;
       }).join("");
@@ -7273,30 +7327,253 @@ Khi chuyển khoản, bạn nhớ ghi đúng mã đơn <strong>VPC-DH-...</stron
       }
     }
 
-    async function initWebsite() {
-  updateCartCount();
-  renderCart();
-  renderBlog();
+    function checkUrlForProduct() {
+      const hash = window.location.hash;
+      if (!hash) return false;
 
-  const results = await Promise.allSettled([
-    renderFeatured(),
-    renderMenu(),
-    renderMerch()
-  ]);
+      const match = hash.match(/^#([^?]+)\?product=(.+)$/);
+      if (!match) return false;
 
-  results.forEach((result, index) => {
-    if (result.status === "rejected") {
-      console.error("Lỗi khi khởi tạo khu vực:", index, result.reason);
+      const pageId = match[1];
+      const productSlug = match[2];
+
+      const targetPage = document.getElementById(pageId);
+      if (!targetPage) return false;
+
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+      });
+      targetPage.classList.add("active");
+
+      document.querySelectorAll(".nav-btn").forEach(btn => {
+        btn.classList.remove("active");
+      });
+      const activeBtn = document.querySelector(`.nav-btn[data-page="${pageId}"]`);
+      if (activeBtn) {
+        activeBtn.classList.add("active");
+      }
+
+      if (pageId === "bank-payment") {
+        loadPaymentPage();
+      }
+
+      setTimeout(() => {
+        const targetId = `product-${productSlug}`;
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          document.querySelectorAll(".product-highlight").forEach(el => el.classList.remove("product-highlight"));
+          targetElement.classList.add("product-highlight");
+          targetElement.scrollIntoView({ behavior: "smooth", block: "center" });
+
+          setTimeout(() => {
+            targetElement.classList.remove("product-highlight");
+          }, 3500);
+        }
+      }, 300);
+
+      return true;
     }
-  });
 
-  const hash = window.location.hash.replace("#", "");
+    window.addEventListener("hashchange", checkUrlForProduct);
 
-  if (hash && document.getElementById(hash)) {
-    showPage(hash);
+    async function initWebsite() {
+      updateCartCount();
+      renderCart();
+      renderBlog();
+
+      const results = await Promise.allSettled([
+        renderFeatured(),
+        renderMenu(),
+        renderMerch()
+      ]);
+
+      results.forEach((result, index) => {
+        if (result.status === "rejected") {
+          console.error("Lỗi khi khởi tạo khu vực:", index, result.reason);
+        }
+      });
+
+      const hasSlug = checkUrlForProduct();
+      if (!hasSlug) {
+        const hash = window.location.hash.replace("#", "");
+        if (hash && document.getElementById(hash)) {
+          showPage(hash);
+        }
+      }
+      
+      loadReviews();
+    }
+
+// =========================================================
+// CÁC HÀM XỬ LÝ ĐÁNH GIÁ KHÁCH HÀNG (REVIEWS)
+// =========================================================
+async function loadReviews() {
+  const grid = document.getElementById("reviewsGrid");
+  if (!grid) return;
+
+  grid.innerHTML = "<p style='color: var(--coffee-dark); text-align: center; width: 100%; font-weight: bold;'>Đang tải ý kiến phản hồi...</p>";
+  try {
+    const response = await fetch(`${API_URL}/api/reviews`);
+    if (!response.ok) throw new Error("API reviews lỗi");
+    const reviews = await response.json();
+
+    if (!reviews || reviews.length === 0) {
+      grid.innerHTML = "<p style='color: var(--coffee-dark); text-align: center; width: 100%; font-style: italic;'>Chưa có đánh giá nào. Hãy đặt hàng và gửi phản hồi đầu tiên nhé ạ!</p>";
+      return;
+    }
+
+    grid.innerHTML = reviews.map(r => {
+      const stars = "★".repeat(r.so_sao) + "☆".repeat(5 - r.so_sao);
+      const dateStr = new Date(r.created_at).toLocaleDateString("vi-VN");
+      const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(r.ho_ten)}&background=f4d17b&color=1f120b&bold=true&size=128`;
+      
+      return `
+        <div class="testimonial-card">
+          <div class="testimonial-stars" style="color: var(--gold); font-size: 18px; margin-bottom: 8px;">${stars}</div>
+          <p class="testimonial-text" style="font-size: 14px; line-height: 1.5; color: var(--text); font-style: italic; min-height: 50px;">
+            "${safeText(r.noi_dung || 'Khách hàng không để lại nội dung phản hồi.')}"
+          </p>
+          <div class="testimonial-line" style="height: 1px; background: rgba(58,33,20,0.08); margin: 12px 0;"></div>
+          <div class="testimonial-user" style="display: flex; align-items: center; gap: 12px;">
+            <img class="testimonial-avatar" src="${avatarUrl}" alt="${safeText(r.ho_ten)}" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--gold-light);">
+            <div>
+              <div class="testimonial-name" style="font-weight: bold; color: var(--coffee-dark); font-size: 14.5px;">${safeText(r.ho_ten)}</div>
+              <div class="testimonial-role" style="font-size: 12px; color: var(--muted);">Khách đặt hàng (${dateStr})</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  } catch (err) {
+    console.warn("❌ Lỗi tải reviews:", err);
+    grid.innerHTML = "<p style='color: var(--coffee-dark); text-align: center; width: 100%; font-style: italic;'>Không tải được ý kiến phản hồi lúc này.</p>";
   }
 }
 
+function openReviewModal(orderCode, phone, customerName) {
+  const modal = document.getElementById("reviewModal");
+  if (!modal) return;
+
+  const orderCodeInput = document.getElementById("revOrderCode");
+  const phoneInput = document.getElementById("revPhone");
+  const nameInput = document.getElementById("revName");
+
+  orderCodeInput.value = orderCode || "";
+  phoneInput.value = phone || "";
+  nameInput.value = customerName || "";
+  document.getElementById("revStars").value = "5";
+  document.getElementById("revContent").value = "";
+
+  if (!orderCode && !phone) {
+    orderCodeInput.readOnly = false;
+    orderCodeInput.style.background = "#fffcf7";
+    orderCodeInput.placeholder = "Nhập mã đơn hàng (ví dụ: DH123456)";
+    
+    phoneInput.readOnly = false;
+    phoneInput.style.background = "#fffcf7";
+    phoneInput.placeholder = "Nhập số điện thoại đặt hàng";
+  } else {
+    orderCodeInput.readOnly = true;
+    orderCodeInput.style.background = "#f1ebd9";
+    orderCodeInput.placeholder = "";
+    
+    phoneInput.readOnly = true;
+    phoneInput.style.background = "#f1ebd9";
+    phoneInput.placeholder = "";
+  }
+
+  modal.style.display = "flex";
+}
+
+function closeReviewModal() {
+  const modal = document.getElementById("reviewModal");
+  if (modal) modal.style.display = "none";
+}
+
+async function submitReview(event) {
+  event.preventDefault();
+  const orderCode = document.getElementById("revOrderCode").value.trim();
+  const phone = document.getElementById("revPhone").value.trim();
+  const name = document.getElementById("revName").value.trim();
+  const stars = document.getElementById("revStars").value;
+  const content = document.getElementById("revContent").value.trim();
+
+  if (!name || !stars || !content) {
+    alert("Vui lòng nhập đầy đủ thông tin tên và nội dung đánh giá!");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/api/reviews`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ho_ten: name,
+        so_dien_thoai: phone,
+        ma_don_hang: orderCode,
+        so_sao: Number(stars),
+        noi_dung: content
+      })
+    });
+
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result.error || result.message || "Gửi đánh giá thất bại");
+    }
+
+    alert(result.message || "Gửi phản hồi thành công. Cảm ơn ý kiến của bạn!");
+    closeReviewModal();
+    loadReviews(); // Tải lại danh sách review động trên trang chủ
+    
+    // Nếu đang ở màn hình payment, chuyển về trang chủ
+    if (window.location.hash === "#bank-payment") {
+      showPage("home");
+    }
+  } catch (err) {
+    alert("Không gửi được đánh giá: " + err.message);
+  }
+}
+
+initWebsite();
+</script>
+<!-- REVIEW MODAL -->
+<div class="modal-backdrop" id="reviewModal" style="display: none; position: fixed; inset: 0; background: rgba(31,18,11,0.72); z-index: 999999; align-items: center; justify-content: center; padding: 18px;">
+  <div class="modal-box" style="width: min(460px, 100%); background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 24px; border: 1px solid var(--gold);">
+    <div class="modal-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eadac7; padding-bottom: 10px;">
+      <h3 style="font-size: 20px; color: var(--coffee-dark); font-weight: 900; margin: 0;">Đánh giá dịch vụ & sản phẩm</h3>
+      <button type="button" onclick="closeReviewModal()" style="border: none; background: transparent; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1;">&times;</button>
+    </div>
+    <form id="reviewForm" onsubmit="submitReview(event)" style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Mã đơn hàng</label>
+        <input id="revOrderCode" style="color: #5a321f; font-weight: bold; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;" />
+      </div>
+      <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Số điện thoại</label>
+        <input id="revPhone" style="color: #5a321f; font-weight: bold; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;" />
+      </div>
+      <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Họ tên của bạn</label>
+        <input id="revName" required placeholder="Nhập tên hiển thị" style="background: #fffcf7; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;" />
+      </div>
+      <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Đánh giá chất lượng</label>
+        <select id="revStars" style="background: #fffcf7; font-weight: bold; color: var(--gold); padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;">
+          <option value="5" selected>★★★★★ - Rất hài lòng (5 sao)</option>
+          <option value="4">★★★★☆ - Hài lòng (4 sao)</option>
+          <option value="3">★★★☆☆ - Bình thường (3 sao)</option>
+          <option value="2">★★☆☆☆ - Chưa hài lòng (2 sao)</option>
+          <option value="1">★☆☆☆☆ - Rất kém (1 sao)</option>
+        </select>
+      </div>
+      <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Nội dung chia sẻ (Khách hàng nói gì về VPC)</label>
+        <textarea id="revContent" required placeholder="Không gian, đồ uống, thái độ phục vụ thế nào..." style="background: #fffcf7; min-height: 80px; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9; font-family: inherit; resize: vertical;"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit" style="width: 100%; font-weight: 800; padding: 12px; border-radius: 999px; margin-top: 6px;">Gửi đánh giá</button>
+    </form>
+  </div>
+</div>
 initWebsite();
 </script>
 </body>

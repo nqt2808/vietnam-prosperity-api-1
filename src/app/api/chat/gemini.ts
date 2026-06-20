@@ -10,21 +10,22 @@ export async function chatWithGemini(
   }
 
   const prompt = `
-Bạn là trợ lý tư vấn món của Vietnam Prosperity Coffee / Trung Nguyên Legend Âu Lạc.
+Bạn là trợ lý AI của Vietnam Prosperity Coffee.
 
 QUY TẮC BẮT BUỘC:
-1. Phải đọc KHO KIẾN THỨC bên dưới trước.
-2. Chỉ trả lời theo thông tin có trong KHO KIẾN THỨC.
-3. Nếu không tìm thấy thông tin trong KHO KIẾN THỨC, trả đúng câu:
+
+1. Ưu tiên knowledge.ts.
+2. Sau đó mới dùng dữ liệu Supabase được backend truyền vào.
+3. Không đọc index.html.
+4. Không đọc admin.html.
+5. Nếu không có dữ liệu thì trả lời:
 "Thông tin này chưa có trong dữ liệu website/quán".
-4. Không bịa.
-5. Không tự tra internet.
-6. Trả lời tiếng Việt, ngắn gọn, lịch sự.
+6. Chỉ khi backend cung cấp dữ liệu internet thì mới dùng.
 
 KHO KIẾN THỨC:
 ${knowledgeText}
 
-CÂU HỎI KHÁCH:
+CÂU HỎI:
 ${userMessage}
 `;
 

@@ -157,7 +157,7 @@ try {
               const premiumDesc = getPremiumDescription(item.slug, item.ten_san_pham, item.mo_ta);
 
               return \`
-                <div class="menu-item">
+                <div class="menu-item" id="product-\${item.slug}">
                   <img
                     class="menu-item-img"
                     src="\${drinkImageMap[item.slug] || defaultDrinkImage}"
@@ -197,11 +197,10 @@ try {
           item.trang_thai === 'soldout' ||
           item.trang_thai === 'ngung_ban' ||
           item.ton_kho === 0 ||
-          item.stock_quantity === 0 ||
-          (item.stock_quantity !== undefined && Number(item.stock_quantity) <= 0);
+          (item.ton_kho !== undefined && Number(item.ton_kho) <= 0);
 
         return \`
-          <div class="card">
+          <div class="card" id="product-\${item.slug}">
             <img class="card-img" src="\${img}" alt="\${safeText(tenHienThi)}">
             <div class="card-body">
               <div style="flex: 1; display: flex; flex-direction: column;">
@@ -415,11 +414,10 @@ try {
                   item.trang_thai === 'soldout' ||
                   item.trang_thai === 'ngung_ban' ||
                   item.ton_kho === 0 ||
-                  item.stock_quantity === 0 ||
-                  (item.stock_quantity !== undefined && Number(item.stock_quantity) <= 0);
+                  (item.ton_kho !== undefined && Number(item.ton_kho) <= 0);
 
                 return \\\`
-                  <div class="card">
+                  <div class="card" id="product-\\\${item.slug}">
                     <img class="card-img" src="\\\${img}" alt="\\\${safeText(tenHienThi)}">
                     <div class="card-body">
                       <div style="flex: 1; display: flex; flex-direction: column;">

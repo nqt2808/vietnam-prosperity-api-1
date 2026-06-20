@@ -227,6 +227,7 @@ export function AdminClient({ initialStats, initialOrders, initialProducts }: Ad
       slug: formData.get('slug') as string,
       mo_ta: formData.get('mo_ta') as string,
       gia: formData.get('gia') as string,
+      ton_kho: formData.get('ton_kho') as string,
       danh_muc_id: formData.get('danh_muc_id') as string,
       hien_thi: formData.get('hien_thi') === 'true'
     }
@@ -1067,6 +1068,7 @@ export function AdminClient({ initialStats, initialOrders, initialProducts }: Ad
                     </div>
 
                     <div>
+                    <div>
                       <label className="block text-[10px] font-black uppercase text-[#78675d] dark:text-[#a89882] mb-1.5">Giá Bán (đ) *</label>
                       <input
                         type="number"
@@ -1074,6 +1076,17 @@ export function AdminClient({ initialStats, initialOrders, initialProducts }: Ad
                         defaultValue={editingMerch?.gia || ''}
                         required
                         placeholder="Nhập giá bán vật phẩm"
+                        className="w-full bg-white dark:bg-[#1f120b] border border-[#decdb9] dark:border-[#3a2114] focus:outline-none focus:border-[#c89b3c] px-3.5 py-2.5 rounded-xl text-xs font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase text-[#78675d] dark:text-[#a89882] mb-1.5">Tồn kho *</label>
+                      <input
+                        type="number"
+                        name="ton_kho"
+                        defaultValue={editingMerch?.ton_kho !== undefined ? editingMerch?.ton_kho : 10}
+                        required
+                        placeholder="Số lượng tồn kho"
                         className="w-full bg-white dark:bg-[#1f120b] border border-[#decdb9] dark:border-[#3a2114] focus:outline-none focus:border-[#c89b3c] px-3.5 py-2.5 rounded-xl text-xs font-bold"
                       />
                     </div>
@@ -1088,7 +1101,6 @@ export function AdminClient({ initialStats, initialOrders, initialProducts }: Ad
                         <option value="false">Ẩn</option>
                       </select>
                     </div>
-                    <div />
 
                     <div className="md:col-span-3">
                       <label className="block text-[10px] font-black uppercase text-[#78675d] dark:text-[#a89882] mb-1.5">Mô tả vật phẩm</label>
@@ -1128,6 +1140,7 @@ export function AdminClient({ initialStats, initialOrders, initialProducts }: Ad
                       <th className="py-4 px-3">Tên sản phẩm</th>
                       <th className="py-4 px-3">Đường dẫn (Slug)</th>
                       <th className="py-4 px-3">Giá Bán</th>
+                      <th className="py-4 px-3">Tồn kho</th>
                       <th className="py-4 px-3">Danh mục</th>
                       <th className="py-4 px-3 text-center">Trạng thái</th>
                       <th className="py-4 px-3 text-center">Hành động</th>
@@ -1140,6 +1153,9 @@ export function AdminClient({ initialStats, initialOrders, initialProducts }: Ad
                         <td className="py-4 px-3 text-[#78675d] dark:text-[#a89882]">{m.slug}</td>
                         <td className="py-4 px-3 font-black text-amber-600 dark:text-amber-400">
                           {m.gia ? `${m.gia.toLocaleString('vi-VN')}đ` : '-'}
+                        </td>
+                        <td className="py-4 px-3 font-bold">
+                          {m.ton_kho !== undefined ? m.ton_kho : 0}
                         </td>
                         <td className="py-4 px-3 font-bold">
                           {categories.find(c => c.id === m.danh_muc_id)?.ten_danh_muc || 'Chưa phân loại'}

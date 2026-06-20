@@ -43,7 +43,7 @@ if (!filePathArg) {
   console.log("Cú pháp chạy lệnh: node scripts/import-retail.js <đường-dẫn-file-kho>");
   console.log("Hỗ trợ định dạng: .csv hoặc .json\n");
   console.log("Cấu trúc File mẫu (.csv):");
-  console.log("slug,stock_quantity,price");
+  console.log("slug,ton_kho,price");
   console.log("ca-phe-sang-tao-1-250gr,50,110000");
   console.log("phin-nhom-trung-nguyen,0,75000\n");
   process.exit(0);
@@ -129,10 +129,10 @@ async function runImport() {
       
       // Xây dựng bộ lọc tìm kiếm sản phẩm
       if (slug) {
-        query = query.update({ stock_quantity: stockQty });
+        query = query.update({ ton_kho: stockQty });
         // Cập nhật thêm giá nếu có truyền giá mới
         if (price !== undefined) {
-          query = query.update({ price: parseFloat(price), stock_quantity: stockQty });
+          query = query.update({ price: parseFloat(price), ton_kho: stockQty });
         }
         
         const { data, error } = await query.eq('slug', slug.trim()).select();
@@ -148,7 +148,7 @@ async function runImport() {
 
       // Nếu không tìm thấy theo slug hoặc không có slug, thử tìm theo tên
       if (name) {
-        let updateData = { stock_quantity: stockQty };
+        let updateData = { ton_kho: stockQty };
         if (price !== undefined) {
           updateData.price = parseFloat(price);
         }

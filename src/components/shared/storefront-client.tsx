@@ -101,7 +101,7 @@ function ProductCard({ prod, onAddItem }: ProductCardProps) {
       slug: prod.slug,
       price: displayPrice,
       imageUrl: imageUrl,
-      stockQuantity: prod.stock_quantity || 100
+      stockQuantity: prod.ton_kho || 100
     }, 1)
   }
 
@@ -1203,7 +1203,7 @@ export function StorefrontClient({ categories: initialCategories, products: init
                                 slug: prod.slug,
                                 price: prod.price,
                                 imageUrl: imageUrl,
-                                stockQuantity: prod.stock_quantity || 100
+                                stockQuantity: prod.ton_kho || 100
                               }, 1)
                               window.location.hash = '#cart'
                             }}
