@@ -2977,6 +2977,127 @@ body {
   }
 }
 
+
+
+/* ===== FINAL FIX 2026-06-22: tăng +3px menu, tab nhóm và khung chatbot ===== */
+.site-header .nav-btn,
+.main-nav .nav-btn {
+  font-size: 19px !important;
+  line-height: 1.25 !important;
+  padding: 10px 15px !important;
+}
+
+#menuTabs,
+#merchTabs,
+.category-tabs {
+  padding: 12px 15px !important;
+  gap: 12px !important;
+}
+
+#menuTabs .tab-link,
+#merchTabs .tab-link,
+.category-tabs .tab-link {
+  font-size: 19px !important;
+  line-height: 1.25 !important;
+  min-height: 40px !important;
+  padding: 9px 15px !important;
+}
+
+.chat-toggle,
+.lookup-toggle {
+  font-size: 20px !important;
+  line-height: 1.25 !important;
+  min-height: 48px !important;
+  padding: 14px 22px !important;
+  color: #ffffff !important;
+}
+
+.chat-toggle,
+.chat-toggle *,
+.lookup-toggle,
+.lookup-toggle * {
+  color: #ffffff !important;
+}
+
+.chat-box {
+  width: min(353px, calc(100vw - 28px)) !important;
+  border-radius: 20px !important;
+}
+
+.chat-head {
+  font-size: 20px !important;
+  line-height: 1.25 !important;
+  padding: 15px 18px !important;
+}
+
+.chat-body {
+  height: 288px !important;
+}
+
+.chat-msg {
+  font-size: 18.5px !important;
+  line-height: 1.45 !important;
+}
+
+.quick-chat button {
+  font-size: 17.5px !important;
+  padding: 10px 14px !important;
+}
+
+.chat-input-row input,
+.chat-input-row button {
+  font-size: 18px !important;
+}
+
+.chat-input-row input {
+  padding: 11px 13px !important;
+}
+
+.chat-input-row button {
+  padding: 11px 15px !important;
+  color: #ffffff !important;
+}
+
+@media (max-width: 520px) {
+  .site-header .nav-btn,
+  .main-nav .nav-btn {
+    font-size: 17px !important;
+    padding: 8px 11px !important;
+  }
+
+  #menuTabs .tab-link,
+  #merchTabs .tab-link,
+  .category-tabs .tab-link {
+    font-size: 18px !important;
+    min-height: 37px !important;
+    padding: 8px 13px !important;
+  }
+
+  .chat-toggle,
+  .lookup-toggle {
+    font-size: 19px !important;
+    min-height: 44px !important;
+    padding: 12px 17px !important;
+  }
+
+  .chat-box {
+    width: min(353px, calc(100vw - 20px)) !important;
+    right: 10px !important;
+  }
+
+  .chat-body {
+    height: 268px !important;
+  }
+
+  .chat-msg {
+    font-size: 17px !important;
+  }
+
+  .quick-chat button {
+    font-size: 16.5px !important;
+  }
+}
+
 </style>
 <style id="force-search-icon-visible">
   .main-nav {
@@ -7327,6 +7448,16 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
   }
 ];
 
+
+    function removeVietnameseTones(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/Đ/g, "d")
+        .toLowerCase()
+        .trim();
+    }
 
     function getChatbotIntentReply(question) {
       const normalized = removeVietnameseTones(String(question || ""));
