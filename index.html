@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -2618,6 +2618,69 @@ body {
   .footer-map-center{ display:flex !important; justify-content:center; margin-top:8px; }
 }
 
+
+
+.product-search-card {
+  display: grid !important;
+  grid-template-columns: 120px 1fr !important;
+  gap: 16px !important;
+  align-items: center !important;
+  padding: 14px !important;
+}
+.product-search-img {
+  width: 120px !important;
+  height: 120px !important;
+  object-fit: cover !important;
+  border-radius: 14px !important;
+  background: #f4f4f4 !important;
+  border: 1px solid #e5e5e5 !important;
+}
+.product-search-info {
+  display: grid !important;
+  gap: 8px !important;
+}
+.product-search-info strong {
+  font-size: 22px !important;
+  line-height: 1.2 !important;
+  color: #050505 !important;
+}
+.product-search-price {
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  color: #050505 !important;
+}
+.product-search-info p {
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+  color: var(--muted) !important;
+  margin: 0 !important;
+}
+@media (max-width: 520px) {
+  .product-search-card {
+    grid-template-columns: 86px 1fr !important;
+    gap: 12px !important;
+    padding: 12px !important;
+  }
+  .product-search-img {
+    width: 86px !important;
+    height: 86px !important;
+    border-radius: 12px !important;
+  }
+  .product-search-info strong {
+    font-size: 18px !important;
+  }
+  .product-search-price {
+    font-size: 15px !important;
+  }
+  .product-search-info p {
+    font-size: 13px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+}
+
 </style>
 </head>
 
@@ -4140,6 +4203,7 @@ body {
       localStorage.setItem("vpc_cart", JSON.stringify(cart));
       updateCartCount();
       renderCart();
+      loadReviews();
     }
     function addToCart(name, priceNum, priceLabel) {
       const finalPriceNum = Number(priceNum || 0);
@@ -6322,7 +6386,6 @@ Khi chuyển khoản, bạn nhớ ghi đúng mã đơn <strong>VPC-DH-...</stron
     renderMenu(),
     renderMerch()
   ]);
-  loadReviews();
 
   results.forEach((result, index) => {
     if (result.status === "rejected") {
@@ -6341,16 +6404,75 @@ initWebsite();
 
 
     /* ===== PRODUCT SEARCH REALTIME ===== */
+    function normalizeSearchValue(value) {
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/[^a-z0-9\s-]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function getProductSearchImage(product) {
+      const slug = product.slug || "";
+
+      if (product.hinh_anh) return product.hinh_anh;
+      if (product.image_url) return product.image_url;
+      if (product.image) return product.image;
+      if (product.img) return product.img;
+
+      if (product.type === "menu") {
+        return drinkImageMap[slug] || defaultDrinkImage;
+      }
+
+      if (product.type === "merch") {
+        return getMerchImage(product);
+      }
+
+      return "";
+    }
+
+    function getProductSearchDescription(product) {
+      return getPremiumDescription(
+        product.slug,
+        product.ten_san_pham || product.name,
+        product.mo_ta || product.description || product.desc || ""
+      );
+    }
+
+    function getProductSearchPrice(product) {
+      if (product.type === "menu") {
+        return getDrinkPriceLabel(product);
+      }
+
+      const price = product.gia_ban ?? product.price ?? product.gia ?? product.gia_den ?? product.gia_sua ?? 0;
+      return price ? formatMoney(price) : "Liên hệ";
+    }
+
     function getAllSearchableProducts() {
       const drinks = [];
       try { drinks.push(...(JSON.parse(localStorage.getItem("vpc_cached_drinks") || "[]"))); } catch(e) {}
       if (!drinks.length && typeof getDrinksFallback === "function") drinks.push(...getDrinksFallback());
+
       const merch = [];
       try { merch.push(...(JSON.parse(localStorage.getItem("vpc_cached_merch") || "[]"))); } catch(e) {}
       if (!merch.length && typeof getMerchFallback === "function") merch.push(...getMerchFallback());
+
       return [
-        ...drinks.map(p => ({ ...p, type: "menu", name: p.ten_san_pham || p.name || "", slug: p.slug || "" })),
-        ...merch.map(p => ({ ...p, type: "merch", name: p.ten_san_pham || p.name || "", slug: p.slug || "" }))
+        ...drinks.map(p => ({
+          ...p,
+          type: "menu",
+          name: p.ten_san_pham || p.name || "",
+          slug: p.slug || ""
+        })),
+        ...merch.map(p => ({
+          ...p,
+          type: "merch",
+          name: p.ten_san_pham || p.name || "",
+          slug: p.slug || ""
+        }))
       ].filter(p => p.name && p.slug);
     }
 
@@ -6373,23 +6495,43 @@ initWebsite();
       const input = document.getElementById("productSearchInput");
       const box = document.getElementById("productSearchResults");
       if (!input || !box) return;
-      const q = input.value.trim().toLowerCase();
-      if (!q) {
+
+      const keywordRaw = input.value.trim();
+      const keyword = normalizeSearchValue(keywordRaw);
+
+      if (!keyword) {
         box.innerHTML = `<p style="color: var(--muted); text-align:center;">Nhập tên sản phẩm để xem kết quả ngay, không cần bấm Enter.</p>`;
         return;
       }
-      const results = getAllSearchableProducts().filter(p => String(p.name).toLowerCase().includes(q) || String(p.slug).toLowerCase().includes(q)).slice(0, 12);
+
+      const results = getAllSearchableProducts()
+        .filter(p => {
+          const haystack = normalizeSearchValue(`${p.name} ${p.ten_san_pham || ""} ${p.mo_ta || ""} ${p.description || ""} ${p.desc || ""} ${p.slug || ""}`);
+          return haystack.includes(keyword);
+        })
+        .slice(0, 12);
+
       if (!results.length) {
         box.innerHTML = `<p style="color: var(--muted); text-align:center;">Không tìm thấy sản phẩm phù hợp.</p>`;
         return;
       }
-      box.innerHTML = results.map(p => `
-        <div class="product-search-item">
-          <strong>${safeText(p.name)}</strong>
-          <span>${p.type === "menu" ? "Menu nước" : "Vật phẩm"} · slug: ${safeText(p.slug)}</span>
-          <button class="btn btn-primary" type="button" onclick="goToProductSlug('${safeText(p.type)}','${safeText(p.slug)}')">Xem sản phẩm</button>
-        </div>
-      `).join("");
+
+      box.innerHTML = results.map(p => {
+        const img = getProductSearchImage(p);
+        const desc = getProductSearchDescription(p);
+        const priceText = getProductSearchPrice(p);
+
+        return `
+        <div class="product-search-item product-search-card">
+          <img src="${safeText(img)}" class="product-search-img" alt="${safeText(p.name)}" loading="lazy" onerror="this.src='${p.type === "menu" ? defaultDrinkImage : defaultMerchImage}'">
+          <div class="product-search-info">
+            <strong>${safeText(p.name)}</strong>
+            <div class="product-search-price">${safeText(priceText)}</div>
+            <p>${safeText(desc || "Sản phẩm hiện chưa có mô tả chi tiết.")}</p>
+            <button class="btn btn-primary" type="button" onclick="goToProductSlug('${safeText(p.type)}','${safeText(p.slug)}')">Xem sản phẩm</button>
+          </div>
+        </div>`;
+      }).join("");
     }
 
     function goToProductSlug(type, slug) {
