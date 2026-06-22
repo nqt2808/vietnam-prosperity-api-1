@@ -704,13 +704,7 @@
         width: 100%;
       }
     }
-  
-
-/* ===== VPC ADMIN BLACK / WHITE SIGNATURE + INVENTORY/REVIEWS ===== */
-:root{--coffee-dark:#050505!important;--coffee:#111!important;--coffee-soft:#242424!important;--cream:#f5f5f5!important;--cream-2:#fff!important;--gold:#111!important;--gold-light:#fff!important;--text:#111!important;--muted:#626262!important;--white:#fff!important;--shadow:0 12px 32px rgba(0,0,0,.12)!important;}
-.sidebar, th{background:#050505!important;color:#fff!important}.brand h1,.card h3,.topbar h2{color:#050505!important}.sidebar .brand h1{color:#fff!important}.btn-primary{background:#050505!important;color:#fff!important}.btn-light{background:#fff!important;color:#050505!important;border-color:#222!important}.stock-admin-low{color:#8a5b00;font-weight:900}.stock-admin-out{color:#991b1b;font-weight:900}.stock-admin-ok{color:#166534;font-weight:900}.mini-btn{border:none;border-radius:999px;background:#050505;color:#fff;font-weight:900;padding:9px 13px;cursor:pointer}.mini-btn:hover{background:#fff;color:#050505;box-shadow:inset 0 0 0 1px #050505}.ai-answer{white-space:pre-wrap;line-height:1.6;background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px;min-height:160px}
-
-</style>
+  </style>
 </head>
 
 <body>
@@ -748,7 +742,7 @@
         <button class="nav-btn" onclick="showAdminPage('drinks', this)">☕ Menu nước</button>
         <button class="nav-btn" onclick="showAdminPage('merch', this)">🎁 Vật phẩm</button>
         <button class="nav-btn" onclick="showAdminPage('customers', this)">👥 Khách hàng</button>
-        <button class="nav-btn" onclick="showAdminPage('reviews', this)">💬 Đánh giá</button>
+        <button class="nav-btn" onclick="showAdminPage('reviews', this)">💬 Phản hồi khách hàng</button>
         <button class="nav-btn" onclick="showAdminPage('sepay-transactions', this)">💸 Giao dịch SePay</button>
         <button class="nav-btn" onclick="showAdminPage('ai-tools', this)">🤖 Tiện ích AI</button>
         <button class="nav-btn" onclick="logoutAdmin()">🚪 Đăng xuất</button>
@@ -765,7 +759,7 @@
         <div class="toolbar-right">
           <button class="btn btn-light" onclick="reloadAdminData(this)">🔄 Reload data</button>
           <button class="btn btn-primary" onclick="exportOrdersCSV()">Xuất CSV đơn hàng</button>
-          <button class="btn btn-primary" onclick="exportDailyReportCSV()">Xuất báo cáo ngày</button>
+          <button class="btn btn-primary" onclick="exportDailyReportCSV()" style="background-color: var(--coffee-soft); color: var(--cream);">Xuất báo cáo theo ngày</button>
         </div>
       </div>
 
@@ -943,7 +937,6 @@
                   <th>Slug</th>
                   <th>Giá đen</th>
                   <th>Giá sữa</th>
-                  <th>Tồn kho</th>
                   <th>Nổi bật</th>
                   <th>Hiển thị</th>
                   <th>Thao tác</th>
@@ -951,7 +944,7 @@
               </thead>
               <tbody id="drinksTableBody">
                 <tr>
-                  <td colspan="9">Đang tải menu nước...</td>
+                  <td colspan="8">Đang tải menu nước...</td>
                 </tr>
               </tbody>
             </table>
@@ -984,7 +977,7 @@
               </thead>
               <tbody id="merchTableBody">
                 <tr>
-                  <td colspan="8">Đang tải vật phẩm...</td>
+                  <td colspan="7">Đang tải vật phẩm...</td>
                 </tr>
               </tbody>
             </table>
@@ -1008,15 +1001,13 @@
                   <th>Địa chỉ</th>
                   <th>Số đơn</th>
                   <th>Số lần quay lại</th>
-                  <th>Món hay order</th>
-                  <th>Email KM</th>
                   <th>Ghi chú</th>
                   <th>Ngày tạo</th>
                 </tr>
               </thead>
               <tbody id="customersTableBody">
                 <tr>
-                  <td colspan="10">Đang tải khách hàng...</td>
+                  <td colspan="8">Đang tải khách hàng...</td>
                 </tr>
               </tbody>
             </table>
@@ -1024,23 +1015,36 @@
         </div>
       </section>
 
-
-
       <section id="reviews" class="admin-page">
         <div class="card">
           <div class="toolbar">
-            <h3>Đánh giá khách hàng</h3>
-            <button class="btn btn-primary" onclick="loadReviews()">Tải lại đánh giá</button>
+            <h3>Phản hồi của khách hàng (Reviews)</h3>
+            <button class="btn btn-primary" onclick="loadReviews()">🔄 Tải lại</button>
           </div>
-          <div class="admin-note">Đánh giá được gửi sau khi khách đặt hàng. Những đánh giá bật “Hiển thị” sẽ xuất hiện tại mục “Khách hàng nói gì về VPC”.</div>
+
+          <div class="admin-note">
+            Đánh giá của khách hàng từ Storefront sau khi đặt hàng thành công. Các đánh giá được bật "Hiển thị" sẽ hiện ở mục "Khách hàng nói gì về VPC" trên trang chủ.
+          </div>
+
           <div class="table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>Khách hàng</th><th>SĐT</th><th>Mã đơn</th><th>Sao</th><th>Nội dung</th><th>Ngày</th><th>Hiển thị</th><th>Thao tác</th>
+                  <th>Họ tên</th>
+                  <th>Số điện thoại</th>
+                  <th>Mã đơn</th>
+                  <th>Số sao</th>
+                  <th>Nội dung</th>
+                  <th>Ngày đánh giá</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
                 </tr>
               </thead>
-              <tbody id="reviewsTableBody"><tr><td colspan="8">Đang tải đánh giá...</td></tr></tbody>
+              <tbody id="reviewsTableBody">
+                <tr>
+                  <td colspan="8">Đang tải phản hồi...</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -1087,21 +1091,6 @@
             <div class="ai-tool-card" onclick="fillAIPrompt('operations')">
               <h4>Tư vấn vận hành</h4>
               <p>Gợi ý cải thiện tốc độ xử lý đơn và trạng thái đơn.</p>
-            </div>
-
-            <div class="ai-tool-card" onclick="fillAIPrompt('inventory')">
-              <h4>Cảnh báo tồn kho</h4>
-              <p>Phân tích mặt hàng hết/sắp hết và đề xuất nhập hàng.</p>
-            </div>
-
-            <div class="ai-tool-card" onclick="fillAIPrompt('review-insights')">
-              <h4>Phân tích đánh giá</h4>
-              <p>Tóm tắt phản hồi khách hàng và điểm cần cải thiện.</p>
-            </div>
-
-            <div class="ai-tool-card" onclick="fillAIPrompt('email-promo')">
-              <h4>Email khuyến mãi</h4>
-              <p>Gợi ý nhóm khách nên gửi ưu đãi theo món hay order.</p>
             </div>
 
             <div class="ai-tool-card" onclick="fillAIPrompt('summary')">
@@ -1195,7 +1184,6 @@
     window.adminMerch = [];
     window.adminCustomers = [];
     window.adminSepayTransactions = [];
-    window.adminReviews = [];
 
     const paidStatuses = [
       "da_tt",
@@ -1284,7 +1272,7 @@
         drinks: "Quản lý menu nước",
         merch: "Quản lý vật phẩm",
         customers: "Quản lý khách hàng",
-        reviews: "Quản lý đánh giá",
+        reviews: "Phản hồi khách hàng",
         "sepay-transactions": "Giao dịch SePay",
         "ai-tools": "Tiện ích AI"
       };
@@ -1355,7 +1343,7 @@
           }
         }
 
-        window.adminOrders = sortAdminOrders(normalizeArray(result).map(normalizeAdminOrder));
+        window.adminOrders = sortAdminOrders(normalizeArray(result));
         renderOrders();
         buildAdminAnalytics(window.adminOrders);
       } catch (error) {
@@ -1367,10 +1355,10 @@
 
     async function loadDrinks() {
       const tbody = document.getElementById("drinksTableBody");
-      if (tbody) tbody.innerHTML = `<tr><td colspan="9">Đang tải menu nước...</td></tr>`;
+      if (tbody) tbody.innerHTML = `<tr><td colspan="8">Đang tải menu nước...</td></tr>`;
 
       try {
-        const result = await fetchJSON("/api/do-uong");
+        const result = await fetchJSON("/api/do-uong?all=1");
         window.adminDrinks = normalizeArray(result);
         renderDrinks();
       } catch (error) {
@@ -1381,15 +1369,15 @@
 
     async function loadMerch() {
       const tbody = document.getElementById("merchTableBody");
-      if (tbody) tbody.innerHTML = `<tr><td colspan="8">Đang tải vật phẩm...</td></tr>`;
+      if (tbody) tbody.innerHTML = `<tr><td colspan="7">Đang tải vật phẩm...</td></tr>`;
 
       try {
         let result;
 
         try {
-          result = await fetchJSON("/api/merchandise");
+          result = await fetchJSON("/api/merchandise?all=1");
         } catch (error) {
-          result = await fetchJSON("/api/vat-pham");
+          result = await fetchJSON("/api/vat-pham?all=1");
         }
 
         window.adminMerch = normalizeArray(result);
@@ -1402,7 +1390,7 @@
 
     async function loadCustomers() {
       const tbody = document.getElementById("customersTableBody");
-      if (tbody) tbody.innerHTML = `<tr><td colspan="10">Đang tải khách hàng...</td></tr>`;
+      if (tbody) tbody.innerHTML = `<tr><td colspan="8">Đang tải khách hàng...</td></tr>`;
 
       try {
         let result;
@@ -1433,7 +1421,6 @@
       } catch (error) {
         console.error("Lỗi tải giao dịch SePay:", error);
         window.adminSepayTransactions = [];
-    window.adminReviews = [];
         if (tbody) {
           tbody.innerHTML = `
             <tr>
@@ -1598,34 +1585,19 @@
     }
 
     function getPaymentMethod(order) {
-      const raw = String(order.phuong_thuc_thanh_toan || order.payment_method || order.paymentType || "Không rõ");
-      const map = {
-        chuyen_khoan: "Chuyển khoản",
-        thanh_toan_khi_nhan_hang: "Thanh toán khi nhận hàng",
-        cod: "Thanh toán khi nhận hàng"
-      };
-      return map[raw] || raw;
+      return String(order.phuong_thuc_thanh_toan || order.payment_method || order.paymentType || "Không rõ");
     }
 
     function getDeliveryType(order) {
-      const info = getOrderInfoObject(order);
-      const raw = String(order.hinh_thuc_nhan_hang || order.delivery_type || order.deliveryType || info.delivery_type || info.hinh_thuc_nhan_hang || "Không rõ");
-      const map = {
-        giao_hang_noi_thanh: "Giao hàng tận nơi",
-        giao_hang_tan_noi: "Giao hàng tận nơi",
-        den_lay_tai_quan: "Đến lấy tại quán"
-      };
-      return map[raw] || raw;
+      return String(order.hinh_thuc_nhan_hang || order.delivery_type || order.deliveryType || "Không rõ");
     }
 
     function getCustomerName(order) {
-      const info = getOrderInfoObject(order);
-      return firstNonEmpty(order.ho_ten, order.ten_khach_hang, order.customer_name, info.name, info.ho_ten, info.customer_name, order?.khach_hang?.ho_ten, order?.thong_tin_khach_hang?.ho_ten) || "Khách hàng";
+      return order.ho_ten || order.ten_khach_hang || order.customer_name || order?.khach_hang?.ho_ten || order?.thong_tin_khach_hang?.ho_ten || "Khách hàng";
     }
 
     function getCustomerPhone(order) {
-      const info = getOrderInfoObject(order);
-      return firstNonEmpty(order.so_dien_thoai, order.phone, order.customer_phone, info.phone, info.so_dien_thoai, info.customer_phone, order?.khach_hang?.so_dien_thoai, order?.thong_tin_khach_hang?.so_dien_thoai) || "";
+      return order.so_dien_thoai || order.phone || order.customer_phone || order?.khach_hang?.so_dien_thoai || order?.thong_tin_khach_hang?.so_dien_thoai || "";
     }
 
     function getOrderItems(order) {
@@ -1753,7 +1725,7 @@
           <div class="detail-item"><strong>Nhận hàng</strong>${safeText(getDeliveryType(order))}</div>
           <div class="detail-item"><strong>Tổng tiền</strong>${formatMoney(getOrderTotal(order))}</div>
           <div class="detail-item"><strong>Trạng thái</strong>${safeText(statusLabels[getOrderStatus(order)] || getOrderStatus(order))}</div>
-          <div class="detail-item" style="grid-column: 1 / -1;"><strong>Địa chỉ giao hàng</strong>${safeText(getShipAddress(order) || "Không có")}</div>
+          <div class="detail-item" style="grid-column: 1 / -1;"><strong>Địa chỉ</strong>${safeText(getShipAddress(order) || "Không có")}</div>
           <div class="detail-item" style="grid-column: 1 / -1;"><strong>Ghi chú</strong>${safeText(order.ghi_chu || order.note || "Không có")}</div>
         </div>
 
@@ -1782,7 +1754,7 @@
       const drinks = Array.isArray(window.adminDrinks) ? window.adminDrinks : [];
 
       if (!drinks.length) {
-        tbody.innerHTML = `<tr><td colspan="9">Chưa có dữ liệu menu nước.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8">Chưa có dữ liệu menu nước.</td></tr>`;
         return;
       }
 
@@ -1793,7 +1765,6 @@
           <td>${safeText(item.slug)}</td>
           <td><input id="drinkGiaDen${index}" type="number" value="${Number(item.gia_den || 0)}"></td>
           <td><input id="drinkGiaSua${index}" type="number" value="${Number(item.gia_sua || 0)}"></td>
-          <td><input id="drinkTonKho${index}" type="number" min="0" value="${Number(item.ton_kho ?? item.stock_quantity ?? 999)}"></td>
           <td>
             <select id="drinkNoiBat${index}">
               <option value="true" ${item.la_mon_noi_bat ? "selected" : ""}>Nổi bật</option>
@@ -1822,28 +1793,31 @@
         return;
       }
 
-      tbody.innerHTML = merch.map((item, index) => `
-        <tr>
-          <td><img class="product-img" src="${safeText(item.hinh_anh || item.image || "")}" onerror="this.style.display='none'"></td>
-          <td><strong>${safeText(item.ten_san_pham)}</strong></td>
-          <td>${safeText(item.slug)}</td>
-          <td><input id="merchGia${index}" type="number" value="${Number(item.gia || 0)}"></td>
-          <td><input id="merchTonKho${index}" type="number" min="0" value="${Number(item.ton_kho ?? item.stock_quantity ?? 0)}"></td>
-          <td>
-            <select id="merchConBan${index}">
-              <option value="true" ${item.con_ban !== false ? "selected" : ""}>Còn bán</option>
-              <option value="false" ${item.con_ban === false ? "selected" : ""}>Ngừng bán</option>
-            </select>
-          </td>
-          <td>
-            <select id="merchHienThi${index}">
-              <option value="true" ${item.hien_thi !== false ? "selected" : ""}>Hiển thị</option>
-              <option value="false" ${item.hien_thi === false ? "selected" : ""}>Ẩn</option>
-            </select>
-          </td>
-          <td><button class="mini-btn" onclick="saveMerchOptions(${index})">Lưu</button></td>
-        </tr>
-      `).join("");
+      tbody.innerHTML = merch.map((item, index) => {
+        const tonKhoValue = item.ton_kho !== undefined ? item.ton_kho : (item.stock_quantity !== undefined ? item.stock_quantity : 10);
+        return `
+          <tr>
+            <td><img class="product-img" src="${safeText(item.hinh_anh || item.image || "")}" onerror="this.style.display='none'"></td>
+            <td><strong>${safeText(item.ten_san_pham)}</strong></td>
+            <td>${safeText(item.slug)}</td>
+            <td><input id="merchGia${index}" type="number" value="${Number(item.gia || 0)}"></td>
+            <td><input id="merchTonKho${index}" type="number" value="${Number(tonKhoValue)}" style="width: 70px;"></td>
+            <td>
+              <select id="merchConBan${index}">
+                <option value="true" ${item.con_ban !== false ? "selected" : ""}>Còn bán</option>
+                <option value="false" ${item.con_ban === false ? "selected" : ""}>Ngừng bán</option>
+              </select>
+            </td>
+            <td>
+              <select id="merchHienThi${index}">
+                <option value="true" ${item.hien_thi !== false ? "selected" : ""}>Hiển thị</option>
+                <option value="false" ${item.hien_thi === false ? "selected" : ""}>Ẩn</option>
+              </select>
+            </td>
+            <td><button class="mini-btn" onclick="saveMerchOptions(${index})">Lưu</button></td>
+          </tr>
+        `;
+      }).join("");
     }
 
     async function saveDrinkOptions(index) {
@@ -1853,7 +1827,6 @@
       const payload = {
         gia_den: Number(document.getElementById(`drinkGiaDen${index}`).value || 0),
         gia_sua: Number(document.getElementById(`drinkGiaSua${index}`).value || 0),
-        ton_kho: Number(document.getElementById(`drinkTonKho${index}`).value || 0),
         la_mon_noi_bat: document.getElementById(`drinkNoiBat${index}`).value === "true",
         hien_thi: document.getElementById(`drinkHienThi${index}`).value === "true"
       };
@@ -1921,8 +1894,8 @@
           map.set(phone, {
             ho_ten: getCustomerName(order),
             so_dien_thoai: phone,
-            email: getCustomerEmail(order) || "",
-            dia_chi: getShipAddress(order) || "",
+            email: order.email || "",
+            dia_chi: order.dia_chi_giao_hang || "",
             ghi_chu: order.ghi_chu || "",
             created_at: order.created_at || order.ngay_tao || ""
           });
@@ -1941,30 +1914,6 @@
       };
     }
 
-
-    function getFavoriteProductsByPhone(phone) {
-      const productMap = new Map();
-      (window.adminOrders || []).filter(order => String(getCustomerPhone(order)) === String(phone)).forEach(order => {
-        getOrderItems(order).forEach(item => {
-          const name = item.name || item.ten_san_pham || item.product_name || "Sản phẩm";
-          const qty = Number(item.qty || item.quantity || item.so_luong || 1);
-          productMap.set(name, (productMap.get(name) || 0) + qty);
-        });
-      });
-      return [...productMap.entries()].sort((a,b)=>b[1]-a[1]).slice(0,3).map(([name,qty]) => `${name} x${qty}`).join(", ");
-    }
-
-    function buildInventorySummary() {
-      const drinks = (window.adminDrinks || []).map(x => ({ type: "drink", name: x.ten_san_pham, stock: Number(x.ton_kho ?? x.stock_quantity ?? 999) }));
-      const merch = (window.adminMerch || []).map(x => ({ type: "merch", name: x.ten_san_pham, stock: Number(x.ton_kho ?? x.stock_quantity ?? 0) }));
-      const all = [...drinks, ...merch];
-      return {
-        totalItems: all.length,
-        outOfStock: all.filter(x => x.stock <= 0),
-        lowStock: all.filter(x => x.stock > 0 && x.stock <= 5)
-      };
-    }
-
     function renderCustomers() {
       const tbody = document.getElementById("customersTableBody");
       if (!tbody) return;
@@ -1974,7 +1923,7 @@
         : buildCustomersFromOrders();
 
       if (!customers.length) {
-        tbody.innerHTML = `<tr><td colspan="10">Chưa có dữ liệu khách hàng.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8">Chưa có dữ liệu khách hàng.</td></tr>`;
         return;
       }
 
@@ -1982,18 +1931,14 @@
         const phone = item.so_dien_thoai || item.phone || "";
         const stats = getCustomerOrderStats(phone);
 
-        const favorite = getFavoriteProductsByPhone(phone);
-        const email = item.email || "";
         return `
           <tr>
             <td><strong>${safeText(item.ho_ten || item.name)}</strong></td>
             <td>${safeText(phone)}</td>
-            <td>${safeText(email)}</td>
+            <td>${safeText(item.email || "")}</td>
             <td>${safeText(item.dia_chi || item.address || "")}</td>
             <td><strong>${stats.totalOrders}</strong></td>
             <td><strong>${stats.returnTimes}</strong></td>
-            <td>${safeText(favorite || item.mon_hay_order || "")}</td>
-            <td>${email ? `<a href="mailto:${safeText(email)}?subject=Ưu đãi dành riêng cho khách hàng VPC&body=VPC gửi Quý khách ưu đãi liên quan đến món ${encodeURIComponent(favorite || item.mon_hay_order || "yêu thích")}.">Gửi mail KM</a>` : "Chưa có email"}</td>
             <td>${safeText(item.ghi_chu || item.note || "")}</td>
             <td>${formatDate(item.created_at || item.createdAt)}</td>
           </tr>
@@ -2040,14 +1985,20 @@
         const displayValue = options.money ? compactMoney(value) : value;
 
         return `
-          <rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="8" fill="#c89b3c"></rect>
-          <text x="${x + barWidth / 2}" y="${height - 34}" text-anchor="middle" font-size="12" fill="#5a321f">${safeText(label)}</text>
-          <text x="${x + barWidth / 2}" y="${y - 8}" text-anchor="middle" font-size="12" fill="#1f120b" font-weight="800">${displayValue}</text>
+          <rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="6" fill="url(#barGoldGradient)"></rect>
+          <text x="${x + barWidth / 2}" y="${height - 34}" text-anchor="middle" font-size="11" fill="#5a321f" font-weight="600">${safeText(label)}</text>
+          <text x="${x + barWidth / 2}" y="${y - 8}" text-anchor="middle" font-size="11" fill="#1f120b" font-weight="800">${displayValue}</text>
         `;
       }).join("");
 
       container.innerHTML = `
         <svg viewBox="0 0 ${width} ${height}" width="100%" height="310" role="img">
+          <defs>
+            <linearGradient id="barGoldGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f4d17b" />
+              <stop offset="100%" stop-color="#c89b3c" />
+            </linearGradient>
+          </defs>
           <rect x="0" y="0" width="${width}" height="${height}" rx="16" fill="#fffaf4"></rect>
           <line x1="${paddingLeft}" y1="${paddingTop + chartHeight}" x2="${width - paddingRight}" y2="${paddingTop + chartHeight}" stroke="#decdb9" stroke-width="2"></line>
           <line x1="${paddingLeft}" y1="${paddingTop}" x2="${paddingLeft}" y2="${paddingTop + chartHeight}" stroke="#decdb9" stroke-width="2"></line>
@@ -2100,6 +2051,7 @@
             stroke-width="30"
             stroke-dasharray="${dash} ${gap}"
             stroke-dashoffset="${offset}"
+            pathLength="100"
             transform="rotate(-90 120 120)"
           ></circle>
         `;
@@ -2120,7 +2072,7 @@
       container.innerHTML = `
         <div class="donut-clean-wrap">
           <svg viewBox="0 0 240 240" class="donut-svg">
-            <circle cx="120" cy="120" r="74" fill="transparent" stroke="#f1e4d2" stroke-width="30"></circle>
+            <circle cx="120" cy="120" r="74" fill="transparent" stroke="#f1e4d2" stroke-width="30" pathLength="100"></circle>
             ${segments}
             <circle cx="120" cy="120" r="48" fill="#fff8ed"></circle>
             <text x="120" y="116" text-anchor="middle" font-size="28" font-weight="900" fill="#1f120b">${total}</text>
@@ -2138,139 +2090,51 @@
       return String(phone || "").replace(/\D/g, "");
     }
 
-    function parseMaybeJson(value) {
-      if (!value) return null;
-      if (typeof value === "object") return value;
-      const text = String(value).trim();
-      if (!text || !(text.startsWith("{") || text.startsWith("["))) return null;
-      try { return JSON.parse(text); } catch (e) { return null; }
-    }
-
-    function firstNonEmpty(...values) {
-      for (const value of values) {
-        if (value === null || value === undefined) continue;
-        const text = String(value).trim();
-        if (text && text.toLowerCase() !== "null" && text.toLowerCase() !== "undefined") return text;
-      }
-      return "";
-    }
-
-    function getOrderInfoObject(order) {
-      const candidates = [
-        order?.dia_chi,
-        order?.dia_chi_giao_hang,
-        order?.shipping_address,
-        order?.address,
-        order?.thong_tin_khach_hang,
-        order?.customer,
-        order?.khach_hang
-      ];
-
-      for (const value of candidates) {
-        const parsed = parseMaybeJson(value);
-        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) return parsed;
-        if (value && typeof value === "object" && !Array.isArray(value)) return value;
-      }
-
-      return {};
-    }
-
-    function cleanAddressText(value) {
-      if (!value) return "";
-
-      const parsed = parseMaybeJson(value);
-      if (parsed) {
-        if (Array.isArray(parsed)) return "";
-        return cleanAddressText(
-          parsed.address ||
-          parsed.dia_chi ||
-          parsed.dia_chi_giao_hang ||
-          parsed.shipping_address ||
-          parsed.customerAddress ||
-          parsed.full_address ||
-          parsed.delivery_address ||
-          ""
-        );
-      }
+    function getReadableAddress(value) {
+      if (value === null || value === undefined) return "";
 
       if (typeof value === "object") {
-        return cleanAddressText(
+        return String(
           value.address ||
           value.dia_chi ||
           value.dia_chi_giao_hang ||
           value.shipping_address ||
-          value.customerAddress ||
-          value.full_address ||
-          value.delivery_address ||
+          value.customer_address ||
           ""
-        );
+        ).trim();
       }
 
-      const text = String(value)
-        .replace(/^null$/i, "")
-        .replace(/^undefined$/i, "")
-        .trim();
+      const raw = String(value || "").trim();
+      if (!raw) return "";
 
-      if (!text || text === "{}" || text === "[]") return "";
-      if (text.startsWith("{") || text.startsWith("[")) return "";
-      return text;
+      if ((raw.startsWith("{") && raw.endsWith("}")) || (raw.startsWith("[") && raw.endsWith("]"))) {
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            return parsed
+              .map(item => getReadableAddress(item))
+              .filter(Boolean)
+              .join(", ");
+          }
+          return getReadableAddress(parsed) || raw;
+        } catch (error) {
+          return raw;
+        }
+      }
+
+      return raw;
     }
 
     function getShipAddress(order) {
-      const info = getOrderInfoObject(order);
-      const candidates = [
-        order.dia_chi_giao_hang,
-        order.shipping_address,
-        info.address,
-        info.dia_chi,
-        info.dia_chi_giao_hang,
-        info.shipping_address,
-        info.customerAddress,
-        info.full_address,
-        info.delivery_address,
-        order.dia_chi,
-        order.address,
-        order?.khach_hang?.dia_chi,
-        order?.thong_tin_khach_hang?.dia_chi
-      ];
-
-      for (const value of candidates) {
-        const address = cleanAddressText(value);
-        if (address) return address;
-      }
-
-      return "";
-    }
-
-    function getCustomerEmail(order) {
-      const info = getOrderInfoObject(order);
-      return firstNonEmpty(order.email, order.customer_email, info.email, order?.khach_hang?.email, order?.thong_tin_khach_hang?.email);
-    }
-
-    function normalizeAdminOrder(order) {
-      const info = getOrderInfoObject(order);
-      const normalized = { ...order };
-
-      const address = getShipAddress(order);
-      if (address) {
-        normalized.dia_chi_giao_hang = address;
-        normalized.dia_chi = address;
-        normalized.address = address;
-      }
-
-      const name = firstNonEmpty(order.ho_ten, order.ten_khach_hang, order.customer_name, info.name, info.ho_ten, info.customer_name, order?.khach_hang?.ho_ten, order?.thong_tin_khach_hang?.ho_ten);
-      if (name) normalized.ho_ten = name;
-
-      const phone = firstNonEmpty(order.so_dien_thoai, order.phone, order.customer_phone, info.phone, info.so_dien_thoai, info.customer_phone, order?.khach_hang?.so_dien_thoai, order?.thong_tin_khach_hang?.so_dien_thoai);
-      if (phone) normalized.so_dien_thoai = phone;
-
-      const email = getCustomerEmail(order);
-      if (email) normalized.email = email;
-
-      const deliveryType = firstNonEmpty(order.hinh_thuc_nhan_hang, order.delivery_type, order.deliveryType, info.delivery_type, info.hinh_thuc_nhan_hang);
-      if (deliveryType) normalized.hinh_thuc_nhan_hang = deliveryType;
-
-      return normalized;
+      return getReadableAddress(
+        order.dia_chi_giao_hang ||
+        order.dia_chi ||
+        order.address ||
+        order.shipping_address ||
+        order?.khach_hang?.dia_chi ||
+        order?.thong_tin_khach_hang?.dia_chi ||
+        ""
+      );
     }
 
     function getItemPrice(item) {
@@ -2392,6 +2256,39 @@
       setText("statReturnRate", insights.returnRate + "%");
       setText("statUniqueShipAddresses", insights.uniqueShipAddresses);
       setText("statTopShipAddress", insights.topShipAddress ? insights.topShipAddress.address.slice(0, 18) + "…" : "-");
+
+      const repeatAddressCount = insights.addresses.filter(a => a.orders > 1).length;
+
+      renderBarChart(
+        "returnLevelChart",
+        ["Khách unique", "Khách quay lại", "Địa chỉ ship", "Địa chỉ lặp lại"],
+        [insights.uniqueCustomers, insights.returningCustomerCount, insights.uniqueShipAddresses, repeatAddressCount]
+      );
+
+      renderBarChart(
+        "returningCustomersChart",
+        insights.returningCustomers.slice(0, 8).map(c => c.phone.slice(-4)),
+        insights.returningCustomers.slice(0, 8).map(c => c.orders)
+      );
+
+      renderBarChart(
+        "shipAddressChart",
+        insights.addresses.slice(0, 8).map(a => a.address.slice(0, 12) + "…"),
+        insights.addresses.slice(0, 8).map(a => a.orders)
+      );
+
+      renderBarChart(
+        "leastSoldProductsChart",
+        insights.leastSoldProducts.slice(0, 8).map(p => p.name.slice(0, 12) + "…"),
+        insights.leastSoldProducts.slice(0, 8).map(p => p.qty)
+      );
+
+      renderBarChart(
+        "repeatCustomerRevenueChart",
+        insights.returningCustomers.slice(0, 8).map(c => c.phone.slice(-4)),
+        insights.returningCustomers.slice(0, 8).map(c => c.revenue),
+        { money: true }
+      );
 
       const revenueByDay = {};
       const ordersByDay = {};
@@ -2535,13 +2432,48 @@ Gợi ý:
         "repeat-customers": "Phân tích khách hàng quay lại dựa trên số điện thoại và địa chỉ ship đến.",
         "customer-retention": "Phân tích khách hàng quay lại, nhóm khách trung thành và cách tăng số lần quay lại.",
         operations: "Phân tích trạng thái đơn hàng và gợi ý cải thiện vận hành xử lý đơn.",
-        inventory: "Phân tích tồn kho hiện tại: sản phẩm nào hết hàng, sản phẩm nào sắp hết, cần nhập thêm gì và ưu tiên theo khả năng bán.",
-        "review-insights": "Phân tích đánh giá khách hàng: điểm mạnh, điểm yếu, vấn đề lặp lại và đề xuất cải thiện dịch vụ.",
-        "email-promo": "Dựa vào lịch sử mua hàng, đề xuất nhóm khách nên gửi email khuyến mãi và nội dung ưu đãi liên quan tới món họ hay order.",
         summary: "Tóm tắt tình hình kinh doanh hiện tại cho chủ quán: doanh thu, số đơn, khách quay lại, địa chỉ ship, món bán chạy, món ít bán, khuyến mãi nên chạy."
       };
 
       document.getElementById("aiPrompt").value = prompts[type] || "Phân tích dữ liệu kinh doanh.";
+      runAdminAI();
+    }
+
+    function buildFullAdminAIContext() {
+      const insights = buildBusinessInsights();
+
+      return {
+        reportPage: {
+          totalRevenue: insights.totalRevenue,
+          totalOrders: insights.totalOrders,
+          paidOrders: insights.paidOrders,
+          avgOrder: insights.avgOrder,
+          uniqueCustomers: insights.uniqueCustomers,
+          returningCustomerCount: insights.returningCustomerCount,
+          returnRate: insights.returnRate,
+          uniqueShipAddresses: insights.uniqueShipAddresses,
+          topShipAddress: insights.topShipAddress,
+          statusMap: insights.statusMap,
+          paymentMap: insights.paymentMap,
+          deliveryMap: insights.deliveryMap,
+          dailyRevenue: insights.dailyRevenue,
+          forecast: insights.forecast
+        },
+        ordersPage: window.adminOrders || [],
+        drinksPage: window.adminDrinks || [],
+        merchandisePage: window.adminMerch || [],
+        customersPage: window.adminCustomers || [],
+        analytics: insights,
+        rules: [
+          "Bắt buộc phân tích dựa trên toàn bộ dữ liệu adminContext.",
+          "Khi hỏi về đơn hàng, đọc ordersPage.",
+          "Khi hỏi về menu nước, đọc drinksPage.",
+          "Khi hỏi về vật phẩm, đọc merchandisePage.",
+          "Khi hỏi về khách hàng, đọc customersPage.",
+          "Khi hỏi báo cáo, đọc reportPage và analytics.",
+          "Nếu thiếu dữ liệu, nói rõ thiếu dữ liệu nào, không bịa."
+        ]
+      };
     }
 
     async function runAdminAI() {
@@ -2553,24 +2485,49 @@ Gợi ý:
         return;
       }
 
-      resultBox.value = "Đang phân tích...";
+      resultBox.value = "Đang reload toàn bộ dữ liệu Báo cáo, Đơn hàng, Menu nước, Vật phẩm, Khách hàng...";
 
       try {
-        const response = await fetch(`${API_URL}/api/chat`, {
+        await Promise.allSettled([
+          loadOrders(),
+          loadDrinks(),
+          loadMerch(),
+          loadCustomers(),
+          loadSepayTransactions()
+        ]);
+
+        buildAdminAnalytics(window.adminOrders || []);
+      } catch (reloadError) {
+        console.warn("Reload trước khi chạy AI bị lỗi, vẫn phân tích dữ liệu hiện có:", reloadError);
+      }
+
+      resultBox.value = "Đang gửi toàn bộ dữ liệu cho AI phân tích...";
+
+      const fullContext = buildFullAdminAIContext();
+      const aiEndpoint = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.endsWith("vercel.app")
+        ? "/api/chat-ai?debug=1"
+        : `${API_URL}/api/chat-ai?debug=1`;
+
+      try {
+        const response = await fetch(aiEndpoint, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json; charset=utf-8" },
           body: JSON.stringify({
-            message: prompt,
+            message: `Bạn là AI Admin của Vietnam Prosperity Coffee.
+
+BẮT BUỘC đọc toàn bộ dữ liệu trong adminContext trước khi trả lời:
+- reportPage: dữ liệu trang Báo cáo
+- ordersPage: dữ liệu trang Đơn hàng
+- drinksPage: dữ liệu trang Menu nước
+- merchandisePage: dữ liệu trang Vật phẩm
+- customersPage: dữ liệu trang Khách hàng
+- analytics: dữ liệu phân tích đã tính sẵn
+
+Không được trả lời chung chung. Nếu thiếu dữ liệu thì nói rõ thiếu dữ liệu nào.
+Câu hỏi của admin: ${prompt}`,
+            question: prompt,
             adminMode: true,
-            adminContext: {
-              orders: window.adminOrders,
-              drinks: window.adminDrinks,
-              merchandise: window.adminMerch,
-              customers: window.adminCustomers,
-              reviews: window.adminReviews,
-              inventory: buildInventorySummary(),
-              dailyRevenue: getDailyRevenueArray(), analytics: buildBusinessInsights()
-            }
+            adminContext: fullContext
           })
         });
 
@@ -2582,84 +2539,6 @@ Gợi ý:
         console.error("Lỗi AI:", error);
         resultBox.value = generateLocalAIReport(prompt);
       }
-    }
-
-
-
-    async function loadReviews() {
-      const tbody = document.getElementById("reviewsTableBody");
-      if (tbody) tbody.innerHTML = `<tr><td colspan="8">Đang tải đánh giá...</td></tr>`;
-      try {
-        const res = await fetch(`${API_URL}/api/reviews?all=1&_=${Date.now()}`, { cache: "no-store" });
-        if (!res.ok) throw new Error("Không tải được reviews");
-        const data = await res.json();
-        window.adminReviews = Array.isArray(data) ? data : (data.data || data.reviews || []);
-        renderReviews();
-      } catch (err) {
-        console.error("Lỗi tải reviews:", err);
-        window.adminReviews = [];
-        if (tbody) tbody.innerHTML = `<tr><td colspan="8">Chưa tải được đánh giá. Cần deploy API /api/reviews.</td></tr>`;
-      }
-    }
-
-    function renderReviews() {
-      const tbody = document.getElementById("reviewsTableBody");
-      if (!tbody) return;
-      const list = window.adminReviews || [];
-      if (!list.length) {
-        tbody.innerHTML = `<tr><td colspan="8">Chưa có đánh giá.</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = list.map(r => `
-        <tr>
-          <td><strong>${safeText(r.customer_name || r.ho_ten || "")}</strong></td>
-          <td>${safeText(r.phone || r.so_dien_thoai || "")}</td>
-          <td>${safeText(r.order_code || r.ma_don_hang || "")}</td>
-          <td>${"★".repeat(Number(r.rating || r.so_sao || 5))}</td>
-          <td>${safeText(r.comment || r.noi_dung || "")}</td>
-          <td>${formatDate(r.created_at || r.ngay_tao)}</td>
-          <td>${r.hien_thi === false ? "Ẩn" : "Hiển thị"}</td>
-          <td><button class="mini-btn" onclick="toggleReviewVisible('${safeText(r.id)}', ${r.hien_thi === false ? 'true' : 'false'})">${r.hien_thi === false ? "Hiện" : "Ẩn"}</button></td>
-        </tr>
-      `).join("");
-    }
-
-    async function toggleReviewVisible(id, visible) {
-      if (!id) return alert("Review này chưa có id.");
-      try {
-        const res = await fetch(`${API_URL}/api/reviews/${encodeURIComponent(id)}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ hien_thi: visible }) });
-        if (!res.ok) throw new Error("Không cập nhật được review");
-        await loadReviews();
-      } catch (err) {
-        alert("Chưa cập nhật được đánh giá. Kiểm tra API /api/reviews/[id].");
-      }
-    }
-
-    function exportDailyReportCSV() {
-      const map = new Map();
-      (window.adminOrders || []).forEach(order => {
-        const d = getOrderDate(order);
-        if (Number.isNaN(d.getTime())) return;
-        const key = d.toISOString().slice(0,10);
-        if (!map.has(key)) map.set(key, { date: key, total: 0, completed: 0, canceled: 0, processing: 0, revenue: 0 });
-        const row = map.get(key);
-        const st = getOrderStatus(order);
-        row.total += 1;
-        if (["hoan_tat", "da_tt", "dang_lam", "dang_giao"].includes(st)) row.revenue += getOrderTotal(order);
-        if (st === "hoan_tat") row.completed += 1;
-        else if (["da_huy", "tu_choi"].includes(st)) row.canceled += 1;
-        else row.processing += 1;
-      });
-      const rows = [["ngay","tong_don","don_thanh_cong","don_huy","don_dang_xu_ly","doanh_thu"]];
-      [...map.values()].sort((a,b)=>a.date.localeCompare(b.date)).forEach(r => rows.push([r.date,r.total,r.completed,r.canceled,r.processing,r.revenue]));
-      const csv = rows.map(row => row.map(cell => `"${String(cell ?? "").replace(/"/g,'""')}"`).join(",")).join("\n");
-      const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `vpc-bao-cao-ngay-${new Date().toISOString().slice(0,10)}.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
     }
 
     async function updateOrderStatus(orderCode, status) {
@@ -2675,7 +2554,7 @@ Gợi ý:
         if (!response.ok) throw new Error("Không cập nhật được trạng thái.");
 
         alert("Đã cập nhật trạng thái đơn hàng.");
-        await Promise.allSettled([loadOrders(), loadSepayTransactions(), loadReviews()]);
+        await Promise.allSettled([loadOrders(), loadSepayTransactions()]);
         buildAdminAnalytics(window.adminOrders || []);
       } catch (error) {
         console.error("Lỗi cập nhật trạng thái:", error);
@@ -2696,7 +2575,7 @@ Gợi ý:
 
     function exportOrdersCSV() {
       const orders = sortAdminOrders(window.adminOrders || []);
-      const rows = [["ma_don_hang", "created_at", "khach_hang", "so_dien_thoai", "dia_chi_giao_hang", "tong_tien", "phuong_thuc_thanh_toan", "hinh_thuc_nhan_hang", "trang_thai"]];
+      const rows = [["ma_don_hang", "created_at", "khach_hang", "so_dien_thoai", "tong_tien", "phuong_thuc_thanh_toan", "hinh_thuc_nhan_hang", "trang_thai"]];
 
       orders.forEach(order => {
         rows.push([
@@ -2704,7 +2583,6 @@ Gợi ý:
           order.created_at || order.ngay_tao || "",
           getCustomerName(order),
           getCustomerPhone(order),
-          getShipAddress(order),
           getOrderTotal(order),
           getPaymentMethod(order),
           getDeliveryType(order),
@@ -2724,6 +2602,157 @@ Gợi ý:
       URL.revokeObjectURL(url);
     }
 
+    function exportDailyReportCSV() {
+      const orders = window.adminOrders || [];
+      const map = {};
+
+      orders.forEach(order => {
+        const dateObj = getOrderDate(order);
+        if (Number.isNaN(dateObj.getTime())) return;
+
+        const dateKey = dateObj.toISOString().slice(0, 10);
+        const total = getOrderTotal(order);
+        const status = getOrderStatus(order);
+
+        if (!map[dateKey]) {
+          map[dateKey] = {
+            date: dateKey,
+            totalOrders: 0,
+            revenue: 0,
+            successOrders: 0,
+            cancelledOrders: 0,
+            pendingOrders: 0
+          };
+        }
+
+        map[dateKey].totalOrders += 1;
+
+        if (paidStatuses.includes(status)) {
+          map[dateKey].revenue += total;
+          map[dateKey].successOrders += 1;
+        } else if (status === 'da_huy') {
+          map[dateKey].cancelledOrders += 1;
+        } else {
+          map[dateKey].pendingOrders += 1;
+        }
+      });
+
+      const rows = [["Ngày", "Tổng số đơn", "Số đơn thành công", "Số đơn hủy", "Đơn đang xử lý", "Doanh thu thực tế (đ)"]];
+      const dailyData = Object.values(map).sort((a, b) => b.date.localeCompare(a.date));
+
+      dailyData.forEach(day => {
+        rows.push([
+          day.date,
+          day.totalOrders,
+          day.successOrders,
+          day.cancelledOrders,
+          day.pendingOrders,
+          day.revenue
+        ]);
+      });
+
+      const csv = "\uFEFF" + rows.map(row => row.map(cell => `"${String(cell ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+
+      a.href = url;
+      a.download = "vpc-bao-cao-doanh-thu-theo-ngay.csv";
+      a.click();
+
+      URL.revokeObjectURL(url);
+    }
+
+    async function loadReviews() {
+      const tbody = document.getElementById("reviewsTableBody");
+      if (tbody) tbody.innerHTML = `<tr><td colspan="8">Đang tải phản hồi khách hàng...</td></tr>`;
+
+      try {
+        const result = await fetchJSON("/api/reviews?admin=1");
+        window.adminReviews = normalizeArray(result);
+        renderReviews();
+      } catch (error) {
+        console.error("Lỗi tải phản hồi:", error);
+        if (tbody) tbody.innerHTML = `<tr><td colspan="8">Không tải được danh sách phản hồi.</td></tr>`;
+      }
+    }
+
+    function renderReviews() {
+      const tbody = document.getElementById("reviewsTableBody");
+      if (!tbody) return;
+
+      const list = Array.isArray(window.adminReviews) ? window.adminReviews : [];
+
+      if (!list.length) {
+        tbody.innerHTML = `<tr><td colspan="8">Chưa có phản hồi đánh giá nào.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map((item) => {
+        const stars = "★".repeat(item.so_sao) + "☆".repeat(5 - item.so_sao);
+        const dateStr = item.created_at ? new Date(item.created_at).toLocaleString("vi-VN") : "";
+        return `
+          <tr>
+            <td><strong>${safeText(item.ho_ten)}</strong></td>
+            <td>${safeText(item.so_dien_thoai)}</td>
+            <td style="color: var(--gold); font-weight: bold;">${safeText(item.ma_don_hang)}</td>
+            <td style="color: #c89b3c; font-size: 14px;">${stars}</td>
+            <td style="max-width: 250px; white-space: normal; word-break: break-all;">${safeText(item.noi_dung || "(Không có nội dung)")}</td>
+            <td>${dateStr}</td>
+            <td>
+              <span class="badge ${item.hien_thi ? 'badge-success' : 'badge-danger'}" style="padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; color: white; background-color: ${item.hien_thi ? 'var(--success)' : 'var(--danger)'}">
+                ${item.hien_thi ? 'Hiển thị' : 'Đang ẩn'}
+              </span>
+            </td>
+            <td>
+              <button class="mini-btn" onclick="toggleReviewVisibility('${item.id}', ${item.hien_thi})" style="margin-right: 6px;">
+                ${item.hien_thi ? 'Ẩn' : 'Hiện'}
+              </button>
+              <button class="mini-btn btn-danger" onclick="deleteReview('${item.id}')" style="background-color: var(--danger); color: white;">
+                Xóa
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    async function toggleReviewVisibility(id, currentStatus) {
+      try {
+        const response = await fetch(`${API_URL}/api/reviews`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, hien_thi: !currentStatus })
+        });
+
+        if (!response.ok) throw new Error("Lỗi cập nhật hiển thị");
+
+        alert("Đã cập nhật trạng thái hiển thị đánh giá.");
+        await loadReviews();
+      } catch (error) {
+        console.error("Lỗi toggle review visibility:", error);
+        alert("Không thể cập nhật trạng thái đánh giá.");
+      }
+    }
+
+    async function deleteReview(id) {
+      if (!confirm("Bạn có chắc chắn muốn xóa đánh giá này không?")) return;
+
+      try {
+        const response = await fetch(`${API_URL}/api/reviews?id=${encodeURIComponent(id)}`, {
+          method: "DELETE"
+        });
+
+        if (!response.ok) throw new Error("Lỗi xóa đánh giá");
+
+        alert("Đã xóa đánh giá thành công.");
+        await loadReviews();
+      } catch (error) {
+        console.error("Lỗi xóa review:", error);
+        alert("Không thể xóa đánh giá.");
+      }
+    }
+
     function openDrinkForm() {
       alert("Muốn thêm món mới cần route POST ở backend. Bản này đã hỗ trợ sửa giá/nổi bật/hiển thị cho món đang có.");
     }
@@ -2739,3 +2768,6 @@ Gợi ý:
 </body>
 
 </html>
+
+
+
