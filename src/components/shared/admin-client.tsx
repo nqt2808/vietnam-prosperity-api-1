@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState, useEffect, useTransition } from 'react'
 import {
@@ -1068,7 +1068,6 @@ export function AdminClient({ initialStats, initialOrders, initialProducts }: Ad
                     </div>
 
                     <div>
-                    <div>
                       <label className="block text-[10px] font-black uppercase text-[#78675d] dark:text-[#a89882] mb-1.5">Giá Bán (đ) *</label>
                       <input
                         type="number"
@@ -1348,3 +1347,4 @@ export function AdminClient({ initialStats, initialOrders, initialProducts }: Ad
     </div>
   )
 }
+
