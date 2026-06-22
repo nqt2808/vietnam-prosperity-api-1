@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -2881,6 +2881,100 @@ body {
   padding: 22px;
   border: 1px solid #eadac7;
   margin-bottom: 18px;
+}
+
+
+/* ===== VPC HOTFIX: menu + chatbot +3px and stable chat ===== */
+.category-tabs,
+#menuTabs,
+#merchTabs {
+  gap: 9px !important;
+  margin: 14px 0 8px !important;
+  padding: 9px 12px !important;
+}
+
+#menuTabs .tab-link,
+#merchTabs .tab-link,
+.category-tabs .tab-link {
+  font-size: 16px !important;
+  line-height: 1.2 !important;
+  min-height: 37px !important;
+  padding: 8px 13px !important;
+}
+
+.main-nav .nav-btn {
+  font-size: 16px !important;
+  padding: 9px 13px !important;
+}
+
+.chat-toggle,
+.lookup-toggle {
+  color: #ffffff !important;
+  font-size: 17px !important;
+  padding: 12px 19px !important;
+  min-height: 45px !important;
+}
+
+.chat-box {
+  width: min(350px, calc(100vw - 28px)) !important;
+}
+
+.chat-head {
+  font-size: 17px !important;
+  padding: 12px 15px !important;
+}
+
+.chat-body {
+  height: 285px !important;
+}
+
+.chat-msg {
+  font-size: 15.5px !important;
+  line-height: 1.45 !important;
+}
+
+.quick-chat button {
+  font-size: 14.5px !important;
+  padding: 8px 12px !important;
+}
+
+.chat-input-row input,
+.chat-input-row button {
+  font-size: 15px !important;
+}
+
+.chat-input-row input {
+  padding: 9px 11px !important;
+}
+
+.chat-input-row button {
+  color: #ffffff !important;
+  padding: 9px 13px !important;
+}
+
+@media (max-width: 520px) {
+  #menuTabs .tab-link,
+  #merchTabs .tab-link,
+  .category-tabs .tab-link {
+    font-size: 15px !important;
+    min-height: 34px !important;
+    padding: 7px 11px !important;
+  }
+
+  .main-nav .nav-btn {
+    font-size: 14px !important;
+  }
+
+  .chat-toggle,
+  .lookup-toggle {
+    font-size: 16px !important;
+    padding: 11px 15px !important;
+    min-height: 41px !important;
+  }
+
+  .chat-body {
+    height: 265px !important;
+  }
 }
 
 </style>
@@ -7233,6 +7327,59 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
   }
 ];
 
+
+    function getChatbotIntentReply(question) {
+      const normalized = removeVietnameseTones(String(question || ""));
+      if (!normalized) return "";
+      const intents = Array.isArray(chatbotIntents) ? chatbotIntents : [];
+      for (const intent of intents) {
+        const keywords = Array.isArray(intent.keywords) ? intent.keywords : [];
+        if (keywords.some(keyword => normalized.includes(removeVietnameseTones(keyword)))) {
+          return intent.reply || "";
+        }
+      }
+      return "";
+    }
+
+    async function postChatToBackend(question) {
+      const payload = {
+        message: question,
+        question: question,
+        context: buildChatContextFromIndex(),
+        page: "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc"
+      };
+
+      const endpoints = ["/api/chat", "/api/chat-ai"];
+      let lastError = null;
+
+      for (const endpoint of endpoints) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 12000);
+        try {
+          const response = await fetch(`${API_URL}${endpoint}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+            signal: controller.signal
+          });
+          clearTimeout(timer);
+
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            lastError = new Error(result.error || result.message || `Chat API lỗi tại ${endpoint}`);
+            continue;
+          }
+
+          return result.reply || result.answer || result.message || result.text || "";
+        } catch (error) {
+          clearTimeout(timer);
+          lastError = error;
+        }
+      }
+
+      throw lastError || new Error("Không gọi được chatbot backend.");
+    }
+
     async function handleChatFormSubmit(event) {
       event.preventDefault();
 
@@ -7250,35 +7397,14 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
       if (chatBody) chatBody.scrollTop = chatBody.scrollHeight;
 
       try {
-        // Code này gọi AI backend.
-        // Backend /api/chat-ai sẽ đọc index.html trước, nếu không có thông tin thì tự dò theo từ khóa/database.
-        const response = await fetch(`${API_URL}/api/chat`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-  message: question,
-  question: question,
-  context: buildChatContextFromIndex(),
-  page: "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc"
-})
-        });
-
-        const result = await response.json().catch(() => ({}));
-
-        if (!response.ok) {
-          throw new Error(result.error || result.message || "AI chưa phản hồi được.");
+        const localReply = getChatbotIntentReply(question);
+        if (localReply) {
+          appendChatMessage("bot", normalizeChatReply(localReply));
+          return;
         }
 
-        const reply =
-          result.reply ||
-          result.answer ||
-          result.message ||
-          result.text ||
-          "Trang đã nhận câu hỏi của bạn, nhưng chưa có nội dung trả lời phù hợp.";
-
-        appendChatMessage("bot", normalizeChatReply(reply));
+        const aiReply = await postChatToBackend(question);
+        appendChatMessage("bot", normalizeChatReply(aiReply || getLocalChatFallback(question)));
       } catch (error) {
         console.error("Lỗi gọi AI chat:", error);
         appendChatMessage("bot", getLocalChatFallback(question));
