@@ -704,7 +704,13 @@
         width: 100%;
       }
     }
-  </style>
+  
+
+/* ===== VPC ADMIN BLACK / WHITE SIGNATURE + INVENTORY/REVIEWS ===== */
+:root{--coffee-dark:#050505!important;--coffee:#111!important;--coffee-soft:#242424!important;--cream:#f5f5f5!important;--cream-2:#fff!important;--gold:#111!important;--gold-light:#fff!important;--text:#111!important;--muted:#626262!important;--white:#fff!important;--shadow:0 12px 32px rgba(0,0,0,.12)!important;}
+.sidebar, th{background:#050505!important;color:#fff!important}.brand h1,.card h3,.topbar h2{color:#050505!important}.sidebar .brand h1{color:#fff!important}.btn-primary{background:#050505!important;color:#fff!important}.btn-light{background:#fff!important;color:#050505!important;border-color:#222!important}.stock-admin-low{color:#8a5b00;font-weight:900}.stock-admin-out{color:#991b1b;font-weight:900}.stock-admin-ok{color:#166534;font-weight:900}.mini-btn{border:none;border-radius:999px;background:#050505;color:#fff;font-weight:900;padding:9px 13px;cursor:pointer}.mini-btn:hover{background:#fff;color:#050505;box-shadow:inset 0 0 0 1px #050505}.ai-answer{white-space:pre-wrap;line-height:1.6;background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px;min-height:160px}
+
+</style>
 </head>
 
 <body>
@@ -742,7 +748,7 @@
         <button class="nav-btn" onclick="showAdminPage('drinks', this)">☕ Menu nước</button>
         <button class="nav-btn" onclick="showAdminPage('merch', this)">🎁 Vật phẩm</button>
         <button class="nav-btn" onclick="showAdminPage('customers', this)">👥 Khách hàng</button>
-        <button class="nav-btn" onclick="showAdminPage('reviews', this)">💬 Phản hồi khách hàng</button>
+        <button class="nav-btn" onclick="showAdminPage('reviews', this)">💬 Đánh giá</button>
         <button class="nav-btn" onclick="showAdminPage('sepay-transactions', this)">💸 Giao dịch SePay</button>
         <button class="nav-btn" onclick="showAdminPage('ai-tools', this)">🤖 Tiện ích AI</button>
         <button class="nav-btn" onclick="logoutAdmin()">🚪 Đăng xuất</button>
@@ -759,7 +765,7 @@
         <div class="toolbar-right">
           <button class="btn btn-light" onclick="reloadAdminData(this)">🔄 Reload data</button>
           <button class="btn btn-primary" onclick="exportOrdersCSV()">Xuất CSV đơn hàng</button>
-          <button class="btn btn-primary" onclick="exportDailyReportCSV()" style="background-color: var(--coffee-soft); color: var(--cream);">Xuất báo cáo theo ngày</button>
+          <button class="btn btn-primary" onclick="exportDailyReportCSV()">Xuất báo cáo ngày</button>
         </div>
       </div>
 
@@ -858,35 +864,6 @@
             <div id="ordersByDayChart" class="analytics-chart"></div>
           </div>
         </div>
-
-        <!-- Bảng báo cáo doanh thu theo ngày -->
-        <div class="card" style="margin-top: 30px; width: 100%;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid var(--coffee-soft); padding-bottom: 10px;">
-            <h3 style="margin: 0; color: var(--coffee-dark);">Báo cáo doanh thu theo ngày</h3>
-            <button class="btn btn-primary" onclick="exportDailyReportCSV()" style="background-color: var(--coffee-soft); color: var(--cream); padding: 8px 16px; font-size: 13px; font-weight: bold; border-radius: 6px; cursor: pointer; border: none;">
-              Xuất CSV
-            </button>
-          </div>
-          <div class="table-wrap">
-            <table style="width: 100%; border-collapse: collapse; text-align: left;">
-              <thead>
-                <tr style="border-bottom: 2px solid #eadac7;">
-                  <th style="padding: 10px;">Ngày</th>
-                  <th style="padding: 10px;">Tổng số đơn</th>
-                  <th style="padding: 10px;">Đơn thành công</th>
-                  <th style="padding: 10px;">Đơn hủy</th>
-                  <th style="padding: 10px;">Đơn đang xử lý</th>
-                  <th style="padding: 10px;">Doanh thu thực tế</th>
-                </tr>
-              </thead>
-              <tbody id="dailyReportTableBody">
-                <tr>
-                  <td colspan="6" style="padding: 15px; text-align: center; font-style: italic; color: var(--muted);">Đang tải báo cáo...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
       </section>
 
       <section id="orders" class="admin-page">
@@ -974,7 +951,7 @@
               </thead>
               <tbody id="drinksTableBody">
                 <tr>
-                  <td colspan="8">Đang tải menu nước...</td>
+                  <td colspan="9">Đang tải menu nước...</td>
                 </tr>
               </tbody>
             </table>
@@ -1007,7 +984,7 @@
               </thead>
               <tbody id="merchTableBody">
                 <tr>
-                  <td colspan="7">Đang tải vật phẩm...</td>
+                  <td colspan="8">Đang tải vật phẩm...</td>
                 </tr>
               </tbody>
             </table>
@@ -1031,13 +1008,15 @@
                   <th>Địa chỉ</th>
                   <th>Số đơn</th>
                   <th>Số lần quay lại</th>
+                  <th>Món hay order</th>
+                  <th>Email KM</th>
                   <th>Ghi chú</th>
                   <th>Ngày tạo</th>
                 </tr>
               </thead>
               <tbody id="customersTableBody">
                 <tr>
-                  <td colspan="8">Đang tải khách hàng...</td>
+                  <td colspan="10">Đang tải khách hàng...</td>
                 </tr>
               </tbody>
             </table>
@@ -1045,98 +1024,108 @@
         </div>
       </section>
 
+
+
       <section id="reviews" class="admin-page">
         <div class="card">
           <div class="toolbar">
-            <h3>Phản hồi của khách hàng (Reviews)</h3>
-            <button class="btn btn-primary" onclick="loadReviews()">🔄 Tải lại</button>
+            <h3>Đánh giá khách hàng</h3>
+            <button class="btn btn-primary" onclick="loadReviews()">Tải lại đánh giá</button>
           </div>
-
-          <div class="admin-note">
-            Đánh giá của khách hàng từ Storefront sau khi đặt hàng thành công. Các đánh giá được bật "Hiển thị" sẽ hiện ở mục "Khách hàng nói gì về VPC" trên trang chủ.
-          </div>
-
+          <div class="admin-note">Đánh giá được gửi sau khi khách đặt hàng. Những đánh giá bật “Hiển thị” sẽ xuất hiện tại mục “Khách hàng nói gì về VPC”.</div>
           <div class="table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>Họ tên</th>
-                  <th>Số điện thoại</th>
-                  <th>Mã đơn</th>
-                  <th>Số sao</th>
-                  <th>Nội dung</th>
-                  <th>Ngày đánh giá</th>
-                  <th>Trạng thái</th>
-                  <th>Thao tác</th>
+                  <th>Khách hàng</th><th>SĐT</th><th>Mã đơn</th><th>Sao</th><th>Nội dung</th><th>Ngày</th><th>Hiển thị</th><th>Thao tác</th>
                 </tr>
               </thead>
-              <tbody id="reviewsTableBody">
-                <tr>
-                  <td colspan="8">Đang tải phản hồi...</td>
-                </tr>
-              </tbody>
+              <tbody id="reviewsTableBody"><tr><td colspan="8">Đang tải đánh giá...</td></tr></tbody>
             </table>
           </div>
         </div>
       </section>
 
       <section id="ai-tools" class="admin-page">
-        <div class="card" style="display: flex; flex-direction: column; height: calc(100vh - 180px); min-height: 550px; padding: 20px; gap: 15px;">
-          <div style="border-bottom: 2px solid var(--coffee-soft); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="margin: 0; color: var(--coffee-dark);">🤖 Trợ lý Phân tích AI</h3>
-            <span style="font-size: 13px; color: var(--muted); background: #f1ebd9; padding: 4px 10px; border-radius: 99px; font-weight: 500;">
-              Realtime Business Analytics
-            </span>
+        <div class="card">
+          <h3>Tiện ích AI</h3>
+
+          <div class="admin-note">
+            Các tiện ích dưới đây dùng dữ liệu đơn hàng, doanh thu, sản phẩm và khách hàng hiện có.
           </div>
 
-          <div style="display: flex; gap: 20px; flex: 1; min-height: 0;">
-            <!-- Khung Chat -->
-            <div style="flex: 2; display: flex; flex-direction: column; background: #faf8f5; border: 1px solid #eadac7; border-radius: 12px; overflow: hidden;">
-              <div id="adminChatBody" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;">
-                <div style="align-self: flex-start; max-width: 80%; background: #fffcf7; border: 1px solid #decdb9; border-radius: 12px 12px 12px 0; padding: 12px 16px; color: var(--coffee-dark); font-size: 13.5px; line-height: 1.6; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                  Xin chào Admin! Tôi là Trợ lý Phân tích Số liệu Kinh doanh của VPC. Tôi đã sẵn sàng kết nối với dữ liệu đơn hàng và doanh thu thời gian thực. Hãy chọn một câu hỏi gợi ý bên phải hoặc nhập câu hỏi của bạn để bắt đầu phân tích nhé!
-                </div>
-              </div>
-              
-              <div style="border-top: 1px solid #eadac7; padding: 12px; display: flex; gap: 10px; background: white;">
-                <input id="adminChatInput" placeholder="Nhập câu hỏi phân tích dữ liệu kinh doanh..." style="flex: 1; border: 1px solid #decdb9; border-radius: 8px; padding: 10px 14px; font-size: 14px; outline: none; background: #fffcf7;" onkeydown="if(event.key === 'Enter') sendAdminChatMessage()"/>
-                <button class="btn btn-primary" onclick="sendAdminChatMessage()" style="padding: 10px 20px; border-radius: 8px; font-weight: bold; width: auto; cursor: pointer;">Gửi</button>
-              </div>
+          <div class="ai-tools-grid">
+            <div class="ai-tool-card" onclick="fillAIPrompt('forecast')">
+              <h4>Dự đoán doanh thu ngày mới</h4>
+              <p>Dựa trên doanh thu cũ để ước lượng doanh thu ngày tiếp theo.</p>
             </div>
 
-            <!-- Predefined Queries -->
-            <div style="flex: 1; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; max-width: 320px; padding-right: 5px;">
-              <h4 style="margin: 0; font-size: 14px; color: var(--coffee-dark); font-weight: bold;">Câu hỏi gợi ý nhanh</h4>
-              
-              <div class="ai-tool-card" onclick="sendPredefinedAdminQuery('forecast')" style="cursor: pointer; padding: 12px; border: 1px solid #decdb9; border-radius: 10px; background: white; transition: all 0.2s;">
-                <h5 style="margin: 0 0 4px 0; font-size: 13.5px; color: var(--coffee-dark);">📈 Dự đoán doanh thu</h5>
-                <p style="margin: 0; font-size: 12px; color: var(--muted); line-height: 1.4;">Ước lượng doanh thu ngày tiếp theo dựa trên dữ liệu cũ.</p>
-              </div>
+            <div class="ai-tool-card" onclick="fillAIPrompt('best-products')">
+              <h4>Gợi ý món nên đẩy bán</h4>
+              <p>Dựa vào sản phẩm bán chạy và doanh thu.</p>
+            </div>
 
-              <div class="ai-tool-card" onclick="sendPredefinedAdminQuery('best-products')" style="cursor: pointer; padding: 12px; border: 1px solid #decdb9; border-radius: 10px; background: white; transition: all 0.2s;">
-                <h5 style="margin: 0 0 4px 0; font-size: 13.5px; color: var(--coffee-dark);">🔥 Món nên đẩy bán</h5>
-                <p style="margin: 0; font-size: 12px; color: var(--muted); line-height: 1.4;">Đề xuất các món cần tập trung dựa vào bán chạy & doanh thu.</p>
-              </div>
+            <div class="ai-tool-card" onclick="fillAIPrompt('promotion')">
+              <h4>Đề xuất khuyến mãi</h4>
+              <p>Gợi ý combo, ưu đãi và khung giờ nên chạy.</p>
+            </div>
 
-              <div class="ai-tool-card" onclick="sendPredefinedAdminQuery('promotion')" style="cursor: pointer; padding: 12px; border: 1px solid #decdb9; border-radius: 10px; background: white; transition: all 0.2s;">
-                <h5 style="margin: 0 0 4px 0; font-size: 13.5px; color: var(--coffee-dark);">🎁 Đề xuất ưu đãi</h5>
-                <p style="margin: 0; font-size: 12px; color: var(--muted); line-height: 1.4;">Gợi ý tạo combo và khung giờ chạy khuyến mãi thích hợp.</p>
-              </div>
+            <div class="ai-tool-card" onclick="fillAIPrompt('customer-retention')">
+              <h4>Phân tích khách quay lại</h4>
+              <p>Tìm nhóm khách có khả năng quay lại cao.</p>
+            </div>
 
-              <div class="ai-tool-card" onclick="sendPredefinedAdminQuery('customer-retention')" style="cursor: pointer; padding: 12px; border: 1px solid #decdb9; border-radius: 10px; background: white; transition: all 0.2s;">
-                <h5 style="margin: 0 0 4px 0; font-size: 13.5px; color: var(--coffee-dark);">👥 Khách hàng quay lại</h5>
-                <p style="margin: 0; font-size: 12px; color: var(--muted); line-height: 1.4;">Tìm nhóm khách có khả năng quay lại cao theo SĐT.</p>
-              </div>
+                        <div class="ai-tool-card" onclick="fillAIPrompt('least-sold')">
+              <h4>Món ít bán nhất</h4>
+              <p>Tìm món bán chậm để đề xuất xử lý hoặc khuyến mãi.</p>
+            </div>
 
-              <div class="ai-tool-card" onclick="sendPredefinedAdminQuery('least-sold')" style="cursor: pointer; padding: 12px; border: 1px solid #decdb9; border-radius: 10px; background: white; transition: all 0.2s;">
-                <h5 style="margin: 0 0 4px 0; font-size: 13.5px; color: var(--coffee-dark);">📉 Món bán chậm nhất</h5>
-                <p style="margin: 0; font-size: 12px; color: var(--muted); line-height: 1.4;">Danh sách món ít bán được để tối ưu lại menu.</p>
-              </div>
+            <div class="ai-tool-card" onclick="fillAIPrompt('repeat-customers')">
+              <h4>Khách hàng quay lại</h4>
+              <p>Phân tích khách quay lại theo số điện thoại và địa chỉ ship.</p>
+            </div>
+            <div class="ai-tool-card" onclick="fillAIPrompt('operations')">
+              <h4>Tư vấn vận hành</h4>
+              <p>Gợi ý cải thiện tốc độ xử lý đơn và trạng thái đơn.</p>
+            </div>
 
-              <div class="ai-tool-card" onclick="sendPredefinedAdminQuery('summary')" style="cursor: pointer; padding: 12px; border: 1px solid #decdb9; border-radius: 10px; background: white; transition: all 0.2s;">
-                <h5 style="margin: 0 0 4px 0; font-size: 13.5px; color: var(--coffee-dark);">📊 Báo cáo tóm tắt</h5>
-                <p style="margin: 0; font-size: 12px; color: var(--muted); line-height: 1.4;">Tạo báo cáo nhanh tóm gọn các chỉ số kinh doanh trong ngày.</p>
-              </div>
+            <div class="ai-tool-card" onclick="fillAIPrompt('inventory')">
+              <h4>Cảnh báo tồn kho</h4>
+              <p>Phân tích mặt hàng hết/sắp hết và đề xuất nhập hàng.</p>
+            </div>
+
+            <div class="ai-tool-card" onclick="fillAIPrompt('review-insights')">
+              <h4>Phân tích đánh giá</h4>
+              <p>Tóm tắt phản hồi khách hàng và điểm cần cải thiện.</p>
+            </div>
+
+            <div class="ai-tool-card" onclick="fillAIPrompt('email-promo')">
+              <h4>Email khuyến mãi</h4>
+              <p>Gợi ý nhóm khách nên gửi ưu đãi theo món hay order.</p>
+            </div>
+
+            <div class="ai-tool-card" onclick="fillAIPrompt('summary')">
+              <h4>Tóm tắt kinh doanh hôm nay</h4>
+              <p>Tạo báo cáo ngắn gọn cho chủ quán.</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-field full">
+              <label>Nhập yêu cầu phân tích</label>
+              <textarea id="aiPrompt"
+                placeholder="Ví dụ: dựa vào doanh thu cũ, dự đoán doanh thu ngày mai..."></textarea>
+            </div>
+
+            <div class="form-field full">
+              <button class="btn btn-primary" onclick="runAdminAI()">Phân tích bằng AI</button>
+              <button class="btn btn-light" onclick="runLocalRevenueForecast()" style="margin-left: 8px;">Dự đoán nhanh
+                bằng dữ liệu hiện có</button>
+            </div>
+
+            <div class="form-field full">
+              <label>Kết quả</label>
+              <textarea id="aiResult" readonly placeholder="Kết quả AI sẽ hiện ở đây..."></textarea>
             </div>
           </div>
         </div>
@@ -1206,6 +1195,7 @@
     window.adminMerch = [];
     window.adminCustomers = [];
     window.adminSepayTransactions = [];
+    window.adminReviews = [];
 
     const paidStatuses = [
       "da_tt",
@@ -1294,7 +1284,7 @@
         drinks: "Quản lý menu nước",
         merch: "Quản lý vật phẩm",
         customers: "Quản lý khách hàng",
-        reviews: "Phản hồi khách hàng",
+        reviews: "Quản lý đánh giá",
         "sepay-transactions": "Giao dịch SePay",
         "ai-tools": "Tiện ích AI"
       };
@@ -1377,10 +1367,10 @@
 
     async function loadDrinks() {
       const tbody = document.getElementById("drinksTableBody");
-      if (tbody) tbody.innerHTML = `<tr><td colspan="8">Đang tải menu nước...</td></tr>`;
+      if (tbody) tbody.innerHTML = `<tr><td colspan="9">Đang tải menu nước...</td></tr>`;
 
       try {
-        const result = await fetchJSON("/api/do-uong?all=1");
+        const result = await fetchJSON("/api/do-uong");
         window.adminDrinks = normalizeArray(result);
         renderDrinks();
       } catch (error) {
@@ -1391,15 +1381,15 @@
 
     async function loadMerch() {
       const tbody = document.getElementById("merchTableBody");
-      if (tbody) tbody.innerHTML = `<tr><td colspan="7">Đang tải vật phẩm...</td></tr>`;
+      if (tbody) tbody.innerHTML = `<tr><td colspan="8">Đang tải vật phẩm...</td></tr>`;
 
       try {
         let result;
 
         try {
-          result = await fetchJSON("/api/merchandise?all=1");
+          result = await fetchJSON("/api/merchandise");
         } catch (error) {
-          result = await fetchJSON("/api/vat-pham?all=1");
+          result = await fetchJSON("/api/vat-pham");
         }
 
         window.adminMerch = normalizeArray(result);
@@ -1412,7 +1402,7 @@
 
     async function loadCustomers() {
       const tbody = document.getElementById("customersTableBody");
-      if (tbody) tbody.innerHTML = `<tr><td colspan="8">Đang tải khách hàng...</td></tr>`;
+      if (tbody) tbody.innerHTML = `<tr><td colspan="10">Đang tải khách hàng...</td></tr>`;
 
       try {
         let result;
@@ -1443,6 +1433,7 @@
       } catch (error) {
         console.error("Lỗi tải giao dịch SePay:", error);
         window.adminSepayTransactions = [];
+    window.adminReviews = [];
         if (tbody) {
           tbody.innerHTML = `
             <tr>
@@ -1776,7 +1767,7 @@
       const drinks = Array.isArray(window.adminDrinks) ? window.adminDrinks : [];
 
       if (!drinks.length) {
-        tbody.innerHTML = `<tr><td colspan="8">Chưa có dữ liệu menu nước.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="9">Chưa có dữ liệu menu nước.</td></tr>`;
         return;
       }
 
@@ -1787,7 +1778,7 @@
           <td>${safeText(item.slug)}</td>
           <td><input id="drinkGiaDen${index}" type="number" value="${Number(item.gia_den || 0)}"></td>
           <td><input id="drinkGiaSua${index}" type="number" value="${Number(item.gia_sua || 0)}"></td>
-          <td><input id="drinkTonKho${index}" type="number" value="${item.ton_kho !== undefined ? Number(item.ton_kho) : 99}" style="width: 70px;"></td>
+          <td><input id="drinkTonKho${index}" type="number" min="0" value="${Number(item.ton_kho ?? item.stock_quantity ?? 999)}"></td>
           <td>
             <select id="drinkNoiBat${index}">
               <option value="true" ${item.la_mon_noi_bat ? "selected" : ""}>Nổi bật</option>
@@ -1816,31 +1807,28 @@
         return;
       }
 
-      tbody.innerHTML = merch.map((item, index) => {
-        const tonKhoValue = item.ton_kho !== undefined ? item.ton_kho : (item.stock_quantity !== undefined ? item.stock_quantity : 10);
-        return `
-          <tr>
-            <td><img class="product-img" src="${safeText(item.hinh_anh || item.image || "")}" onerror="this.style.display='none'"></td>
-            <td><strong>${safeText(item.ten_san_pham)}</strong></td>
-            <td>${safeText(item.slug)}</td>
-            <td><input id="merchGia${index}" type="number" value="${Number(item.gia || 0)}"></td>
-            <td><input id="merchTonKho${index}" type="number" value="${Number(tonKhoValue)}" style="width: 70px;"></td>
-            <td>
-              <select id="merchConBan${index}">
-                <option value="true" ${item.con_ban !== false ? "selected" : ""}>Còn bán</option>
-                <option value="false" ${item.con_ban === false ? "selected" : ""}>Ngừng bán</option>
-              </select>
-            </td>
-            <td>
-              <select id="merchHienThi${index}">
-                <option value="true" ${item.hien_thi !== false ? "selected" : ""}>Hiển thị</option>
-                <option value="false" ${item.hien_thi === false ? "selected" : ""}>Ẩn</option>
-              </select>
-            </td>
-            <td><button class="mini-btn" onclick="saveMerchOptions(${index})">Lưu</button></td>
-          </tr>
-        `;
-      }).join("");
+      tbody.innerHTML = merch.map((item, index) => `
+        <tr>
+          <td><img class="product-img" src="${safeText(item.hinh_anh || item.image || "")}" onerror="this.style.display='none'"></td>
+          <td><strong>${safeText(item.ten_san_pham)}</strong></td>
+          <td>${safeText(item.slug)}</td>
+          <td><input id="merchGia${index}" type="number" value="${Number(item.gia || 0)}"></td>
+          <td><input id="merchTonKho${index}" type="number" min="0" value="${Number(item.ton_kho ?? item.stock_quantity ?? 0)}"></td>
+          <td>
+            <select id="merchConBan${index}">
+              <option value="true" ${item.con_ban !== false ? "selected" : ""}>Còn bán</option>
+              <option value="false" ${item.con_ban === false ? "selected" : ""}>Ngừng bán</option>
+            </select>
+          </td>
+          <td>
+            <select id="merchHienThi${index}">
+              <option value="true" ${item.hien_thi !== false ? "selected" : ""}>Hiển thị</option>
+              <option value="false" ${item.hien_thi === false ? "selected" : ""}>Ẩn</option>
+            </select>
+          </td>
+          <td><button class="mini-btn" onclick="saveMerchOptions(${index})">Lưu</button></td>
+        </tr>
+      `).join("");
     }
 
     async function saveDrinkOptions(index) {
@@ -1938,6 +1926,30 @@
       };
     }
 
+
+    function getFavoriteProductsByPhone(phone) {
+      const productMap = new Map();
+      (window.adminOrders || []).filter(order => String(getCustomerPhone(order)) === String(phone)).forEach(order => {
+        getOrderItems(order).forEach(item => {
+          const name = item.name || item.ten_san_pham || item.product_name || "Sản phẩm";
+          const qty = Number(item.qty || item.quantity || item.so_luong || 1);
+          productMap.set(name, (productMap.get(name) || 0) + qty);
+        });
+      });
+      return [...productMap.entries()].sort((a,b)=>b[1]-a[1]).slice(0,3).map(([name,qty]) => `${name} x${qty}`).join(", ");
+    }
+
+    function buildInventorySummary() {
+      const drinks = (window.adminDrinks || []).map(x => ({ type: "drink", name: x.ten_san_pham, stock: Number(x.ton_kho ?? x.stock_quantity ?? 999) }));
+      const merch = (window.adminMerch || []).map(x => ({ type: "merch", name: x.ten_san_pham, stock: Number(x.ton_kho ?? x.stock_quantity ?? 0) }));
+      const all = [...drinks, ...merch];
+      return {
+        totalItems: all.length,
+        outOfStock: all.filter(x => x.stock <= 0),
+        lowStock: all.filter(x => x.stock > 0 && x.stock <= 5)
+      };
+    }
+
     function renderCustomers() {
       const tbody = document.getElementById("customersTableBody");
       if (!tbody) return;
@@ -1947,7 +1959,7 @@
         : buildCustomersFromOrders();
 
       if (!customers.length) {
-        tbody.innerHTML = `<tr><td colspan="8">Chưa có dữ liệu khách hàng.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10">Chưa có dữ liệu khách hàng.</td></tr>`;
         return;
       }
 
@@ -1955,14 +1967,18 @@
         const phone = item.so_dien_thoai || item.phone || "";
         const stats = getCustomerOrderStats(phone);
 
+        const favorite = getFavoriteProductsByPhone(phone);
+        const email = item.email || "";
         return `
           <tr>
             <td><strong>${safeText(item.ho_ten || item.name)}</strong></td>
             <td>${safeText(phone)}</td>
-            <td>${safeText(item.email || "")}</td>
+            <td>${safeText(email)}</td>
             <td>${safeText(item.dia_chi || item.address || "")}</td>
             <td><strong>${stats.totalOrders}</strong></td>
             <td><strong>${stats.returnTimes}</strong></td>
+            <td>${safeText(favorite || item.mon_hay_order || "")}</td>
+            <td>${email ? `<a href="mailto:${safeText(email)}?subject=Ưu đãi dành riêng cho khách hàng VPC&body=VPC gửi Quý khách ưu đãi liên quan đến món ${encodeURIComponent(favorite || item.mon_hay_order || "yêu thích")}.">Gửi mail KM</a>` : "Chưa có email"}</td>
             <td>${safeText(item.ghi_chu || item.note || "")}</td>
             <td>${formatDate(item.created_at || item.createdAt)}</td>
           </tr>
@@ -2009,20 +2025,14 @@
         const displayValue = options.money ? compactMoney(value) : value;
 
         return `
-          <rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="6" fill="url(#barGoldGradient)"></rect>
-          <text x="${x + barWidth / 2}" y="${height - 34}" text-anchor="middle" font-size="11" fill="#5a321f" font-weight="600">${safeText(label)}</text>
-          <text x="${x + barWidth / 2}" y="${y - 8}" text-anchor="middle" font-size="11" fill="#1f120b" font-weight="800">${displayValue}</text>
+          <rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="8" fill="#c89b3c"></rect>
+          <text x="${x + barWidth / 2}" y="${height - 34}" text-anchor="middle" font-size="12" fill="#5a321f">${safeText(label)}</text>
+          <text x="${x + barWidth / 2}" y="${y - 8}" text-anchor="middle" font-size="12" fill="#1f120b" font-weight="800">${displayValue}</text>
         `;
       }).join("");
 
       container.innerHTML = `
         <svg viewBox="0 0 ${width} ${height}" width="100%" height="310" role="img">
-          <defs>
-            <linearGradient id="barGoldGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#f4d17b" />
-              <stop offset="100%" stop-color="#c89b3c" />
-            </linearGradient>
-          </defs>
           <rect x="0" y="0" width="${width}" height="${height}" rx="16" fill="#fffaf4"></rect>
           <line x1="${paddingLeft}" y1="${paddingTop + chartHeight}" x2="${width - paddingRight}" y2="${paddingTop + chartHeight}" stroke="#decdb9" stroke-width="2"></line>
           <line x1="${paddingLeft}" y1="${paddingTop}" x2="${paddingLeft}" y2="${paddingTop + chartHeight}" stroke="#decdb9" stroke-width="2"></line>
@@ -2075,7 +2085,6 @@
             stroke-width="30"
             stroke-dasharray="${dash} ${gap}"
             stroke-dashoffset="${offset}"
-            pathLength="100"
             transform="rotate(-90 120 120)"
           ></circle>
         `;
@@ -2096,7 +2105,7 @@
       container.innerHTML = `
         <div class="donut-clean-wrap">
           <svg viewBox="0 0 240 240" class="donut-svg">
-            <circle cx="120" cy="120" r="74" fill="transparent" stroke="#f1e4d2" stroke-width="30" pathLength="100"></circle>
+            <circle cx="120" cy="120" r="74" fill="transparent" stroke="#f1e4d2" stroke-width="30"></circle>
             ${segments}
             <circle cx="120" cy="120" r="48" fill="#fff8ed"></circle>
             <text x="120" y="116" text-anchor="middle" font-size="28" font-weight="900" fill="#1f120b">${total}</text>
@@ -2246,39 +2255,6 @@
       setText("statUniqueShipAddresses", insights.uniqueShipAddresses);
       setText("statTopShipAddress", insights.topShipAddress ? insights.topShipAddress.address.slice(0, 18) + "…" : "-");
 
-      const repeatAddressCount = insights.addresses.filter(a => a.orders > 1).length;
-
-      renderBarChart(
-        "returnLevelChart",
-        ["Khách unique", "Khách quay lại", "Địa chỉ ship", "Địa chỉ lặp lại"],
-        [insights.uniqueCustomers, insights.returningCustomerCount, insights.uniqueShipAddresses, repeatAddressCount]
-      );
-
-      renderBarChart(
-        "returningCustomersChart",
-        insights.returningCustomers.slice(0, 8).map(c => c.phone.slice(-4)),
-        insights.returningCustomers.slice(0, 8).map(c => c.orders)
-      );
-
-      renderBarChart(
-        "shipAddressChart",
-        insights.addresses.slice(0, 8).map(a => a.address.slice(0, 12) + "…"),
-        insights.addresses.slice(0, 8).map(a => a.orders)
-      );
-
-      renderBarChart(
-        "leastSoldProductsChart",
-        insights.leastSoldProducts.slice(0, 8).map(p => p.name.slice(0, 12) + "…"),
-        insights.leastSoldProducts.slice(0, 8).map(p => p.qty)
-      );
-
-      renderBarChart(
-        "repeatCustomerRevenueChart",
-        insights.returningCustomers.slice(0, 8).map(c => c.phone.slice(-4)),
-        insights.returningCustomers.slice(0, 8).map(c => c.revenue),
-        { money: true }
-      );
-
       const revenueByDay = {};
       const ordersByDay = {};
       const statusMap = {};
@@ -2341,9 +2317,6 @@
       renderBarChart("shipAddressChart", addressLabels, addressValues);
       renderBarChart("leastSoldProductsChart", leastLabels, leastValues);
       renderBarChart("repeatCustomerRevenueChart", repeatRevenueLabels, repeatRevenueValues, { money: true });
-
-      // Vẽ bảng báo cáo doanh thu theo ngày trực quan
-      renderDailyReportTable();
     }
     function getDailyRevenueArray() {
       const map = {};
@@ -2401,235 +2374,36 @@ Gợi ý:
       }
 
       if (q.includes("ít bán") || q.includes("bán chậm")) {
-        return `MÓN    function renderDailyReportTable() {
-      const tbody = document.getElementById("dailyReportTableBody");
-      if (!tbody) return;
-
-      const orders = window.adminOrders || [];
-      const map = {};
-
-      orders.forEach(order => {
-        const dateObj = getOrderDate(order);
-        if (Number.isNaN(dateObj.getTime())) return;
-
-        const dateKey = dateObj.toLocaleDateString("vi-VN");
-        const total = getOrderTotal(order);
-        const status = getOrderStatus(order);
-
-        if (!map[dateKey]) {
-          map[dateKey] = {
-            date: dateKey,
-            totalOrders: 0,
-            revenue: 0,
-            successOrders: 0,
-            cancelledOrders: 0,
-            pendingOrders: 0
-          };
-        }
-
-        map[dateKey].totalOrders += 1;
-
-        if (paidStatuses.includes(status)) {
-          map[dateKey].revenue += total;
-          map[dateKey].successOrders += 1;
-        } else if (status === 'da_huy') {
-          map[dateKey].cancelledOrders += 1;
-        } else {
-          map[dateKey].pendingOrders += 1;
-        }
-      });
-
-      const dailyData = Object.values(map).sort((a, b) => {
-        const partsA = a.date.split("/");
-        const partsB = b.date.split("/");
-        const dateA = new Date(partsA[2], partsA[1] - 1, partsA[0]);
-        const dateB = new Date(partsB[2], partsB[1] - 1, partsB[0]);
-        return dateB - dateA;
-      });
-
-      if (!dailyData.length) {
-        tbody.innerHTML = `<tr><td colspan="6" style="padding: 15px; text-align: center; font-style: italic; color: var(--muted);">Chưa có dữ liệu đơn hàng.</td></tr>`;
-        return;
+        return `MÓN ÍT BÁN NHẤT\n\n${leastProducts}\n\nGợi ý xử lý:\n- Gom món bán chậm vào combo.\n- Giảm nhẹ 5-10% trong khung giờ thấp điểm.\n- Đưa món bán chậm đi kèm món bán chạy.`;
       }
 
-      tbody.innerHTML = dailyData.map(day => `
-        <tr style="border-bottom: 1px solid rgba(58,33,20,0.08);">
-          <td style="padding: 10px; font-weight: bold; color: var(--coffee-dark);">${safeText(day.date)}</td>
-          <td style="padding: 10px;">${day.totalOrders}</td>
-          <td style="padding: 10px; color: #2e7d32; font-weight: 500;">${day.successOrders}</td>
-          <td style="padding: 10px; color: #c62828;">${day.cancelledOrders}</td>
-          <td style="padding: 10px; color: #ef6c00;">${day.pendingOrders}</td>
-          <td style="padding: 10px; font-weight: bold; color: var(--coffee-dark);">${formatMoney(day.revenue)}</td>
-        </tr>
-      `).join("");
-    }
-
-    function appendAdminChatMessage(sender, text) {
-      const chatBody = document.getElementById("adminChatBody");
-      if (!chatBody) return null;
-
-      const msgDiv = document.createElement("div");
-      if (sender === "user") {
-        msgDiv.style.alignSelf = "flex-end";
-        msgDiv.style.maxWidth = "80%";
-        msgDiv.style.background = "var(--coffee-soft)";
-        msgDiv.style.color = "var(--cream)";
-        msgDiv.style.borderRadius = "12px 12px 0 12px";
-        msgDiv.style.padding = "10px 14px";
-        msgDiv.style.fontSize = "13.5px";
-        msgDiv.style.lineHeight = "1.5";
-        msgDiv.style.boxShadow = "0 2px 4px rgba(0,0,0,0.05)";
-        msgDiv.textContent = text;
-      } else {
-        msgDiv.style.alignSelf = "flex-start";
-        msgDiv.style.maxWidth = "80%";
-        msgDiv.style.background = "#fffcf7";
-        msgDiv.style.border = "1px solid #decdb9";
-        msgDiv.style.borderRadius = "12px 12px 12px 0";
-        msgDiv.style.padding = "12px 16px";
-        msgDiv.style.color = "var(--coffee-dark)";
-        msgDiv.style.fontSize = "13.5px";
-        msgDiv.style.lineHeight = "1.6";
-        msgDiv.style.boxShadow = "0 2px 4px rgba(0,0,0,0.02)";
-        msgDiv.style.whiteSpace = "pre-wrap";
-        msgDiv.textContent = text;
+      if (q.includes("quay lại") || q.includes("khách hàng")) {
+        return `KHÁCH HÀNG QUAY LẠI\n\n- Tổng khách unique: ${i.uniqueCustomers}\n- Khách quay lại: ${i.returningCustomerCount}\n- Tỷ lệ quay lại: ${i.returnRate}%\n\nTop khách quay lại:\n${repeatCustomers}\n\nĐịa chỉ ship nổi bật:\n${topAddresses}`;
       }
 
-      chatBody.appendChild(msgDiv);
-      chatBody.scrollTop = chatBody.scrollHeight;
-      return msgDiv;
-    }
-
-    async function sendAdminChatMessage() {
-      const input = document.getElementById("adminChatInput");
-      if (!input) return;
-      const prompt = input.value.trim();
-      if (!prompt) return;
-
-      input.value = "";
-      appendAdminChatMessage("user", prompt);
-
-      const loadingBubble = appendAdminChatMessage("ai", "Đang tải dữ liệu realtime và phân tích số liệu...");
-
-      try {
-        await Promise.allSettled([
-          loadOrders(),
-          loadDrinks(),
-          loadMerch(),
-          loadCustomers(),
-          loadSepayTransactions()
-        ]);
-        buildAdminAnalytics(window.adminOrders || []);
-      } catch (reloadError) {
-        console.warn("Reload trước khi chạy AI bị lỗi, vẫn phân tích dữ liệu hiện có:", reloadError);
+      if (q.includes("khuyến mãi") || q.includes("ưu đãi")) {
+        return `ĐỀ XUẤT KHUYẾN MÃI\n\n1. Combo bán chạy + bán chậm:\n- Món bán chạy: ${i.topProducts[0]?.name || "chưa có dữ liệu"}\n- Món cần đẩy: ${i.leastSoldProducts[0]?.name || "chưa có dữ liệu"}\n\n2. Ưu đãi khách quay lại:\n- Gửi mã giảm nhẹ cho ${i.returningCustomerCount} khách quay lại.\n\n3. Ưu đãi theo địa chỉ ship:\n- Khu vực nhiều đơn: ${i.topShipAddress?.address || "chưa có dữ liệu"}\n- Có thể chạy freeship/giảm ship cho khu vực này.`;
       }
 
-      loadingBubble.textContent = "Đang gửi dữ liệu cho AI phân tích...";
-
-      const fullContext = buildFullAdminAIContext();
-      const aiEndpoint = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.endsWith("vercel.app")
-        ? "/api/chat-ai?debug=1"
-        : `${API_URL}/api/chat-ai?debug=1`;
-
-      try {
-        const response = await fetch(aiEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify({
-            message: `Bạn là AI Admin của Vietnam Prosperity Coffee.
-
-BẮT BUỘC đọc toàn bộ dữ liệu trong adminContext trước khi trả lời:
-- reportPage: dữ liệu trang Báo cáo
-- ordersPage: dữ liệu trang Đơn hàng
-- drinksPage: dữ liệu trang Menu nước
-- merchandisePage: dữ liệu trang Vật phẩm
-- customersPage: dữ liệu trang Khách hàng
-- analytics: dữ liệu phân tích đã tính sẵn
-
-Không được trả lời chung chung. Nếu thiếu dữ liệu thì nói rõ thiếu dữ liệu nào.
-Câu hỏi của admin: ${prompt}`,
-            question: prompt,
-            adminMode: true,
-            adminContext: fullContext
-          })
-        });
-
-        if (!response.ok) throw new Error("AI backend lỗi.");
-        const data = await response.json();
-        const reply = data.answer || data.reply || data.message || JSON.stringify(data, null, 2);
-        loadingBubble.textContent = reply;
-      } catch (error) {
-        console.error("Lỗi AI:", error);
-        loadingBubble.textContent = generateLocalAIReport(prompt);
-      }
-    }
-
-    function sendPredefinedAdminQuery(type) {
-      const queries = {
-        'forecast': 'Dự đoán doanh thu ngày mới dựa trên dữ liệu hiện có',
-        'best-products': 'Gợi ý những món nên đẩy bán và tập trung marketing',
-        'promotion': 'Đề xuất chương trình ưu đãi, combo và khung giờ chạy khuyến mãi thích hợp',
-        'customer-retention': 'Phân tích tỷ lệ quay lại của khách hàng theo số điện thoại',
-        'least-sold': 'Tìm danh sách những món bán chậm nhất để tối ưu lại menu',
-        'summary': 'Tóm tắt tình hình hoạt động kinh doanh hôm nay và các chỉ số nổi bật'
-      };
-
-      const queryText = queries[type];
-      if (!queryText) return;
-
-      const input = document.getElementById("adminChatInput");
-      if (input) {
-        input.value = queryText;
-        sendAdminChatMessage();
-      }
+      return `TÓM TẮT KINH DOANH CHO CHỦ QUÁN\n\n- Tổng đơn: ${i.totalOrders}\n- Tổng doanh thu: ${formatMoney(i.totalRevenue)}\n- Đơn đã thanh toán: ${i.paidOrders}\n- Giá trị đơn trung bình: ${formatMoney(i.avgOrder)}\n- Dự đoán doanh thu ngày mới: ${formatMoney(i.forecast)}\n- Khách quay lại: ${i.returningCustomerCount}/${i.uniqueCustomers} khách (${i.returnRate}%)\n- Số địa chỉ ship: ${i.uniqueShipAddresses}\n- Địa chỉ ship nhiều nhất: ${i.topShipAddress?.address || "chưa có dữ liệu"}\n\nTop món bán chạy:\n${topProducts}\n\nMón ít bán:\n${leastProducts}\n\nGợi ý nhanh:\n- Đẩy combo món bán chạy + món ít bán.\n- Chăm sóc lại khách quay lại qua số điện thoại.\n- Tạo ưu đãi theo khu vực ship nhiều đơn.`;
     }
 
     function fillAIPrompt(type) {
-      sendPredefinedAdminQuery(type);
-    }
-
-    async function runAdminAI() {
-      sendAdminChatMessage();
-    }
-
-    function buildFullAdminAIContext() {
-      const insights = buildBusinessInsights();
-
-      return {
-        reportPage: {
-          totalRevenue: insights.totalRevenue,
-          totalOrders: insights.totalOrders,
-          paidOrders: insights.paidOrders,
-          avgOrder: insights.avgOrder,
-          uniqueCustomers: insights.uniqueCustomers,
-          returningCustomerCount: insights.returningCustomerCount,
-          returnRate: insights.returnRate,
-          uniqueShipAddresses: insights.uniqueShipAddresses,
-          topShipAddress: insights.topShipAddress,
-          statusMap: insights.statusMap,
-          paymentMap: insights.paymentMap,
-          deliveryMap: insights.deliveryMap,
-          dailyRevenue: insights.dailyRevenue,
-          forecast: insights.forecast
-        },
-        ordersPage: window.adminOrders || [],
-        drinksPage: window.adminDrinks || [],
-        merchandisePage: window.adminMerch || [],
-        customersPage: window.adminCustomers || [],
-        analytics: insights,
-        rules: [
-          "Bắt buộc phân tích dựa trên toàn bộ dữ liệu adminContext.",
-          "Khi hỏi về đơn hàng, đọc ordersPage.",
-          "Khi hỏi về menu nước, đọc drinksPage.",
-          "Khi hỏi về vật phẩm, đọc merchandisePage.",
-          "Khi hỏi về khách hàng, đọc customersPage.",
-          "Khi hỏi báo cáo, đọc reportPage và analytics.",
-          "Nếu thiếu dữ liệu, nói rõ thiếu dữ liệu nào, không bịa."
-        ]
+      const prompts = {
+        forecast: "Dựa vào doanh thu cũ và số đơn gần đây, dự đoán doanh thu ngày mới. Nêu số dự đoán, lý do và gợi ý tăng doanh thu.",
+        "best-products": "Phân tích top sản phẩm bán chạy, món nên đẩy bán và combo nên tạo.",
+        "least-sold": "Tìm món ít bán nhất, phân tích lý do có thể bán chậm và đề xuất cách xử lý.",
+        promotion: "Dựa vào đơn hàng, món bán chạy, món ít bán, khách quay lại và địa chỉ ship để đề xuất khuyến mãi phù hợp.",
+        "repeat-customers": "Phân tích khách hàng quay lại dựa trên số điện thoại và địa chỉ ship đến.",
+        "customer-retention": "Phân tích khách hàng quay lại, nhóm khách trung thành và cách tăng số lần quay lại.",
+        operations: "Phân tích trạng thái đơn hàng và gợi ý cải thiện vận hành xử lý đơn.",
+        inventory: "Phân tích tồn kho hiện tại: sản phẩm nào hết hàng, sản phẩm nào sắp hết, cần nhập thêm gì và ưu tiên theo khả năng bán.",
+        "review-insights": "Phân tích đánh giá khách hàng: điểm mạnh, điểm yếu, vấn đề lặp lại và đề xuất cải thiện dịch vụ.",
+        "email-promo": "Dựa vào lịch sử mua hàng, đề xuất nhóm khách nên gửi email khuyến mãi và nội dung ưu đãi liên quan tới món họ hay order.",
+        summary: "Tóm tắt tình hình kinh doanh hiện tại cho chủ quán: doanh thu, số đơn, khách quay lại, địa chỉ ship, món bán chạy, món ít bán, khuyến mãi nên chạy."
       };
-    }�ng bịa."
-        ]
-      };
+
+      document.getElementById("aiPrompt").value = prompts[type] || "Phân tích dữ liệu kinh doanh.";
     }
 
     async function runAdminAI() {
@@ -2641,49 +2415,24 @@ Câu hỏi của admin: ${prompt}`,
         return;
       }
 
-      resultBox.value = "Đang reload toàn bộ dữ liệu Báo cáo, Đơn hàng, Menu nước, Vật phẩm, Khách hàng...";
+      resultBox.value = "Đang phân tích...";
 
       try {
-        await Promise.allSettled([
-          loadOrders(),
-          loadDrinks(),
-          loadMerch(),
-          loadCustomers(),
-          loadSepayTransactions()
-        ]);
-
-        buildAdminAnalytics(window.adminOrders || []);
-      } catch (reloadError) {
-        console.warn("Reload trước khi chạy AI bị lỗi, vẫn phân tích dữ liệu hiện có:", reloadError);
-      }
-
-      resultBox.value = "Đang gửi toàn bộ dữ liệu cho AI phân tích...";
-
-      const fullContext = buildFullAdminAIContext();
-      const aiEndpoint = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.endsWith("vercel.app")
-        ? "/api/chat-ai?debug=1"
-        : `${API_URL}/api/chat-ai?debug=1`;
-
-      try {
-        const response = await fetch(aiEndpoint, {
+        const response = await fetch(`${API_URL}/api/chat`, {
           method: "POST",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            message: `Bạn là AI Admin của Vietnam Prosperity Coffee.
-
-BẮT BUỘC đọc toàn bộ dữ liệu trong adminContext trước khi trả lời:
-- reportPage: dữ liệu trang Báo cáo
-- ordersPage: dữ liệu trang Đơn hàng
-- drinksPage: dữ liệu trang Menu nước
-- merchandisePage: dữ liệu trang Vật phẩm
-- customersPage: dữ liệu trang Khách hàng
-- analytics: dữ liệu phân tích đã tính sẵn
-
-Không được trả lời chung chung. Nếu thiếu dữ liệu thì nói rõ thiếu dữ liệu nào.
-Câu hỏi của admin: ${prompt}`,
-            question: prompt,
+            message: prompt,
             adminMode: true,
-            adminContext: fullContext
+            adminContext: {
+              orders: window.adminOrders,
+              drinks: window.adminDrinks,
+              merchandise: window.adminMerch,
+              customers: window.adminCustomers,
+              reviews: window.adminReviews,
+              inventory: buildInventorySummary(),
+              dailyRevenue: getDailyRevenueArray(), analytics: buildBusinessInsights()
+            }
           })
         });
 
@@ -2695,6 +2444,84 @@ Câu hỏi của admin: ${prompt}`,
         console.error("Lỗi AI:", error);
         resultBox.value = generateLocalAIReport(prompt);
       }
+    }
+
+
+
+    async function loadReviews() {
+      const tbody = document.getElementById("reviewsTableBody");
+      if (tbody) tbody.innerHTML = `<tr><td colspan="8">Đang tải đánh giá...</td></tr>`;
+      try {
+        const res = await fetch(`${API_URL}/api/reviews?all=1&_=${Date.now()}`, { cache: "no-store" });
+        if (!res.ok) throw new Error("Không tải được reviews");
+        const data = await res.json();
+        window.adminReviews = Array.isArray(data) ? data : (data.data || data.reviews || []);
+        renderReviews();
+      } catch (err) {
+        console.error("Lỗi tải reviews:", err);
+        window.adminReviews = [];
+        if (tbody) tbody.innerHTML = `<tr><td colspan="8">Chưa tải được đánh giá. Cần deploy API /api/reviews.</td></tr>`;
+      }
+    }
+
+    function renderReviews() {
+      const tbody = document.getElementById("reviewsTableBody");
+      if (!tbody) return;
+      const list = window.adminReviews || [];
+      if (!list.length) {
+        tbody.innerHTML = `<tr><td colspan="8">Chưa có đánh giá.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = list.map(r => `
+        <tr>
+          <td><strong>${safeText(r.customer_name || r.ho_ten || "")}</strong></td>
+          <td>${safeText(r.phone || r.so_dien_thoai || "")}</td>
+          <td>${safeText(r.order_code || r.ma_don_hang || "")}</td>
+          <td>${"★".repeat(Number(r.rating || r.so_sao || 5))}</td>
+          <td>${safeText(r.comment || r.noi_dung || "")}</td>
+          <td>${formatDate(r.created_at || r.ngay_tao)}</td>
+          <td>${r.hien_thi === false ? "Ẩn" : "Hiển thị"}</td>
+          <td><button class="mini-btn" onclick="toggleReviewVisible('${safeText(r.id)}', ${r.hien_thi === false ? 'true' : 'false'})">${r.hien_thi === false ? "Hiện" : "Ẩn"}</button></td>
+        </tr>
+      `).join("");
+    }
+
+    async function toggleReviewVisible(id, visible) {
+      if (!id) return alert("Review này chưa có id.");
+      try {
+        const res = await fetch(`${API_URL}/api/reviews/${encodeURIComponent(id)}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ hien_thi: visible }) });
+        if (!res.ok) throw new Error("Không cập nhật được review");
+        await loadReviews();
+      } catch (err) {
+        alert("Chưa cập nhật được đánh giá. Kiểm tra API /api/reviews/[id].");
+      }
+    }
+
+    function exportDailyReportCSV() {
+      const map = new Map();
+      (window.adminOrders || []).forEach(order => {
+        const d = getOrderDate(order);
+        if (Number.isNaN(d.getTime())) return;
+        const key = d.toISOString().slice(0,10);
+        if (!map.has(key)) map.set(key, { date: key, total: 0, completed: 0, canceled: 0, processing: 0, revenue: 0 });
+        const row = map.get(key);
+        const st = getOrderStatus(order);
+        row.total += 1;
+        if (["hoan_tat", "da_tt", "dang_lam", "dang_giao"].includes(st)) row.revenue += getOrderTotal(order);
+        if (st === "hoan_tat") row.completed += 1;
+        else if (["da_huy", "tu_choi"].includes(st)) row.canceled += 1;
+        else row.processing += 1;
+      });
+      const rows = [["ngay","tong_don","don_thanh_cong","don_huy","don_dang_xu_ly","doanh_thu"]];
+      [...map.values()].sort((a,b)=>a.date.localeCompare(b.date)).forEach(r => rows.push([r.date,r.total,r.completed,r.canceled,r.processing,r.revenue]));
+      const csv = rows.map(row => row.map(cell => `"${String(cell ?? "").replace(/"/g,'""')}"`).join(",")).join("\n");
+      const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `vpc-bao-cao-ngay-${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
     }
 
     async function updateOrderStatus(orderCode, status) {
@@ -2710,7 +2537,7 @@ Câu hỏi của admin: ${prompt}`,
         if (!response.ok) throw new Error("Không cập nhật được trạng thái.");
 
         alert("Đã cập nhật trạng thái đơn hàng.");
-        await Promise.allSettled([loadOrders(), loadSepayTransactions()]);
+        await Promise.allSettled([loadOrders(), loadSepayTransactions(), loadReviews()]);
         buildAdminAnalytics(window.adminOrders || []);
       } catch (error) {
         console.error("Lỗi cập nhật trạng thái:", error);
@@ -2758,157 +2585,6 @@ Câu hỏi của admin: ${prompt}`,
       URL.revokeObjectURL(url);
     }
 
-    function exportDailyReportCSV() {
-      const orders = window.adminOrders || [];
-      const map = {};
-
-      orders.forEach(order => {
-        const dateObj = getOrderDate(order);
-        if (Number.isNaN(dateObj.getTime())) return;
-
-        const dateKey = dateObj.toISOString().slice(0, 10);
-        const total = getOrderTotal(order);
-        const status = getOrderStatus(order);
-
-        if (!map[dateKey]) {
-          map[dateKey] = {
-            date: dateKey,
-            totalOrders: 0,
-            revenue: 0,
-            successOrders: 0,
-            cancelledOrders: 0,
-            pendingOrders: 0
-          };
-        }
-
-        map[dateKey].totalOrders += 1;
-
-        if (paidStatuses.includes(status)) {
-          map[dateKey].revenue += total;
-          map[dateKey].successOrders += 1;
-        } else if (status === 'da_huy') {
-          map[dateKey].cancelledOrders += 1;
-        } else {
-          map[dateKey].pendingOrders += 1;
-        }
-      });
-
-      const rows = [["Ngày", "Tổng số đơn", "Số đơn thành công", "Số đơn hủy", "Đơn đang xử lý", "Doanh thu thực tế (đ)"]];
-      const dailyData = Object.values(map).sort((a, b) => b.date.localeCompare(a.date));
-
-      dailyData.forEach(day => {
-        rows.push([
-          day.date,
-          day.totalOrders,
-          day.successOrders,
-          day.cancelledOrders,
-          day.pendingOrders,
-          day.revenue
-        ]);
-      });
-
-      const csv = "\uFEFF" + rows.map(row => row.map(cell => `"${String(cell ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
-      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-
-      a.href = url;
-      a.download = "vpc-bao-cao-doanh-thu-theo-ngay.csv";
-      a.click();
-
-      URL.revokeObjectURL(url);
-    }
-
-    async function loadReviews() {
-      const tbody = document.getElementById("reviewsTableBody");
-      if (tbody) tbody.innerHTML = `<tr><td colspan="8">Đang tải phản hồi khách hàng...</td></tr>`;
-
-      try {
-        const result = await fetchJSON("/api/reviews?admin=1");
-        window.adminReviews = normalizeArray(result);
-        renderReviews();
-      } catch (error) {
-        console.error("Lỗi tải phản hồi:", error);
-        if (tbody) tbody.innerHTML = `<tr><td colspan="8">Không tải được danh sách phản hồi.</td></tr>`;
-      }
-    }
-
-    function renderReviews() {
-      const tbody = document.getElementById("reviewsTableBody");
-      if (!tbody) return;
-
-      const list = Array.isArray(window.adminReviews) ? window.adminReviews : [];
-
-      if (!list.length) {
-        tbody.innerHTML = `<tr><td colspan="8">Chưa có phản hồi đánh giá nào.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = list.map((item) => {
-        const stars = "★".repeat(item.so_sao) + "☆".repeat(5 - item.so_sao);
-        const dateStr = item.created_at ? new Date(item.created_at).toLocaleString("vi-VN") : "";
-        return `
-          <tr>
-            <td><strong>${safeText(item.ho_ten)}</strong></td>
-            <td>${safeText(item.so_dien_thoai)}</td>
-            <td style="color: var(--gold); font-weight: bold;">${safeText(item.ma_don_hang)}</td>
-            <td style="color: #c89b3c; font-size: 14px;">${stars}</td>
-            <td style="max-width: 250px; white-space: normal; word-break: break-all;">${safeText(item.noi_dung || "(Không có nội dung)")}</td>
-            <td>${dateStr}</td>
-            <td>
-              <span class="badge ${item.hien_thi ? 'badge-success' : 'badge-danger'}" style="padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; color: white; background-color: ${item.hien_thi ? 'var(--success)' : 'var(--danger)'}">
-                ${item.hien_thi ? 'Hiển thị' : 'Đang ẩn'}
-              </span>
-            </td>
-            <td>
-              <button class="mini-btn" onclick="toggleReviewVisibility('${item.id}', ${item.hien_thi})" style="margin-right: 6px;">
-                ${item.hien_thi ? 'Ẩn' : 'Hiện'}
-              </button>
-              <button class="mini-btn btn-danger" onclick="deleteReview('${item.id}')" style="background-color: var(--danger); color: white;">
-                Xóa
-              </button>
-            </td>
-          </tr>
-        `;
-      }).join("");
-    }
-
-    async function toggleReviewVisibility(id, currentStatus) {
-      try {
-        const response = await fetch(`${API_URL}/api/reviews`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id, hien_thi: !currentStatus })
-        });
-
-        if (!response.ok) throw new Error("Lỗi cập nhật hiển thị");
-
-        alert("Đã cập nhật trạng thái hiển thị đánh giá.");
-        await loadReviews();
-      } catch (error) {
-        console.error("Lỗi toggle review visibility:", error);
-        alert("Không thể cập nhật trạng thái đánh giá.");
-      }
-    }
-
-    async function deleteReview(id) {
-      if (!confirm("Bạn có chắc chắn muốn xóa đánh giá này không?")) return;
-
-      try {
-        const response = await fetch(`${API_URL}/api/reviews?id=${encodeURIComponent(id)}`, {
-          method: "DELETE"
-        });
-
-        if (!response.ok) throw new Error("Lỗi xóa đánh giá");
-
-        alert("Đã xóa đánh giá thành công.");
-        await loadReviews();
-      } catch (error) {
-        console.error("Lỗi xóa review:", error);
-        alert("Không thể xóa đánh giá.");
-      }
-    }
-
     function openDrinkForm() {
       alert("Muốn thêm món mới cần route POST ở backend. Bản này đã hỗ trợ sửa giá/nổi bật/hiển thị cho món đang có.");
     }
@@ -2924,6 +2600,3 @@ Câu hỏi của admin: ${prompt}`,
 </body>
 
 </html>
-
-
-
