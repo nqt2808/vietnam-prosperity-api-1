@@ -561,8 +561,16 @@
       flex-wrap: wrap;
       gap: 10px;
       justify-content: center;
-      margin: 34px 0 10px;
-
+      margin: 0 0 10px 0;
+      padding: 16px 10px;
+      position: sticky;
+      top: 80px;
+      z-index: 1000;
+      background: rgba(247, 239, 227, 0.95);
+      border-bottom: 1px solid rgba(244, 209, 123, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: top 0.2s ease;
     }
 
     /* Code này căn lại footer thành 3 cột đều nhau */
@@ -1686,6 +1694,10 @@
     }
 
     @media (max-width: 980px) {
+      .category-tabs {
+        top: 96px !important;
+      }
+
       .header-inner {
         flex-direction: column;
         padding: 8px 0;
@@ -1822,6 +1834,10 @@
     }
 
     @media (max-width: 520px) {
+      .category-tabs {
+        top: 72px !important;
+      }
+
       .container {
         width: calc(100% - 16px) !important;
       }
@@ -2045,7 +2061,7 @@
     .site-footer {
       background: var(--coffee-dark) !important;
       color: white !important;
-      padding: 64px 0 24px !important;
+      padding: 54px 0 14px !important;
     }
 
     .footer-grid {
@@ -2057,7 +2073,7 @@
 
     /* Cho 2 cột sau thẳng hàng với chữ Vietnam Prosperity Coffee */
     .footer-col {
-      padding-top: 142px !important;
+      padding-top: 132px !important;
     }
 
     /* Logo footer */
@@ -2072,7 +2088,7 @@
     .footer-title,
     .footer-col .footer-title {
       color: var(--gold-light) !important;
-      font-size: 28px !important;
+      font-size: 18px !important;
       line-height: 1.25 !important;
       margin: 0 0 22px 0 !important;
       font-weight: 900 !important;
@@ -2086,7 +2102,7 @@
 
     .footer-links button,
     .footer-links a {
-      font-size: 16px !important;
+      font-size: 14px !important;
       line-height: 1.75 !important;
       font-weight: 800 !important;
       color: #f0dfc9 !important;
@@ -2098,7 +2114,7 @@
 
     /* Icon bên mạng xã hội cùng size chữ */
     .footer-links i {
-      font-size: 16px !important;
+      font-size: 14px !important;
       width: 22px !important;
       text-align: center !important;
     }
@@ -2106,17 +2122,17 @@
     /* Chữ cột đầu */
     .site-footer p,
     .site-footer a {
-      font-size: 16px !important;
+      font-size: 14px !important;
       line-height: 1.75 !important;
     }
 
     .copyright {
       border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
-      margin-top: 64px !important;
+      margin-top: 54px !important;
       padding-top: 24px !important;
       text-align: center !important;
       color: #dac8ad !important;
-      font-size: 15px !important;
+      font-size: 14px !important;
     }
 
     @media (max-width: 980px) {
@@ -2548,196 +2564,991 @@ body {
   padding: 10px 12px !important;
 }
 
-
-/* ===== VPC FINAL BLACK / WHITE SIGNATURE THEME + UX UPDATES ===== */
-:root {
-  --coffee-dark: #050505 !important;
-  --coffee: #111111 !important;
-  --coffee-soft: #242424 !important;
-  --cream: #f5f5f5 !important;
-  --cream-2: #ffffff !important;
-  --gold: #111111 !important;
-  --gold-light: #ffffff !important;
-  --text: #111111 !important;
-  --muted: #626262 !important;
-  --white: #ffffff !important;
-  --shadow: 0 12px 32px rgba(0, 0, 0, 0.12) !important;
-}
-.site-header, .site-footer, .chat-head, .product-search-head { background: rgba(0,0,0,.96) !important; }
-.btn-primary { background: #050505 !important; color: #ffffff !important; border-color: #050505 !important; }
-.btn-primary:hover { background: #ffffff !important; color: #050505 !important; border-color: #050505 !important; }
-.btn-outline { border-color: #ffffff !important; color: #ffffff !important; }
-.btn-outline:hover { background: #ffffff !important; color: #050505 !important; }
-.small-btn, .btn-dark { background: #050505 !important; color: #ffffff !important; }
-.small-btn:hover, .btn-dark:hover { background: #ffffff !important; color: #050505 !important; box-shadow: inset 0 0 0 1px #050505; }
-.brand-text strong, .footer-title, .eyebrow, .slogan { color: #ffffff !important; }
-.category-tabs { top: 80px !important; z-index: 9998 !important; background: rgba(255,255,255,.96) !important; border-bottom: 1px solid rgba(0,0,0,.12) !important; box-shadow: 0 8px 22px rgba(0,0,0,.08); }
-.tab-link { border-color: rgba(0,0,0,.16) !important; }
-.tab-link:hover, .tab-link.active { background: #050505 !important; color: #ffffff !important; }
-.stock-badge { display:inline-flex; align-items:center; justify-content:center; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:900; margin:4px auto 8px; width:fit-content; }
-.stock-ok { background:#e8f5e9; color:#166534; border:1px solid #b7dfbd; }
-.stock-low { background:#fff8db; color:#8a5b00; border:1px solid #ead689; }
-.stock-out { background:#f3f3f3; color:#666; border:1px solid #d6d6d6; }
-.article-card > div:first-child { display:flex !important; }
-.article-card .card-img { display:block !important; }
-.article-card .card-body { min-height: 210px; }
-.site-footer { padding: 44px 0 14px !important; }
-.footer-title, .footer-col .footer-title { font-size: 16px !important; margin-bottom: 12px !important; }
-.site-footer p, .site-footer a, .footer-links button, .footer-links a { font-size: 13px !important; line-height: 1.55 !important; }
-.copyright { margin-top: 32px !important; padding-top: 16px !important; font-size: 12px !important; }
-.product-search-overlay { position:fixed; inset:0; z-index:200000; background:rgba(0,0,0,.72); display:none; align-items:flex-start; justify-content:center; padding:110px 18px 28px; }
-.product-search-overlay.open { display:flex; }
-.product-search-panel { width:min(760px,100%); background:#fff; border:1px solid #ddd; border-radius:24px; box-shadow:0 24px 80px rgba(0,0,0,.35); overflow:hidden; }
-.product-search-head { color:white; padding:18px 20px; display:flex; justify-content:space-between; align-items:center; }
-.product-search-head h3 { margin:0; color:white; }
-.product-search-close { border:1px solid rgba(255,255,255,.5); background:transparent; color:#fff; width:38px; height:38px; border-radius:999px; cursor:pointer; font-size:24px; }
-.product-search-body { padding:18px; }
-.product-search-form { display:flex; gap:10px; margin-bottom:14px; }
-.product-search-form input { flex:1; }
-.product-search-results { display:grid; gap:10px; max-height:55vh; overflow:auto; }
-.product-search-item { background:white; border:1px solid #ddd; border-radius:16px; padding:14px; display:grid; gap:6px; }
-.product-highlight { outline:4px solid #050505 !important; box-shadow:0 0 0 8px rgba(0,0,0,.14), var(--shadow) !important; }
-.vpc-testimonials { background:#050505; color:#fff; padding:52px 0; }
-.vpc-testimonials .section-head h2 { color:#fff !important; }
-.testimonial-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-top:24px; }
-.testimonial-card { background:#111; border:1px solid rgba(255,255,255,.16); border-radius:18px; padding:18px; min-height:260px; display:grid; grid-template-rows:auto 1fr auto; gap:12px; }
-.testimonial-stars { color:#fff; letter-spacing:2px; font-size:18px; }
-.testimonial-text { color:rgba(255,255,255,.78); font-style:italic; line-height:1.55; font-size:14px; }
-.testimonial-user { border-top:1px solid rgba(255,255,255,.16); padding-top:12px; font-weight:900; }
-.review-modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:210000; display:none; align-items:center; justify-content:center; padding:18px; }
-.review-modal-backdrop.show { display:flex; }
-.review-modal-box { width:min(520px,100%); background:#fff; border-radius:22px; padding:22px; box-shadow:0 24px 80px rgba(0,0,0,.35); }
-.review-stars-select { display:flex; gap:8px; align-items:center; }
-.review-stars-select select { max-width:150px; }
-@media (max-width:760px){
-  .testimonial-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-  .testimonial-card{ padding:12px; min-height:230px; }
-  .testimonial-text{ font-size:12px; }
-  .product-search-form{ flex-direction:column; }
-  .footer-contact-mobile-row, .footer-link-mobile-row, .footer-social-row{ display:flex !important; justify-content:center; gap:12px; flex-wrap:nowrap; }
-  .footer-social-row a{ flex:1; justify-content:center; text-align:center; }
-  .footer-map-center{ display:flex !important; justify-content:center; margin-top:8px; }
+/* SEARCH PRODUCT + COPY ORDER FEATURE */
+.search-icon-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 14px !important;
+  border-radius: 999px;
 }
 
+.search-icon-btn i {
+  font-size: 18px;
+}
 
+.product-search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200000;
+  background: rgba(31, 18, 11, 0.72);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 110px 18px 28px;
+}
 
-.product-search-card {
-  display: grid !important;
-  grid-template-columns: 120px 1fr !important;
-  gap: 16px !important;
-  align-items: center !important;
-  padding: 14px !important;
+.product-search-overlay.open {
+  display: flex;
 }
-.product-search-img {
-  width: 120px !important;
-  height: 120px !important;
-  object-fit: cover !important;
-  border-radius: 14px !important;
-  background: #f4f4f4 !important;
-  border: 1px solid #e5e5e5 !important;
+
+.product-search-panel {
+  width: min(760px, 100%);
+  background: #fffaf4;
+  border: 1px solid #ead0a4;
+  border-radius: 24px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+  overflow: hidden;
 }
-.product-search-info {
-  display: grid !important;
-  gap: 8px !important;
+
+.product-search-head {
+  background: var(--coffee-dark);
+  color: #fff;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
-.product-search-info strong {
-  font-size: 22px !important;
-  line-height: 1.2 !important;
-  color: #050505 !important;
+
+.product-search-head h3 {
+  color: var(--gold-light);
+  margin: 0;
+  font-size: 22px;
 }
-.product-search-price {
-  font-size: 18px !important;
-  font-weight: 900 !important;
-  color: #050505 !important;
+
+.product-search-close {
+  border: 1px solid rgba(244, 209, 123, 0.45);
+  background: transparent;
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 900;
 }
-.product-search-info p {
-  font-size: 14px !important;
-  line-height: 1.45 !important;
-  color: var(--muted) !important;
-  margin: 0 !important;
+
+.product-search-body {
+  padding: 18px;
 }
+
+.product-search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.product-search-form input {
+  flex: 1;
+}
+
+.product-search-results {
+  display: grid;
+  gap: 10px;
+  max-height: 55vh;
+  overflow-y: auto;
+}
+
+.product-search-item {
+  background: white;
+  border: 1px solid #eadac7;
+  border-radius: 16px;
+  padding: 14px;
+  display: grid;
+  gap: 5px;
+}
+
+.product-search-item strong {
+  color: var(--coffee-dark);
+  font-size: 17px;
+}
+
+.product-search-item span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.product-search-item button {
+  margin-top: 8px;
+  width: fit-content;
+}
+
+.product-highlight {
+  outline: 4px solid var(--gold) !important;
+  box-shadow: 0 0 0 8px rgba(200,155,60,0.18), var(--shadow) !important;
+}
+
+.copy-order-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #ead0a4;
+  background: #fff4df;
+  color: var(--coffee-dark);
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  vertical-align: middle;
+  transition: 0.2s ease;
+}
+
+.copy-order-btn:hover {
+  background: var(--gold);
+  transform: translateY(-1px);
+}
+
+.lookup-mode-note {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: -4px 0 14px;
+  text-align: center;
+}
+
 @media (max-width: 520px) {
-  .product-search-card {
-    grid-template-columns: 86px 1fr !important;
+  .search-icon-btn {
+    min-width: 36px;
+    height: 34px;
+    padding: 0 9px !important;
+  }
+
+  .search-icon-btn i {
+    font-size: 14px;
+  }
+
+  .product-search-overlay {
+    padding-top: 90px;
+  }
+
+  .product-search-form {
+    flex-direction: column;
+  }
+}
+
+
+/* ===== PRODUCT SEARCH + PHONE LOOKUP + COPY ORDER ===== */
+.header-search-btn {
+  position: relative;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.header-search-btn i {
+  font-size: 17px;
+}
+
+.product-search-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200000;
+  background: rgba(31, 18, 11, 0.72);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 110px 16px 24px;
+}
+
+.product-search-modal.open {
+  display: flex;
+}
+
+.product-search-panel {
+  width: min(760px, 100%);
+  background: #fffaf4;
+  border: 1px solid #ead0a4;
+  border-radius: 24px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.product-search-head {
+  background: var(--coffee-dark);
+  color: white;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.product-search-head h3 {
+  color: var(--gold-light);
+  margin: 0;
+  font-size: 22px;
+}
+
+.product-search-close {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(244, 209, 123, 0.45);
+  border-radius: 999px;
+  background: transparent;
+  color: white;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.product-search-body {
+  padding: 18px;
+}
+
+.product-search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.product-search-form input {
+  flex: 1;
+}
+
+.product-search-results {
+  display: grid;
+  gap: 10px;
+  max-height: 56vh;
+  overflow-y: auto;
+}
+
+.product-search-item {
+  background: white;
+  border: 1px solid #eadac7;
+  border-radius: 16px;
+  padding: 14px;
+  display: grid;
+  gap: 5px;
+}
+
+.product-search-item strong {
+  color: var(--coffee-dark);
+  font-size: 17px;
+}
+
+.product-search-item span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.product-search-item button {
+  width: fit-content;
+  margin-top: 8px;
+}
+
+.product-highlight {
+  outline: 4px solid var(--gold) !important;
+  box-shadow: 0 0 0 8px rgba(200, 155, 60, 0.18), var(--shadow) !important;
+}
+
+.lookup-mode-note {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  text-align: center;
+  margin: -4px 0 14px;
+}
+
+.copy-order-btn {
+  width: 34px;
+  height: 34px;
+  margin-left: 8px;
+  border-radius: 10px;
+  border: 1px solid #ead0a4;
+  background: #fff4df;
+  color: var(--coffee-dark);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  transition: 0.2s ease;
+}
+
+.copy-order-btn:hover {
+  background: var(--gold);
+  transform: translateY(-1px);
+}
+
+.lookup-order-card {
+  background: white;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 22px;
+  border: 1px solid #eadac7;
+  margin-bottom: 18px;
+}
+
+</style>
+<style id="force-search-icon-visible">
+  .main-nav {
+    overflow: visible !important;
+  }
+
+  .search-icon-btn {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    height: 44px !important;
+    padding: 0 !important;
+    margin-left: 4px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #fff3df !important;
+    color: #2a160f !important;
+    border-radius: 999px !important;
+    font-size: 22px !important;
+    line-height: 1 !important;
+    z-index: 999999 !important;
+  }
+
+  .cart-icon-btn {
+    margin-right: 0 !important;
+  }
+
+  @media (max-width: 768px) {
+    .main-nav {
+      gap: 4px !important;
+      flex-wrap: nowrap !important;
+    }
+
+    .main-nav .nav-btn[data-page="menu"],
+    .main-nav .nav-btn[data-page="merch"],
+    .main-nav .nav-btn[data-page="blog"] {
+      padding: 6px 7px !important;
+      font-size: 13px !important;
+    }
+
+    .search-icon-btn {
+      width: 36px !important;
+      min-width: 36px !important;
+      height: 36px !important;
+      font-size: 18px !important;
+    }
+@media (max-width: 768px) {
+
+  /* Giờ mở cửa + SĐT */
+  .footer-contact-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    flex-wrap:nowrap;
+    text-align:left;
+  }
+
+  .footer-contact-item{
+    flex:1;
+    min-width:0;
+  }
+
+  /* Giới thiệu + Liên hệ */
+  .footer-links-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:24px;
+    flex-wrap:nowrap;
+  }
+
+  .footer-links-row a{
+    display:block;
+  }
+
+  /* Social */
+  .footer-social{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .footer-social-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    flex-wrap:nowrap;
+  }
+
+  .footer-social-row a{
+    flex:1;
+    text-align:center;
+  }
+
+  .footer-map{
+    display:flex;
+    justify-content:center;
+    margin-top:10px;
+  }
+ }
+</style>
+<style id="vpc-testimonials-css">
+  .vpc-testimonials {
+    background: #2a160f;
+    color: #fff3df;
+    padding: 80px 0;
+  }
+
+  .vpc-testimonials .section-head h2 {
+    color: #f4d17b;
+    font-size: clamp(36px, 5vw, 68px);
+  }
+
+  .testimonial-badge {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    background: #181b1d;
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 999px;
+    padding: 8px 18px;
+    margin-bottom: 18px;
+    font-weight: 800;
+  }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 42px;
+  }
+
+  .testimonial-card {
+    background: #171a1c;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 24px;
+    padding: 34px;
+    min-height: 310px;
+    box-shadow: 0 18px 50px rgba(0,0,0,.25);
+  }
+
+  .testimonial-stars {
+    color: #ffc107;
+    font-size: 28px;
+    letter-spacing: 4px;
+    margin-bottom: 24px;
+  }
+
+  .testimonial-text {
+    color: rgba(255,255,255,.76);
+    font-size: 18px;
+    line-height: 1.65;
+    font-style: italic;
+    min-height: 118px;
+  }
+
+  .testimonial-line {
+    height: 1px;
+    background: rgba(255,255,255,.16);
+    margin: 28px 0 22px;
+  }
+
+  .testimonial-user {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .testimonial-avatar {
+    width: 62px;
+    height: 62px;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 3px solid rgba(244,209,123,.65);
+  }
+
+  .testimonial-name {
+    font-size: 20px;
+    font-weight: 900;
+    color: #fff3df;
+  }
+
+  .testimonial-role {
+    color: #d0a63a;
+    font-weight: 800;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 900px) {
+    .testimonial-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .testimonial-card {
+      min-height: auto;
+    }
+  }
+</style>
+<style id="vpc-testimonial-align-fix">
+  .testimonial-card {
+    display: grid !important;
+    grid-template-rows: 48px 185px 1px 74px !important;
+    gap: 22px !important;
+    min-height: 430px !important;
+  }
+
+  .testimonial-stars {
+    margin: 0 !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+
+  .testimonial-text {
+    margin: 0 !important;
+    min-height: 185px !important;
+    max-height: 185px !important;
+    overflow-y: auto !important;
+  }
+
+  .testimonial-line {
+    margin: 0 !important;
+    height: 1px !important;
+  }
+
+  .testimonial-user {
+    align-self: end !important;
+    min-height: 74px !important;
+  }
+
+  @media (max-width: 900px) {
+    .testimonial-card {
+      grid-template-rows: auto auto 1px auto !important;
+      min-height: auto !important;
+    }
+
+    .testimonial-text {
+      min-height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+    }
+  }
+</style>
+<style id="vpc-testimonial-mobile-2col">
+  @media (max-width: 760px) {
+    .testimonial-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+    }
+
+    .testimonial-card {
+      padding: 18px !important;
+      min-height: 330px !important;
+      grid-template-rows: 34px 145px 1px 62px !important;
+      gap: 14px !important;
+      border-radius: 18px !important;
+    }
+
+    .testimonial-stars {
+      font-size: 20px !important;
+      letter-spacing: 1px !important;
+      height: 34px !important;
+    }
+
+    .testimonial-text {
+      font-size: 13.5px !important;
+      line-height: 1.55 !important;
+      min-height: 145px !important;
+      max-height: 145px !important;
+      overflow-y: auto !important;
+    }
+
+    .testimonial-avatar {
+      width: 44px !important;
+      height: 44px !important;
+    }
+
+    .testimonial-name {
+      font-size: 15px !important;
+      line-height: 1.15 !important;
+    }
+
+    .testimonial-role {
+      font-size: 13px !important;
+      line-height: 1.2 !important;
+    }
+
+    .testimonial-user {
+      min-height: 62px !important;
+      gap: 10px !important;
+    }
+  }
+</style>
+<style id="vpc-testimonial-mobile-final-fix">
+  .testimonial-card {
+    display: grid !important;
+    grid-template-rows: 48px 180px 1px 76px !important;
+    gap: 22px !important;
+    min-height: 430px !important;
+  }
+
+  .testimonial-stars {
+    margin: 0 !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+
+  .testimonial-text {
+    margin: 0 !important;
+    min-height: 180px !important;
+    max-height: 180px !important;
+    overflow-y: auto !important;
+  }
+
+  .testimonial-line {
+    margin: 0 !important;
+  }
+
+  .testimonial-user {
+    min-height: 76px !important;
+    align-self: end !important;
+  }
+
+  @media (max-width: 760px) {
+    .testimonial-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+    }
+
+    .testimonial-card {
+      padding: 16px !important;
+      min-height: 330px !important;
+      grid-template-rows: 32px 145px 1px 62px !important;
+      gap: 14px !important;
+      border-radius: 18px !important;
+    }
+
+    .testimonial-stars {
+      font-size: 20px !important;
+      letter-spacing: 0 !important;
+      height: 32px !important;
+    }
+
+    .testimonial-text {
+      font-size: 13px !important;
+      line-height: 1.5 !important;
+      min-height: 145px !important;
+      max-height: 145px !important;
+      overflow-y: auto !important;
+    }
+
+    .testimonial-avatar {
+      width: 42px !important;
+      height: 42px !important;
+    }
+
+    .testimonial-user {
+      gap: 9px !important;
+      min-height: 62px !important;
+    }
+
+    .testimonial-name {
+      font-size: 14px !important;
+      line-height: 1.15 !important;
+    }
+
+    .testimonial-role {
+      font-size: 12px !important;
+      line-height: 1.2 !important;
+    }
+  }
+</style>
+<style id="vpc-testimonial-compact-final">
+  .vpc-testimonials {
+    padding: 44px 0 !important;
+  }
+
+  .vpc-testimonials .section-head {
+    margin-bottom: 22px !important;
+  }
+
+  .vpc-testimonials .section-head h2 {
+    font-size: clamp(28px, 4vw, 46px) !important;
+  }
+
+  .testimonial-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+    margin-top: 24px !important;
+  }
+
+  .testimonial-card {
+    padding: 18px !important;
+    border-radius: 18px !important;
+    min-height: 300px !important;
+    grid-template-rows: 32px 128px 1px 58px !important;
     gap: 12px !important;
-    padding: 12px !important;
   }
-  .product-search-img {
-    width: 86px !important;
-    height: 86px !important;
-    border-radius: 12px !important;
+
+  .testimonial-stars {
+    font-size: 20px !important;
+    height: 32px !important;
+    letter-spacing: 1px !important;
   }
-  .product-search-info strong {
-    font-size: 18px !important;
+
+  .testimonial-text {
+    font-size: 13.5px !important;
+    line-height: 1.45 !important;
+    min-height: 128px !important;
+    max-height: 128px !important;
   }
-  .product-search-price {
-    font-size: 15px !important;
+
+  .testimonial-avatar {
+    width: 42px !important;
+    height: 42px !important;
   }
-  .product-search-info p {
-    font-size: 13px !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 3 !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
+
+  .testimonial-name {
+    font-size: 14px !important;
   }
+
+  .testimonial-role {
+    font-size: 12px !important;
+  }
+
+  @media (max-width: 760px) {
+    .testimonial-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 10px !important;
+    }
+
+    .testimonial-card {
+      padding: 12px !important;
+      min-height: 280px !important;
+      grid-template-rows: 28px 132px 1px 54px !important;
+      gap: 10px !important;
+    }
+
+    .testimonial-text {
+      font-size: 12px !important;
+      min-height: 132px !important;
+      max-height: 132px !important;
+    }
+
+    .testimonial-stars {
+      font-size: 17px !important;
+      height: 28px !important;
+    }
+  }
+
+
+/* ===== VPC UI TUNING: thu nhỏ thanh nhóm menu + chatbot ===== */
+body {
+  padding-top: 68px !important;
 }
 
-
-.article-single-image-wrap {
-  width: 100% !important;
-  margin: 0 auto 28px !important;
-  border-radius: 24px !important;
-  overflow: hidden !important;
-  box-shadow: var(--shadow) !important;
-  background: #000 !important;
-}
-.article-single-image {
-  width: 100% !important;
-  max-height: 78vh !important;
-  object-fit: contain !important;
-  background: #000 !important;
-  display: block !important;
+.site-header .header-inner {
+  min-height: 68px !important;
+  gap: 14px !important;
 }
 
+.brand-logo.vpc {
+  height: 48px !important;
+}
 
-/* ===== VPC FINAL FIX: sticky group tabs, restored blog thumbnails, single detail image ===== */
+.brand-logo.tn {
+  height: 40px !important;
+}
+
+.brand-text strong {
+  font-size: 18px !important;
+}
+
+.brand-text span {
+  font-size: 13px !important;
+}
+
+.main-nav {
+  gap: 6px !important;
+}
+
+.main-nav .nav-btn {
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+}
+
+.category-tabs,
 #menuTabs,
-#merchTabs,
+#merchTabs {
+  gap: 7px !important;
+  margin: 14px 0 8px !important;
+  padding: 8px 12px !important;
+}
+
 .category-tabs {
-  position: sticky !important;
-  top: 80px !important;
-  z-index: 9998 !important;
-  background: rgba(255,255,255,.96) !important;
-  border-bottom: 1px solid rgba(0,0,0,.12) !important;
-  box-shadow: 0 8px 22px rgba(0,0,0,.08) !important;
-  padding: 12px 8px !important;
+  top: 68px !important;
 }
-.article-card > div:first-child {
-  display: flex !important;
+
+#menuTabs .tab-link,
+#merchTabs .tab-link,
+.category-tabs .tab-link {
+  padding: 7px 12px !important;
+  font-size: 13px !important;
+  line-height: 1.15 !important;
+  min-height: 34px !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06) !important;
 }
-.article-card .card-img {
-  display: block !important;
+
+.menu-group,
+#merchGroups .menu-group {
+  scroll-margin-top: 112px !important;
 }
-.article-single-image-wrap {
-  width: 100% !important;
-  margin: 0 auto 28px !important;
-  border-radius: 24px !important;
-  overflow: hidden !important;
-  box-shadow: var(--shadow) !important;
-  background: #000 !important;
+
+.chat-toggle,
+.lookup-toggle {
+  color: #ffffff !important;
+  padding: 11px 18px !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  min-height: 42px !important;
 }
-.article-single-image {
-  width: 100% !important;
-  max-height: 78vh !important;
-  object-fit: contain !important;
-  background: #000 !important;
-  display: block !important;
+
+.chat-toggle {
+  right: 18px !important;
+  bottom: 18px !important;
 }
+
+.lookup-toggle {
+  right: 18px !important;
+  bottom: 70px !important;
+}
+
+.chat-box {
+  right: 18px !important;
+  bottom: 118px !important;
+  width: min(320px, calc(100vw - 28px)) !important;
+  border-radius: 18px !important;
+}
+
+.chat-head {
+  padding: 11px 14px !important;
+  font-size: 14px !important;
+}
+
+.chat-body {
+  height: 255px !important;
+}
+
+.chat-messages {
+  padding: 10px 10px 6px !important;
+}
+
+.chat-msg {
+  padding: 8px 10px !important;
+  font-size: 12.5px !important;
+  max-width: 88% !important;
+  margin-bottom: 6px !important;
+}
+
+.quick-chat {
+  padding: 7px 10px 9px !important;
+  gap: 6px !important;
+}
+
+.quick-chat::-webkit-scrollbar {
+  height: 6px !important;
+}
+
+.quick-chat button {
+  padding: 7px 11px !important;
+  font-size: 11.5px !important;
+}
+
+.chat-input-row {
+  padding: 8px 10px 10px !important;
+  gap: 6px !important;
+}
+
+.chat-input-row input {
+  padding: 8px 10px !important;
+  font-size: 12px !important;
+}
+
+.chat-input-row button {
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+}
+
 @media (max-width: 980px) {
-  #menuTabs, #merchTabs, .category-tabs { top: 96px !important; }
+  body {
+    padding-top: 78px !important;
+  }
+
+  .site-header .header-inner {
+    min-height: 72px !important;
+  }
+
+  .category-tabs {
+    top: 72px !important;
+  }
 }
+
 @media (max-width: 520px) {
-  #menuTabs, #merchTabs, .category-tabs { top: 72px !important; padding: 8px 6px !important; }
+  body {
+    padding-top: 64px !important;
+  }
+
+  .site-header .header-inner {
+    min-height: 60px !important;
+  }
+
+  .brand-logo.vpc {
+    height: 38px !important;
+  }
+
+  .brand-logo.tn {
+    height: 32px !important;
+  }
+
+  .brand-text strong {
+    font-size: 14px !important;
+  }
+
+  .brand-text span {
+    font-size: 11px !important;
+  }
+
+  .category-tabs {
+    top: 60px !important;
+  }
+
+  #menuTabs .tab-link,
+  #merchTabs .tab-link,
+  .category-tabs .tab-link {
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    min-height: 30px !important;
+  }
+
+  .chat-toggle,
+  .lookup-toggle {
+    right: 12px !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    min-height: 38px !important;
+  }
+
+  .lookup-toggle {
+    bottom: 62px !important;
+  }
+
+  .chat-box {
+    right: 10px !important;
+    bottom: 106px !important;
+    width: calc(100vw - 20px) !important;
+  }
+
+  .chat-body {
+    height: 235px !important;
+  }
 }
 
 </style>
@@ -2763,15 +3574,16 @@ body {
         <button class="nav-btn" data-page="menu" onclick="showPage('menu')">Menu nước</button>
         <button class="nav-btn" data-page="merch" onclick="showPage('merch')">Vật phẩm</button>
         <button class="nav-btn" data-page="blog" onclick="showPage('blog')">Bài viết</button>
-        <button class="nav-btn" type="button" onclick="toggleProductSearch(true)" aria-label="Tìm kiếm sản phẩm" title="Tìm kiếm sản phẩm">🔍</button>
         <button class="nav-btn cart-icon-btn" data-page="cart" onclick="showPage('cart')" aria-label="Giỏ hàng">
           <span class="cart-icon">🛒</span>
           <span class="cart-count" id="cartCount">0</span>
         </button>
+        <button class="nav-btn search-icon-btn" type="button" onclick="toggleProductSearch(true)" aria-label="Tìm kiếm sản phẩm" title="Tìm kiếm sản phẩm">
+          🔍
+        </button>
       </nav>
     </div>
   </header>
-
 
 
   <!-- PRODUCT SEARCH MODAL -->
@@ -2783,15 +3595,16 @@ body {
       </div>
       <div class="product-search-body">
         <form class="product-search-form" onsubmit="handleProductSearch(event)">
-          <input id="productSearchInput" type="search" placeholder="Nhập tên món hoặc vật phẩm..." autocomplete="off" oninput="handleProductSearch(event)" />
-          <button class="btn btn-primary" type="submit">Tìm</button>
+          <input id="productSearchInput" type="search" placeholder="Nhập tên món, ví dụ: Coffee Legend, Trà Đào, G7..." autocomplete="off" oninput="handleProductSearch(event)" />
+          <button class="btn btn-primary" type="submit">Tìm kiếm</button>
         </form>
         <div id="productSearchResults" class="product-search-results">
-          <p style="color: var(--muted); text-align:center;">Nhập tên sản phẩm để xem kết quả ngay, không cần bấm Enter.</p>
+          <p style="color: var(--muted); text-align: center;">Nhập tên sản phẩm để tìm trong Menu nước và Vật phẩm.</p>
         </div>
       </div>
     </div>
   </div>
+
 
   <!-- HOME -->
   <main id="home" class="page active">
@@ -2821,18 +3634,19 @@ body {
       </div>
     </section>
 
-    <section class="section vpc-testimonials">
+        <section class="section vpc-testimonials">
       <div class="container">
         <div class="section-head" style="text-align:center;">
-          <span style="display:inline-flex;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:7px 16px;margin-bottom:14px;font-weight:900;">★★★★★ Phản hồi khách hàng</span>
+          <div class="testimonial-badge">★★★★★ <span>Phản hồi chân thật</span></div>
           <h2>Khách hàng nói gì về VPC</h2>
-          <p style="color:rgba(255,255,255,.72);">Đánh giá từ khách hàng đã đặt hàng và trải nghiệm tại Trung Nguyên Legend Âu Lạc.</p>
+          <p style="color:rgba(255,255,255,.72);">Những chia sẻ từ khách hàng đã trải nghiệm đồ uống, không gian và dịch vụ tại Trung Nguyên Legend Âu Lạc.</p>
         </div>
+
         <div class="testimonial-grid" id="reviewsGrid"></div>
       </div>
     </section>
 
-    <section class="section">
+<section class="section">
       <div class="container">
         <div class="section-head">
           <h2>Không gian quán</h2>
@@ -3011,11 +3825,6 @@ body {
               </div>
 
               <div class="form-field">
-                <label>Email nhận khuyến mãi</label>
-                <input type="email" id="customerEmail" placeholder="Nhập email nếu muốn nhận ưu đãi phù hợp" />
-              </div>
-
-              <div class="form-field">
                 <label>Hình thức nhận hàng</label>
                 <select id="deliveryType" onchange="handleDeliveryChange()">
                   <option>Đến lấy tại quán</option>
@@ -3163,10 +3972,18 @@ body {
         <div class="cart-box">
           <h2 style="margin-bottom: 18px; text-align: center;">Theo dõi đơn hàng</h2>
           <form id="lookupForm" onsubmit="handleLookupOrder(event)">
+            <p class="lookup-mode-note">Quý khách có thể tra cứu bằng <strong>mã đơn hàng</strong> hoặc <strong>số điện thoại đặt hàng</strong>.</p>
+
             <div class="form-field full" style="margin-bottom: 16px;">
               <label>Mã đơn hàng</label>
-              <input required id="lookupOrderCode" placeholder="Ví dụ: VPC-DH-20260523-..." />
+              <input id="lookupOrderCode" placeholder="Ví dụ: VPC-DH-20260523-..." />
             </div>
+
+            <div class="form-field full" style="margin-bottom: 16px;">
+              <label>Số điện thoại đặt hàng</label>
+              <input id="lookupPhone" type="tel" placeholder="Ví dụ: 0389726999" />
+            </div>
+
             <button class="btn btn-primary" type="submit" style="width: 100%;">Tra cứu đơn hàng</button>
           </form>
 
@@ -3372,42 +4189,6 @@ body {
     </div>
   </footer>
 
-
-
-  <!-- REVIEW MODAL - chỉ mở sau khi khách đặt hàng / tra cứu đơn hoàn tất -->
-  <div class="review-modal-backdrop" id="reviewModal">
-    <div class="review-modal-box">
-      <h2 style="margin-bottom:8px;color:var(--coffee-dark);">Đánh giá trải nghiệm VPC</h2>
-      <p style="color:var(--muted);margin-bottom:16px;">Cảm ơn Quý khách đã đặt hàng. Đánh giá của Quý khách sẽ hiển thị ở mục “Khách hàng nói gì về VPC”.</p>
-      <form id="reviewForm" onsubmit="submitReview(event)" style="display:grid;gap:12px;">
-        <input type="hidden" id="reviewOrderCode" />
-        <input type="hidden" id="reviewPhone" />
-        <div class="form-field">
-          <label>Họ tên</label>
-          <input id="reviewName" required placeholder="Nhập họ tên" />
-        </div>
-        <div class="form-field">
-          <label>Số sao</label>
-          <select id="reviewRating" required>
-            <option value="5">5 sao - Rất hài lòng</option>
-            <option value="4">4 sao - Hài lòng</option>
-            <option value="3">3 sao - Bình thường</option>
-            <option value="2">2 sao - Chưa hài lòng</option>
-            <option value="1">1 sao - Cần cải thiện</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label>Nội dung đánh giá</label>
-          <textarea id="reviewContent" required placeholder="Chia sẻ cảm nhận của Quý khách..."></textarea>
-        </div>
-        <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;">
-          <button type="button" class="btn btn-dark" onclick="closeReviewModal()">Để sau</button>
-          <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- FLOATING ACTIONS -->
   <button class="lookup-toggle" onclick="showPage('lookup')">📦 Tra cứu đơn</button>
   <button class="chat-toggle" onclick="toggleChat()">💬 Tư vấn</button>
@@ -3445,20 +4226,7 @@ body {
   </div>
 
   <script>
-    const API_URL = "https://vpc-70cs.onrender.com";
-
-    const VPC_CACHE_VERSION = "20260622-menu-merch-tabs-delivery-v2";
-    try {
-      const oldVersion = localStorage.getItem("vpc_cache_version");
-      if (oldVersion !== VPC_CACHE_VERSION) {
-        localStorage.removeItem("vpc_cached_drinks");
-        localStorage.removeItem("vpc_cached_merch");
-        localStorage.removeItem("vpc_cached_featured");
-        localStorage.setItem("vpc_cache_version", VPC_CACHE_VERSION);
-      }
-    } catch (e) {
-      console.warn("Không thể làm mới cache sản phẩm:", e);
-    }
+    const API_URL = "https://website-vpc.vercel.app";
 
     // Code này giữ API backend chính của website.
     // Không gọi Supabase trực tiếp ở frontend để tránh lỗi sai bảng, sai key hoặc lỗi RLS.
@@ -3868,18 +4636,31 @@ body {
 
       return originalDesc || "Sản phẩm chất lượng cao mang thương hiệu Trung Nguyên Legend hảo hạng.";
     }
-    const categoryDescMap = {
-      "ca-phe-phin": "Những dòng cà phê phin đặc trưng của Trung Nguyên Legend, mang hương vị đậm đà, truyền thống và giàu năng lượng.",
-      "ca-phe-may": "Các món cà phê được chiết xuất bằng máy, mang hương vị hiện đại, đậm đà và phù hợp với nhiều phong cách thưởng thức.",
-      "ca-phe-pha-che": "Các món cà phê sáng tạo, dễ uống và phù hợp cho khách muốn trải nghiệm hương vị mới.",
-      "tra-tra-sua": "Những món trà thơm nhẹ, thanh mát và dễ uống.",
-      "sinh-to-da-xay": "Các món mát lạnh, phù hợp cho ngày nóng hoặc khi muốn đổi vị.",
-      "nuoc-ep": "Các lựa chọn trái cây tươi mát, dễ uống.",
-      "nuoc-thanh-nhiet": "Những món giải nhiệt, thanh lọc và tươi mát.",
-      "matcha-cacao": "Các món matcha, cacao và sữa tươi có hương vị nhẹ nhàng, béo thơm.",
-      "banh": "Các món ngọt dùng kèm đồ uống.",
-      "mon-extra": "Các lựa chọn thêm giúp khách hàng tùy chỉnh đồ uống theo khẩu vị."
+    const menuCategoryMap = {
+      "ca-phe-phin": { title: "Cà phê phin", order: 1, desc: "Những dòng cà phê phin đặc trưng của Trung Nguyên Legend." },
+      "ca-phe-may": { title: "Cà phê máy", order: 2, desc: "Các món cà phê được chiết xuất bằng máy." },
+      "ca-phe-pha-che": { title: "Cà phê pha chế", order: 3, desc: "Các món cà phê sáng tạo, dễ uống và nổi bật." },
+      "tra-tra-sua": { title: "Trà và Trà sữa", order: 4, desc: "Các món trà, trà sữa thanh nhẹ và dễ uống." },
+      "sinh-to-da-xay": { title: "Sinh tố và Đá xay", order: 5, desc: "Các món sinh tố và đá xay mát lạnh." },
+      "nuoc-ep": { title: "Nước ép", order: 6, desc: "Các món nước ép trái cây." },
+      "nuoc-thanh-nhiet": { title: "Nước thanh nhiệt", order: 7, desc: "Các món thanh nhiệt, giải khát." },
+      "matcha-cacao": { title: "Matcha và Cacao", order: 8, desc: "Các món matcha, cacao và sữa tươi." },
+      "banh": { title: "Bánh", order: 9, desc: "Các món bánh dùng kèm đồ uống." },
+      "mon-extra": { title: "Món Extra", order: 10, desc: "Các món thêm để tùy chỉnh đồ uống." }
     };
+
+    const categoryDescMap = Object.fromEntries(
+      Object.entries(menuCategoryMap).map(([slug, item]) => [slug, item.desc])
+    );
+
+    function getMenuCategoryInfo(slug, fallbackTitle = "") {
+      const key = String(slug || "").trim();
+      return menuCategoryMap[key] || {
+        title: fallbackTitle || key || "Khác",
+        order: 999,
+        desc: categoryDescMap[key] || ""
+      };
+    }
 
     const blogItems = [
       {
@@ -4275,7 +5056,6 @@ body {
       localStorage.setItem("vpc_cart", JSON.stringify(cart));
       updateCartCount();
       renderCart();
-      loadReviews();
     }
     function addToCart(name, priceNum, priceLabel) {
       const finalPriceNum = Number(priceNum || 0);
@@ -4444,47 +5224,6 @@ body {
       mapFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
       mapBox.classList.add("show");
     }
-    const VPC_STORE_LOCATION = {
-      lat: 16.4621,
-      lng: 107.5964,
-      address: "Trung Nguyên Legend Âu Lạc, Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế"
-    };
-
-    function calculateDistanceKm(lat1, lon1, lat2, lon2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c;
-    }
-
-    function calculateShippingFeeByDistance(distanceKm) {
-      if (distanceKm < 2) return 0;
-      return Math.ceil(distanceKm) * 5000;
-    }
-
-    async function geocodeCustomerAddress(address) {
-      const query = /huế|hue|việt nam|viet nam/i.test(address) ? address : `${address}, Huế, Việt Nam`;
-      const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=vn&q=${encodeURIComponent(query)}`;
-      const response = await fetchWithTimeout(url, 9000);
-      if (!response.ok) {
-        throw new Error("Không định vị được địa chỉ giao hàng.");
-      }
-      const data = await response.json();
-      if (!Array.isArray(data) || !data.length) {
-        throw new Error("Không tìm thấy địa chỉ giao hàng trên bản đồ.");
-      }
-      return {
-        lat: Number(data[0].lat),
-        lng: Number(data[0].lon),
-        displayName: data[0].display_name || address
-      };
-    }
-
     async function checkDeliveryDistance() {
       const deliveryTypeEl = document.getElementById("deliveryType");
       const addressEl = document.getElementById("customerAddress");
@@ -4496,51 +5235,28 @@ body {
       currentDistanceKm = 0;
 
       if (deliveryTypeText !== "Giao hàng tận nơi") {
-        return { hop_le: true, phi_ship: 0, khoang_cach_km: 0 };
+        return {
+          hop_le: true,
+          phi_ship: 0,
+          khoang_cach_km: 0
+        };
       }
 
       if (!address) {
         alert("Vui lòng nhập địa chỉ giao hàng.");
-        return { hop_le: false };
-      }
-
-      try {
-        const customerLocation = await geocodeCustomerAddress(address);
-        const distanceKm = calculateDistanceKm(
-          VPC_STORE_LOCATION.lat,
-          VPC_STORE_LOCATION.lng,
-          customerLocation.lat,
-          customerLocation.lng
-        );
-
-        currentDistanceKm = Number(distanceKm.toFixed(2));
-
-        if (currentDistanceKm > 10) {
-          currentShippingFee = 0;
-          alert(`Địa chỉ giao hàng cách quán khoảng ${currentDistanceKm}km, hiện nằm ngoài phạm vi giao hàng tối đa 10km. Quý khách vui lòng chọn đến lấy tại quán hoặc nhập địa chỉ khác gần hơn ạ.`);
-          renderCart();
-          return { hop_le: false, phi_ship: 0, khoang_cach_km: currentDistanceKm };
-        }
-
-        currentShippingFee = calculateShippingFeeByDistance(currentDistanceKm);
-        renderCart();
-
-        const feeText = currentShippingFee > 0 ? formatMoney(currentShippingFee) : "Miễn phí";
-        alert(`Địa chỉ giao hàng cách quán khoảng ${currentDistanceKm}km. Phí giao hàng dự kiến: ${feeText}.`);
-
         return {
-          hop_le: true,
-          phi_ship: currentShippingFee,
-          khoang_cach_km: currentDistanceKm,
-          dia_chi_dinh_vi: customerLocation.displayName
+          hop_le: false
         };
-      } catch (error) {
-        console.error("Lỗi tính khoảng cách giao hàng:", error);
-        alert("Chưa định vị được địa chỉ giao hàng. Quý khách vui lòng nhập địa chỉ rõ hơn hoặc liên hệ hotline 038 972 6999 để được hỗ trợ.");
-        return { hop_le: false };
       }
-    }
 
+      alert("Đơn giao hàng đã được ghi nhận. Cửa hàng sẽ xác nhận phí ship và phạm vi giao hàng sau.");
+
+      return {
+        hop_le: true,
+        phi_ship: 0,
+        khoang_cach_km: 0
+      };
+    }
     function getCartTotal() {
       return cart.reduce((sum, item) => {
         return sum + Number(item.priceNum || 0) * item.qty;
@@ -4612,8 +5328,7 @@ body {
 
                 pendingOrderCode = createOrderCode();
                 localStorage.setItem("vpc_pending_order_code", pendingOrderCode);
-                setTimeout(() => openReviewModal(code, orderInfo.so_dien_thoai || orderInfo.phone || "", orderInfo.ho_ten || orderInfo.customer_name || ""), 400);
-          localStorage.removeItem("vpc_pending_order_info");
+                localStorage.removeItem("vpc_pending_order_info");
 
                 setTimeout(() => {
                   showPage("home");
@@ -4638,7 +5353,7 @@ function startAutoCheckPayment() {
   }
 
   autoPaymentCheckTimer = setInterval(() => {
-    const paymentPage = document.getElementById("bank-payment");
+    const paymentPage = document.getElementById("payment");
     const successBox = document.getElementById("paymentSuccess");
 
     if (!paymentPage || !paymentPage.classList.contains("active")) {
@@ -4753,20 +5468,16 @@ startAutoCheckPayment();
           // 3. Sinh mã đơn hàng mới dự phòng cho các lần mua tiếp theo
           pendingOrderCode = createOrderCode();
           localStorage.setItem("vpc_pending_order_code", pendingOrderCode);
-          setTimeout(() => openReviewModal(code, orderInfo.so_dien_thoai || orderInfo.phone || "", orderInfo.ho_ten || orderInfo.customer_name || ""), 400);
+          
+          const savedName = orderInfo.ho_ten || "";
+          const savedPhone = orderInfo.so_dien_thoai || "";
+          
           localStorage.removeItem("vpc_pending_order_info");
 
-          // 4. Tự động chuyển hướng về trang chủ sau 5 giây
+          // 4. Mở modal đánh giá sau 1.5 giây để khách hàng nói gì về VPC
           setTimeout(() => {
-            showPage("home");
-            // Khôi phục nút nếu người dùng quay lại sau đó
-            if (btn) {
-              btn.style.display = "block";
-              btn.disabled = false;
-              btn.textContent = "Kiểm tra trạng thái thanh toán";
-            }
-            successBox.style.display = "none";
-          }, 4000);
+            openReviewModal(code, savedPhone, savedName);
+          }, 1500);
 
         } else {
           // Đơn hàng vẫn ở trạng thái chờ chuyển khoản
@@ -4973,7 +5684,7 @@ startAutoCheckPayment();
     function getFeaturedFallback() {
       // Dữ liệu dự phòng khi backend Render.com đang khởi động (cold start)
       return [
-        { slug: 'coffee-legend', ten_san_pham: 'Coffee Legend', mo_ta: 'Cà phê phin năng lượng đặc trưng của Trung Nguyên Legend, đậm đà và giàu năng lượng.', gia_den: 45000, gia_sua: 50000 },
+        { slug: 'coffee-legend', ten_san_pham: 'Coffee Legend', mo_ta: 'Cà phê phin năng lượng đặc trưng của Trung Nguyên Legend, đậm đà và giàu năng lượng.', gia_den: 165000, gia_sua: 0 },
         { slug: 'ca-phe-muoi-legend', ten_san_pham: 'Cà Phê Muối Legend', mo_ta: 'Hương vị đặc biệt kết hợp cà phê đậm đà và muối tinh khiết, tạo nên vị umami khó quên.', gia_den: 55000 },
         { slug: 'ca-phe-dua', ten_san_pham: 'Cà Phê Dừa', mo_ta: 'Cà phê phin pha cùng nước cốt dừa béo ngậy, thơm mát và đặc trưng.', gia_den: 65000 },
         { slug: 'tra-la-nep-sen-vang', ten_san_pham: 'Trà Lá Nếp Sen Vàng', mo_ta: 'Trà thảo mộc thiên nhiên bùi bùi thơm nhẹ, thanh lọc cơ thể và dễ uống.', gia_den: 45000 },
@@ -5082,107 +5793,74 @@ startAutoCheckPayment();
         { "ten_san_pham": "Cam vắt", "slug": "cam-vat", "mo_ta": "Cam sành chín vắt mọng nước ngọt mát dồi dào đề kháng.", "gia_den": 58000, "gia_sua": 0, "slug_danh_muc": "nuoc-ep", "ten_danh_muc": "Nước ép", "sold_out": false },
         { "ten_san_pham": "Matcha Yến Mạch", "slug": "matcha-yen-mach", "mo_ta": "Matcha Uji Nhật Bản xanh mướt quyện sữa yến mạch thanh thuần béo thơm.", "gia_den": 68000, "gia_sua": 0, "slug_danh_muc": "matcha-cacao", "ten_danh_muc": "Matcha & Cacao", "sold_out": false },
         { "ten_san_pham": "Cacao sữa", "slug": "cacao-sua", "mo_ta": "Cacao nguyên chất đắng thơm nồng quyện sữa béo ngậy ngọt ngào.", "gia_den": 53000, "gia_sua": 0, "slug_danh_muc": "matcha-cacao", "ten_danh_muc": "Matcha & Cacao", "sold_out": false },
-        { "ten_san_pham": "Panna Cotta", "slug": "panna-cotta", "mo_ta": "Bánh Panna Cotta ngọt mát mềm mịn núng nính kèm mứt dâu rừng ngọt ngào.", "gia_den": 25000, "gia_sua": 0, "slug_danh_muc": "banh", "ten_danh_muc": "Bánh ngọt", "sold_out": false },
-        { "ten_san_pham": "Bánh Mousse Chanh Dây", "slug": "banh-mousse-chanh-day", "mo_ta": "Bánh mousse mousse chanh dây mềm tan chua ngọt dịu mắt.", "gia_den": 39000, "gia_sua": 0, "slug_danh_muc": "banh", "ten_danh_muc": "Bánh ngọt", "sold_out": false }
+        { "ten_san_pham": "Panna Cotta", "slug": "panna-cotta", "mo_ta": "Bánh Panna Cotta ngọt mát mềm mịn núng nính kèm mứt dâu rừng ngọt ngào.", "gia_den": 25000, "gia_sua": 0, "slug_danh_muc": "banh", "ten_danh_muc": "Bánh", "sold_out": false },
+        { "ten_san_pham": "Bánh Mousse Chanh Dây", "slug": "banh-mousse-chanh-day", "mo_ta": "Bánh mousse mousse chanh dây mềm tan chua ngọt dịu mắt.", "gia_den": 39000, "gia_sua": 0, "slug_danh_muc": "banh", "ten_danh_muc": "Bánh", "sold_out": false }
       ];
     }
 
 
-    function normalizeVietnameseSlug(value) {
-      return String(value || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/đ/g, "d")
-        .replace(/Đ/g, "D")
-        .toLowerCase()
-        .replace(/&/g, " va ")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-    }
+    function normalizeDrinkCategory(item) {
+      const productSlug = String(item.slug || "").trim();
+      let categorySlug = String(item.slug_danh_muc || item.danh_muc_slug || item.category_slug || "").trim();
 
-    function getMenuCategorySlug(item) {
-      const rawSlug = item.slug_danh_muc || item.danh_muc_slug || item.category_slug || item.categorySlug || "";
-      const rawName = item.ten_danh_muc || item.danh_muc || item.category_name || item.categoryName || item.loai || "";
-      let slug = normalizeVietnameseSlug(rawSlug || rawName);
+      const productCategoryMap = {
+        "sinh-to-xoai": "sinh-to-da-xay",
+        "sinh-to-bo": "sinh-to-da-xay",
+        "sinh-to-chanh-day": "sinh-to-da-xay",
+        "sinh-to-dau": "sinh-to-da-xay",
+        "kim-quat-da-xay": "sinh-to-da-xay",
+        "tra-xanh-da-xay": "sinh-to-da-xay",
 
-      const aliasMap = {
-        "ca-phe-pha-che": "ca-phe-pha-che",
-        "ca-phe-may": "ca-phe-may",
-        "ca-phe-phin": "ca-phe-phin",
-        "tra-tra-sua": "tra-tra-sua",
-        "tra-va-tra-sua": "tra-tra-sua",
-        "tra-sua": "tra-tra-sua",
-        "sinh-to-da-xay": "sinh-to-da-xay",
-        "sinh-to-va-da-xay": "sinh-to-da-xay",
-        "nuoc-ep": "nuoc-ep",
-        "nuoc-thanh-nhiet": "nuoc-thanh-nhiet",
-        "matcha-cacao": "matcha-cacao",
-        "matcha-va-cacao": "matcha-cacao",
-        "banh": "banh",
+        "nuoc-ep-chanh-day": "nuoc-ep",
+        "cam-vat": "nuoc-ep",
+        "nuoc-thom-ep": "nuoc-ep",
+        "dua-hau": "nuoc-ep",
+        "dua-tuoi": "nuoc-ep",
+
+        "nuoc-chanh-day-thom-sa": "nuoc-thanh-nhiet",
+        "hibiscus-chanh-day-hat-chia": "nuoc-thanh-nhiet",
+        "chanh-sa-gung-hat-chia": "nuoc-thanh-nhiet",
+        "nuoc-chanh-muoi-mat-ong": "nuoc-thanh-nhiet",
+        "nuoc-suoi": "nuoc-thanh-nhiet",
+
+        "tra-hoa-cuc-chamomile": "tra-tra-sua",
+        "tra-vai-hoa-hong": "tra-tra-sua",
+        "tra-dao-cam-sa": "tra-tra-sua",
+        "tra-la-nep-sen-vang": "tra-tra-sua",
+        "tra-sua-legend": "tra-tra-sua",
+        "tra-cam-que-da": "tra-tra-sua",
+
+        "matcha-yen-mach": "matcha-cacao",
+        "tra-xanh-thach-ca-phe": "matcha-cacao",
+        "tra--thach-ca-phe": "matcha-cacao",
+        "cacao-sua": "matcha-cacao",
+        "sua-tuoi": "matcha-cacao",
+
+        "panna-cotta": "banh",
+        "banh-mousse-chanh-day": "banh",
+        "banh-mousse-red-velvet": "banh",
+        "banh-mousse-dau": "banh",
+        "banh-mousse-socola": "banh",
+        "banh-croissant-khong-nhan": "banh",
+        "banh-croissant-hanh-nhan": "banh",
+        "banh-tiramisu": "banh"
+      };
+
+      const aliasCategoryMap = {
         "banh-ngot": "banh",
-        "mon-extra": "mon-extra",
-        "extra": "mon-extra"
+        "banh-man": "banh",
+        "tra": "tra-tra-sua",
+        "tra-sua": "tra-tra-sua",
+        "sinh-to": "sinh-to-da-xay",
+        "da-xay": "sinh-to-da-xay",
+        "ca-phe": "ca-phe-pha-che",
+        "coffee": "ca-phe-pha-che"
       };
 
-      if (aliasMap[slug]) return aliasMap[slug];
+      categorySlug = aliasCategoryMap[categorySlug] || categorySlug;
+      categorySlug = productCategoryMap[productSlug] || categorySlug;
 
-      const productSlug = normalizeVietnameseSlug(item.slug || item.ten_san_pham || "");
-      const nameText = normalizeVietnameseSlug(`${rawName} ${item.ten_san_pham || ""} ${item.slug || ""}`);
-
-      const extraSlugs = ["sua-tuoi-them", "sua-dac-them", "tran-chau-trang", "mat-ong", "thach-ca-phe", "milkfoam", "ca-phe-them", "dao-them"];
-      if (extraSlugs.includes(productSlug) || nameText.includes("mon-extra") || nameText.includes("extra") || nameText.includes("them") || nameText.includes("tran-chau") || nameText.includes("milkfoam")) return "mon-extra";
-
-      if (nameText.includes("ca-phe-may") || ["espresso", "americano", "latte", "cappuccino", "success-sua-da", "success-da-vien", "double-espresso", "latte-yen-mach", "cappuccino-yen-mach"].includes(productSlug)) return "ca-phe-may";
-      if (nameText.includes("pha-che") || ["ca-phe-dua", "ca-phe-hanh-nhan", "ca-phe-muoi-legend", "bac-xiu", "ca-phe-trung", "ca-phe-mother-land", "cold-brew-phuong-dong", "ca-phe-cold-brew"].includes(productSlug)) return "ca-phe-pha-che";
-      if (nameText.includes("sinh-to") || nameText.includes("da-xay") || nameText.includes("kim-quat")) return "sinh-to-da-xay";
-      if (nameText.includes("nuoc-ep") || nameText.includes("cam-vat") || nameText.includes("dua-hau") || nameText.includes("dua-tuoi") || nameText.includes("nuoc-thom")) return "nuoc-ep";
-      if (nameText.includes("thanh-nhiet") || nameText.includes("hibiscus") || nameText.includes("chanh-sa") || nameText.includes("chanh-muoi") || nameText.includes("chanh-day-thom-sa")) return "nuoc-thanh-nhiet";
-      if (nameText.includes("matcha") || nameText.includes("cacao") || productSlug === "sua-tuoi") return "matcha-cacao";
-      if (nameText.includes("banh") || nameText.includes("panna") || nameText.includes("croissant") || nameText.includes("mousse") || nameText.includes("tiramisu")) return "banh";
-      if (nameText.includes("tra") || nameText.includes("tra-sua")) return "tra-tra-sua";
-      return "ca-phe-phin";
-    }
-
-    function getMenuCategoryTitle(slug, fallbackTitle = "") {
-      const titleMap = {
-        "ca-phe-phin": "Cà phê phin",
-        "ca-phe-may": "Cà phê máy",
-        "ca-phe-pha-che": "Cà phê pha chế",
-        "tra-tra-sua": "Trà & Trà sữa",
-        "sinh-to-da-xay": "Sinh tố & Đá xay",
-        "nuoc-ep": "Nước ép",
-        "nuoc-thanh-nhiet": "Nước thanh nhiệt",
-        "matcha-cacao": "Matcha & Cacao",
-        "banh": "Bánh ngọt",
-        "mon-extra": "Món Extra"
-      };
-      return titleMap[slug] || fallbackTitle || "Menu nước";
-    }
-
-    function isProductSoldOut(item) {
-      const stock = item.ton_kho ?? item.stock_quantity ?? item.so_luong_ton ?? item.inventory_quantity;
-      return item.sold_out === true ||
-        item.status === "soldout" ||
-        item.status === "inactive" ||
-        item.trang_thai === "soldout" ||
-        item.trang_thai === "ngung_ban" ||
-        item.con_ban === false ||
-        (stock !== undefined && stock !== null && Number(stock) <= 0);
-    }
-
-    function getStockLabel(item) {
-      const stock = item.ton_kho ?? item.stock_quantity ?? item.so_luong_ton ?? item.inventory_quantity;
-      if (isProductSoldOut(item)) {
-        return { cls: "stock-out", text: "Hết hàng" };
-      }
-      if (stock === undefined || stock === null || stock === "") {
-        return { cls: "stock-ok", text: "Còn hàng" };
-      }
-      const stockNum = Number(stock);
-      return {
-        cls: stockNum <= 5 ? "stock-low" : "stock-ok",
-        text: `Tồn kho: ${stockNum}`
-      };
+      return getMenuCategoryInfo(categorySlug, item.ten_danh_muc);
     }
 
     function displayMenuData(drinks) {
@@ -5193,8 +5871,7 @@ startAutoCheckPayment();
 
       const processedDrinks = [];
 
-      (drinks || []).forEach(item => {
-        if (!item) return;
+      drinks.forEach(item => {
         if (item.slug === "sinh-to-theo-mua") {
           const flavors = [
             { name: "Sinh tố Xoài", slug: "sinh-to-xoai", desc: "Sinh tố xoài tươi mát béo ngậy." },
@@ -5212,72 +5889,79 @@ startAutoCheckPayment();
             });
           });
         } else if (item.slug === "nuoc-chanh-day-cam-vat") {
-          processedDrinks.push({ ...item, ten_san_pham: "Nước Ép Chanh Dây", slug: "nuoc-ep-chanh-day", mo_ta: "Nước ép chanh dây chua ngọt thanh mát." });
-          processedDrinks.push({ ...item, ten_san_pham: "Cam vắt", slug: "cam-vat", mo_ta: "Nước cam vắt nguyên chất giàu Vitamin C." });
+          processedDrinks.push({
+            ...item,
+            ten_san_pham: "Nước Ép Chanh Dây",
+            slug: "nuoc-ep-chanh-day",
+            mo_ta: "Nước ép chanh dây chua ngọt thanh mát."
+          });
+
+          processedDrinks.push({
+            ...item,
+            ten_san_pham: "Cam vắt",
+            slug: "cam-vat",
+            mo_ta: "Nước cam vắt nguyên chất giàu Vitamin C."
+          });
         } else if (item.slug === "nuoc-ep-thom-dua-hau") {
-          processedDrinks.push({ ...item, ten_san_pham: "Nước thơm ép", slug: "nuoc-thom-ep", mo_ta: "Nước thơm ép ngọt thanh mát lạnh." });
-          processedDrinks.push({ ...item, ten_san_pham: "Dưa hấu", slug: "dua-hau", mo_ta: "Nước ép dưa hấu tươi ngon giải nhiệt." });
+          processedDrinks.push({
+            ...item,
+            ten_san_pham: "Nước thơm ép",
+            slug: "nuoc-thom-ep",
+            mo_ta: "Nước thơm ép ngọt thanh mát lạnh."
+          });
+
+          processedDrinks.push({
+            ...item,
+            ten_san_pham: "Dưa hấu",
+            slug: "dua-hau",
+            mo_ta: "Nước ép dưa hấu tươi ngon giải nhiệt."
+          });
         } else {
           processedDrinks.push(item);
         }
       });
 
       const grouped = {};
-      processedDrinks.forEach(item => {
-        const groupSlug = getMenuCategorySlug(item);
-        const groupTitle = getMenuCategoryTitle(groupSlug, item.ten_danh_muc || item.danh_muc || "");
 
-        if (!grouped[groupSlug]) {
-          grouped[groupSlug] = {
-            id: groupSlug,
-            title: groupTitle,
-            desc: categoryDescMap[groupSlug] || "",
+      processedDrinks.forEach(item => {
+        const categoryInfo = normalizeDrinkCategory(item);
+        const categorySlug = categoryInfo && categoryInfo.title !== "Khác"
+          ? Object.keys(menuCategoryMap).find(key => menuCategoryMap[key].title === categoryInfo.title)
+          : (item.slug_danh_muc || "khac");
+
+        if (!grouped[categorySlug]) {
+          grouped[categorySlug] = {
+            id: categorySlug,
+            title: categoryInfo.title,
+            desc: categoryInfo.desc,
+            order: categoryInfo.order,
             items: []
           };
         }
 
-        grouped[groupSlug].items.push({ ...item, slug_danh_muc: groupSlug, ten_danh_muc: groupTitle });
+        grouped[categorySlug].items.push(item);
       });
 
-      const groupOrder = [
-        "ca-phe-phin",
-        "ca-phe-may",
-        "ca-phe-pha-che",
-        "tra-tra-sua",
-        "sinh-to-da-xay",
-        "nuoc-ep",
-        "nuoc-thanh-nhiet",
-        "matcha-cacao",
-        "banh",
-        "mon-extra"
-      ];
-
-      const groupList = Object.values(grouped).sort((a, b) => {
-        const ai = groupOrder.indexOf(a.id);
-        const bi = groupOrder.indexOf(b.id);
-        if (ai === -1 && bi === -1) return a.title.localeCompare(b.title, "vi");
-        if (ai === -1) return 1;
-        if (bi === -1) return -1;
-        return ai - bi;
-      });
+      const groupList = Object.values(grouped)
+        .filter(group => group.id !== "khac" || group.items.length > 0)
+        .sort((a, b) => (a.order || 999) - (b.order || 999));
 
       tabs.innerHTML = groupList.map(group => `
-        <a class="tab-link" href="#menu-${safeText(group.id)}">${safeText(mapCategoryTitle(group.title))}</a>
+        <a class="tab-link" href="#${group.id}">${safeText(group.title)}</a>
       `).join("");
 
       groups.innerHTML = groupList.map(group => `
-        <section class="menu-group" id="menu-${safeText(group.id)}">
-          <h2>${safeText(mapCategoryTitle(group.title))}</h2>
+        <section class="menu-group" id="${group.id}">
+          <h2>${safeText(group.title)}</h2>
           <p class="menu-group-desc">${safeText(group.desc)}</p>
 
           <div class="menu-list">
             ${group.items.map(item => {
-              const priceLabel = getDrinkPriceLabel(item);
-              const premiumDesc = getPremiumDescription(item.slug, item.ten_san_pham, item.mo_ta);
-              const stock = getStockLabel(item);
+            const priceLabel = getDrinkPriceLabel(item);
+            const premiumDesc = getPremiumDescription(item.slug, item.ten_san_pham, item.mo_ta);
 
-              return `
-                <div class="menu-item" data-product-slug="${safeText(item.slug)}">
+            return `
+                <div class="menu-item" id="product-${item.slug}">
                   <img
                     class="menu-item-img"
                     src="${drinkImageMap[item.slug] || defaultDrinkImage}"
@@ -5287,14 +5971,13 @@ startAutoCheckPayment();
                     <h3>${safeText(item.ten_san_pham)}</h3>
                     <p class="menu-item-desc">"${safeText(premiumDesc)}"</p>
                     <div class="price">${priceLabel}</div>
-                    <div class="stock-badge ${stock.cls}">${safeText(stock.text)}</div>
                   </div>
                   <div class="menu-item-btn-row">
                     ${renderOrderButtons(item, false)}
                   </div>
                 </div>
               `;
-            }).join("")}
+          }).join("")}
           </div>
         </section>
       `).join("");
@@ -5530,14 +6213,14 @@ startAutoCheckPayment();
       });
 
       tabs.innerHTML = groupList.map(group => `
-        <a class="tab-link" href="#merch-${group.id}">
+        <a class="tab-link" href="#${group.id}">
           ${safeText(group.title)}
         </a>
       `).join("");
 
       groupsBox.innerHTML = groupList.map(group => `
-        <section class="menu-group" id="merch-${group.id}">
-          <h2>${safeText(mapCategoryTitle(group.title))}</h2>
+        <section class="menu-group" id="${group.id}">
+          <h2>${safeText(group.title)}</h2>
           <p class="menu-group-desc">${safeText(group.desc)}</p>
 
           <div class="grid grid-4">
@@ -5564,7 +6247,7 @@ startAutoCheckPayment();
               (item.stock_quantity !== undefined && Number(item.stock_quantity) <= 0);
 
             return `
-                <div class="card" data-product-slug="${safeText(item.slug)}">
+                <div class="card" id="product-${item.slug}">
                   <img class="card-img" src="${img}" alt="${safeText(tenHienThi)}">
 
                   <div class="card-body">
@@ -5656,28 +6339,11 @@ startAutoCheckPayment();
       if (!grid) return;
 
       grid.innerHTML = blogItems.map((item, index) => {
-        const isVideoThumbnail = item.thumbnail.includes("facebook.com") || item.thumbnail.includes("youtube.com") || item.thumbnail.includes("youtu.be");
-        let headerMedia = "";
-
-        if (isVideoThumbnail) {
-          headerMedia = getVideoEmbedHtml(item.thumbnail);
-          // Thay đổi inline style để hiển thị video vừa khít dạng 1:1 ở thumbnail
-          headerMedia = headerMedia
-            .replace(/class="article-video facebook-reel"/g, 'class="article-video" style="width: 100%; height: 100%; margin: 0; border: 0; aspect-ratio: 1 / 1; display: block;"')
-            .replace(/class="article-video facebook-video"/g, 'class="article-video" style="width: 100%; height: 100%; margin: 0; border: 0; aspect-ratio: 1 / 1; display: block;"');
-        } else {
-          headerMedia = `<img class="card-img" src="${item.thumbnail}" alt="${safeText(item.title)}" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover;">`;
-        }
-
         return `
         <div class="card article-card">
-          <div style="width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; position: relative; border-bottom: 1px solid rgba(58, 33, 20, 0.08);">
-            ${headerMedia}
-          </div>
-
           <div class="card-body">
-            <h3 style="text-align: center;">${safeText(item.title)}</h3>
-            <p style="font-style: italic; text-align: center;">"${safeText(item.desc)}"</p>
+            <h3 style="text-align: center; margin-top: 10px;">${safeText(item.title)}</h3>
+            <p style="font-style: italic; text-align: center; color: var(--muted); margin-bottom: 18px;">"${safeText(item.desc)}"</p>
 
             <div style="display: flex; justify-content: center; width: 100%; margin-top: auto;">
               <button class="btn btn-dark" type="button" onclick="openArticle(${index})">
@@ -5696,48 +6362,34 @@ startAutoCheckPayment();
 
       if (!article || !box) return;
 
-      const isMediaUrl = (url = "") => {
-        const clean = String(url || "").toLowerCase();
-        return clean.includes("facebook.com") || clean.includes("youtube.com") || clean.includes("youtu.be");
-      };
+      // Lọc bỏ những link chứa video khỏi danh sách ảnh để tránh hiển thị thẻ img lỗi
+      const imageHtml = article.images
+        .filter(img => !img.includes("facebook.com") && !img.includes("youtube.com") && !img.includes("youtu.be"))
+        .map(img => `
+      <img class="article-content-img" src="${img}" alt="${safeText(article.title)}">
+    `).join("");
 
-      const validImages = [article.thumbnail, ...(article.images || [])]
-        .filter(Boolean)
-        .filter(img => !isMediaUrl(img));
-
-      let singleMediaHtml = "";
-      if (validImages.length) {
-        const firstImage = validImages[0];
-        singleMediaHtml = `
-          <div class="article-single-image-wrap">
-            <img class="article-single-image" src="${firstImage}" alt="${safeText(article.title)}">
-          </div>
-        `;
-      } else if (article.thumbnail && isMediaUrl(article.thumbnail)) {
-        singleMediaHtml = `
-          <div class="article-single-image-wrap" style="width:min(520px,100%);aspect-ratio:9/16;">
-            ${getVideoEmbedHtml(article.thumbnail)
-              .replace(/class="article-video facebook-reel"/g, 'class="article-video" style="width:100%;height:100%;border:0;margin:0;display:block;"')
-              .replace(/class="article-video facebook-video"/g, 'class="article-video" style="width:100%;height:100%;border:0;margin:0;display:block;"')}
-          </div>
-        `;
-      }
+      // Hiển thị các video đính kèm
+      const videoHtml = article.videos
+        .map(video => getVideoEmbedHtml(video)).join("");
 
       box.innerHTML = `
-        ${singleMediaHtml}
+    <h2 class="article-detail-title">${safeText(article.title)}</h2>
 
-        <h2 class="article-detail-title">${safeText(article.title)}</h2>
+    ${imageHtml}
 
-        <div class="article-body">
-          ${article.content}
-        </div>
+    ${videoHtml}
 
-        <div style="display: flex; justify-content: center; width: 100%; margin-top: 28px;">
-          <button class="btn btn-dark" type="button" onclick="showPage('blog')">
-            Quay lại bài viết
-          </button>
-        </div>
-      `;
+    <div class="article-body">
+      ${article.content}
+    </div>
+
+    <div style="display: flex; justify-content: center; width: 100%; margin-top: 28px;">
+      <button class="btn btn-dark" type="button" onclick="showPage('blog')">
+        Quay lại bài viết
+      </button>
+    </div>
+  `;
 
       showPage("article-detail");
     }
@@ -5841,7 +6493,6 @@ startAutoCheckPayment();
       const deliveryTypeText = document.getElementById("deliveryType").value;
       const paymentTypeText = document.getElementById("paymentType").value;
       const address = document.getElementById("customerAddress").value.trim();
-      const email = (document.getElementById("customerEmail")?.value || "").trim();
       const note = document.getElementById("customerNote").value.trim();
 
       if (deliveryTypeText === "Giao hàng tận nơi" && !address) {
@@ -5878,9 +6529,7 @@ const productList = JSON.stringify(cart.map(item => {
         ma_don_hang: finalOrderCode,
         ho_ten: name,
         so_dien_thoai: phone,
-        email: email || null,
-        mon_hay_order: cart.map(item => item.name).join(", "),
-        nhan_khuyen_mai_email: Boolean(email),
+        email: null,
         dia_chi: address || null,
         danh_sach_san_pham: productList,
         tong_tien: total,
@@ -5928,7 +6577,6 @@ const productList = JSON.stringify(cart.map(item => {
         }
 
         alert(`Cảm ơn ${name}! Cửa hàng đã nhận đơn của bạn. Mã đơn: ${finalOrderCode}`);
-        setTimeout(() => openReviewModal(finalOrderCode, phone, name), 400);
 
         cart = [];
 
@@ -5938,6 +6586,11 @@ const productList = JSON.stringify(cart.map(item => {
         saveCart();
         event.target.reset();
         showPage("home");
+
+        // Tự động mở modal đánh giá sau khi đặt hàng thành công
+        setTimeout(() => {
+          openReviewModal(finalOrderCode, orderData.so_dien_thoai, orderData.ho_ten);
+        }, 1200);
 
       } catch (error) {
         console.error("Lỗi gửi đơn hàng:", error);
@@ -6048,46 +6701,190 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
     }
 
 
-    // 10. Tra cứu đơn hàng thời gian thực
-    async function handleLookupOrder(event) {
-      event.preventDefault();
-      const codeInput = document.getElementById("lookupOrderCode");
-      const code = codeInput ? codeInput.value.trim() : "";
-      const resultBox = document.getElementById("lookupResultBox");
 
-      if (!code) {
-        alert("Vui lòng nhập mã đơn hàng.");
+    function normalizeSearchValue(value) {
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function toggleProductSearch(open) {
+      const overlay = document.getElementById("productSearchOverlay");
+      const input = document.getElementById("productSearchInput");
+      if (!overlay) return;
+
+      overlay.classList.toggle("open", !!open);
+
+      if (open) {
+        setTimeout(() => input && input.focus(), 80);
+      }
+    }
+
+    function closeProductSearchOnBackdrop(event) {
+      if (event.target && event.target.id === "productSearchOverlay") {
+        toggleProductSearch(false);
+      }
+    }
+
+    function collectProductCardsForSearch() {
+      const selectors = [
+        "#featuredGrid .card",
+        "#menuGroups .menu-item",
+        "#merchGroups .card"
+      ];
+
+      return selectors.flatMap(selector => {
+        return Array.from(document.querySelectorAll(selector)).map(card => {
+          const name = card.querySelector("h3")?.innerText?.trim() || "";
+          const desc = card.querySelector("p")?.innerText?.trim() || "";
+          const price = card.querySelector(".price")?.innerText?.trim() || "";
+          const page = selector.includes("merch") ? "merch" : "menu";
+          
+          let slug = "";
+          const idAttr = card.getAttribute("id") || "";
+          if (idAttr.startsWith("product-")) {
+            slug = idAttr.substring("product-".length);
+          }
+          return { card, name, desc, price, page, slug };
+        });
+      }).filter(item => item.name);
+    }
+
+    function handleProductSearch(event) {
+      if (event && event.type === 'submit') {
+        event.preventDefault();
+      }
+
+      const input = document.getElementById("productSearchInput");
+      const resultsBox = document.getElementById("productSearchResults");
+      const keyword = normalizeSearchValue(input ? input.value : "");
+
+      if (!resultsBox) return;
+
+      if (!keyword) {
+        resultsBox.innerHTML = `<p style="color: var(--muted); text-align: center;">Vui lòng nhập tên sản phẩm cần tìm.</p>`;
         return;
       }
 
-      resultBox.innerHTML = "<p>Đang tìm kiếm thông tin đơn hàng...</p>";
-      resultBox.style.display = "block";
+      const products = collectProductCardsForSearch();
+      const matches = products.filter(item => {
+        const haystack = normalizeSearchValue(`${item.name} ${item.desc} ${item.price}`);
+        return haystack.includes(keyword);
+      }).slice(0, 20);
+
+      if (!matches.length) {
+        resultsBox.innerHTML = `<p style="color:#8e2b20; text-align:center;">Không tìm thấy sản phẩm phù hợp. Quý khách thử nhập tên ngắn hơn như "coffee", "trà", "g7", "drip" nhé.</p>`;
+        return;
+      }
+
+      resultsBox.innerHTML = matches.map((item, index) => `
+        <div class="product-search-item">
+          <strong>${safeText(item.name)}</strong>
+          <span>${safeText(item.price || "Xem giá trong sản phẩm")}</span>
+          <span>${safeText(item.desc || "")}</span>
+          <button class="small-btn" type="button" onclick="goToSearchProduct(${index})">Xem sản phẩm</button>
+        </div>
+      `).join("");
+
+      window.vpcSearchMatches = matches;
+    }
+
+    function goToSearchProduct(index) {
+      const item = Array.isArray(window.vpcSearchMatches) ? window.vpcSearchMatches[index] : null;
+      if (!item) return;
+
+      toggleProductSearch(false);
+      showPage(item.page);
+
+      // Định vị đúng phần tử theo ID chứa slug
+      const targetId = item.slug ? `product-${item.slug}` : "";
+      const targetElement = targetId ? document.getElementById(targetId) : item.card;
+
+      if (!targetElement) return;
+
+      // Cập nhật hash và URL chứa slug
+      if (item.slug && history && history.replaceState) {
+        history.replaceState(null, "", `#${item.page}?product=${item.slug}`);
+      }
+
+      setTimeout(() => {
+        document.querySelectorAll(".product-highlight").forEach(el => el.classList.remove("product-highlight"));
+        targetElement.classList.add("product-highlight");
+        targetElement.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        setTimeout(() => {
+          targetElement.classList.remove("product-highlight");
+        }, 3500);
+      }, 300);
+    }
+
+    async function copyOrderCode(code, btn) {
+      const text = String(code || "").trim();
+      if (!text) return;
 
       try {
-        const response = await fetch(`${API_URL}/api/don-hang/${code}`);
-        if (!response.ok) {
-          throw new Error("Không tìm thấy đơn hàng");
-        }
-        const result = await response.json();
-        const order = result.data || result;
+        await navigator.clipboard.writeText(text);
+      } catch (error) {
+        const tmp = document.createElement("textarea");
+        tmp.value = text;
+        document.body.appendChild(tmp);
+        tmp.select();
+        document.execCommand("copy");
+        document.body.removeChild(tmp);
+      }
 
-        if (!order || (!order.ma_don_hang && !order.order_number)) {
-          resultBox.innerHTML = "<p style='color: #8e2b20;'>Không tìm thấy đơn hàng với mã đã nhập. Vui lòng kiểm tra lại.</p>";
-          return;
-        }
+      if (btn) {
+        const old = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+        setTimeout(() => {
+          btn.innerHTML = old;
+        }, 1300);
+      }
+    }
 
-        const status = order.trang_thai || order.status;
-        const paymentMethod = order.phuong_thuc_thanh_toan || order.payment_method;
-        const total = order.tong_tien || order.total;
-        const shippingAddress = order.dia_chi || (order.shipping_address ? (typeof order.shipping_address === 'string' ? JSON.parse(order.shipping_address).address : order.shipping_address.address) : "Nhận tại cửa hàng");
-        const name = order.ho_ten || (order.shipping_address ? (typeof order.shipping_address === 'string' ? JSON.parse(order.shipping_address).name : order.shipping_address.name) : "");
-        const phone = order.so_dien_thoai || (order.shipping_address ? (typeof order.shipping_address === 'string' ? JSON.parse(order.shipping_address).phone : order.shipping_address.phone) : "");
+    function getLookupOrderCode(order) {
+      return order.ma_don_hang || order.order_code || order.order_number || order.code || "";
+    }
+
+    function getLookupCustomer(order) {
+      return order.thong_tin_khach_hang || order.khach_hang || {};
+    }
+
+    function renderLookupOrders(orders) {
+      if (!Array.isArray(orders)) orders = orders ? [orders] : [];
+
+      if (!orders.length) {
+        return "<p style='color: #8e2b20;'>Không tìm thấy đơn hàng phù hợp. Quý khách vui lòng kiểm tra lại mã đơn/số điện thoại hoặc gọi 038 972 6999.</p>";
+      }
+
+      return orders.map(order => {
+        const kh = getLookupCustomer(order);
+        const code = getLookupOrderCode(order);
+        const status = order.trang_thai || order.status || "Không rõ";
+        const paymentMethod = order.phuong_thuc_thanh_toan || order.payment_method || "";
+        const total = order.tong_tien || order.total || order.amount || 0;
+        let shippingAddress = order.dia_chi_giao_hang || order.dia_chi || kh.dia_chi || "Nhận tại cửa hàng";
+        if (typeof shippingAddress === 'string' && shippingAddress.trim().startsWith('{')) {
+          try {
+            const parsed = JSON.parse(shippingAddress);
+            shippingAddress = parsed.address || shippingAddress;
+          } catch (e) {}
+        } else if (shippingAddress && typeof shippingAddress === 'object') {
+          shippingAddress = shippingAddress.address || shippingAddress.dia_chi || JSON.stringify(shippingAddress);
+        }
+        const name = order.ho_ten || order.ten_khach_hang || kh.ho_ten || "";
+        const phone = order.so_dien_thoai || order.phone || kh.so_dien_thoai || "";
 
         let currentStepIdx = 0;
-        const initStatuses = ['don_moi', 'da_dat_don', 'cho_chuyen_khoan', 'cho_thanh_toan', 'cho_xac_nhan_chuyen_khoan', 'khach_bao_da_chuyen_khoan'];
-        const prepareStatuses = ['da_thanh_toan', 'da_chuyen_khoan', 'da_nhan_don', 'dang_lam_don'];
-        const shippingStatuses = ['da_giao_shipper', 'dang_giao', 'da_giao'];
-        const doneStatuses = ['hoan_thanh'];
+        const initStatuses = ['don_moi', 'moi', 'da_dat_don', 'cho_chuyen_khoan', 'cho_thanh_toan', 'cho_xac_nhan_chuyen_khoan', 'khach_bao_da_chuyen_khoan'];
+        const prepareStatuses = ['da_tt', 'da_thanh_toan', 'da_chuyen_khoan', 'da_nhan_don', 'dang_lam', 'dang_lam_don'];
+        const shippingStatuses = ['da_giao_shipper', 'dang_giao'];
+        const doneStatuses = ['hoan_tat', 'hoan_thanh', 'da_giao'];
 
         if (initStatuses.includes(status)) currentStepIdx = 0;
         else if (prepareStatuses.includes(status)) currentStepIdx = 1;
@@ -6095,71 +6892,117 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
         else if (doneStatuses.includes(status)) currentStepIdx = 3;
 
         let statusHtml = "";
-        if (status === 'tu_choi_don' || status === 'da_huy') {
+        if (status === 'tu_choi_don' || status === 'tu_choi' || status === 'da_huy') {
           statusHtml = `
-        <div style="padding: 14px; background: #fff1f1; border: 1px solid #f8d7da; border-radius: 12px; color: #842029; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-          <strong style="font-size: 20px;">⚠️</strong>
-          <div>
-            <strong style="display: block; font-size: 14px;">ĐƠN HÀNG ĐÃ BỊ HỦY</strong>
-            <span style="font-size: 11px; opacity: 0.85;">Đơn hàng này đã bị từ chối hoặc hủy bởi cửa hàng. Xin lỗi vì sự bất tiện này.</span>
-          </div>
-        </div>
-      `;
+            <div style="padding: 14px; background: #fff1f1; border: 1px solid #f8d7da; border-radius: 12px; color: #842029; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+              <strong style="font-size: 20px;">⚠️</strong>
+              <div>
+                <strong style="display: block; font-size: 14px;">ĐƠN HÀNG ĐÃ BỊ HỦY/TỪ CHỐI</strong>
+                <span style="font-size: 12px;">Quý khách vui lòng liên hệ 038 972 6999 để được hỗ trợ.</span>
+              </div>
+            </div>
+          `;
         } else {
           const steps = [
-            { label: 'Tiếp nhận', desc: 'Đơn mới / Chờ xác nhận' },
-            { label: 'Pha chế', desc: 'Đang pha chế thức uống' },
-            { label: 'Đang giao', desc: 'Shipper đang trên đường' },
-            { label: 'Hoàn thành', desc: 'Giao hàng thành công' }
+            { title: 'Tiếp nhận', desc: 'Đã nhận đơn' },
+            { title: 'Pha chế', desc: 'Đang chuẩn bị' },
+            { title: 'Đang giao', desc: 'Shipper giao hàng' },
+            { title: 'Hoàn thành', desc: 'Đã hoàn tất' }
           ];
 
-          const widthPct = (currentStepIdx / 3) * 100;
-
           statusHtml = `
-        <div class="timeline-container">
-          <div class="timeline-steps">
-            <div class="timeline-progress-line" style="width: ${widthPct}%;"></div>
-            ${steps.map((step, idx) => {
-            const isCompleted = idx < currentStepIdx;
-            const isActive = idx === currentStepIdx;
-            let stepClass = "";
-            if (isActive) stepClass = "active";
-            else if (isCompleted) stepClass = "completed";
-
-            return `
-                <div class="timeline-step ${stepClass}">
-                  <div class="timeline-node">${isCompleted ? '✓' : idx + 1}</div>
-                  <div class="timeline-label" style="font-size: 11px; font-weight: 800;">${step.label}</div>
-                  <div class="timeline-desc" style="font-size: 9px;">${isActive ? step.desc : (isCompleted ? 'Đã xong' : 'Chờ')}</div>
-                </div>
-              `;
-          }).join("")}
-          </div>
-        </div>
-      `;
+            <div class="timeline-container">
+              <div class="timeline-steps">
+                <div class="timeline-progress-line" style="width: ${currentStepIdx * 33.33}%;"></div>
+                ${steps.map((step, idx) => `
+                  <div class="timeline-step ${idx < currentStepIdx ? 'completed' : ''} ${idx === currentStepIdx ? 'active' : ''}">
+                    <div class="timeline-node">${idx < currentStepIdx ? '✓' : idx + 1}</div>
+                    <div class="timeline-label">${step.title}</div>
+                    <div class="timeline-desc">${step.desc}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
         }
 
-        resultBox.innerHTML = `
-      <h3 style="margin-bottom: 14px; color: var(--coffee-dark); text-align: center;">Trạng thái đơn hàng</h3>
-      <div class="invoice-code" style="text-align: center;">
-        Mã đơn hàng: <strong>${order.ma_don_hang || order.order_number}</strong>
-      </div>
+        let reviewBtnHtml = "";
+        if (doneStatuses.includes(status)) {
+          reviewBtnHtml = `
+            <div style="margin-top: 14px; text-align: center; border-top: 1px dashed #decdb9; padding-top: 14px;">
+              <button class="btn btn-primary" type="button" onclick="openReviewModal('${safeText(code)}', '${safeText(phone)}', '${safeText(name)}')" style="padding: 8px 18px; font-size: 13px; font-weight: 800; width: auto; display: inline-flex; gap: 6px; align-items: center; justify-content: center; cursor: pointer;">
+                ⭐ Viết đánh giá về VPC
+              </button>
+            </div>
+          `;
+        }
 
-      ${statusHtml}
+        return `
+          <div style="background: white; border-radius: 18px; box-shadow: var(--shadow); padding: 22px; border: 1px solid #eadac7; margin-bottom: 18px;">
+            <h3 style="margin-bottom: 12px; color: var(--coffee-dark);">
+              Mã đơn: <span>${safeText(code)}</span>
+              <button class="copy-order-btn" type="button" onclick="copyOrderCode('${safeText(code)}', this)" title="Copy mã đơn">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </h3>
 
-      <div style="margin-top: 20px; font-size: 13.5px; line-height: 1.6; border-top: 1px dashed #decdb9; padding-top: 16px;">
-        <p><strong>Khách hàng:</strong> ${safeText(name)}</p>
-        <p><strong>Số điện thoại:</strong> ${safeText(phone)}</p>
-        <p><strong>Địa chỉ:</strong> ${safeText(shippingAddress)}</p>
-        <p><strong>Hình thức nhận:</strong> ${order.hinh_thuc_nhan_hang === 'den_lay_tai_quan' ? 'Đến lấy tại quán' : 'Giao hàng tận nơi'}</p>
-        <p><strong>Thanh toán:</strong> ${paymentMethod === 'chuyen_khoan' ? 'Chuyển khoản VietinBank' : 'Tiền mặt (COD)'}</p>
-        <p><strong>Tổng cộng:</strong> <strong style="color: var(--gold); font-size: 16px;">${formatMoney(total)}</strong></p>
-      </div>
-    `;
+            ${statusHtml}
 
+            <div style="margin-top: 20px; font-size: 13.5px; line-height: 1.6; border-top: 1px dashed #decdb9; padding-top: 16px;">
+              <p><strong>Khách hàng:</strong> ${safeText(name)}</p>
+              <p><strong>Số điện thoại:</strong> ${safeText(phone)}</p>
+              <p><strong>Địa chỉ:</strong> ${safeText(shippingAddress)}</p>
+              <p><strong>Hình thức nhận:</strong> ${order.hinh_thuc_nhan_hang === 'den_lay_tai_quan' ? 'Đến lấy tại quán' : 'Giao hàng tận nơi'}</p>
+              <p><strong>Thanh toán:</strong> ${paymentMethod === 'chuyen_khoan' || paymentMethod === 'bank_transfer' ? 'Chuyển khoản VietinBank' : 'Tiền mặt (COD)'}</p>
+              <p><strong>Tổng cộng:</strong> <strong style="color: var(--gold); font-size: 16px;">${formatMoney(total)}</strong></p>
+            </div>
+            ${reviewBtnHtml}
+          </div>
+        `;
+      }).join("");
+    }
+
+
+    // 10. Tra cứu đơn hàng thời gian thực
+    async function handleLookupOrder(event) {
+      event.preventDefault();
+
+      const codeInput = document.getElementById("lookupOrderCode");
+      const phoneInput = document.getElementById("lookupPhone");
+      const code = codeInput ? codeInput.value.trim() : "";
+      const phone = phoneInput ? phoneInput.value.trim() : "";
+      const resultBox = document.getElementById("lookupResultBox");
+
+      if (!code && !phone) {
+        alert("Vui lòng nhập mã đơn hàng hoặc số điện thoại đặt hàng.");
+        return;
+      }
+
+      resultBox.innerHTML = "<p>Đang tìm kiếm thông tin đơn hàng...</p>";
+      resultBox.style.display = "block";
+
+      try {
+        let response;
+
+        if (code) {
+          response = await fetch(`${API_URL}/api/don-hang/${encodeURIComponent(code)}`);
+        } else {
+          response = await fetch(`${API_URL}/api/don-hang/tra-cuu?phone=${encodeURIComponent(phone)}`);
+        }
+
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(result.message || result.error || "Không tìm thấy đơn hàng");
+        }
+
+        const payload = result.data || result.orders || result;
+        const orders = Array.isArray(payload) ? payload : [payload];
+
+        resultBox.innerHTML = renderLookupOrders(orders);
       } catch (error) {
         console.error("Lỗi tra cứu đơn:", error);
-        resultBox.innerHTML = "<p style='color: #8e2b20;'>Không tìm thấy đơn hàng hoặc máy chủ bận. Bạn vui lòng kiểm tra lại mã hoặc liên hệ Số điện thoại **038 972 6999** để được hỗ trợ kiểm tra trực tiếp.</p>";
+        resultBox.innerHTML = "<p style='color: #8e2b20;'>Không tìm thấy đơn hàng hoặc máy chủ bận. Quý khách vui lòng kiểm tra lại mã/số điện thoại hoặc liên hệ 038 972 6999 để được hỗ trợ trực tiếp.</p>";
       }
     }
 
@@ -6407,7 +7250,8 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
       if (chatBody) chatBody.scrollTop = chatBody.scrollHeight;
 
       try {
-        // Code này gọi AI backend mới: ChatGPT đọc knowledge.ts + Supabase trước, thiếu mới tìm nguồn ngoài.
+        // Code này gọi AI backend.
+        // Backend /api/chat-ai sẽ đọc index.html trước, nếu không có thông tin thì tự dò theo từ khóa/database.
         const response = await fetch(`${API_URL}/api/chat`, {
           method: "POST",
           headers: {
@@ -6416,6 +7260,7 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
           body: JSON.stringify({
   message: question,
   question: question,
+  context: buildChatContextFromIndex(),
   page: "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc"
 })
         });
@@ -6623,234 +7468,178 @@ Khi chuyển khoản, bạn nhớ ghi đúng mã đơn <strong>VPC-DH-...</stron
   if (hash && document.getElementById(hash)) {
     showPage(hash);
   }
+  
+  // Tải danh sách đánh giá khách hàng
+  loadReviews();
+}
+
+// =========================================================
+// CÁC HÀM XỬ LÝ ĐÁNH GIÁ KHÁCH HÀNG (REVIEWS)
+// =========================================================
+async function loadReviews() {
+  const grid = document.getElementById("reviewsGrid");
+  if (!grid) return;
+
+  grid.innerHTML = "<p style='color: var(--coffee-dark); text-align: center; width: 100%; font-weight: bold;'>Đang tải ý kiến phản hồi...</p>";
+  try {
+    const response = await fetch(`${API_URL}/api/reviews`);
+    if (!response.ok) throw new Error("API reviews lỗi");
+    const reviews = await response.json();
+
+    if (!reviews || reviews.length === 0) {
+      grid.innerHTML = "<p style='color: var(--coffee-dark); text-align: center; width: 100%; font-style: italic;'>Chưa có đánh giá nào. Hãy đặt hàng và gửi phản hồi đầu tiên nhé ạ!</p>";
+      return;
+    }
+
+    grid.innerHTML = reviews.map(r => {
+      const stars = "★".repeat(r.so_sao) + "☆".repeat(5 - r.so_sao);
+      const dateStr = new Date(r.created_at).toLocaleDateString("vi-VN");
+      const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(r.ho_ten)}&background=f4d17b&color=1f120b&bold=true&size=128`;
+      
+      return `
+        <div class="testimonial-card">
+          <div class="testimonial-stars" style="color: var(--gold); font-size: 18px; margin-bottom: 8px;">${stars}</div>
+          <p class="testimonial-text" style="font-size: 14px; line-height: 1.5; color: var(--text); font-style: italic; min-height: 50px;">
+            "${safeText(r.noi_dung || 'Khách hàng không để lại nội dung phản hồi.')}"
+          </p>
+          <div class="testimonial-line" style="height: 1px; background: rgba(58,33,20,0.08); margin: 12px 0;"></div>
+          <div class="testimonial-user" style="display: flex; align-items: center; gap: 12px;">
+            <img class="testimonial-avatar" src="${avatarUrl}" alt="${safeText(r.ho_ten)}" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--gold-light);">
+            <div>
+              <div class="testimonial-name" style="font-weight: bold; color: var(--coffee-dark); font-size: 14.5px;">${safeText(r.ho_ten)}</div>
+              <div class="testimonial-role" style="font-size: 12px; color: var(--muted);">Khách đặt hàng (${dateStr})</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  } catch (err) {
+    console.warn("❌ Lỗi tải reviews:", err);
+    grid.innerHTML = "<p style='color: var(--coffee-dark); text-align: center; width: 100%; font-style: italic;'>Không tải được ý kiến phản hồi lúc này.</p>";
+  }
+}
+
+function openReviewModal(orderCode, phone, customerName) {
+  const modal = document.getElementById("reviewModal");
+  if (!modal) return;
+
+  document.getElementById("revOrderCode").value = orderCode || "";
+  document.getElementById("revPhone").value = phone || "";
+  document.getElementById("revName").value = customerName || "";
+  document.getElementById("revStars").value = "5";
+  document.getElementById("revContent").value = "";
+
+  modal.style.display = "flex";
+}
+
+function closeReviewModal() {
+  const modal = document.getElementById("reviewModal");
+  if (modal) modal.style.display = "none";
+}
+
+async function submitReview(event) {
+  event.preventDefault();
+  const orderCode = document.getElementById("revOrderCode").value.trim();
+  const phone = document.getElementById("revPhone").value.trim();
+  const name = document.getElementById("revName").value.trim();
+  const stars = document.getElementById("revStars").value;
+  const content = document.getElementById("revContent").value.trim();
+
+  if (!name || !stars || !content) {
+    alert("Vui lòng nhập đầy đủ thông tin tên và nội dung đánh giá!");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/api/reviews`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ho_ten: name,
+        so_dien_thoai: phone,
+        ma_don_hang: orderCode,
+        so_sao: Number(stars),
+        noi_dung: content
+      })
+    });
+
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result.error || result.message || "Gửi đánh giá thất bại");
+    }
+
+    alert(result.message || "Gửi phản hồi thành công. Cảm ơn ý kiến của bạn!");
+    closeReviewModal();
+    loadReviews(); // Tải lại danh sách review động trên trang chủ
+    
+    // Nếu đang ở màn hình payment, chuyển về trang chủ
+    if (window.location.hash === "#bank-payment") {
+      showPage("home");
+    }
+  } catch (err) {
+    alert("Không gửi được đánh giá: " + err.message);
+  }
 }
 
 initWebsite();
-
-
-    /* ===== PRODUCT SEARCH REALTIME ===== */
-    function normalizeSearchValue(value) {
-      return String(value || "")
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/đ/g, "d")
-        .replace(/[^a-z0-9\s-]/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    function getProductSearchImage(product) {
-      const slug = product.slug || "";
-
-      if (product.hinh_anh) return product.hinh_anh;
-      if (product.image_url) return product.image_url;
-      if (product.image) return product.image;
-      if (product.img) return product.img;
-
-      if (product.type === "menu") {
-        return drinkImageMap[slug] || defaultDrinkImage;
-      }
-
-      if (product.type === "merch") {
-        return getMerchImage(product);
-      }
-
-      return "";
-    }
-
-    function getProductSearchDescription(product) {
-      return getPremiumDescription(
-        product.slug,
-        product.ten_san_pham || product.name,
-        product.mo_ta || product.description || product.desc || ""
-      );
-    }
-
-    function getProductSearchPrice(product) {
-      if (product.type === "menu") {
-        return getDrinkPriceLabel(product);
-      }
-
-      const price = product.gia_ban ?? product.price ?? product.gia ?? product.gia_den ?? product.gia_sua ?? 0;
-      return price ? formatMoney(price) : "Liên hệ";
-    }
-
-    function getAllSearchableProducts() {
-      const drinks = [];
-      try { drinks.push(...(JSON.parse(localStorage.getItem("vpc_cached_drinks") || "[]"))); } catch(e) {}
-      if (!drinks.length && typeof getDrinksFallback === "function") drinks.push(...getDrinksFallback());
-
-      const merch = [];
-      try { merch.push(...(JSON.parse(localStorage.getItem("vpc_cached_merch") || "[]"))); } catch(e) {}
-      if (!merch.length && typeof getMerchFallback === "function") merch.push(...getMerchFallback());
-
-      return [
-        ...drinks.map(p => ({
-          ...p,
-          type: "menu",
-          name: p.ten_san_pham || p.name || "",
-          slug: p.slug || ""
-        })),
-        ...merch.map(p => ({
-          ...p,
-          type: "merch",
-          name: p.ten_san_pham || p.name || "",
-          slug: p.slug || ""
-        }))
-      ].filter(p => p.name && p.slug);
-    }
-
-    function toggleProductSearch(open) {
-      const modal = document.getElementById("productSearchOverlay");
-      if (!modal) return;
-      modal.classList.toggle("open", open);
-      if (open) {
-        setTimeout(() => document.getElementById("productSearchInput")?.focus(), 50);
-        handleProductSearch({ preventDefault(){} });
-      }
-    }
-
-    function closeProductSearchOnBackdrop(event) {
-      if (event.target && event.target.id === "productSearchOverlay") toggleProductSearch(false);
-    }
-
-    function handleProductSearch(event) {
-      event?.preventDefault?.();
-      const input = document.getElementById("productSearchInput");
-      const box = document.getElementById("productSearchResults");
-      if (!input || !box) return;
-
-      const keywordRaw = input.value.trim();
-      const keyword = normalizeSearchValue(keywordRaw);
-
-      if (!keyword) {
-        box.innerHTML = `<p style="color: var(--muted); text-align:center;">Nhập tên sản phẩm để xem kết quả ngay, không cần bấm Enter.</p>`;
-        return;
-      }
-
-      const results = getAllSearchableProducts()
-        .filter(p => {
-          const haystack = normalizeSearchValue(`${p.name} ${p.ten_san_pham || ""} ${p.mo_ta || ""} ${p.description || ""} ${p.desc || ""} ${p.slug || ""}`);
-          return haystack.includes(keyword);
-        })
-        .slice(0, 12);
-
-      if (!results.length) {
-        box.innerHTML = `<p style="color: var(--muted); text-align:center;">Không tìm thấy sản phẩm phù hợp.</p>`;
-        return;
-      }
-
-      box.innerHTML = results.map(p => {
-        const img = getProductSearchImage(p);
-        const desc = getProductSearchDescription(p);
-        const priceText = getProductSearchPrice(p);
-
-        return `
-        <div class="product-search-item product-search-card">
-          <img src="${safeText(img)}" class="product-search-img" alt="${safeText(p.name)}" loading="lazy" onerror="this.src='${p.type === "menu" ? defaultDrinkImage : defaultMerchImage}'">
-          <div class="product-search-info">
-            <strong>${safeText(p.name)}</strong>
-            <div class="product-search-price">${safeText(priceText)}</div>
-            <p>${safeText(desc || "Sản phẩm hiện chưa có mô tả chi tiết.")}</p>
-            <button class="btn btn-primary" type="button" onclick="goToProductSlug('${safeText(p.type)}','${safeText(p.slug)}')">Xem sản phẩm</button>
-          </div>
-        </div>`;
-      }).join("");
-    }
-
-    function goToProductSlug(type, slug) {
-      toggleProductSearch(false);
-      showPage(type === "merch" ? "merch" : "menu");
-      setTimeout(() => {
-        const target = document.querySelector(`[data-product-slug="${CSS.escape(slug)}"]`) || document.getElementById(slug);
-        if (target) {
-          target.scrollIntoView({ behavior: "smooth", block: "center" });
-          target.classList.add("product-highlight");
-          setTimeout(() => target.classList.remove("product-highlight"), 2200);
-        }
-      }, 250);
-    }
-
-    /* ===== REVIEWS / TESTIMONIALS ===== */
-    async function loadReviews() {
-      const grid = document.getElementById("reviewsGrid");
-      if (!grid) return;
-      try {
-        const res = await fetch(`${API_URL}/api/reviews?_=${Date.now()}`, { cache: "no-store" });
-        if (!res.ok) throw new Error("Không tải được reviews");
-        const data = await res.json();
-        const reviews = Array.isArray(data) ? data : (data.data || data.reviews || []);
-        renderReviews(reviews);
-      } catch (err) {
-        console.warn("Không tải được review, dùng dữ liệu mẫu:", err);
-        renderReviews([
-          { customer_name: "Khách hàng VPC", rating: 5, comment: "Không gian đẹp, cà phê đậm vị và phục vụ rất chu đáo." },
-          { customer_name: "Anh/chị khách", rating: 5, comment: "Đặt hàng nhanh, thanh toán tiện và món được chuẩn bị chỉn chu." },
-          { customer_name: "Khách thân thiết", rating: 5, comment: "Rất thích cà phê năng lượng và các vật phẩm Trung Nguyên tại Âu Lạc." }
-        ]);
-      }
-    }
-
-    function renderReviews(reviews) {
-      const grid = document.getElementById("reviewsGrid");
-      if (!grid) return;
-      const list = (reviews || []).filter(r => r.hien_thi !== false).slice(0, 6);
-      if (!list.length) {
-        grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:rgba(255,255,255,.72);">Chưa có đánh giá nào.</p>`;
-        return;
-      }
-      grid.innerHTML = list.map(r => {
-        const stars = "★".repeat(Math.max(1, Math.min(5, Number(r.rating || r.so_sao || 5))));
-        return `<div class="testimonial-card">
-          <div class="testimonial-stars">${stars}</div>
-          <div class="testimonial-text">“${safeText(r.comment || r.noi_dung || "") }”</div>
-          <div class="testimonial-user">${safeText(r.customer_name || r.ho_ten || "Khách hàng VPC")}</div>
-        </div>`;
-      }).join("");
-    }
-
-    function openReviewModal(orderCode = "", phone = "", customerName = "") {
-      const modal = document.getElementById("reviewModal");
-      if (!modal) return;
-      document.getElementById("reviewOrderCode").value = orderCode || "";
-      document.getElementById("reviewPhone").value = phone || "";
-      document.getElementById("reviewName").value = customerName || "";
-      modal.classList.add("show");
-    }
-
-    function closeReviewModal() {
-      document.getElementById("reviewModal")?.classList.remove("show");
-    }
-
-    async function submitReview(event) {
-      event.preventDefault();
-      const payload = {
-        order_code: document.getElementById("reviewOrderCode")?.value || "",
-        phone: document.getElementById("reviewPhone")?.value || "",
-        customer_name: document.getElementById("reviewName")?.value || "",
-        rating: Number(document.getElementById("reviewRating")?.value || 5),
-        comment: document.getElementById("reviewContent")?.value || "",
-        hien_thi: true
-      };
-      if (!payload.order_code) {
-        alert("Chỉ khách đã đặt hàng mới được đánh giá. Vui lòng đặt hàng hoặc tra cứu đơn trước.");
-        return;
-      }
-      try {
-        const res = await fetch(`${API_URL}/api/reviews`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(data.error || data.message || "Không gửi được đánh giá");
-        alert("Cảm ơn Quý khách đã đánh giá VPC ạ!");
-        closeReviewModal();
-        event.target.reset();
-        loadReviews();
-      } catch (err) {
-        alert("Gửi đánh giá thất bại: " + err.message);
-      }
-    }
-
+</script>
+<!-- REVIEW MODAL -->
+<div class="modal-backdrop" id="reviewModal" style="display: none; position: fixed; inset: 0; background: rgba(31,18,11,0.72); z-index: 999999; align-items: center; justify-content: center; padding: 18px;">
+  <div class="modal-box" style="width: min(460px, 100%); background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 24px; border: 1px solid var(--gold);">
+    <div class="modal-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eadac7; padding-bottom: 10px;">
+      <h3 style="font-size: 20px; color: var(--coffee-dark); font-weight: 900; margin: 0;">Đánh giá dịch vụ & sản phẩm</h3>
+      <button type="button" onclick="closeReviewModal()" style="border: none; background: transparent; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1;">&times;</button>
+    </div>
+    <form id="reviewForm" onsubmit="submitReview(event)" style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Mã đơn hàng</label>
+        <input id="revOrderCode" readonly style="background: #f1ebd9; color: #5a321f; font-weight: bold; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;" />
+      </div>
+      <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Số điện thoại</label>
+        <input id="revPhone" readonly style="background: #f1ebd9; color: #5a321f; font-weight: bold; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;" />
+      </div>
+      <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Họ tên của bạn</label>
+        <input id="revName" required placeholder="Nhập tên hiển thị" style="background: #fffcf7; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;" />
+      </div>
+      <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Đánh giá chất lượng</label>
+        <select id="revStars" style="background: #fffcf7; font-weight: bold; color: var(--gold); padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;">
+          <option value="5" selected>★★★★★ - Rất hài lòng (5 sao)</option>
+          <option value="4">★★★★☆ - Hài lòng (4 sao)</option>
+          <option value="3">★★★☆☆ - Bình thường (3 sao)</option>
+          <option value="2">★★☆☆☆ - Chưa hài lòng (2 sao)</option>
+          <option value="1">★☆☆☆☆ - Rất kém (1 sao)</option>
+        </select>
+      </div>
+      <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
+        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Nội dung chia sẻ (Khách hàng nói gì về VPC)</label>
+        <textarea id="revContent" required placeholder="Không gian, đồ uống, thái độ phục vụ thế nào..." style="background: #fffcf7; min-height: 80px; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9; font-family: inherit; resize: vertical;"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit" style="width: 100%; font-weight: 800; padding: 12px; border-radius: 999px; margin-top: 6px;">Gửi đánh giá</button>
+    </form>
+  </div>
+</div>
+initWebsite();
 </script>
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
