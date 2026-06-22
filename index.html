@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -970,7 +970,7 @@
       background: var(--gold);
       color: var(--coffee-dark);
       border-radius: 999px;
-      padding: 17px 23px;
+      padding: 14px 20px;
       font-weight: 900;
       box-shadow: var(--shadow);
       cursor: pointer;
@@ -1244,7 +1244,7 @@
       color: #f0dfc9;
       text-align: left;
       cursor: pointer;
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 800;
       transition: 0.25s ease;
     }
@@ -3766,6 +3766,130 @@ body {
   }
 }
 
+
+
+/* ===== VPC FINAL HOTFIX: menu +3px, chatbot +3px, blog thumbnail/full image, delivery notice ===== */
+.article-card .card-img {
+  display: block !important;
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+  border-radius: 0 !important;
+  background: #efe5d4 !important;
+}
+
+.article-detail-main-img {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  border-radius: 22px !important;
+  box-shadow: var(--shadow) !important;
+  margin: 0 auto 26px !important;
+  background: #fffaf4 !important;
+}
+
+.delivery-distance-note {
+  margin-top: 10px !important;
+  padding: 12px 14px !important;
+  border-radius: 14px !important;
+  border: 1px solid #ead0a4 !important;
+  background: #fff8ed !important;
+  color: var(--coffee-dark) !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  font-weight: 700 !important;
+}
+
+.delivery-distance-note.error {
+  border-color: #d93025 !important;
+  background: #fff1f0 !important;
+  color: #8e2b20 !important;
+}
+
+.delivery-distance-note.ok {
+  border-color: #7abf75 !important;
+  background: #f1fff1 !important;
+  color: #1d6b25 !important;
+}
+
+.site-header .nav-btn,
+.main-nav .nav-btn {
+  font-size: 16px !important;
+  padding: 11px 15px !important;
+}
+
+#menuTabs .tab-link,
+#merchTabs .tab-link,
+.category-tabs .tab-link {
+  font-size: 16px !important;
+  min-height: 37px !important;
+  padding: 10px 15px !important;
+}
+
+.chat-toggle,
+.lookup-toggle {
+  font-size: 17px !important;
+  min-height: 45px !important;
+  padding: 14px 21px !important;
+  color: #ffffff !important;
+}
+
+.chat-box {
+  width: min(323px, calc(100vw - 28px)) !important;
+}
+
+.chat-head {
+  font-size: 17px !important;
+  padding: 14px 17px !important;
+}
+
+.chat-body {
+  height: 258px !important;
+}
+
+.chat-msg {
+  font-size: 15.5px !important;
+}
+
+.quick-chat button {
+  font-size: 14.5px !important;
+  padding: 10px 14px !important;
+}
+
+.chat-input-row input,
+.chat-input-row button {
+  font-size: 15px !important;
+}
+
+@media (max-width: 520px) {
+  .site-header .nav-btn,
+  .main-nav .nav-btn {
+    font-size: 16px !important;
+    padding: 8px 10px !important;
+  }
+
+  #menuTabs .tab-link,
+  #merchTabs .tab-link,
+  .category-tabs .tab-link {
+    font-size: 15px !important;
+    min-height: 33px !important;
+    padding: 8px 13px !important;
+  }
+
+  .chat-toggle,
+  .lookup-toggle {
+    font-size: 16px !important;
+    min-height: 41px !important;
+    padding: 13px 17px !important;
+  }
+
+  .chat-body {
+    height: 238px !important;
+  }
+}
 </style>
 </head>
 
@@ -4057,8 +4181,8 @@ body {
 
               <div class="form-field full">
                 <label>Địa chỉ giao hàng</label>
-                <input id="customerAddress" placeholder="Nhập địa chỉ nếu chọn giao hàng"
-                  oninput="updateDeliveryMap()" />
+                <input id="customerAddress" placeholder="Nhập số nhà, đường, phường/xã, TP Huế. Ví dụ: 12 Âu Lạc, An Cựu, Huế"
+                  oninput="updateDeliveryMap(); scheduleDeliveryDistanceCheck()" />
 
                 <div class="delivery-map-box" id="deliveryMapBox">
                   <iframe id="deliveryMap" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src=""></iframe>
@@ -5214,6 +5338,88 @@ body {
     }
     let currentShippingFee = 0;
     let currentDistanceKm = 0;
+
+    const STORE_ADDRESS = "Trung Nguyên Legend Âu Lạc, Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế";
+    const STORE_LAT = 16.45195;
+    const STORE_LNG = 107.60865;
+    const DELIVERY_MAX_KM = 10;
+    let deliveryDistanceTimer = null;
+
+    function getDeliveryNoticeEl() {
+      const addressInput = document.getElementById("customerAddress");
+      if (!addressInput) return null;
+
+      let note = document.getElementById("deliveryDistanceNotice");
+      if (!note) {
+        note = document.createElement("div");
+        note.id = "deliveryDistanceNotice";
+        note.className = "delivery-distance-note";
+        addressInput.insertAdjacentElement("afterend", note);
+      }
+      return note;
+    }
+
+    function setDeliveryNotice(message, type = "") {
+      const note = getDeliveryNoticeEl();
+      if (!note) return;
+      note.className = `delivery-distance-note ${type}`.trim();
+      note.innerHTML = message || "";
+      note.style.display = message ? "block" : "none";
+    }
+
+    function normalizeAddressForDelivery(address) {
+      const raw = String(address || "").trim();
+      if (!raw) return "";
+      const hasHue = /huế|hue|thừa thiên|thua thien/i.test(raw);
+      return hasHue ? raw : `${raw}, Thành phố Huế, Việt Nam`;
+    }
+
+    function haversineKm(lat1, lng1, lat2, lng2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLng = (lng2 - lng1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function parseLatLngFromAddress(address) {
+      const match = String(address || "").match(/(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/);
+      if (!match) return null;
+      const lat = Number(match[1]);
+      const lng = Number(match[2]);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+      return { lat, lng };
+    }
+
+    async function geocodeDeliveryAddress(address) {
+      const typedCoords = parseLatLngFromAddress(address);
+      if (typedCoords) return typedCoords;
+
+      const query = normalizeAddressForDelivery(address);
+      const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=vn&q=${encodeURIComponent(query)}`;
+      const response = await fetch(url, {
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      if (!response.ok) throw new Error("Không định vị được địa chỉ giao hàng.");
+      const data = await response.json();
+      if (!Array.isArray(data) || !data[0]) throw new Error("Không tìm thấy tọa độ địa chỉ giao hàng.");
+
+      return {
+        lat: Number(data[0].lat),
+        lng: Number(data[0].lon)
+      };
+    }
+
+    function scheduleDeliveryDistanceCheck() {
+      clearTimeout(deliveryDistanceTimer);
+      deliveryDistanceTimer = setTimeout(() => {
+        checkDeliveryDistance({ silent: true }).catch(() => {});
+      }, 900);
+    }
+
     let checkoutVisible = false;
     let pendingOrderCode = "";
     try {
@@ -5425,21 +5631,27 @@ body {
 
       if (deliveryType.value !== "Giao hàng tận nơi") {
         mapBox.classList.remove("show");
+        setDeliveryNotice("");
         return;
       }
 
       const address = addressInput.value.trim();
 
       if (!address) {
-        mapFrame.src = "https://www.google.com/maps?q=Trung%20Nguyen%20Legend%20Au%20Lac%20Hue&output=embed";
+        mapFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(STORE_ADDRESS)}&output=embed`;
         mapBox.classList.add("show");
+        setDeliveryNotice(`📍 <strong>Địa chỉ quán:</strong> ${safeText(STORE_ADDRESS)}<br>Vui lòng nhập địa chỉ giao hàng để hệ thống kiểm tra phạm vi dưới ${DELIVERY_MAX_KM}km.`);
         return;
       }
 
-      mapFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
+      const destination = normalizeAddressForDelivery(address);
+      mapFrame.src = `https://www.google.com/maps?saddr=${encodeURIComponent(STORE_ADDRESS)}&daddr=${encodeURIComponent(destination)}&output=embed`;
       mapBox.classList.add("show");
+      setDeliveryNotice(`📍 <strong>Địa chỉ giao hàng:</strong> ${safeText(destination)}<br>Đang kiểm tra khoảng cách từ quán đến địa chỉ giao hàng...`);
     }
-    async function checkDeliveryDistance() {
+
+    async function checkDeliveryDistance(options = {}) {
+      const silent = options && options.silent === true;
       const deliveryTypeEl = document.getElementById("deliveryType");
       const addressEl = document.getElementById("customerAddress");
 
@@ -5450,6 +5662,7 @@ body {
       currentDistanceKm = 0;
 
       if (deliveryTypeText !== "Giao hàng tận nơi") {
+        setDeliveryNotice("");
         return {
           hop_le: true,
           phi_ship: 0,
@@ -5458,19 +5671,42 @@ body {
       }
 
       if (!address) {
-        alert("Vui lòng nhập địa chỉ giao hàng.");
-        return {
-          hop_le: false
-        };
+        setDeliveryNotice(`📍 <strong>Địa chỉ quán:</strong> ${safeText(STORE_ADDRESS)}<br>Vui lòng nhập địa chỉ giao hàng để kiểm tra phạm vi giao hàng.`, "error");
+        if (!silent) alert("Vui lòng nhập địa chỉ giao hàng.");
+        return { hop_le: false };
       }
 
-      alert("Đơn giao hàng đã được ghi nhận. Cửa hàng sẽ xác nhận phí ship và phạm vi giao hàng sau.");
+      try {
+        const coords = await geocodeDeliveryAddress(address);
+        const distanceKm = haversineKm(STORE_LAT, STORE_LNG, coords.lat, coords.lng);
+        currentDistanceKm = Number(distanceKm.toFixed(2));
 
-      return {
-        hop_le: true,
-        phi_ship: 0,
-        khoang_cach_km: 0
-      };
+        if (currentDistanceKm > DELIVERY_MAX_KM) {
+          currentShippingFee = 0;
+          setDeliveryNotice(`❌ <strong>Ngoài phạm vi giao hàng.</strong><br>Địa chỉ này cách quán khoảng <strong>${currentDistanceKm}km</strong>, vượt giới hạn <strong>${DELIVERY_MAX_KM}km</strong>.<br>Quán: ${safeText(STORE_ADDRESS)}`, "error");
+          if (!silent) alert(`Địa chỉ giao hàng cách quán khoảng ${currentDistanceKm}km, vượt quá phạm vi giao hàng ${DELIVERY_MAX_KM}km.`);
+          renderCart();
+          return {
+            hop_le: false,
+            phi_ship: 0,
+            khoang_cach_km: currentDistanceKm
+          };
+        }
+
+        currentShippingFee = 0;
+        setDeliveryNotice(`✅ <strong>Trong phạm vi giao hàng.</strong><br>Địa chỉ giao hàng cách quán khoảng <strong>${currentDistanceKm}km</strong>. Cửa hàng sẽ xác nhận phí ship khi xử lý đơn.<br>Quán: ${safeText(STORE_ADDRESS)}`, "ok");
+        renderCart();
+        return {
+          hop_le: true,
+          phi_ship: currentShippingFee,
+          khoang_cach_km: currentDistanceKm
+        };
+      } catch (error) {
+        console.warn("Lỗi kiểm tra khoảng cách giao hàng:", error);
+        setDeliveryNotice(`⚠️ Chưa định vị được địa chỉ này. Vui lòng nhập rõ số nhà, tên đường, phường/xã, TP Huế hoặc dán tọa độ Google Maps.`, "error");
+        if (!silent) alert("Chưa định vị được địa chỉ giao hàng. Vui lòng nhập địa chỉ rõ hơn hoặc dán tọa độ Google Maps.");
+        return { hop_le: false };
+      }
     }
     function getCartTotal() {
       return cart.reduce((sum, item) => {
@@ -5979,6 +6215,85 @@ startAutoCheckPayment();
       return t;
     }
 
+
+    function normalizeTextKey(text) {
+      return String(text || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/&/g, " va ")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    function resolveMenuCategorySlug(item) {
+      const productSlug = String(item?.slug || "").trim();
+      let categorySlug = String(item?.slug_danh_muc || item?.danh_muc_slug || item?.category_slug || item?.category || "").trim();
+      const categoryName = String(item?.ten_danh_muc || item?.danh_muc || item?.category_name || "").trim();
+      const byName = normalizeTextKey(categoryName);
+
+      const titleAlias = {
+        "ca-phe-phin": "ca-phe-phin",
+        "ca-phe-bot-sang-tao": "ca-phe-phin",
+        "ca-phe-may": "ca-phe-may",
+        "ca-phe-pha-che": "ca-phe-pha-che",
+        "tra-tra-sua": "tra-tra-sua",
+        "tra-va-tra-sua": "tra-tra-sua",
+        "tra-sua": "tra-tra-sua",
+        "sinh-to-da-xay": "sinh-to-da-xay",
+        "sinh-to-va-da-xay": "sinh-to-da-xay",
+        "nuoc-ep": "nuoc-ep",
+        "nuoc-thanh-nhiet": "nuoc-thanh-nhiet",
+        "matcha-cacao": "matcha-cacao",
+        "matcha-va-cacao": "matcha-cacao",
+        "banh": "banh",
+        "banh-ngot": "banh",
+        "mon-extra": "mon-extra",
+        "extra": "mon-extra"
+      };
+
+      categorySlug = normalizeTextKey(categorySlug);
+      categorySlug = titleAlias[categorySlug] || titleAlias[byName] || categorySlug || byName;
+
+      const productCategoryMapExtra = {
+        "success-sua-da": "ca-phe-may",
+        "success-da-vien": "ca-phe-may",
+        "espresso": "ca-phe-may",
+        "americano": "ca-phe-may",
+        "double-espresso": "ca-phe-may",
+        "latte": "ca-phe-may",
+        "cappuccino": "ca-phe-may",
+        "latte-yen-mach": "ca-phe-may",
+        "cappuccino-yen-mach": "ca-phe-may",
+        "coffee-legend": "ca-phe-phin",
+        "nang-luong-tu-duy": "ca-phe-phin",
+        "nang-luong-kham-pha": "ca-phe-phin",
+        "nang-luong-y-tuong": "ca-phe-phin",
+        "nang-luong-sang-tao": "ca-phe-phin",
+        "nang-luong-thanh-cong": "ca-phe-phin",
+        "nang-luong-dot-pha": "ca-phe-phin",
+        "sua-tuoi-them": "mon-extra",
+        "sua-dac-them": "mon-extra",
+        "tran-chau-trang": "mon-extra",
+        "mat-ong": "mon-extra",
+        "thach-ca-phe": "mon-extra",
+        "milkfoam": "mon-extra",
+        "ca-phe-them": "mon-extra",
+        "dao-them": "mon-extra"
+      };
+
+      return productCategoryMapExtra[productSlug] || categorySlug || "khac";
+    }
+
+    function normalizeDrinkListPayload(payload) {
+      if (Array.isArray(payload)) return payload;
+      if (payload && Array.isArray(payload.data)) return payload.data;
+      if (payload && Array.isArray(payload.items)) return payload.items;
+      if (payload && Array.isArray(payload.drinks)) return payload.drinks;
+      return [];
+    }
+
     // Code này tải menu đồ uống từ backend Render
     // API dùng: GET /api/do-uong
     
@@ -6016,7 +6331,7 @@ startAutoCheckPayment();
 
     function normalizeDrinkCategory(item) {
       const productSlug = String(item.slug || "").trim();
-      let categorySlug = String(item.slug_danh_muc || item.danh_muc_slug || item.category_slug || "").trim();
+      let categorySlug = resolveMenuCategorySlug(item);
 
       const productCategoryMap = {
         "sinh-to-xoai": "sinh-to-da-xay",
@@ -6085,8 +6400,15 @@ startAutoCheckPayment();
       if (!tabs || !groups) return;
 
       const processedDrinks = [];
+      const drinkList = normalizeDrinkListPayload(drinks);
 
-      drinks.forEach(item => {
+      if (!drinkList.length) {
+        tabs.innerHTML = "";
+        groups.innerHTML = `<p style="text-align:center; color: var(--muted);">Chưa tải được menu nước. Vui lòng thử tải lại trang.</p>`;
+        return;
+      }
+
+      drinkList.forEach(item => {
         if (item.slug === "sinh-to-theo-mua") {
           const flavors = [
             { name: "Sinh tố Xoài", slug: "sinh-to-xoai", desc: "Sinh tố xoài tươi mát béo ngậy." },
@@ -6139,10 +6461,8 @@ startAutoCheckPayment();
       const grouped = {};
 
       processedDrinks.forEach(item => {
-        const categoryInfo = normalizeDrinkCategory(item);
-        const categorySlug = categoryInfo && categoryInfo.title !== "Khác"
-          ? Object.keys(menuCategoryMap).find(key => menuCategoryMap[key].title === categoryInfo.title)
-          : (item.slug_danh_muc || "khac");
+        const categorySlug = resolveMenuCategorySlug(item);
+        const categoryInfo = normalizeDrinkCategory({ ...item, slug_danh_muc: categorySlug });
 
         if (!grouped[categorySlug]) {
           grouped[categorySlug] = {
@@ -6219,7 +6539,7 @@ startAutoCheckPayment();
 
       // SWR: 2. Fetch fresh data in the background
       try {
-        const freshDrinks = await fetchAPI("/api/do-uong");
+        const freshDrinks = normalizeDrinkListPayload(await fetchAPI("/api/do-uong"));
         if (freshDrinks && freshDrinks.length > 0) {
           localStorage.setItem("vpc_cached_drinks", JSON.stringify(freshDrinks));
           displayMenuData(freshDrinks);
@@ -6548,14 +6868,31 @@ startAutoCheckPayment();
       }
     }
 
+    function getArticleMainImage(article) {
+      const fallback = "https://res.cloudinary.com/dojibbcof/image/upload/v1779773456/z7667465024917_2a81fcb4033ec5893cbd1990ebbcf187_nedupr.jpg";
+      const candidates = [
+        article?.thumbnail,
+        ...(Array.isArray(article?.images) ? article.images : [])
+      ];
+
+      const image = candidates.find(src => {
+        const val = String(src || "").trim();
+        return val && !/facebook\.com|youtube\.com|youtu\.be|tiktok\.com/i.test(val);
+      });
+
+      return image || fallback;
+    }
+
     function renderBlog() {
       const grid = document.getElementById("blogGrid");
 
       if (!grid) return;
 
       grid.innerHTML = blogItems.map((item, index) => {
+        const thumb = getArticleMainImage(item);
         return `
         <div class="card article-card">
+          <img class="card-img" src="${thumb}" alt="${safeText(item.title)}" loading="lazy">
           <div class="card-body">
             <h3 style="text-align: center; margin-top: 10px;">${safeText(item.title)}</h3>
             <p style="font-style: italic; text-align: center; color: var(--muted); margin-bottom: 18px;">"${safeText(item.desc)}"</p>
@@ -6577,23 +6914,12 @@ startAutoCheckPayment();
 
       if (!article || !box) return;
 
-      // Lọc bỏ những link chứa video khỏi danh sách ảnh để tránh hiển thị thẻ img lỗi
-      const imageHtml = article.images
-        .filter(img => !img.includes("facebook.com") && !img.includes("youtube.com") && !img.includes("youtu.be"))
-        .map(img => `
-      <img class="article-content-img" src="${img}" alt="${safeText(article.title)}">
-    `).join("");
-
-      // Hiển thị các video đính kèm
-      const videoHtml = article.videos
-        .map(video => getVideoEmbedHtml(video)).join("");
+      const mainImage = getArticleMainImage(article);
 
       box.innerHTML = `
     <h2 class="article-detail-title">${safeText(article.title)}</h2>
 
-    ${imageHtml}
-
-    ${videoHtml}
+    <img class="article-detail-main-img" src="${mainImage}" alt="${safeText(article.title)}">
 
     <div class="article-body">
       ${article.content}
@@ -7487,7 +7813,8 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 12000);
         try {
-          const response = await fetch(`${API_URL}${endpoint}`, {
+          const baseUrl = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.endsWith("vercel.app") ? "" : API_URL;
+          const response = await fetch(`${baseUrl}${endpoint}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
