@@ -2578,7 +2578,8 @@ body {
 .stock-ok { background:#e8f5e9; color:#166534; border:1px solid #b7dfbd; }
 .stock-low { background:#fff8db; color:#8a5b00; border:1px solid #ead689; }
 .stock-out { background:#f3f3f3; color:#666; border:1px solid #d6d6d6; }
-.article-card > div:first-child, .article-card .card-img { display:none !important; }
+.article-card > div:first-child { display:flex !important; }
+.article-card .card-img { display:block !important; }
 .article-card .card-body { min-height: 210px; }
 .site-footer { padding: 44px 0 14px !important; }
 .footer-title, .footer-col .footer-title { font-size: 16px !important; margin-bottom: 12px !important; }
@@ -2679,6 +2680,64 @@ body {
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
   }
+}
+
+
+.article-single-image-wrap {
+  width: 100% !important;
+  margin: 0 auto 28px !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  box-shadow: var(--shadow) !important;
+  background: #000 !important;
+}
+.article-single-image {
+  width: 100% !important;
+  max-height: 78vh !important;
+  object-fit: contain !important;
+  background: #000 !important;
+  display: block !important;
+}
+
+
+/* ===== VPC FINAL FIX: sticky group tabs, restored blog thumbnails, single detail image ===== */
+#menuTabs,
+#merchTabs,
+.category-tabs {
+  position: sticky !important;
+  top: 80px !important;
+  z-index: 9998 !important;
+  background: rgba(255,255,255,.96) !important;
+  border-bottom: 1px solid rgba(0,0,0,.12) !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,.08) !important;
+  padding: 12px 8px !important;
+}
+.article-card > div:first-child {
+  display: flex !important;
+}
+.article-card .card-img {
+  display: block !important;
+}
+.article-single-image-wrap {
+  width: 100% !important;
+  margin: 0 auto 28px !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  box-shadow: var(--shadow) !important;
+  background: #000 !important;
+}
+.article-single-image {
+  width: 100% !important;
+  max-height: 78vh !important;
+  object-fit: contain !important;
+  background: #000 !important;
+  display: block !important;
+}
+@media (max-width: 980px) {
+  #menuTabs, #merchTabs, .category-tabs { top: 96px !important; }
+}
+@media (max-width: 520px) {
+  #menuTabs, #merchTabs, .category-tabs { top: 72px !important; padding: 8px 6px !important; }
 }
 
 </style>
@@ -3387,6 +3446,19 @@ body {
 
   <script>
     const API_URL = "https://vpc-70cs.onrender.com";
+
+    const VPC_CACHE_VERSION = "20260622-menu-merch-tabs-delivery-v2";
+    try {
+      const oldVersion = localStorage.getItem("vpc_cache_version");
+      if (oldVersion !== VPC_CACHE_VERSION) {
+        localStorage.removeItem("vpc_cached_drinks");
+        localStorage.removeItem("vpc_cached_merch");
+        localStorage.removeItem("vpc_cached_featured");
+        localStorage.setItem("vpc_cache_version", VPC_CACHE_VERSION);
+      }
+    } catch (e) {
+      console.warn("Không thể làm mới cache sản phẩm:", e);
+    }
 
     // Code này giữ API backend chính của website.
     // Không gọi Supabase trực tiếp ở frontend để tránh lỗi sai bảng, sai key hoặc lỗi RLS.
@@ -4372,6 +4444,47 @@ body {
       mapFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
       mapBox.classList.add("show");
     }
+    const VPC_STORE_LOCATION = {
+      lat: 16.4621,
+      lng: 107.5964,
+      address: "Trung Nguyên Legend Âu Lạc, Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế"
+    };
+
+    function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    function calculateShippingFeeByDistance(distanceKm) {
+      if (distanceKm < 2) return 0;
+      return Math.ceil(distanceKm) * 5000;
+    }
+
+    async function geocodeCustomerAddress(address) {
+      const query = /huế|hue|việt nam|viet nam/i.test(address) ? address : `${address}, Huế, Việt Nam`;
+      const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=vn&q=${encodeURIComponent(query)}`;
+      const response = await fetchWithTimeout(url, 9000);
+      if (!response.ok) {
+        throw new Error("Không định vị được địa chỉ giao hàng.");
+      }
+      const data = await response.json();
+      if (!Array.isArray(data) || !data.length) {
+        throw new Error("Không tìm thấy địa chỉ giao hàng trên bản đồ.");
+      }
+      return {
+        lat: Number(data[0].lat),
+        lng: Number(data[0].lon),
+        displayName: data[0].display_name || address
+      };
+    }
+
     async function checkDeliveryDistance() {
       const deliveryTypeEl = document.getElementById("deliveryType");
       const addressEl = document.getElementById("customerAddress");
@@ -4383,28 +4496,51 @@ body {
       currentDistanceKm = 0;
 
       if (deliveryTypeText !== "Giao hàng tận nơi") {
-        return {
-          hop_le: true,
-          phi_ship: 0,
-          khoang_cach_km: 0
-        };
+        return { hop_le: true, phi_ship: 0, khoang_cach_km: 0 };
       }
 
       if (!address) {
         alert("Vui lòng nhập địa chỉ giao hàng.");
-        return {
-          hop_le: false
-        };
+        return { hop_le: false };
       }
 
-      alert("Đơn giao hàng đã được ghi nhận. Cửa hàng sẽ xác nhận phí ship và phạm vi giao hàng sau.");
+      try {
+        const customerLocation = await geocodeCustomerAddress(address);
+        const distanceKm = calculateDistanceKm(
+          VPC_STORE_LOCATION.lat,
+          VPC_STORE_LOCATION.lng,
+          customerLocation.lat,
+          customerLocation.lng
+        );
 
-      return {
-        hop_le: true,
-        phi_ship: 0,
-        khoang_cach_km: 0
-      };
+        currentDistanceKm = Number(distanceKm.toFixed(2));
+
+        if (currentDistanceKm > 10) {
+          currentShippingFee = 0;
+          alert(`Địa chỉ giao hàng cách quán khoảng ${currentDistanceKm}km, hiện nằm ngoài phạm vi giao hàng tối đa 10km. Quý khách vui lòng chọn đến lấy tại quán hoặc nhập địa chỉ khác gần hơn ạ.`);
+          renderCart();
+          return { hop_le: false, phi_ship: 0, khoang_cach_km: currentDistanceKm };
+        }
+
+        currentShippingFee = calculateShippingFeeByDistance(currentDistanceKm);
+        renderCart();
+
+        const feeText = currentShippingFee > 0 ? formatMoney(currentShippingFee) : "Miễn phí";
+        alert(`Địa chỉ giao hàng cách quán khoảng ${currentDistanceKm}km. Phí giao hàng dự kiến: ${feeText}.`);
+
+        return {
+          hop_le: true,
+          phi_ship: currentShippingFee,
+          khoang_cach_km: currentDistanceKm,
+          dia_chi_dinh_vi: customerLocation.displayName
+        };
+      } catch (error) {
+        console.error("Lỗi tính khoảng cách giao hàng:", error);
+        alert("Chưa định vị được địa chỉ giao hàng. Quý khách vui lòng nhập địa chỉ rõ hơn hoặc liên hệ hotline 038 972 6999 để được hỗ trợ.");
+        return { hop_le: false };
+      }
     }
+
     function getCartTotal() {
       return cart.reduce((sum, item) => {
         return sum + Number(item.priceNum || 0) * item.qty;
@@ -4502,7 +4638,7 @@ function startAutoCheckPayment() {
   }
 
   autoPaymentCheckTimer = setInterval(() => {
-    const paymentPage = document.getElementById("payment");
+    const paymentPage = document.getElementById("bank-payment");
     const successBox = document.getElementById("paymentSuccess");
 
     if (!paymentPage || !paymentPage.classList.contains("active")) {
@@ -4952,6 +5088,103 @@ startAutoCheckPayment();
     }
 
 
+    function normalizeVietnameseSlug(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/Đ/g, "D")
+        .toLowerCase()
+        .replace(/&/g, " va ")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    function getMenuCategorySlug(item) {
+      const rawSlug = item.slug_danh_muc || item.danh_muc_slug || item.category_slug || item.categorySlug || "";
+      const rawName = item.ten_danh_muc || item.danh_muc || item.category_name || item.categoryName || item.loai || "";
+      let slug = normalizeVietnameseSlug(rawSlug || rawName);
+
+      const aliasMap = {
+        "ca-phe-pha-che": "ca-phe-pha-che",
+        "ca-phe-may": "ca-phe-may",
+        "ca-phe-phin": "ca-phe-phin",
+        "tra-tra-sua": "tra-tra-sua",
+        "tra-va-tra-sua": "tra-tra-sua",
+        "tra-sua": "tra-tra-sua",
+        "sinh-to-da-xay": "sinh-to-da-xay",
+        "sinh-to-va-da-xay": "sinh-to-da-xay",
+        "nuoc-ep": "nuoc-ep",
+        "nuoc-thanh-nhiet": "nuoc-thanh-nhiet",
+        "matcha-cacao": "matcha-cacao",
+        "matcha-va-cacao": "matcha-cacao",
+        "banh": "banh",
+        "banh-ngot": "banh",
+        "mon-extra": "mon-extra",
+        "extra": "mon-extra"
+      };
+
+      if (aliasMap[slug]) return aliasMap[slug];
+
+      const productSlug = normalizeVietnameseSlug(item.slug || item.ten_san_pham || "");
+      const nameText = normalizeVietnameseSlug(`${rawName} ${item.ten_san_pham || ""} ${item.slug || ""}`);
+
+      const extraSlugs = ["sua-tuoi-them", "sua-dac-them", "tran-chau-trang", "mat-ong", "thach-ca-phe", "milkfoam", "ca-phe-them", "dao-them"];
+      if (extraSlugs.includes(productSlug) || nameText.includes("mon-extra") || nameText.includes("extra") || nameText.includes("them") || nameText.includes("tran-chau") || nameText.includes("milkfoam")) return "mon-extra";
+
+      if (nameText.includes("ca-phe-may") || ["espresso", "americano", "latte", "cappuccino", "success-sua-da", "success-da-vien", "double-espresso", "latte-yen-mach", "cappuccino-yen-mach"].includes(productSlug)) return "ca-phe-may";
+      if (nameText.includes("pha-che") || ["ca-phe-dua", "ca-phe-hanh-nhan", "ca-phe-muoi-legend", "bac-xiu", "ca-phe-trung", "ca-phe-mother-land", "cold-brew-phuong-dong", "ca-phe-cold-brew"].includes(productSlug)) return "ca-phe-pha-che";
+      if (nameText.includes("sinh-to") || nameText.includes("da-xay") || nameText.includes("kim-quat")) return "sinh-to-da-xay";
+      if (nameText.includes("nuoc-ep") || nameText.includes("cam-vat") || nameText.includes("dua-hau") || nameText.includes("dua-tuoi") || nameText.includes("nuoc-thom")) return "nuoc-ep";
+      if (nameText.includes("thanh-nhiet") || nameText.includes("hibiscus") || nameText.includes("chanh-sa") || nameText.includes("chanh-muoi") || nameText.includes("chanh-day-thom-sa")) return "nuoc-thanh-nhiet";
+      if (nameText.includes("matcha") || nameText.includes("cacao") || productSlug === "sua-tuoi") return "matcha-cacao";
+      if (nameText.includes("banh") || nameText.includes("panna") || nameText.includes("croissant") || nameText.includes("mousse") || nameText.includes("tiramisu")) return "banh";
+      if (nameText.includes("tra") || nameText.includes("tra-sua")) return "tra-tra-sua";
+      return "ca-phe-phin";
+    }
+
+    function getMenuCategoryTitle(slug, fallbackTitle = "") {
+      const titleMap = {
+        "ca-phe-phin": "Cà phê phin",
+        "ca-phe-may": "Cà phê máy",
+        "ca-phe-pha-che": "Cà phê pha chế",
+        "tra-tra-sua": "Trà & Trà sữa",
+        "sinh-to-da-xay": "Sinh tố & Đá xay",
+        "nuoc-ep": "Nước ép",
+        "nuoc-thanh-nhiet": "Nước thanh nhiệt",
+        "matcha-cacao": "Matcha & Cacao",
+        "banh": "Bánh ngọt",
+        "mon-extra": "Món Extra"
+      };
+      return titleMap[slug] || fallbackTitle || "Menu nước";
+    }
+
+    function isProductSoldOut(item) {
+      const stock = item.ton_kho ?? item.stock_quantity ?? item.so_luong_ton ?? item.inventory_quantity;
+      return item.sold_out === true ||
+        item.status === "soldout" ||
+        item.status === "inactive" ||
+        item.trang_thai === "soldout" ||
+        item.trang_thai === "ngung_ban" ||
+        item.con_ban === false ||
+        (stock !== undefined && stock !== null && Number(stock) <= 0);
+    }
+
+    function getStockLabel(item) {
+      const stock = item.ton_kho ?? item.stock_quantity ?? item.so_luong_ton ?? item.inventory_quantity;
+      if (isProductSoldOut(item)) {
+        return { cls: "stock-out", text: "Hết hàng" };
+      }
+      if (stock === undefined || stock === null || stock === "") {
+        return { cls: "stock-ok", text: "Còn hàng" };
+      }
+      const stockNum = Number(stock);
+      return {
+        cls: stockNum <= 5 ? "stock-low" : "stock-ok",
+        text: `Tồn kho: ${stockNum}`
+      };
+    }
+
     function displayMenuData(drinks) {
       const tabs = document.getElementById("menuTabs");
       const groups = document.getElementById("menuGroups");
@@ -4960,7 +5193,8 @@ startAutoCheckPayment();
 
       const processedDrinks = [];
 
-      drinks.forEach(item => {
+      (drinks || []).forEach(item => {
+        if (!item) return;
         if (item.slug === "sinh-to-theo-mua") {
           const flavors = [
             { name: "Sinh tố Xoài", slug: "sinh-to-xoai", desc: "Sinh tố xoài tươi mát béo ngậy." },
@@ -4978,70 +5212,71 @@ startAutoCheckPayment();
             });
           });
         } else if (item.slug === "nuoc-chanh-day-cam-vat") {
-          processedDrinks.push({
-            ...item,
-            ten_san_pham: "Nước Ép Chanh Dây",
-            slug: "nuoc-ep-chanh-day",
-            mo_ta: "Nước ép chanh dây chua ngọt thanh mát."
-          });
-
-          processedDrinks.push({
-            ...item,
-            ten_san_pham: "Cam vắt",
-            slug: "cam-vat",
-            mo_ta: "Nước cam vắt nguyên chất giàu Vitamin C."
-          });
+          processedDrinks.push({ ...item, ten_san_pham: "Nước Ép Chanh Dây", slug: "nuoc-ep-chanh-day", mo_ta: "Nước ép chanh dây chua ngọt thanh mát." });
+          processedDrinks.push({ ...item, ten_san_pham: "Cam vắt", slug: "cam-vat", mo_ta: "Nước cam vắt nguyên chất giàu Vitamin C." });
         } else if (item.slug === "nuoc-ep-thom-dua-hau") {
-          processedDrinks.push({
-            ...item,
-            ten_san_pham: "Nước thơm ép",
-            slug: "nuoc-thom-ep",
-            mo_ta: "Nước thơm ép ngọt thanh mát lạnh."
-          });
-
-          processedDrinks.push({
-            ...item,
-            ten_san_pham: "Dưa hấu",
-            slug: "dua-hau",
-            mo_ta: "Nước ép dưa hấu tươi ngon giải nhiệt."
-          });
+          processedDrinks.push({ ...item, ten_san_pham: "Nước thơm ép", slug: "nuoc-thom-ep", mo_ta: "Nước thơm ép ngọt thanh mát lạnh." });
+          processedDrinks.push({ ...item, ten_san_pham: "Dưa hấu", slug: "dua-hau", mo_ta: "Nước ép dưa hấu tươi ngon giải nhiệt." });
         } else {
           processedDrinks.push(item);
         }
       });
 
       const grouped = {};
-
       processedDrinks.forEach(item => {
-        if (!grouped[item.slug_danh_muc]) {
-          grouped[item.slug_danh_muc] = {
-            id: item.slug_danh_muc,
-            title: item.ten_danh_muc,
-            desc: categoryDescMap[item.slug_danh_muc] || "",
+        const groupSlug = getMenuCategorySlug(item);
+        const groupTitle = getMenuCategoryTitle(groupSlug, item.ten_danh_muc || item.danh_muc || "");
+
+        if (!grouped[groupSlug]) {
+          grouped[groupSlug] = {
+            id: groupSlug,
+            title: groupTitle,
+            desc: categoryDescMap[groupSlug] || "",
             items: []
           };
         }
 
-        grouped[item.slug_danh_muc].items.push(item);
+        grouped[groupSlug].items.push({ ...item, slug_danh_muc: groupSlug, ten_danh_muc: groupTitle });
       });
 
-      const groupList = Object.values(grouped);
+      const groupOrder = [
+        "ca-phe-phin",
+        "ca-phe-may",
+        "ca-phe-pha-che",
+        "tra-tra-sua",
+        "sinh-to-da-xay",
+        "nuoc-ep",
+        "nuoc-thanh-nhiet",
+        "matcha-cacao",
+        "banh",
+        "mon-extra"
+      ];
+
+      const groupList = Object.values(grouped).sort((a, b) => {
+        const ai = groupOrder.indexOf(a.id);
+        const bi = groupOrder.indexOf(b.id);
+        if (ai === -1 && bi === -1) return a.title.localeCompare(b.title, "vi");
+        if (ai === -1) return 1;
+        if (bi === -1) return -1;
+        return ai - bi;
+      });
 
       tabs.innerHTML = groupList.map(group => `
-        <a class="tab-link" href="#${group.id}">${safeText(mapCategoryTitle(group.title))}</a>
+        <a class="tab-link" href="#menu-${safeText(group.id)}">${safeText(mapCategoryTitle(group.title))}</a>
       `).join("");
 
       groups.innerHTML = groupList.map(group => `
-        <section class="menu-group" id="${group.id}">
+        <section class="menu-group" id="menu-${safeText(group.id)}">
           <h2>${safeText(mapCategoryTitle(group.title))}</h2>
           <p class="menu-group-desc">${safeText(group.desc)}</p>
 
           <div class="menu-list">
             ${group.items.map(item => {
-            const priceLabel = getDrinkPriceLabel(item);
-            const premiumDesc = getPremiumDescription(item.slug, item.ten_san_pham, item.mo_ta);
+              const priceLabel = getDrinkPriceLabel(item);
+              const premiumDesc = getPremiumDescription(item.slug, item.ten_san_pham, item.mo_ta);
+              const stock = getStockLabel(item);
 
-            return `
+              return `
                 <div class="menu-item" data-product-slug="${safeText(item.slug)}">
                   <img
                     class="menu-item-img"
@@ -5052,16 +5287,14 @@ startAutoCheckPayment();
                     <h3>${safeText(item.ten_san_pham)}</h3>
                     <p class="menu-item-desc">"${safeText(premiumDesc)}"</p>
                     <div class="price">${priceLabel}</div>
-                    <div class="stock-badge ${isSoldOut ? 'stock-out' : (Number(item.ton_kho ?? item.stock_quantity ?? 999) <= 5 ? 'stock-low' : 'stock-ok')}">
-                      ${isSoldOut ? 'Hết hàng' : 'Tồn kho: ' + safeText(item.ton_kho ?? item.stock_quantity ?? 'Còn hàng')}
-                    </div>
+                    <div class="stock-badge ${stock.cls}">${safeText(stock.text)}</div>
                   </div>
                   <div class="menu-item-btn-row">
                     ${renderOrderButtons(item, false)}
                   </div>
                 </div>
               `;
-          }).join("")}
+            }).join("")}
           </div>
         </section>
       `).join("");
@@ -5297,13 +5530,13 @@ startAutoCheckPayment();
       });
 
       tabs.innerHTML = groupList.map(group => `
-        <a class="tab-link" href="#${group.id}">
+        <a class="tab-link" href="#merch-${group.id}">
           ${safeText(group.title)}
         </a>
       `).join("");
 
       groupsBox.innerHTML = groupList.map(group => `
-        <section class="menu-group" id="${group.id}">
+        <section class="menu-group" id="merch-${group.id}">
           <h2>${safeText(mapCategoryTitle(group.title))}</h2>
           <p class="menu-group-desc">${safeText(group.desc)}</p>
 
@@ -5463,56 +5696,48 @@ startAutoCheckPayment();
 
       if (!article || !box) return;
 
-      // Lọc bỏ những link chứa video khỏi danh sách ảnh để tránh hiển thị thẻ img lỗi
-      const imageHtml = article.images
-        .filter(img => !img.includes("facebook.com") && !img.includes("youtube.com") && !img.includes("youtu.be"))
-        .map(img => `
-      <img class="article-content-img" src="${img}" alt="${safeText(article.title)}">
-    `).join("");
+      const isMediaUrl = (url = "") => {
+        const clean = String(url || "").toLowerCase();
+        return clean.includes("facebook.com") || clean.includes("youtube.com") || clean.includes("youtu.be");
+      };
 
-      const isVideoThumbnail = article.thumbnail.includes("facebook.com") || article.thumbnail.includes("youtube.com") || article.thumbnail.includes("youtu.be");
+      const validImages = [article.thumbnail, ...(article.images || [])]
+        .filter(Boolean)
+        .filter(img => !isMediaUrl(img));
 
-      // Tránh nhân đôi video nếu video đó đã được hiển thị làm hero media
-      const videoHtml = article.videos
-        .filter(video => !isVideoThumbnail || video !== article.thumbnail)
-        .map(video => getVideoEmbedHtml(video)).join("");
-
-      let heroMediaHtml = "";
-      if (isVideoThumbnail) {
-        let embedCode = getVideoEmbedHtml(article.thumbnail);
-        // Điều chỉnh style để video hero hiển thị dạng 9:16 vừa vặn trên trang chi tiết
-        embedCode = embedCode
-          .replace(/class="article-video facebook-reel"/g, 'class="article-video" style="width: 100%; height: 100%; border: 0;"')
-          .replace(/class="article-video facebook-video"/g, 'class="article-video" style="width: 100%; height: 100%; border: 0;"');
-
-        heroMediaHtml = `
-      <div class="article-hero-video-wrap" style="width: min(420px, 100%); aspect-ratio: 9 / 16; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; border-radius: 12px; border: 1px solid rgba(244, 209, 123, 0.22);">
-        ${embedCode}
-      </div>
-    `;
-      } else {
-        heroMediaHtml = `<img class="article-hero-img" src="${article.thumbnail}" alt="${safeText(article.title)}">`;
+      let singleMediaHtml = "";
+      if (validImages.length) {
+        const firstImage = validImages[0];
+        singleMediaHtml = `
+          <div class="article-single-image-wrap">
+            <img class="article-single-image" src="${firstImage}" alt="${safeText(article.title)}">
+          </div>
+        `;
+      } else if (article.thumbnail && isMediaUrl(article.thumbnail)) {
+        singleMediaHtml = `
+          <div class="article-single-image-wrap" style="width:min(520px,100%);aspect-ratio:9/16;">
+            ${getVideoEmbedHtml(article.thumbnail)
+              .replace(/class="article-video facebook-reel"/g, 'class="article-video" style="width:100%;height:100%;border:0;margin:0;display:block;"')
+              .replace(/class="article-video facebook-video"/g, 'class="article-video" style="width:100%;height:100%;border:0;margin:0;display:block;"')}
+          </div>
+        `;
       }
 
       box.innerHTML = `
-    ${heroMediaHtml}
+        ${singleMediaHtml}
 
-    <h2 class="article-detail-title">${safeText(article.title)}</h2>
+        <h2 class="article-detail-title">${safeText(article.title)}</h2>
 
-    ${imageHtml}
+        <div class="article-body">
+          ${article.content}
+        </div>
 
-    ${videoHtml}
-
-    <div class="article-body">
-      ${article.content}
-    </div>
-
-    <div style="display: flex; justify-content: center; width: 100%; margin-top: 28px;">
-      <button class="btn btn-dark" type="button" onclick="showPage('blog')">
-        Quay lại bài viết
-      </button>
-    </div>
-  `;
+        <div style="display: flex; justify-content: center; width: 100%; margin-top: 28px;">
+          <button class="btn btn-dark" type="button" onclick="showPage('blog')">
+            Quay lại bài viết
+          </button>
+        </div>
+      `;
 
       showPage("article-detail");
     }
