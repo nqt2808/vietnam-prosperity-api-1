@@ -3,21 +3,21 @@
 @theme {
   --color-brand-primary: #c89b3c; /* Gold */
   --color-brand-primary-hover: #f4d17b; /* Gold Light */
-  --color-brand-accent: #5a321f; /* Coffee Soft */
+  --color-brand-accent: #333333; /* Coffee Soft -> Gray */
   --color-brand-success: #10b981; /* Emerald 500 */
-  --color-brand-dark: #1f120b; /* Coffee Dark */
-  --color-brand-dark-card: #2b1810; /* Coffee Card Dark */
-  --color-brand-light-card: #fff8ed; /* Coffee Card Light */
+  --color-brand-dark: #111111; /* Coffee Dark -> Black */
+  --color-brand-dark-card: #1a1a1a; /* Coffee Card Dark -> Dark Gray */
+  --color-brand-light-card: #f8f8f8; /* Coffee Card Light -> Off-white */
   
-  --color-brand-coffee-dark: #1f120b;
-  --color-brand-coffee: #3a2114;
-  --color-brand-coffee-soft: #5a321f;
-  --color-brand-cream: #f7efe3;
-  --color-brand-cream-light: #fff8ed;
+  --color-brand-coffee-dark: #111111;
+  --color-brand-coffee: #1a1a1a;
+  --color-brand-coffee-soft: #333333;
+  --color-brand-cream: #ffffff;
+  --color-brand-cream-light: #f8f8f8;
   --color-brand-gold: #c89b3c;
   --color-brand-gold-light: #f4d17b;
-  --color-brand-text: #2b1810;
-  --color-brand-muted: #78675d;
+  --color-brand-text: #111111;
+  --color-brand-muted: #666666;
 
   --font-sans: Arial, Helvetica, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
@@ -136,17 +136,17 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
     }
 
     :root {
-      --coffee-dark: #1f120b;
-      --coffee: #3a2114;
-      --coffee-soft: #5a321f;
-      --cream: #f7efe3;
-      --cream-2: #fff8ed;
+      --coffee-dark: #111111;
+      --coffee: #1a1a1a;
+      --coffee-soft: #333333;
+      --cream: #ffffff;
+      --cream-2: #f8f8f8;
       --gold: #c89b3c;
       --gold-light: #f4d17b;
-      --text: #2b1810;
-      --muted: #78675d;
+      --text: #111111;
+      --muted: #666666;
       --white: #ffffff;
-      --shadow: 0 14px 40px rgba(31, 18, 11, 0.18);
+      --shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
       --radius: 20px;
     }
 
@@ -206,7 +206,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
       right: 0;
       width: 100%;
       z-index: 99999 !important;
-      background: rgba(31, 18, 11, 0.97);
+      background: rgba(0, 0, 0, 0.97);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(244, 209, 123, 0.28);
@@ -1231,7 +1231,7 @@ button.p-2\.5.rounded-xl.bg-zinc-100 {
 
     /* FOOTER */
     .site-footer {
-      background: var(--coffee-dark);
+      background: #000000;
       color: white;
       padding: 58px 0 24px;
     }

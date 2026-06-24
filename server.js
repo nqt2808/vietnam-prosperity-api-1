@@ -40,6 +40,51 @@ console.log("Đang kết nối Supabase:");
 console.log("SUPABASE_URL:", supabaseUrl);
 
 
+const defaultBlogs = [
+  {
+    title: "Hè này cần gì? Một góc mát, một ly ngon và một buổi thư giãn tại Trung Nguyên Legend Âu Lạc. ☕🌿",
+    desc: "Nắng hè có thể gay gắt, nhưng Trung Nguyên Legend Âu Lạc luôn có những thức uống mát lành chờ bạn ghé thưởng thức.",
+    thumbnail: "https://www.facebook.com/reel/1511949147216560",
+    content: `<p><strong>☀️ GIẢI NHIỆT MÙA HÈ CÙNG TRUNG NGUYÊN LEGEND ÂU LẠC 🌿</strong></p>\n\n<p>\n  Nắng hè có thể gay gắt, nhưng <strong>Trung Nguyên Legend Âu Lạc</strong> luôn có những thức uống mát lành chờ bạn ghé thưởng thức.\n  Một ly trà thanh mát, một món đá xay thơm ngon hay cà phê đậm vị sẽ giúp bạn thư giãn và nạp lại năng lượng cho ngày dài.\n</p>\n\n<p>✨ Không gian thoải mái</p>\n<p>✨ Thức uống đa dạng</p>\n<p>✨ Phù hợp để gặp gỡ bạn bè, học tập và làm việc</p>\n\n<p>\n  Ghé ngay <strong>Trung Nguyên Legend Âu Lạc</strong> để tận hưởng những phút giây chill thật dễ chịu trong mùa hè này nhé!\n</p>`,
+    source_link: "https://www.facebook.com/reel/1511949147216560"
+  },
+  {
+    title: "Nghệ sĩ Nhật Cường ghé thăm không gian Trung Nguyên Legend Huế ☕✨",
+    desc: "Giữa nhịp sống nhẹ nhàng của Cố đô, hành trình thưởng thức cà phê trở nên đặc biệt hơn qua những khoảnh khắc giao lưu đầy cảm hứng cùng nghệ sĩ Nhật Cường tại Trung Nguyên Legend Huế.",
+    thumbnail: "https://www.facebook.com/reel/1321336266180825",
+    content: `<p>☕✨ <strong>Nghệ sĩ Nhật Cường ghé thăm không gian Trung Nguyên Legend Huế</strong></p>\n<p>Giữa nhịp sống nhẹ nhàng của Cố đô, hành trình thưởng thức cà phê trở nên đặc biệt hơn qua những khoảnh khắc giao lưu đầy cảm hứng cùng nghệ sĩ Nhật Cường tại Trung Nguyên Legend Huế.</p>\n<p>Không chỉ là điểm dừng chân thưởng thức cà phê năng lượng, nơi đây còn là không gian kết nối văn hóa, nghệ thuật và cảm hứng sống tỉnh thức.</p>`,
+    source_link: "https://www.facebook.com/reel/1321336266180825"
+  },
+  {
+    title: "Mua 1 được 2 – Chill hè cực đã!",
+    desc: "Ưu đãi mua 1 được 2 tại Trung Nguyên Legend Âu Lạc, áp dụng từ 14:00 đến 21:30, từ 19/05 đến 30/06.",
+    thumbnail: "https://res.cloudinary.com/dojibbcof/image/upload/v1779773739/704546850_122111883836884434_407848279318371067_n_zgmrkn.jpg",
+    content: `<p><strong>☕️ Mua 1 được 2 – Chill hè cực đã!</strong></p>\n<p><strong>📍 Địa điểm:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế</p>\n<p><strong>🕑 Khung giờ áp dụng:</strong> 14:00 – 21:30</p>\n<p><strong>📅 Thời gian:</strong> Từ 19/05 đến 30/06</p>\n<p>🔥 Rủ bạn đến học bài, làm việc, tránh nóng cùng loạt thức uống mát lạnh tại Trung Nguyên Legend Âu Lạc.</p>`,
+    source_link: "https://res.cloudinary.com/dojibbcof/image/upload/v1779773739/704546850_122111883836884434_407848279318371067_n_zgmrkn.jpg"
+  },
+  {
+    title: "Trưa hè nóng bức – Ghé Trung Nguyên Legend Âu Lạc Huế",
+    desc: "Không gian mát lạnh, chill học bài và thưởng thức cà phê tại Trung Nguyên Legend Âu Lạc Huế.",
+    thumbnail: "https://res.cloudinary.com/dojibbcof/image/upload/v1779773786/701445719_122111738540884434_8176951810572622203_n_lbymde.jpg",
+    content: `<p><strong>☀️ Trưa hè nóng bức</strong></p>\n<p>📚 Đi đâu cho hết nực?</p>\n<p>Ghé <strong>Trung Nguyên Legend Âu Lạc Huế</strong> vừa mát lạnh, vừa chill học bài nha 🤎☕</p>`,
+    source_link: "https://res.cloudinary.com/dojibbcof/image/upload/v1779773786/701445719_122111738540884434_8176951810572622203_n_lbymde.jpg"
+  },
+  {
+    title: "Trung Nguyên Legend Âu Lạc hân hạnh đón tiếp Nghệ sĩ Nhật Cường",
+    desc: "Trung Nguyên Legend Âu Lạc, TP Huế hân hạnh đón tiếp Nghệ sĩ Nhật Cường.",
+    thumbnail: "https://www.facebook.com/reel/998900419486923",
+    content: `<p>Trung Nguyên Legend Âu Lạc hân hạnh đón tiếp Nghệ sĩ Nhật Cường trong không gian cà phê năng lượng tại Thành phố Huế.</p>\n<p>Đây là một trong những khoảnh khắc đáng nhớ, thể hiện sự kết nối giữa khách hàng, nghệ sĩ và thương hiệu Trung Nguyên Legend.</p>`,
+    source_link: "https://www.facebook.com/reel/998900419486923"
+  },
+  {
+    title: "Sự kiện lái thử VinFast Thế Hệ Mới tại Trung Nguyên Legend Âu Lạc",
+    desc: "Sự kiện lái thử VinFast Thế Hệ Mới trong không gian hiện đại và yên tĩnh của Trung Nguyên Legend.",
+    thumbnail: "https://www.facebook.com/reel/981380314649839",
+    content: `<p>✨ Thứ 7 này bạn đã có hẹn chưa?</p>\n<p>Cuối tuần này, hãy cùng gia đình và bạn bè đến tham gia sự kiện lái thử đặc biệt của VinFast Thế Hệ Mới tổ chức tại không gian sang trọng và yên tĩnh của Trung Nguyên Legend.</p>\n<p>📍 Địa điểm: Cafe Trung Nguyên Legend Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP. Huế ( Đối diện Aeon Mall Huế).</p>\n<p>📅 Thời gian: Thứ 7 tuần này (16/05/2026).</p>\n<p>🔥 Đến với sự kiện, quý khách sẽ có cơ hội:</p>\n<p>✅ Trực tiếp trải nghiệm các dòng xe điện nổi bật từ VF3, VF5, VF6, VF7 đến VF8.</p>\n<p>✅ Khám phá những mẫu xe mới ra mắt cực HOT:</p>\n<p>Limo Green, Minio Green, MPV 7, EC VAN</p>\n<p>🎁 Đặc biệt: Nhận nhiều phần quà hấp dẫn và thưởng thức cafe miễn phí trong không gian thư giãn, hiện đại.</p>`,
+    source_link: "https://www.facebook.com/reel/981380314649839"
+  }
+];
+
 /* =========================================================
    HÀM HỖ TRỢ
 ========================================================= */
@@ -1036,6 +1081,189 @@ app.get("/api/admin/sepay-transactions", async (req, res) => {
 });
 
 /* =========================================================
+   ADMIN API - CRUD BÀI VIẾT (BLOG)
+========================================================= */
+app.get("/api/bai-viet", async (req, res) => {
+  try {
+    const { data: dbBlogs, error } = await supabase
+      .from("bai_viet")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    const rawDbBlogs = dbBlogs || [];
+    
+    // Tìm các bài viết bị đánh dấu là xóa tĩnh
+    const deletedStaticTitles = rawDbBlogs
+      .filter(b => b.desc === "DELETED_STATIC")
+      .map(b => b.title.trim().toLowerCase());
+      
+    // Lọc bỏ các bài viết bị đánh dấu xóa tĩnh khỏi danh sách DB
+    const activeDbBlogs = rawDbBlogs.filter(b => b.desc !== "DELETED_STATIC");
+    
+    const mergedBlogs = [...activeDbBlogs];
+    
+    defaultBlogs.forEach((defBlog, index) => {
+      const defTitleLower = defBlog.title.trim().toLowerCase();
+      // Nếu tiêu đề nằm trong danh sách đã xóa tĩnh, hoặc đã tồn tại bản ghi hoạt động trong DB, bỏ qua
+      const isDeleted = deletedStaticTitles.includes(defTitleLower);
+      const isExist = activeDbBlogs.some(b => b.title.trim().toLowerCase() === defTitleLower);
+      
+      if (!isDeleted && !isExist) {
+        mergedBlogs.push({
+          id: `default-${index}`,
+          title: defBlog.title,
+          desc: defBlog.desc,
+          content: defBlog.content,
+          thumbnail: defBlog.thumbnail,
+          source_link: defBlog.source_link,
+          created_at: new Date(2026, 4, 19 + index).toISOString()
+        });
+      }
+    });
+
+    // Sắp xếp lại theo created_at giảm dần
+    mergedBlogs.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    res.json(mergedBlogs);
+  } catch (error) {
+    console.error("Lỗi lấy danh sách bài viết:", error);
+    res.status(500).json({ message: "Lỗi lấy danh sách bài viết", error: error.message });
+  }
+});
+
+app.post("/api/bai-viet", async (req, res) => {
+  try {
+    const { title, desc, content, thumbnail, source_link } = req.body;
+    if (!title || !content) {
+      return res.status(400).json({ message: "Tiêu đề và nội dung là bắt buộc" });
+    }
+
+    const payload = {
+      title,
+      desc: desc || "",
+      content,
+      thumbnail: thumbnail || "",
+      source_link: source_link || null
+    };
+
+    const { data, error } = await supabase
+      .from("bai_viet")
+      .insert([payload])
+      .select("*")
+      .single();
+
+    if (error) throw error;
+    res.json({ message: "Thêm bài viết thành công", data });
+  } catch (error) {
+    console.error("Lỗi thêm bài viết:", error);
+    res.status(500).json({ message: "Lỗi thêm bài viết", error: error.message });
+  }
+});
+
+app.patch("/api/bai-viet", async (req, res) => {
+  try {
+    const id = req.body.id || req.query.id;
+    if (!id) {
+      return res.status(400).json({ message: "Thiếu ID bài viết" });
+    }
+
+    const { title, desc, content, thumbnail, source_link } = req.body;
+    const updatePayload = {};
+    if (title !== undefined) updatePayload.title = title;
+    if (desc !== undefined) updatePayload.desc = desc;
+    if (content !== undefined) updatePayload.content = content;
+    if (thumbnail !== undefined) updatePayload.thumbnail = thumbnail;
+    if (source_link !== undefined) updatePayload.source_link = source_link;
+
+    let data, error;
+    if (String(id).startsWith("default-")) {
+      // Sửa bài viết tĩnh -> Insert thành bài viết mới trong DB
+      const insertPayload = {
+        title: title || "",
+        desc: desc || "",
+        content: content || "",
+        thumbnail: thumbnail || "",
+        source_link: source_link || null,
+        ...updatePayload
+      };
+      const { data: insertData, error: insertError } = await supabase
+        .from("bai_viet")
+        .insert([insertPayload])
+        .select("*")
+        .single();
+      data = insertData;
+      error = insertError;
+    } else {
+      const { data: updateData, error: updateError } = await supabase
+        .from("bai_viet")
+        .update(updatePayload)
+        .eq("id", id)
+        .select("*")
+        .single();
+      data = updateData;
+      error = updateError;
+    }
+
+    if (error) throw error;
+    res.json({ message: "Cập nhật bài viết thành công", data });
+  } catch (error) {
+    console.error("Lỗi cập nhật bài viết:", error);
+    res.status(500).json({ message: "Lỗi cập nhật bài viết", error: error.message });
+  }
+});
+
+app.delete("/api/bai-viet", async (req, res) => {
+  try {
+    const id = req.body.id || req.query.id;
+    if (!id) {
+      return res.status(400).json({ message: "Thiếu ID bài viết" });
+    }
+
+    let data, error;
+    if (String(id).startsWith("default-")) {
+      const idx = parseInt(id.replace("default-", ""), 10);
+      const defBlog = defaultBlogs[idx];
+      if (defBlog) {
+        // Đánh dấu xóa tĩnh bằng cách chèn bản ghi DB với desc là "DELETED_STATIC"
+        const { data: insertData, error: insertError } = await supabase
+          .from("bai_viet")
+          .insert([{
+            title: defBlog.title,
+            desc: "DELETED_STATIC",
+            content: "DELETED_STATIC",
+            thumbnail: "",
+            source_link: null
+          }])
+          .select("*")
+          .single();
+        data = insertData;
+        error = insertError;
+      } else {
+        return res.status(404).json({ message: "Không tìm thấy bài viết mặc định tương ứng" });
+      }
+    } else {
+      const { data: deleteData, error: deleteError } = await supabase
+        .from("bai_viet")
+        .delete()
+        .eq("id", id)
+        .select("*")
+        .single();
+      data = deleteData;
+      error = deleteError;
+    }
+
+    if (error) throw error;
+    res.json({ message: "Xóa bài viết thành công", data });
+  } catch (error) {
+    console.error("Lỗi xóa bài viết:", error);
+    res.status(500).json({ message: "Lỗi xóa bài viết", error: error.message });
+  }
+});
+
+
+/* =========================================================
    KHỞI ĐỘNG SERVER
 ========================================================= */
 
@@ -1252,33 +1480,44 @@ app.get("/api/sepay/sync", async (req, res) => {
       return res.status(400).json({ ok: false, message: "Chưa cấu hình API Key của SePay trên máy chủ." });
     }
 
-    // Gọi API SePay v2 để lấy danh sách giao dịch
-    const response = await fetch("https://userapi.sepay.vn/v2/transactions?limit=50", {
-      headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json"
+    let page = 1;
+    let hasMore = true;
+    const transactions = [];
+    const limit = 50;
+
+    // Lặp qua tối đa 10 trang để lấy sâu lịch sử giao dịch (500 giao dịch gần nhất)
+    while (hasMore && page <= 10) {
+      const response = await fetch(`https://userapi.sepay.vn/v2/transactions?limit=${limit}&page=${page}`, {
+        headers: {
+          "Authorization": `Bearer ${apiKey}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        console.error(`❌ SePay API sync error page ${page}: HTTP ${response.status}`);
+        break;
       }
-    });
 
-    if (!response.ok) {
-      throw new Error(`SePay API trả về mã lỗi: ${response.status}`);
+      const result = await response.json();
+      const pageTxs = result.data || [];
+      if (pageTxs.length === 0) {
+        hasMore = false;
+      } else {
+        transactions.push(...pageTxs);
+        page++;
+      }
     }
-
-    const result = await response.json();
-    const transactions = result.data || [];
 
     const updatedOrders = [];
 
     for (const tx of transactions) {
-      // Chỉ xử lý giao dịch nhận tiền vào
-      const isIncoming = tx.transfer_type === "in" || Number(tx.amount_in || 0) > 0;
-      if (!isIncoming) continue;
-
       const content = tx.description || tx.transaction_content || "";
       const amount = Number(tx.amount_in || 0);
+      const amountOut = Number(tx.amount_out || 0);
       const orderCode = extractOrderCodeFromText(content);
 
-      // Lưu thông tin giao dịch vào bảng sepay_transactions
+      // Lưu thông tin giao dịch vào bảng sepay_transactions (lưu TOÀN BỘ)
       const sepayTxId = Number(tx.id || 0);
       if (sepayTxId > 0) {
         const { error: insertTxError } = await supabase
@@ -1288,7 +1527,7 @@ app.get("/api/sepay/sync", async (req, res) => {
             gateway: tx.gateway || tx.bank || "",
             transaction_date: tx.transaction_date || tx.transactionDate || new Date().toISOString(),
             amount_in: amount,
-            amount_out: Number(tx.amount_out || tx.amountOut || 0),
+            amount_out: amountOut,
             transaction_content: content,
             reference_number: tx.reference_number || tx.referenceNumber || tx.code || "",
             accumulated_balance: Number(tx.accumulated_balance || tx.accumulatedBalance || tx.balance || 0),
@@ -1300,6 +1539,9 @@ app.get("/api/sepay/sync", async (req, res) => {
         }
       }
 
+      // Chỉ xử lý cập nhật đơn hàng cho giao dịch nhận tiền vào
+      const isIncoming = tx.transfer_type === "in" || amount > 0;
+      if (!isIncoming) continue;
       if (!orderCode) continue;
 
       // Tìm đơn hàng tương ứng trong cơ sở dữ liệu
@@ -1490,41 +1732,59 @@ function extractWebsiteKnowledge(raw, filePath) {
     footerMatches.length ? footerMatches.join("\n\n") : "Không tìm thấy footer/liên hệ."
   ].join("\n\n");
 }
-
 function loadIndexKnowledge() {
   const now = Date.now();
 
-  if (cachedIndexKnowledge.text && now - cachedIndexKnowledge.loadedAt < 60_000) {
+  if (cachedIndexKnowledge.text && now - cachedIndexKnowledge.loadedAt < 30_000) {
     return cachedIndexKnowledge;
   }
 
-  const candidates = [
+  const indexCandidates = [
     path.join(process.cwd(), "index.html"),
     path.join(process.cwd(), "public", "index.html"),
-    path.join(process.cwd(), "src", "app", "page.tsx"),
-    path.join(process.cwd(), "src", "app", "page.tsx.bak"),
     path.join(__dirname, "index.html"),
-    path.join(__dirname, "public", "index.html"),
-    path.join(__dirname, "src", "app", "page.tsx"),
-    path.join(__dirname, "src", "app", "page.tsx.bak")
+    path.join(__dirname, "public", "index.html")
+  ];
+  const adminCandidates = [
+    path.join(process.cwd(), "admin.html"),
+    path.join(process.cwd(), "public", "admin.html"),
+    path.join(__dirname, "admin.html"),
+    path.join(__dirname, "public", "admin.html")
   ];
 
-  const texts = [];
-
-  for (const filePath of candidates) {
-    if (fs.existsSync(filePath)) {
-      const raw = fs.readFileSync(filePath, "utf8");
-      const clean = extractWebsiteKnowledge(raw, filePath);
-
-      if (clean.length > 30) {
-        texts.push(`FILE: ${filePath}\n${clean}`);
-      }
+  let indexRaw = "";
+  let indexPath = "";
+  for (const p of indexCandidates) {
+    if (fs.existsSync(p)) {
+      indexRaw = fs.readFileSync(p, "utf8");
+      indexPath = p;
+      break;
     }
+  }
+
+  let adminRaw = "";
+  let adminPath = "";
+  for (const p of adminCandidates) {
+    if (fs.existsSync(p)) {
+      adminRaw = fs.readFileSync(p, "utf8");
+      adminPath = p;
+      break;
+    }
+  }
+
+  const texts = [];
+  if (indexRaw) {
+    const cleanIndex = extractWebsiteKnowledge(indexRaw, indexPath);
+    texts.push(`=== DỮ LIỆU TỪ TRANG CHỦ BÁN HÀNG (INDEX.HTML) (Nguồn: ${indexPath}) ===\n${cleanIndex}`);
+  }
+  if (adminRaw) {
+    const cleanAdmin = htmlToKnowledgeText(adminRaw);
+    texts.push(`=== DỮ LIỆU TỪ TRANG QUẢN TRỊ ADMIN (ADMIN.HTML) (Nguồn: ${adminPath}) ===\n${cleanAdmin}`);
   }
 
   cachedIndexKnowledge = {
     loadedAt: now,
-    source: texts.length ? "index.html + src/app/page.tsx/page.tsx.bak" : "",
+    source: (indexRaw ? "index.html " : "") + (adminRaw ? "admin.html" : ""),
     text: texts.join("\n\n---\n\n").slice(0, 150000)
   };
 
@@ -1788,12 +2048,11 @@ B. VẬT PHẨM & CÀ PHÊ GÓI (MERCHANDISE):
 function buildAiSystemPrompt(context) {
   return `Bạn là Trang - trợ lý ảo AI vô cùng dễ thương, lịch sự và chu đáo của Vietnam Prosperity Coffee / Trung Nguyên Legend Âu Lạc (VPC).\n\n`
     + `QUY TẮC BẮT BUỘC VỀ SỬ DỤNG DỮ LIỆU:\n`
-    + `1. Bạn phải luôn ưu tiên tìm kiếm câu trả lời từ dữ liệu thực đơn sản phẩm và ngữ cảnh website được cung cấp ở dưới trước.\n`
-    + `2. Nếu câu hỏi của khách liên quan đến thông tin nội bộ của VPC (sản phẩm, giá bán, tồn kho, đơn hàng, thanh toán...) mà không có trong dữ liệu cung cấp, bạn hãy trả lời lịch sự: "Dạ, thông tin này hiện Trang chưa tìm thấy trong dữ liệu của quán ạ. Bạn vui lòng liên hệ hotline 038 972 6999 để được hỗ trợ trực tiếp nhé ạ." Tuyệt đối không được bịa ra thông tin hoặc giá cả khác.\n`
-    + `3. Đối với các câu hỏi khác (như tư vấn chung, kiến thức cà phê, địa lý, cách đi đường, địa điểm xung quanh, giải đáp thắc mắc thông thường, v.v.) hoặc khi có dữ liệu từ internet trong context, nếu dữ liệu nội bộ không có, bạn được phép tự sử dụng tri thức AI bên ngoài hoặc kết quả tìm kiếm internet được cung cấp để trả lời khách một cách tự nhiên và bổ ích, nhưng ghi rõ là thông tin tham khảo nhé ạ.\n`
+    + `1. Bạn phải luôn ưu tiên tìm kiếm câu trả lời từ dữ liệu thực đơn sản phẩm, thông tin đơn hàng và ngữ cảnh website được cung cấp ở dưới trước.\n`
+    + `2. Đối với giá cả sản phẩm không có trong menu hoặc thông tin đơn hàng cụ thể không tồn tại, bạn không được tự ý bịa giá hay bịa mã đơn khác, mà hướng dẫn khách liên hệ hotline 038 972 6999 hoặc kiểm tra menu.\n`
+    + `3. Nếu thông tin không có trong dữ liệu nội bộ cung cấp (bao gồm cả các câu hỏi chung, tư vấn cà phê, thông tin đời sống, địa lý hoặc các thông tin khác), bạn được phép tự sử dụng tri thức bên ngoài của ChatGPT hoặc kết quả tìm kiếm internet để trả lời khách một cách thông minh, tự nhiên và hữu ích (ghi rõ là thông tin tham khảo bên ngoài nếu cần thiết).\n`
     + `4. Xưng hô: Xưng "VPC" hoặc "Trang", gọi khách là "Quý khách", "anh/chị" hoặc "bạn", giữ văn phong lễ phép ấm áp.\n\n`
-    + `Thông tin thực đơn sản phẩm của quán:\n${MENU_AND_MERCH_KNOWLEDGE}\n\n`
-    + `Thông tin ngữ cảnh website bổ sung khác: ${context || "Không có."}`;
+    + `Thông tin ngữ cảnh website bổ sung khác (bao gồm cả dữ liệu thực đơn sản phẩm, trang quản trị và Supabase): ${context || "Không có."}`;
 }
 
 async function askGemini(question, context) {
@@ -1962,17 +2221,130 @@ app.post("/api/chat", (req, res, next) => {
   next();
 });
 
+// Map trạng thái đơn hàng phục vụ chatbot tra cứu
+const CHATBOT_STATUS_MAP = {
+  da_dat_don: "moi",
+  don_moi: "moi",
+  cho_chuyen_khoan: "cho_tt",
+  cho_xac_nhan_chuyen_khoan: "cho_tt",
+  khach_bao_da_chuyen_khoan: "cho_tt",
+  da_chuyen_khoan: "da_tt",
+  da_thanh_toan: "da_tt",
+  da_nhan_don: "dang_lam",
+  dang_lam_don: "dang_lam",
+  da_giao_shipper: "dang_giao",
+  dang_giao: "dang_giao",
+  da_giao: "hoan_tat",
+  hoan_thanh: "hoan_tat",
+  tu_choi_don: "tu_choi",
+  tu_choi: "tu_choi",
+  da_huy: "da_huy"
+};
+
+const CHATBOT_STATUS_LABELS = {
+  moi: "Mới (đã đặt)",
+  cho_tt: "Chờ thanh toán",
+  da_tt: "Đã thanh toán (chờ chế biến)",
+  dang_lam: "Đang làm/Đang chế biến",
+  dang_giao: "Đang giao hàng",
+  hoan_tat: "Hoàn tất/Thành công",
+  tu_choi: "Đã từ chối",
+  da_huy: "Đã hủy"
+};
+
 // Code này cho chatbox gọi AI qua backend, ưu tiên ChatGPT rồi tới Gemini
 app.post("/api/chat-ai", async (req, res) => {
   try {
-    const { question, message, context, adminContext } = req.body || {};
+    const { question, message, context, adminContext, session_id, sessionId, client_name, clientName } = req.body || {};
     const userQuestion = String(question || message || "").trim();
+    const finalSessionId = String(session_id || sessionId || "sess_anonymous").trim();
+    const finalClientName = String(client_name || clientName || "Khách ẩn danh").trim();
 
     if (!userQuestion) {
       return res.status(400).json({ error: "Thiếu câu hỏi." });
     }
 
+    // 1. Lưu tin nhắn của khách hàng vào database
+    try {
+      await supabase.from("chat_messages").insert({
+        session_id: finalSessionId,
+        sender: "client",
+        message: userQuestion,
+        client_name: finalClientName,
+        is_read: false
+      });
+    } catch (dbErr) {
+      console.warn("⚠️ Không lưu được tin nhắn client vào DB:", dbErr.message);
+    }
+
+    // 2. Tự động nhận diện tra cứu đơn hàng realtime dựa trên sđt hoặc mã đơn trong câu hỏi
+    let orderInfoContext = "";
+    const codeMatch = userQuestion.match(/(?:VPC-)?DH-?\d+/i);
+    const phoneMatch = userQuestion.match(/0\d{8,10}/); // Hỗ trợ 9 đến 11 chữ số bắt đầu bằng 0
+
+    if (codeMatch || phoneMatch) {
+      try {
+        let query = supabase.from("don_hang").select(`
+          *,
+          thong_tin_khach_hang (
+            ho_ten,
+            so_dien_thoai,
+            email,
+            dia_chi
+          )
+        `);
+
+        if (codeMatch) {
+          const rawCode = codeMatch[0];
+          const cleanCode = rawCode.toUpperCase().replace("-", "");
+          query = query.or(`ma_don_hang.ilike.%${cleanCode}%,ma_don_hang.ilike.%${rawCode}%`);
+        } else if (phoneMatch) {
+          const matchedPhone = phoneMatch[0];
+          query = query.or(`so_dien_thoai.eq.${matchedPhone},phone.eq.${matchedPhone},customer_phone.eq.${matchedPhone}`);
+        }
+
+        const { data: matchedOrders, error: orderErr } = await query.limit(5);
+
+        if (!orderErr && matchedOrders && matchedOrders.length > 0) {
+          orderInfoContext = `\n--- THÔNG TIN ĐƠN HÀNG TRA CỨU REALTIME TỪ DATABASE ---\n`;
+          matchedOrders.forEach((ord, index) => {
+            const khInfo = ord.thong_tin_khach_hang || {};
+            const hoten = khInfo.ho_ten || ord.ho_ten || "Khách hàng";
+            const sdt = khInfo.so_dien_thoai || ord.so_dien_thoai || "";
+            const status = CHATBOT_STATUS_LABELS[CHATBOT_STATUS_MAP[ord.trang_thai] || ord.trang_thai] || ord.trang_thai;
+            
+            let itemsText = "";
+            try {
+              const items = typeof ord.danh_sach_san_pham === "string" ? JSON.parse(ord.danh_sach_san_pham) : ord.danh_sach_san_pham;
+              if (Array.isArray(items)) {
+                itemsText = items.map(it => `${it.name || it.ten_san_pham || "Sản phẩm"} x${it.qty || it.so_luong || 1}`).join(", ");
+              }
+            } catch (e) {
+              itemsText = "Không parse được danh sách món";
+            }
+
+            orderInfoContext += `Đơn hàng ${index + 1}:
+- Mã đơn hàng: ${ord.ma_don_hang}
+- Ngày đặt đơn: ${ord.created_at || "Vừa xong"}
+- Tên khách hàng: ${hoten}
+- Số điện thoại đặt hàng: ${sdt}
+- Địa chỉ nhận: ${ord.dia_chi_giao_hang || ord.dia_chi || "Nhận tại quán"}
+- Trạng thái hiện tại: ${status}
+- Món đã đặt: ${itemsText}
+- Tổng tiền đơn hàng: ${Number(ord.tong_tien || 0).toLocaleString("vi-VN")}đ
+- Phương thức thanh toán: ${ord.phuong_thuc_thanh_toan || "Tiền mặt"}
+- Ghi chú: ${ord.ghi_chu || "Không có"}\n\n`;
+          });
+        }
+      } catch (err) {
+        console.error("Lỗi tra cứu đơn hàng tự động cho chatbot:", err.message);
+      }
+    }
+
     let websiteContext = await buildWebsiteContextForAi(userQuestion, context);
+    if (orderInfoContext) {
+      websiteContext += `\n${orderInfoContext}`;
+    }
 
     if (adminContext) {
       websiteContext += `
@@ -2025,22 +2397,176 @@ ${internetResult.text}
       answer = "Trang đã nhận được câu hỏi của bạn. Hiện backend chưa cấu hình GEMINI_API_KEY hoặc OPENAI_API_KEY, bạn vui lòng gọi 038 972 6999 nếu cần hỗ trợ nhanh.";
     }
 
+    const cleanAnswer = stripUnsafeHtml(answer);
+
+    // 3. Lưu câu trả lời của AI vào database
+    try {
+      await supabase.from("chat_messages").insert({
+        session_id: finalSessionId,
+        sender: "bot",
+        message: cleanAnswer,
+        client_name: finalClientName,
+        is_read: true
+      });
+    } catch (dbErr) {
+      console.warn("⚠️ Không lưu được tin nhắn bot vào DB:", dbErr.message);
+    }
+
     return res.json({
       provider,
-      reply: stripUnsafeHtml(answer),
-      answer: stripUnsafeHtml(answer),
+      reply: cleanAnswer,
+      answer: cleanAnswer,
       knowledgeSource: websiteContext.includes("Thông tin hiển thị trong website") ? "index.html" : "keyword-fallback"
     });
   } catch (error) {
     console.error("Lỗi /api/chat-ai:", error);
     const fallbackQuestion = String(req.body?.question || req.body?.message || "").trim();
+    const fallbackAnswer = getLocalVPCChatAnswer(fallbackQuestion);
+
+    // Lưu tin nhắn lỗi/dự phòng
+    try {
+      const { session_id, sessionId, client_name, clientName } = req.body || {};
+      const finalSessionId = String(session_id || sessionId || "sess_anonymous").trim();
+      const finalClientName = String(client_name || clientName || "Khách ẩn danh").trim();
+
+      await supabase.from("chat_messages").insert({
+        session_id: finalSessionId,
+        sender: "bot",
+        message: fallbackAnswer,
+        client_name: finalClientName,
+        is_read: true
+      });
+    } catch {}
 
     return res.json({
       provider: "local-fallback-after-error",
-      reply: getLocalVPCChatAnswer(fallbackQuestion),
-      answer: getLocalVPCChatAnswer(fallbackQuestion),
+      reply: fallbackAnswer,
+      answer: fallbackAnswer,
       error: error.message
     });
+  }
+});
+
+/* =========================================================
+   LIVE CHAT API - KHÁCH & ADMIN
+========================================================= */
+
+// 1. Khách hàng: Lấy danh sách tin nhắn theo session_id
+app.get("/api/chat/messages", async (req, res) => {
+  try {
+    const sessionId = String(req.query.session_id || "").trim();
+    if (!sessionId) {
+      return res.status(400).json({ error: "Thiếu session_id." });
+    }
+
+    const { data, error } = await supabase
+      .from("chat_messages")
+      .select("*")
+      .eq("session_id", sessionId)
+      .order("created_at", { ascending: true });
+
+    if (error) throw error;
+    res.json(data || []);
+  } catch (error) {
+    console.error("Lỗi GET /api/chat/messages:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 2. Admin: Lấy danh sách tất cả cuộc chat (nhóm theo session_id)
+app.get("/api/admin/chats", async (req, res) => {
+  try {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const { data: messages, error } = await supabase
+      .from("chat_messages")
+      .select("*")
+      .gt("created_at", sevenDaysAgo.toISOString())
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    const chatMap = new Map();
+    (messages || []).forEach(msg => {
+      if (!chatMap.has(msg.session_id)) {
+        chatMap.set(msg.session_id, {
+          session_id: msg.session_id,
+          client_name: msg.client_name || "Khách ẩn danh",
+          last_message: msg.message,
+          last_sender: msg.sender,
+          created_at: msg.created_at,
+          unread_count: 0
+        });
+      }
+
+      if (msg.sender === "client" && !msg.is_read) {
+        const chat = chatMap.get(msg.session_id);
+        chat.unread_count += 1;
+      }
+    });
+
+    res.json(Array.from(chatMap.values()));
+  } catch (error) {
+    console.error("Lỗi GET /api/admin/chats:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 3. Admin: Lấy chi tiết lịch sử một cuộc chat và đánh dấu đã đọc
+app.get("/api/admin/chats/:sessionId", async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+
+    const { data: messages, error: getErr } = await supabase
+      .from("chat_messages")
+      .select("*")
+      .eq("session_id", sessionId)
+      .order("created_at", { ascending: true });
+
+    if (getErr) throw getErr;
+
+    // Đánh dấu các tin nhắn khách gửi là đã đọc
+    await supabase
+      .from("chat_messages")
+      .update({ is_read: true })
+      .eq("session_id", sessionId)
+      .eq("sender", "client");
+
+    res.json(messages || []);
+  } catch (error) {
+    console.error(`Lỗi GET /api/admin/chats/${req.params.sessionId}:`, error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 4. Admin: Gửi tin nhắn trả lời khách hàng
+app.post("/api/admin/chats/:sessionId", async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const { message, client_name } = req.body;
+
+    if (!message || !String(message).trim()) {
+      return res.status(400).json({ error: "Nội dung tin nhắn trống." });
+    }
+
+    const { data, error } = await supabase
+      .from("chat_messages")
+      .insert({
+        session_id: sessionId,
+        sender: "admin",
+        message: String(message).trim(),
+        client_name: client_name || null,
+        is_read: true
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+    res.json(data);
+  } catch (error) {
+    console.error(`Lỗi POST /api/admin/chats/${req.params.sessionId}:`, error);
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -2078,10 +2604,96 @@ async function initDatabase() {
       );
       CREATE INDEX IF NOT EXISTS idx_sepay_transactions_sepay_id ON public.sepay_transactions(sepay_id);
       CREATE INDEX IF NOT EXISTS idx_sepay_transactions_order_code ON public.sepay_transactions(order_code);
+
+      CREATE TABLE IF NOT EXISTS public.chat_messages (
+        id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+        session_id text NOT NULL,
+        sender text NOT NULL,
+        message text NOT NULL,
+        client_name text,
+        is_read boolean NOT NULL DEFAULT false,
+        created_at timestamp with time zone DEFAULT now()
+      );
+      CREATE INDEX IF NOT EXISTS idx_chat_messages_session_id ON public.chat_messages(session_id);
+      CREATE INDEX IF NOT EXISTS idx_chat_messages_created_at ON public.chat_messages(created_at desc);
+
+      CREATE TABLE IF NOT EXISTS public.bai_viet (
+        id bigint GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+        title text NOT NULL,
+        "desc" text DEFAULT '',
+        content text NOT NULL,
+        thumbnail text DEFAULT '',
+        source_link text DEFAULT NULL,
+        created_at timestamp with time zone DEFAULT now()
+      );
+      CREATE INDEX IF NOT EXISTS idx_bai_viet_created_at ON public.bai_viet(created_at desc);
     `;
 
     await client.query(createTableQuery);
-    console.log("✅ Đã xác minh/khởi tạo thành công bảng public.sepay_transactions và các indexes.");
+    console.log("✅ Đã xác minh/khởi tạo thành công các bảng public.sepay_transactions, public.chat_messages, public.bai_viet và các indexes.");
+
+    // Kiểm tra và nạp bài viết mặc định nếu trống
+    try {
+      const blogCountRes = await client.query("SELECT COUNT(*) FROM public.bai_viet;");
+      const blogCount = parseInt(blogCountRes.rows[0].count, 10);
+      if (blogCount === 0) {
+        console.log("📝 Bảng public.bai_viet trống. Đang nạp bài viết mẫu từ index...");
+        const defaultBlogs = [
+          {
+            title: "Hè này cần gì? Một góc mát, một ly ngon và một buổi thư giãn tại Trung Nguyên Legend Âu Lạc. ☕🌿",
+            desc: "Nắng hè có thể gay gắt, nhưng Trung Nguyên Legend Âu Lạc luôn có những thức uống mát lành chờ bạn ghé thưởng thức.",
+            thumbnail: "https://www.facebook.com/reel/1511949147216560",
+            content: `<p><strong>☀️ GIẢI NHIỆT MÙA HÈ CÙNG TRUNG NGUYÊN LEGEND ÂU LẠC 🌿</strong></p>\n\n<p>\n  Nắng hè có thể gay gắt, nhưng <strong>Trung Nguyên Legend Âu Lạc</strong> luôn có những thức uống mát lành chờ bạn ghé thưởng thức.\n  Một ly trà thanh mát, một món đá xay thơm ngon hay cà phê đậm vị sẽ giúp bạn thư giãn và nạp lại năng lượng cho ngày dài.\n</p>\n\n<p>✨ Không gian thoải mái</p>\n<p>✨ Thức uống đa dạng</p>\n<p>✨ Phù hợp để gặp gỡ bạn bè, học tập và làm việc</p>\n\n<p>\n  Ghé ngay <strong>Trung Nguyên Legend Âu Lạc</strong> để tận hưởng những phút giây chill thật dễ chịu trong mùa hè này nhé!\n</p>`,
+            source_link: "https://www.facebook.com/reel/1511949147216560"
+          },
+          {
+            title: "Nghệ sĩ Nhật Cường ghé thăm không gian Trung Nguyên Legend Huế ☕✨",
+            desc: "Giữa nhịp sống nhẹ nhàng của Cố đô, hành trình thưởng thức cà phê trở nên đặc biệt hơn qua những khoảnh khắc giao lưu đầy cảm hứng cùng nghệ sĩ Nhật Cường tại Trung Nguyên Legend Huế.",
+            thumbnail: "https://www.facebook.com/reel/1321336266180825",
+            content: `<p>☕✨ <strong>Nghệ sĩ Nhật Cường ghé thăm không gian Trung Nguyên Legend Huế</strong></p>\n<p>Giữa nhịp sống nhẹ nhàng của Cố đô, hành trình thưởng thức cà phê trở nên đặc biệt hơn qua những khoảnh khắc giao lưu đầy cảm hứng cùng nghệ sĩ Nhật Cường tại Trung Nguyên Legend Huế.</p>\n<p>Không chỉ là điểm dừng chân thưởng thức cà phê năng lượng, nơi đây còn là không gian kết nối văn hóa, nghệ thuật và cảm hứng sống tỉnh thức.</p>`,
+            source_link: "https://www.facebook.com/reel/1321336266180825"
+          },
+          {
+            title: "Mua 1 được 2 – Chill hè cực đã!",
+            desc: "Ưu đãi mua 1 được 2 tại Trung Nguyên Legend Âu Lạc, áp dụng từ 14:00 đến 21:30, từ 19/05 đến 30/06.",
+            thumbnail: "https://res.cloudinary.com/dojibbcof/image/upload/v1779773739/704546850_122111883836884434_407848279318371067_n_zgmrkn.jpg",
+            content: `<p><strong>☕️ Mua 1 được 2 – Chill hè cực đã!</strong></p>\n<p><strong>📍 Địa điểm:</strong> Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP Huế</p>\n<p><strong>🕑 Khung giờ áp dụng:</strong> 14:00 – 21:30</p>\n<p><strong>📅 Thời gian:</strong> Từ 19/05 đến 30/06</p>\n<p>🔥 Rủ bạn đến học bài, làm việc, tránh nóng cùng loạt thức uống mát lạnh tại Trung Nguyên Legend Âu Lạc.</p>`,
+            source_link: "https://res.cloudinary.com/dojibbcof/image/upload/v1779773739/704546850_122111883836884434_407848279318371067_n_zgmrkn.jpg"
+          },
+          {
+            title: "Trưa hè nóng bức – Ghé Trung Nguyên Legend Âu Lạc Huế",
+            desc: "Không gian mát lạnh, chill học bài và thưởng thức cà phê tại Trung Nguyên Legend Âu Lạc Huế.",
+            thumbnail: "https://res.cloudinary.com/dojibbcof/image/upload/v1779773786/701445719_122111738540884434_8176951810572622203_n_lbymde.jpg",
+            content: `<p><strong>☀️ Trưa hè nóng bức</strong></p>\n<p>📚 Đi đâu cho hết nực?</p>\n<p>Ghé <strong>Trung Nguyên Legend Âu Lạc Huế</strong> vừa mát lạnh, vừa chill học bài nha 🤎☕</p>`,
+            source_link: "https://res.cloudinary.com/dojibbcof/image/upload/v1779773786/701445719_122111738540884434_8176951810572622203_n_lbymde.jpg"
+          },
+          {
+            title: "Trung Nguyên Legend Âu Lạc hân hạnh đón tiếp Nghệ sĩ Nhật Cường",
+            desc: "Trung Nguyên Legend Âu Lạc, TP Huế hân hạnh đón tiếp Nghệ sĩ Nhật Cường.",
+            thumbnail: "https://www.facebook.com/reel/998900419486923",
+            content: `<p>Trung Nguyên Legend Âu Lạc hân hạnh đón tiếp Nghệ sĩ Nhật Cường trong không gian cà phê năng lượng tại Thành phố Huế.</p>\n<p>Đây là một trong những khoảnh khắc đáng nhớ, thể hiện sự kết nối giữa khách hàng, nghệ sĩ và thương hiệu Trung Nguyên Legend.</p>`,
+            source_link: "https://www.facebook.com/reel/998900419486923"
+          },
+          {
+            title: "Sự kiện lái thử VinFast Thế Hệ Mới tại Trung Nguyên Legend Âu Lạc",
+            desc: "Sự kiện lái thử VinFast Thế Hệ Mới trong không gian hiện đại và yên tĩnh của Trung Nguyên Legend.",
+            thumbnail: "https://www.facebook.com/reel/981380314649839",
+            content: `<p>✨ Thứ 7 này bạn đã có hẹn chưa?</p>\n<p>Cuối tuần này, hãy cùng gia đình và bạn bè đến tham gia sự kiện lái thử đặc biệt của VinFast Thế Hệ Mới tổ chức tại không gian sang trọng và yên tĩnh của Trung Nguyên Legend.</p>\n<p>📍 Địa điểm: Cafe Trung Nguyên Legend Khu TĐC Đông Nam Thủy An, Phường An Cựu, TP. Huế ( Đối diện Aeon Mall Huế).</p>\n<p>📅 Thời gian: Thứ 7 tuần này (16/05/2026).</p>\n<p>🔥 Đến với sự kiện, quý khách sẽ có cơ hội:</p>\n<p>✅ Trực tiếp trải nghiệm các dòng xe điện nổi bật từ VF3, VF5, VF6, VF7 đến VF8.</p>\n<p>✅ Khám phá những mẫu xe mới ra mắt cực HOT:</p>\n<p>Limo Green, Minio Green, MPV 7, EC VAN</p>\n<p>🎁 Đặc biệt: Nhận nhiều phần quà hấp dẫn và thưởng thức cafe miễn phí trong không gian thư giãn, hiện đại.</p>`,
+            source_link: "https://www.facebook.com/reel/981380314649839"
+          }
+        ];
+        for (const blog of defaultBlogs) {
+          await client.query(
+            `INSERT INTO public.bai_viet (title, "desc", content, thumbnail, source_link) 
+             VALUES ($1, $2, $3, $4, $5);`,
+            [blog.title, blog.desc, blog.content, blog.thumbnail, blog.source_link]
+          );
+        }
+        console.log("✅ Nạp thành công 6 bài viết mặc định vào database.");
+      }
+    } catch (blogErr) {
+      console.error("❌ Lỗi khi nạp dữ liệu bài viết mặc định:", blogErr.message);
+    }
   } catch (err) {
     console.error("❌ Lỗi khi khởi tạo cơ sở dữ liệu Postgres:", err.message);
   } finally {
@@ -2112,6 +2724,40 @@ app.patch("/api/don-hang/:maDonHang", async (req, res) => {
 
     if (error) throw error;
 
+    // Nếu trạng thái chuyển thành "da_tt" (Đã thanh toán), tự động tạo bản sao giao dịch đối soát SePay nếu chưa có
+    if (trang_thai === "da_tt" && data) {
+      try {
+        const { data: existingTx } = await supabase
+          .from("sepay_transactions")
+          .select("id")
+          .eq("order_code", maDonHang)
+          .limit(1);
+
+        if (!existingTx || existingTx.length === 0) {
+          const amount = Number(data.tong_tien || 0);
+          const pttt = data.phuong_thuc_thanh_toan || "Chuyển khoản (Admin)";
+          const sepayTxId = Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000);
+          
+          await supabase
+            .from("sepay_transactions")
+            .insert({
+              sepay_id: sepayTxId,
+              gateway: pttt,
+              transaction_date: new Date().toISOString(),
+              amount_in: amount,
+              amount_out: 0,
+              transaction_content: `Thanh toán cho đơn hàng ${maDonHang} (Hệ thống ghi nhận từ Admin)`,
+              reference_number: `REF-${maDonHang}`,
+              accumulated_balance: 0,
+              order_code: maDonHang
+            });
+          console.log(`✅ Đã tạo giao dịch SePay đối soát tự động cho đơn hàng ${maDonHang}.`);
+        }
+      } catch (txErr) {
+        console.error("❌ Lỗi tự động tạo giao dịch SePay đối soát:", txErr.message);
+      }
+    }
+
     return res.json({
       success: true,
       data
@@ -2123,6 +2769,134 @@ app.patch("/api/don-hang/:maDonHang", async (req, res) => {
     });
   }
 });
+
+/* =========================================================
+   REVIEWS API - ĐÁNH GIÁ TRẢI NGHIỆM KHÁCH HÀNG
+========================================================= */
+
+// 1. GET: Lấy danh sách đánh giá (mapped trường và flat array)
+app.get("/api/reviews", async (req, res) => {
+  try {
+    const all = req.query.all === "1" || req.query.admin === "1";
+    let query = supabase.from("reviews").select("*").order("created_at", { ascending: false });
+    
+    if (!all) {
+      query = query.eq("hien_thi", true).limit(6);
+    }
+    
+    const { data, error } = await query;
+    if (error) throw error;
+
+    const mapped = (data || []).map(r => ({
+      id: r.id,
+      ma_don_hang: r.order_code,
+      so_dien_thoai: r.phone,
+      ho_ten: r.customer_name,
+      so_sao: r.rating,
+      noi_dung: r.comment,
+      hien_thi: r.hien_thi,
+      created_at: r.created_at
+    }));
+
+    res.json(mapped);
+  } catch (error) {
+    console.error("Lỗi GET /api/reviews:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 2. POST: Gửi đánh giá mới
+app.post("/api/reviews", async (req, res) => {
+  try {
+    const { ho_ten, so_dien_thoai, ma_don_hang, so_sao, noi_dung } = req.body;
+    const orderCode = String(ma_don_hang || req.body.order_code || "").trim();
+    
+    if (!orderCode) {
+      return res.status(400).json({ error: "Chỉ khách đã đặt hàng mới được đánh giá." });
+    }
+
+    const { data: order } = await supabase
+      .from("don_hang")
+      .select("ma_don_hang, so_dien_thoai, ho_ten")
+      .eq("ma_don_hang", orderCode)
+      .maybeSingle();
+
+    if (!order) {
+      return res.status(404).json({ error: "Không tìm thấy đơn hàng hợp lệ." });
+    }
+
+    const payload = {
+      order_code: orderCode,
+      phone: so_dien_thoai || req.body.phone || order.so_dien_thoai || null,
+      customer_name: ho_ten || req.body.customer_name || order.ho_ten || "Khách hàng Trung Nguyên Legend",
+      rating: Math.max(1, Math.min(5, Number(so_sao || req.body.rating || 5))),
+      comment: String(noi_dung || req.body.comment || "").trim(),
+      hien_thi: req.body.hien_thi !== false
+    };
+
+    if (!payload.comment) {
+      return res.status(400).json({ error: "Vui lòng nhập nội dung đánh giá." });
+    }
+
+    const { data, error } = await supabase.from("reviews").insert(payload).select("*").single();
+    if (error) throw error;
+
+    res.json({ message: "Gửi phản hồi thành công. Cảm ơn ý kiến của bạn!", data });
+  } catch (error) {
+    console.error("Lỗi POST /api/reviews:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 3. PATCH: Ẩn/Hiện đánh giá
+app.patch("/api/reviews", async (req, res) => {
+  try {
+    const id = req.body.id || req.query.id;
+    const hien_thi = req.body.hien_thi;
+
+    if (!id) {
+      return res.status(400).json({ error: "Thiếu ID đánh giá." });
+    }
+
+    const { data, error } = await supabase
+      .from("reviews")
+      .update({ hien_thi: hien_thi !== false })
+      .eq("id", id)
+      .select("*")
+      .single();
+
+    if (error) throw error;
+    res.json({ message: "Cập nhật hiển thị thành công!", data });
+  } catch (error) {
+    console.error("Lỗi PATCH /api/reviews:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 4. DELETE: Xóa đánh giá
+app.delete("/api/reviews", async (req, res) => {
+  try {
+    const id = req.query.id || req.body.id;
+
+    if (!id) {
+      return res.status(400).json({ error: "Thiếu ID đánh giá." });
+    }
+
+    const { data, error } = await supabase
+      .from("reviews")
+      .delete()
+      .eq("id", id)
+      .select("*")
+      .single();
+
+    if (error) throw error;
+    res.json({ message: "Xóa đánh giá thành công!", data });
+  } catch (error) {
+    console.error("Lỗi DELETE /api/reviews:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.listen(PORT, async () => {
   console.log(`API đang chạy tại http://localhost:${PORT}`);
   await initDatabase();

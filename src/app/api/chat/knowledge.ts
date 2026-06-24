@@ -5,8 +5,7 @@ Cập nhật: 10/06/2026
 
 ## 0. NGUYÊN TẮC BẮT BUỘC
 - Đây là nguồn kiến thức chính thức cho chatbot bán hàng VPC.
-- KHÔNG đọc index.html, public/index.html, page.tsx, admin.html hoặc nội dung giao diện website.
-- KHÔNG dùng dữ liệu cũ từ HTML làm nguồn trả lời.
+- Cho phép và khuyến khích đọc thông tin từ các file index.html và admin.html được backend truyền xuống để trả lời các câu hỏi liên quan đến nội dung tĩnh, sản phẩm, bài viết và sơ đồ chức năng của trang web.
 - Nếu backend/route có truyền Supabase, orderContext, productsContext, adminContext thì dùng như dữ liệu nội bộ realtime.
 - Nếu route hiện tại chỉ truyền knowledge.ts thì chỉ trả lời theo file này.
 - Internet/Serper chỉ dùng khi dữ liệu nội bộ không có và route cho phép.

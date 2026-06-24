@@ -64,17 +64,17 @@
     }
 
     :root {
-      --coffee-dark: #111111;
-      --coffee: #1a1a1a;
-      --coffee-soft: #333333;
-      --cream: #ffffff;
-      --cream-2: #f8f8f8;
+      --coffee-dark: #1f120b;
+      --coffee: #3a2114;
+      --coffee-soft: #5a321f;
+      --cream: #f7efe3;
+      --cream-2: #fff8ed;
       --gold: #c89b3c;
       --gold-light: #f4d17b;
-      --text: #111111;
-      --muted: #666666;
+      --text: #2b1810;
+      --muted: #78675d;
       --white: #ffffff;
-      --shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+      --shadow: 0 14px 40px rgba(31, 18, 11, 0.18);
       --radius: 20px;
     }
 
@@ -134,7 +134,7 @@
       right: 0;
       width: 100%;
       z-index: 99999 !important;
-      background: #000000;
+      background: rgba(31, 18, 11, 0.97);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(244, 209, 123, 0.28);
@@ -575,7 +575,7 @@
 
     /* Code này căn lại footer thành 3 cột đều nhau */
     .site-footer {
-      background: #000000;
+      background: var(--coffee-dark);
       color: white;
       padding: 64px 0 24px;
     }
@@ -2059,7 +2059,7 @@
 
     /* Code này là bản footer cuối cùng, dán sát trước để không bị CSS cũ đè */
     .site-footer {
-      background: #000000 !important;
+      background: var(--coffee-dark) !important;
       color: white !important;
       padding: 54px 0 14px !important;
     }
@@ -2883,221 +2883,6 @@ body {
   margin-bottom: 18px;
 }
 
-
-/* ===== VPC HOTFIX: menu + chatbot +3px and stable chat ===== */
-.category-tabs,
-#menuTabs,
-#merchTabs {
-  gap: 9px !important;
-  margin: 14px 0 8px !important;
-  padding: 9px 12px !important;
-}
-
-#menuTabs .tab-link,
-#merchTabs .tab-link,
-.category-tabs .tab-link {
-  font-size: 16px !important;
-  line-height: 1.2 !important;
-  min-height: 37px !important;
-  padding: 8px 13px !important;
-}
-
-.main-nav .nav-btn {
-  font-size: 16px !important;
-  padding: 9px 13px !important;
-}
-
-.chat-toggle,
-.lookup-toggle {
-  color: #ffffff !important;
-  font-size: 17px !important;
-  padding: 12px 19px !important;
-  min-height: 45px !important;
-}
-
-.chat-box {
-  width: min(350px, calc(100vw - 28px)) !important;
-}
-
-.chat-head {
-  font-size: 17px !important;
-  padding: 12px 15px !important;
-}
-
-.chat-body {
-  height: 285px !important;
-}
-
-.chat-msg {
-  font-size: 15.5px !important;
-  line-height: 1.45 !important;
-}
-
-.quick-chat button {
-  font-size: 14.5px !important;
-  padding: 8px 12px !important;
-}
-
-.chat-input-row input,
-.chat-input-row button {
-  font-size: 15px !important;
-}
-
-.chat-input-row input {
-  padding: 9px 11px !important;
-}
-
-.chat-input-row button {
-  color: #ffffff !important;
-  padding: 9px 13px !important;
-}
-
-@media (max-width: 520px) {
-  #menuTabs .tab-link,
-  #merchTabs .tab-link,
-  .category-tabs .tab-link {
-    font-size: 15px !important;
-    min-height: 34px !important;
-    padding: 7px 11px !important;
-  }
-
-  .main-nav .nav-btn {
-    font-size: 14px !important;
-  }
-
-  .chat-toggle,
-  .lookup-toggle {
-    font-size: 16px !important;
-    padding: 11px 15px !important;
-    min-height: 41px !important;
-  }
-
-  .chat-body {
-    height: 265px !important;
-  }
-}
-
-
-
-/* ===== FINAL FIX 2026-06-22: tăng +3px menu, tab nhóm và khung chatbot ===== */
-.site-header .nav-btn,
-.main-nav .nav-btn {
-  font-size: 19px !important;
-  line-height: 1.25 !important;
-  padding: 10px 15px !important;
-}
-
-#menuTabs,
-#merchTabs,
-.category-tabs {
-  padding: 12px 15px !important;
-  gap: 12px !important;
-}
-
-#menuTabs .tab-link,
-#merchTabs .tab-link,
-.category-tabs .tab-link {
-  font-size: 19px !important;
-  line-height: 1.25 !important;
-  min-height: 40px !important;
-  padding: 9px 15px !important;
-}
-
-.chat-toggle,
-.lookup-toggle {
-  font-size: 20px !important;
-  line-height: 1.25 !important;
-  min-height: 48px !important;
-  padding: 14px 22px !important;
-  color: #ffffff !important;
-}
-
-.chat-toggle,
-.chat-toggle *,
-.lookup-toggle,
-.lookup-toggle * {
-  color: #ffffff !important;
-}
-
-.chat-box {
-  width: min(353px, calc(100vw - 28px)) !important;
-  border-radius: 20px !important;
-}
-
-.chat-head {
-  font-size: 20px !important;
-  line-height: 1.25 !important;
-  padding: 15px 18px !important;
-}
-
-.chat-body {
-  height: 288px !important;
-}
-
-.chat-msg {
-  font-size: 18.5px !important;
-  line-height: 1.45 !important;
-}
-
-.quick-chat button {
-  font-size: 17.5px !important;
-  padding: 10px 14px !important;
-}
-
-.chat-input-row input,
-.chat-input-row button {
-  font-size: 18px !important;
-}
-
-.chat-input-row input {
-  padding: 11px 13px !important;
-}
-
-.chat-input-row button {
-  padding: 11px 15px !important;
-  color: #ffffff !important;
-}
-
-@media (max-width: 520px) {
-  .site-header .nav-btn,
-  .main-nav .nav-btn {
-    font-size: 17px !important;
-    padding: 8px 11px !important;
-  }
-
-  #menuTabs .tab-link,
-  #merchTabs .tab-link,
-  .category-tabs .tab-link {
-    font-size: 18px !important;
-    min-height: 37px !important;
-    padding: 8px 13px !important;
-  }
-
-  .chat-toggle,
-  .lookup-toggle {
-    font-size: 19px !important;
-    min-height: 44px !important;
-    padding: 12px 17px !important;
-  }
-
-  .chat-box {
-    width: min(353px, calc(100vw - 20px)) !important;
-    right: 10px !important;
-  }
-
-  .chat-body {
-    height: 268px !important;
-  }
-
-  .chat-msg {
-    font-size: 17px !important;
-  }
-
-  .quick-chat button {
-    font-size: 16.5px !important;
-  }
-}
-
 </style>
 <style id="force-search-icon-visible">
   .main-nav {
@@ -3766,130 +3551,6 @@ body {
   }
 }
 
-
-
-/* ===== VPC FINAL HOTFIX: menu +3px, chatbot +3px, blog thumbnail/full image, delivery notice ===== */
-.article-card .card-img {
-  display: block !important;
-  width: 100% !important;
-  aspect-ratio: 1 / 1 !important;
-  object-fit: cover !important;
-  border-radius: 0 !important;
-  background: #efe5d4 !important;
-}
-
-.article-detail-main-img {
-  display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  height: auto !important;
-  max-height: none !important;
-  object-fit: contain !important;
-  border-radius: 22px !important;
-  box-shadow: var(--shadow) !important;
-  margin: 0 auto 26px !important;
-  background: #fffaf4 !important;
-}
-
-.delivery-distance-note {
-  margin-top: 10px !important;
-  padding: 12px 14px !important;
-  border-radius: 14px !important;
-  border: 1px solid #ead0a4 !important;
-  background: #fff8ed !important;
-  color: var(--coffee-dark) !important;
-  font-size: 14px !important;
-  line-height: 1.5 !important;
-  font-weight: 700 !important;
-}
-
-.delivery-distance-note.error {
-  border-color: #d93025 !important;
-  background: #fff1f0 !important;
-  color: #8e2b20 !important;
-}
-
-.delivery-distance-note.ok {
-  border-color: #7abf75 !important;
-  background: #f1fff1 !important;
-  color: #1d6b25 !important;
-}
-
-.site-header .nav-btn,
-.main-nav .nav-btn {
-  font-size: 16px !important;
-  padding: 11px 15px !important;
-}
-
-#menuTabs .tab-link,
-#merchTabs .tab-link,
-.category-tabs .tab-link {
-  font-size: 16px !important;
-  min-height: 37px !important;
-  padding: 10px 15px !important;
-}
-
-.chat-toggle,
-.lookup-toggle {
-  font-size: 17px !important;
-  min-height: 45px !important;
-  padding: 14px 21px !important;
-  color: #ffffff !important;
-}
-
-.chat-box {
-  width: min(323px, calc(100vw - 28px)) !important;
-}
-
-.chat-head {
-  font-size: 17px !important;
-  padding: 14px 17px !important;
-}
-
-.chat-body {
-  height: 258px !important;
-}
-
-.chat-msg {
-  font-size: 15.5px !important;
-}
-
-.quick-chat button {
-  font-size: 14.5px !important;
-  padding: 10px 14px !important;
-}
-
-.chat-input-row input,
-.chat-input-row button {
-  font-size: 15px !important;
-}
-
-@media (max-width: 520px) {
-  .site-header .nav-btn,
-  .main-nav .nav-btn {
-    font-size: 16px !important;
-    padding: 8px 10px !important;
-  }
-
-  #menuTabs .tab-link,
-  #merchTabs .tab-link,
-  .category-tabs .tab-link {
-    font-size: 15px !important;
-    min-height: 33px !important;
-    padding: 8px 13px !important;
-  }
-
-  .chat-toggle,
-  .lookup-toggle {
-    font-size: 16px !important;
-    min-height: 41px !important;
-    padding: 13px 17px !important;
-  }
-
-  .chat-body {
-    height: 238px !important;
-  }
-}
 </style>
 </head>
 
@@ -3977,7 +3638,7 @@ body {
       <div class="container">
         <div class="section-head" style="text-align:center;">
           <div class="testimonial-badge">★★★★★ <span>Phản hồi chân thật</span></div>
-          <h2>Khách hàng nói gì về Trung Nguyên Legend Âu Lạc</h2>
+          <h2>Khách hàng nói gì về VPC</h2>
           <p style="color:rgba(255,255,255,.72);">Những chia sẻ từ khách hàng đã trải nghiệm đồ uống, không gian và dịch vụ tại Trung Nguyên Legend Âu Lạc.</p>
         </div>
 
@@ -4181,8 +3842,8 @@ body {
 
               <div class="form-field full">
                 <label>Địa chỉ giao hàng</label>
-                <input id="customerAddress" placeholder="Nhập số nhà, đường, phường/xã, TP Huế. Ví dụ: 12 Âu Lạc, An Cựu, Huế"
-                  oninput="updateDeliveryMap(); scheduleDeliveryDistanceCheck()" />
+                <input id="customerAddress" placeholder="Nhập địa chỉ nếu chọn giao hàng"
+                  oninput="updateDeliveryMap()" />
 
                 <div class="delivery-map-box" id="deliveryMapBox">
                   <iframe id="deliveryMap" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src=""></iframe>
@@ -5338,88 +4999,6 @@ body {
     }
     let currentShippingFee = 0;
     let currentDistanceKm = 0;
-
-    const STORE_ADDRESS = "Trung Nguyên Legend Âu Lạc, Khu TĐC Đông Nam Thủy An, Phường An Cựu, Thành phố Huế";
-    const STORE_LAT = 16.45195;
-    const STORE_LNG = 107.60865;
-    const DELIVERY_MAX_KM = 10;
-    let deliveryDistanceTimer = null;
-
-    function getDeliveryNoticeEl() {
-      const addressInput = document.getElementById("customerAddress");
-      if (!addressInput) return null;
-
-      let note = document.getElementById("deliveryDistanceNotice");
-      if (!note) {
-        note = document.createElement("div");
-        note.id = "deliveryDistanceNotice";
-        note.className = "delivery-distance-note";
-        addressInput.insertAdjacentElement("afterend", note);
-      }
-      return note;
-    }
-
-    function setDeliveryNotice(message, type = "") {
-      const note = getDeliveryNoticeEl();
-      if (!note) return;
-      note.className = `delivery-distance-note ${type}`.trim();
-      note.innerHTML = message || "";
-      note.style.display = message ? "block" : "none";
-    }
-
-    function normalizeAddressForDelivery(address) {
-      const raw = String(address || "").trim();
-      if (!raw) return "";
-      const hasHue = /huế|hue|thừa thiên|thua thien/i.test(raw);
-      return hasHue ? raw : `${raw}, Thành phố Huế, Việt Nam`;
-    }
-
-    function haversineKm(lat1, lng1, lat2, lng2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLng = (lng2 - lng1) * Math.PI / 180;
-      const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
-      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    }
-
-    function parseLatLngFromAddress(address) {
-      const match = String(address || "").match(/(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/);
-      if (!match) return null;
-      const lat = Number(match[1]);
-      const lng = Number(match[2]);
-      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
-      return { lat, lng };
-    }
-
-    async function geocodeDeliveryAddress(address) {
-      const typedCoords = parseLatLngFromAddress(address);
-      if (typedCoords) return typedCoords;
-
-      const query = normalizeAddressForDelivery(address);
-      const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=vn&q=${encodeURIComponent(query)}`;
-      const response = await fetch(url, {
-        headers: {
-          "Accept": "application/json"
-        }
-      });
-
-      if (!response.ok) throw new Error("Không định vị được địa chỉ giao hàng.");
-      const data = await response.json();
-      if (!Array.isArray(data) || !data[0]) throw new Error("Không tìm thấy tọa độ địa chỉ giao hàng.");
-
-      return {
-        lat: Number(data[0].lat),
-        lng: Number(data[0].lon)
-      };
-    }
-
-    function scheduleDeliveryDistanceCheck() {
-      clearTimeout(deliveryDistanceTimer);
-      deliveryDistanceTimer = setTimeout(() => {
-        checkDeliveryDistance({ silent: true }).catch(() => {});
-      }, 900);
-    }
-
     let checkoutVisible = false;
     let pendingOrderCode = "";
     try {
@@ -5631,27 +5210,21 @@ body {
 
       if (deliveryType.value !== "Giao hàng tận nơi") {
         mapBox.classList.remove("show");
-        setDeliveryNotice("");
         return;
       }
 
       const address = addressInput.value.trim();
 
       if (!address) {
-        mapFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(STORE_ADDRESS)}&output=embed`;
+        mapFrame.src = "https://www.google.com/maps?q=Trung%20Nguyen%20Legend%20Au%20Lac%20Hue&output=embed";
         mapBox.classList.add("show");
-        setDeliveryNotice(`📍 <strong>Địa chỉ quán:</strong> ${safeText(STORE_ADDRESS)}<br>Vui lòng nhập địa chỉ giao hàng để hệ thống kiểm tra phạm vi dưới ${DELIVERY_MAX_KM}km.`);
         return;
       }
 
-      const destination = normalizeAddressForDelivery(address);
-      mapFrame.src = `https://www.google.com/maps?saddr=${encodeURIComponent(STORE_ADDRESS)}&daddr=${encodeURIComponent(destination)}&output=embed`;
+      mapFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
       mapBox.classList.add("show");
-      setDeliveryNotice(`📍 <strong>Địa chỉ giao hàng:</strong> ${safeText(destination)}<br>Đang kiểm tra khoảng cách từ quán đến địa chỉ giao hàng...`);
     }
-
-    async function checkDeliveryDistance(options = {}) {
-      const silent = options && options.silent === true;
+    async function checkDeliveryDistance() {
       const deliveryTypeEl = document.getElementById("deliveryType");
       const addressEl = document.getElementById("customerAddress");
 
@@ -5662,7 +5235,6 @@ body {
       currentDistanceKm = 0;
 
       if (deliveryTypeText !== "Giao hàng tận nơi") {
-        setDeliveryNotice("");
         return {
           hop_le: true,
           phi_ship: 0,
@@ -5671,42 +5243,19 @@ body {
       }
 
       if (!address) {
-        setDeliveryNotice(`📍 <strong>Địa chỉ quán:</strong> ${safeText(STORE_ADDRESS)}<br>Vui lòng nhập địa chỉ giao hàng để kiểm tra phạm vi giao hàng.`, "error");
-        if (!silent) alert("Vui lòng nhập địa chỉ giao hàng.");
-        return { hop_le: false };
-      }
-
-      try {
-        const coords = await geocodeDeliveryAddress(address);
-        const distanceKm = haversineKm(STORE_LAT, STORE_LNG, coords.lat, coords.lng);
-        currentDistanceKm = Number(distanceKm.toFixed(2));
-
-        if (currentDistanceKm > DELIVERY_MAX_KM) {
-          currentShippingFee = 0;
-          setDeliveryNotice(`❌ <strong>Ngoài phạm vi giao hàng.</strong><br>Địa chỉ này cách quán khoảng <strong>${currentDistanceKm}km</strong>, vượt giới hạn <strong>${DELIVERY_MAX_KM}km</strong>.<br>Quán: ${safeText(STORE_ADDRESS)}`, "error");
-          if (!silent) alert(`Địa chỉ giao hàng cách quán khoảng ${currentDistanceKm}km, vượt quá phạm vi giao hàng ${DELIVERY_MAX_KM}km.`);
-          renderCart();
-          return {
-            hop_le: false,
-            phi_ship: 0,
-            khoang_cach_km: currentDistanceKm
-          };
-        }
-
-        currentShippingFee = 0;
-        setDeliveryNotice(`✅ <strong>Trong phạm vi giao hàng.</strong><br>Địa chỉ giao hàng cách quán khoảng <strong>${currentDistanceKm}km</strong>. Cửa hàng sẽ xác nhận phí ship khi xử lý đơn.<br>Quán: ${safeText(STORE_ADDRESS)}`, "ok");
-        renderCart();
+        alert("Vui lòng nhập địa chỉ giao hàng.");
         return {
-          hop_le: true,
-          phi_ship: currentShippingFee,
-          khoang_cach_km: currentDistanceKm
+          hop_le: false
         };
-      } catch (error) {
-        console.warn("Lỗi kiểm tra khoảng cách giao hàng:", error);
-        setDeliveryNotice(`⚠️ Chưa định vị được địa chỉ này. Vui lòng nhập rõ số nhà, tên đường, phường/xã, TP Huế hoặc dán tọa độ Google Maps.`, "error");
-        if (!silent) alert("Chưa định vị được địa chỉ giao hàng. Vui lòng nhập địa chỉ rõ hơn hoặc dán tọa độ Google Maps.");
-        return { hop_le: false };
       }
+
+      alert("Đơn giao hàng đã được ghi nhận. Cửa hàng sẽ xác nhận phí ship và phạm vi giao hàng sau.");
+
+      return {
+        hop_le: true,
+        phi_ship: 0,
+        khoang_cach_km: 0
+      };
     }
     function getCartTotal() {
       return cart.reduce((sum, item) => {
@@ -6215,85 +5764,6 @@ startAutoCheckPayment();
       return t;
     }
 
-
-    function normalizeTextKey(text) {
-      return String(text || "")
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/đ/g, "d")
-        .replace(/&/g, " va ")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-    }
-
-    function resolveMenuCategorySlug(item) {
-      const productSlug = String(item?.slug || "").trim();
-      let categorySlug = String(item?.slug_danh_muc || item?.danh_muc_slug || item?.category_slug || item?.category || "").trim();
-      const categoryName = String(item?.ten_danh_muc || item?.danh_muc || item?.category_name || "").trim();
-      const byName = normalizeTextKey(categoryName);
-
-      const titleAlias = {
-        "ca-phe-phin": "ca-phe-phin",
-        "ca-phe-bot-sang-tao": "ca-phe-phin",
-        "ca-phe-may": "ca-phe-may",
-        "ca-phe-pha-che": "ca-phe-pha-che",
-        "tra-tra-sua": "tra-tra-sua",
-        "tra-va-tra-sua": "tra-tra-sua",
-        "tra-sua": "tra-tra-sua",
-        "sinh-to-da-xay": "sinh-to-da-xay",
-        "sinh-to-va-da-xay": "sinh-to-da-xay",
-        "nuoc-ep": "nuoc-ep",
-        "nuoc-thanh-nhiet": "nuoc-thanh-nhiet",
-        "matcha-cacao": "matcha-cacao",
-        "matcha-va-cacao": "matcha-cacao",
-        "banh": "banh",
-        "banh-ngot": "banh",
-        "mon-extra": "mon-extra",
-        "extra": "mon-extra"
-      };
-
-      categorySlug = normalizeTextKey(categorySlug);
-      categorySlug = titleAlias[categorySlug] || titleAlias[byName] || categorySlug || byName;
-
-      const productCategoryMapExtra = {
-        "success-sua-da": "ca-phe-may",
-        "success-da-vien": "ca-phe-may",
-        "espresso": "ca-phe-may",
-        "americano": "ca-phe-may",
-        "double-espresso": "ca-phe-may",
-        "latte": "ca-phe-may",
-        "cappuccino": "ca-phe-may",
-        "latte-yen-mach": "ca-phe-may",
-        "cappuccino-yen-mach": "ca-phe-may",
-        "coffee-legend": "ca-phe-phin",
-        "nang-luong-tu-duy": "ca-phe-phin",
-        "nang-luong-kham-pha": "ca-phe-phin",
-        "nang-luong-y-tuong": "ca-phe-phin",
-        "nang-luong-sang-tao": "ca-phe-phin",
-        "nang-luong-thanh-cong": "ca-phe-phin",
-        "nang-luong-dot-pha": "ca-phe-phin",
-        "sua-tuoi-them": "mon-extra",
-        "sua-dac-them": "mon-extra",
-        "tran-chau-trang": "mon-extra",
-        "mat-ong": "mon-extra",
-        "thach-ca-phe": "mon-extra",
-        "milkfoam": "mon-extra",
-        "ca-phe-them": "mon-extra",
-        "dao-them": "mon-extra"
-      };
-
-      return productCategoryMapExtra[productSlug] || categorySlug || "khac";
-    }
-
-    function normalizeDrinkListPayload(payload) {
-      if (Array.isArray(payload)) return payload;
-      if (payload && Array.isArray(payload.data)) return payload.data;
-      if (payload && Array.isArray(payload.items)) return payload.items;
-      if (payload && Array.isArray(payload.drinks)) return payload.drinks;
-      return [];
-    }
-
     // Code này tải menu đồ uống từ backend Render
     // API dùng: GET /api/do-uong
     
@@ -6331,7 +5801,7 @@ startAutoCheckPayment();
 
     function normalizeDrinkCategory(item) {
       const productSlug = String(item.slug || "").trim();
-      let categorySlug = resolveMenuCategorySlug(item);
+      let categorySlug = String(item.slug_danh_muc || item.danh_muc_slug || item.category_slug || "").trim();
 
       const productCategoryMap = {
         "sinh-to-xoai": "sinh-to-da-xay",
@@ -6400,15 +5870,8 @@ startAutoCheckPayment();
       if (!tabs || !groups) return;
 
       const processedDrinks = [];
-      const drinkList = normalizeDrinkListPayload(drinks);
 
-      if (!drinkList.length) {
-        tabs.innerHTML = "";
-        groups.innerHTML = `<p style="text-align:center; color: var(--muted);">Chưa tải được menu nước. Vui lòng thử tải lại trang.</p>`;
-        return;
-      }
-
-      drinkList.forEach(item => {
+      drinks.forEach(item => {
         if (item.slug === "sinh-to-theo-mua") {
           const flavors = [
             { name: "Sinh tố Xoài", slug: "sinh-to-xoai", desc: "Sinh tố xoài tươi mát béo ngậy." },
@@ -6461,8 +5924,10 @@ startAutoCheckPayment();
       const grouped = {};
 
       processedDrinks.forEach(item => {
-        const categorySlug = resolveMenuCategorySlug(item);
-        const categoryInfo = normalizeDrinkCategory({ ...item, slug_danh_muc: categorySlug });
+        const categoryInfo = normalizeDrinkCategory(item);
+        const categorySlug = categoryInfo && categoryInfo.title !== "Khác"
+          ? Object.keys(menuCategoryMap).find(key => menuCategoryMap[key].title === categoryInfo.title)
+          : (item.slug_danh_muc || "khac");
 
         if (!grouped[categorySlug]) {
           grouped[categorySlug] = {
@@ -6539,7 +6004,7 @@ startAutoCheckPayment();
 
       // SWR: 2. Fetch fresh data in the background
       try {
-        const freshDrinks = normalizeDrinkListPayload(await fetchAPI("/api/do-uong"));
+        const freshDrinks = await fetchAPI("/api/do-uong");
         if (freshDrinks && freshDrinks.length > 0) {
           localStorage.setItem("vpc_cached_drinks", JSON.stringify(freshDrinks));
           displayMenuData(freshDrinks);
@@ -6868,53 +6333,17 @@ startAutoCheckPayment();
       }
     }
 
-    function getArticleMainImage(article) {
-      const fallback = "https://res.cloudinary.com/dojibbcof/image/upload/v1779773456/z7667465024917_2a81fcb4033ec5893cbd1990ebbcf187_nedupr.jpg";
-      const candidates = [
-        article?.thumbnail,
-        ...(Array.isArray(article?.images) ? article.images : [])
-      ];
-
-      const image = candidates.find(src => {
-        const val = String(src || "").trim();
-        return val && !/facebook\.com|youtube\.com|youtu\.be|tiktok\.com/i.test(val);
-      });
-
-      return image || fallback;
-    }
-
-    let dynamicBlogItems = [];
-
-    async function loadBlogData() {
-      try {
-        const response = await fetch(`${API_URL}/api/bai-viet`);
-        if (response.ok) {
-          const data = await response.json();
-          dynamicBlogItems = Array.isArray(data) ? data : (data.data || []);
-          if (dynamicBlogItems.length > 0) {
-            renderBlog();
-          }
-        }
-      } catch (err) {
-        console.warn("❌ Lỗi tải bài viết động:", err);
-      }
-    }
-
     function renderBlog() {
       const grid = document.getElementById("blogGrid");
 
       if (!grid) return;
 
-      const itemsToRender = (dynamicBlogItems && dynamicBlogItems.length > 0) ? dynamicBlogItems : blogItems;
-
-      grid.innerHTML = itemsToRender.map((item, index) => {
-        const thumb = getArticleMainImage(item);
+      grid.innerHTML = blogItems.map((item, index) => {
         return `
         <div class="card article-card">
-          <img class="card-img" src="${thumb}" alt="${safeText(item.title)}" loading="lazy">
           <div class="card-body">
             <h3 style="text-align: center; margin-top: 10px;">${safeText(item.title)}</h3>
-            <p style="font-style: italic; text-align: center; color: var(--muted); margin-bottom: 18px;">"${safeText(item.desc || "")}"</p>
+            <p style="font-style: italic; text-align: center; color: var(--muted); margin-bottom: 18px;">"${safeText(item.desc)}"</p>
 
             <div style="display: flex; justify-content: center; width: 100%; margin-top: auto;">
               <button class="btn btn-dark" type="button" onclick="openArticle(${index})">
@@ -6928,37 +6357,28 @@ startAutoCheckPayment();
     }
 
     function openArticle(index) {
-      const itemsToRender = (dynamicBlogItems && dynamicBlogItems.length > 0) ? dynamicBlogItems : blogItems;
-      const article = itemsToRender[index];
+      const article = blogItems[index];
       const box = document.getElementById("articleDetailContent");
 
       if (!article || !box) return;
 
-      const firstVideo = (Array.isArray(article.videos) && article.videos.length > 0) 
-        ? article.videos[0] 
-        : (article.source_link || "");
-      const isReel = firstVideo && firstVideo.includes("facebook.com/reel/");
-      
-      let heroMediaHtml = "";
-      if (firstVideo && (firstVideo.includes("facebook.com") || firstVideo.includes("youtube.com") || firstVideo.includes("youtu.be") || firstVideo.endsWith(".mp4"))) {
-        const embedCode = getVideoEmbedHtml(firstVideo);
-        const aspect = isReel ? "9 / 16" : "16 / 9";
-        const maxWidth = isReel ? "420px" : "100%";
-        
-        heroMediaHtml = `
-          <div class="article-hero-video-wrap" style="width: 100%; max-width: ${maxWidth}; aspect-ratio: ${aspect}; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; border-radius: 22px; border: 1px solid rgba(244, 209, 123, 0.22); box-shadow: var(--shadow);">
-            ${embedCode}
-          </div>
-        `;
-      } else {
-        const mainImage = getArticleMainImage(article);
-        heroMediaHtml = `<img class="article-detail-main-img" src="${mainImage}" alt="${safeText(article.title)}">`;
-      }
+      // Lọc bỏ những link chứa video khỏi danh sách ảnh để tránh hiển thị thẻ img lỗi
+      const imageHtml = article.images
+        .filter(img => !img.includes("facebook.com") && !img.includes("youtube.com") && !img.includes("youtu.be"))
+        .map(img => `
+      <img class="article-content-img" src="${img}" alt="${safeText(article.title)}">
+    `).join("");
+
+      // Hiển thị các video đính kèm
+      const videoHtml = article.videos
+        .map(video => getVideoEmbedHtml(video)).join("");
 
       box.innerHTML = `
     <h2 class="article-detail-title">${safeText(article.title)}</h2>
 
-    ${heroMediaHtml}
+    ${imageHtml}
+
+    ${videoHtml}
 
     <div class="article-body">
       ${article.content}
@@ -7146,11 +6566,6 @@ const productList = JSON.stringify(cart.map(item => {
         };
 
         savePendingOrderInfo(savedOrderData);
-
-        localStorage.setItem("vpc_chat_client_name", name);
-        if (typeof vpcClientName !== "undefined") {
-          vpcClientName = name;
-        }
 
         if (paymentTypeText === "Chuyển khoản ngân hàng") {
           alert(`Đơn hàng đã được ghi nhận. Mã đơn: ${finalOrderCode}. Vui lòng chuyển khoản để hoàn tất.`);
@@ -7818,116 +7233,6 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
   }
 ];
 
-
-    function removeVietnameseTones(value) {
-      return String(value || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/đ/g, "d")
-        .replace(/Đ/g, "d")
-        .toLowerCase()
-        .trim();
-    }
-
-    function getChatbotIntentReply(question) {
-      const normalized = removeVietnameseTones(String(question || ""));
-      if (!normalized) return "";
-      const intents = Array.isArray(chatbotIntents) ? chatbotIntents : [];
-      for (const intent of intents) {
-        const keywords = Array.isArray(intent.keywords) ? intent.keywords : [];
-        if (keywords.some(keyword => normalized.includes(removeVietnameseTones(keyword)))) {
-          return intent.reply || "";
-        }
-      }
-      return "";
-    }
-
-    // Khởi tạo live chat session
-    let vpcChatSessionId = localStorage.getItem("vpc_chat_session_id");
-    if (!vpcChatSessionId) {
-      vpcChatSessionId = "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 10);
-      localStorage.setItem("vpc_chat_session_id", vpcChatSessionId);
-    }
-    let vpcClientName = localStorage.getItem("vpc_chat_client_name") || "";
-
-    async function postChatToBackend(question) {
-      const payload = {
-        message: question,
-        question: question,
-        context: buildChatContextFromIndex(),
-        page: "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc",
-        session_id: vpcChatSessionId,
-        client_name: vpcClientName || `Khách #${vpcChatSessionId.slice(-4)}`
-      };
-
-      const endpoints = ["/api/chat-ai", "/api/chat"];
-      let lastError = null;
-
-      for (const endpoint of endpoints) {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 12000);
-        try {
-          const baseUrl = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.endsWith("vercel.app") ? "" : API_URL;
-          const response = await fetch(`${baseUrl}${endpoint}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-            signal: controller.signal
-          });
-          clearTimeout(timer);
-
-          const result = await response.json().catch(() => ({}));
-          if (!response.ok) {
-            lastError = new Error(result.error || result.message || `Chat API lỗi tại ${endpoint}`);
-            continue;
-          }
-
-          return result.reply || result.answer || result.message || result.text || "";
-        } catch (error) {
-          clearTimeout(timer);
-          lastError = error;
-        }
-      }
-
-      throw lastError || new Error("Không gọi được chatbot backend.");
-    }
-
-    let isSyncingChat = false;
-    let lastMessageCount = 0;
-    async function syncChatMessages() {
-      if (isSyncingChat) return;
-      isSyncingChat = true;
-
-      try {
-        const baseUrl = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.endsWith("vercel.app") ? "" : API_URL;
-        const response = await fetch(`${baseUrl}/api/chat/messages?session_id=${vpcChatSessionId}`);
-        if (!response.ok) throw new Error("API lấy tin nhắn lỗi");
-        const messages = await response.json();
-        
-        if (Array.isArray(messages) && messages.length !== lastMessageCount) {
-          lastMessageCount = messages.length;
-          const list = document.getElementById("chatMessagesList");
-          if (list) {
-            list.innerHTML = "";
-            messages.forEach(msg => {
-              let displayName = msg.sender; // 'client', 'bot', 'admin'
-              if (displayName === "client" || displayName === "user") displayName = "user";
-              appendChatMessage(displayName, msg.message, true);
-            });
-            const chatBody = document.getElementById("chatBody");
-            if (chatBody) chatBody.scrollTop = chatBody.scrollHeight;
-          }
-        }
-      } catch (err) {
-        console.warn("Lỗi đồng bộ tin nhắn chat:", err.message);
-      } finally {
-        isSyncingChat = false;
-      }
-    }
-
-    // Tự động đồng bộ mỗi 3.5 giây khi mở chatbox
-    setInterval(syncChatMessages, 3500);
-
     async function handleChatFormSubmit(event) {
       event.preventDefault();
 
@@ -7936,8 +7241,6 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
       if (!question) return;
 
       inputEl.value = "";
-      
-      // Tạm thời hiển thị tin nhắn user trên UI
       appendChatMessage("user", question);
 
       const typingEl = document.getElementById("chatTyping");
@@ -7947,14 +7250,38 @@ Trước khi thanh toán, anh/chị vui lòng xuất trình mã QR hoặc thẻ 
       if (chatBody) chatBody.scrollTop = chatBody.scrollHeight;
 
       try {
-        const aiReply = await postChatToBackend(question);
-        // Load lại toàn bộ tin nhắn từ server để đồng bộ
-        await syncChatMessages();
+        // Code này gọi AI backend.
+        // Backend /api/chat-ai sẽ đọc index.html trước, nếu không có thông tin thì tự dò theo từ khóa/database.
+        const response = await fetch(`${API_URL}/api/chat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+  message: question,
+  question: question,
+  context: buildChatContextFromIndex(),
+  page: "Vietnam Prosperity Coffee - Trung Nguyên Legend Âu Lạc"
+})
+        });
+
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(result.error || result.message || "AI chưa phản hồi được.");
+        }
+
+        const reply =
+          result.reply ||
+          result.answer ||
+          result.message ||
+          result.text ||
+          "Trang đã nhận câu hỏi của bạn, nhưng chưa có nội dung trả lời phù hợp.";
+
+        appendChatMessage("bot", normalizeChatReply(reply));
       } catch (error) {
         console.error("Lỗi gọi AI chat:", error);
-        // Fallback local khi backend lỗi
-        const fallback = getLocalChatFallback(question);
-        appendChatMessage("bot", fallback);
+        appendChatMessage("bot", getLocalChatFallback(question));
       } finally {
         if (typingEl) typingEl.style.display = "none";
         if (chatBody) chatBody.scrollTop = chatBody.scrollHeight;
@@ -8096,29 +7423,19 @@ Khi chuyển khoản, bạn nhớ ghi đúng mã đơn <strong>VPC-DH-...</stron
       return `Trang đã nhận câu hỏi của bạn. Hiện AI đang tạm thời chưa phản hồi được, bạn có thể hỏi về menu đồ uống, vật phẩm, thanh toán SePay, địa chỉ, giờ mở cửa hoặc gọi 038 972 6999 để được hỗ trợ nhanh.`;
     }
 
-    function appendChatMessage(sender, text, isFromSync = false) {
+    function appendChatMessage(sender, text) {
       const list = document.getElementById("chatMessagesList");
       if (!list) return;
-
-      // Nếu tin nhắn được gọi trực tiếp khi đang gõ gửi (chưa qua sync)
-      // mà sau đó sync lại, ta tránh việc trùng lặp tin nhắn
-      if (!isFromSync && sender === "user") {
-        // Tạm hiển thị, sau 1s sync sẽ vẽ chuẩn
-        setTimeout(syncChatMessages, 500);
-      }
 
       const msgEl = document.createElement("div");
       msgEl.className = `chat-msg ${sender}`;
 
-      if (sender === "user" || sender === "client") {
+      if (sender === "user") {
         msgEl.style.cssText = "background: var(--gold); color: var(--coffee-dark); padding: 10px 14px; border-radius: 14px 14px 0 14px; align-self: flex-end; max-width: 85%; font-size: 13.5px; margin-left: auto; margin-top: 8px; font-weight: bold; border: 1px solid rgba(200,155,60,0.1);";
         msgEl.textContent = text;
-      } else if (sender === "admin") {
-        msgEl.style.cssText = "background: #fff4df; padding: 10px 14px; border-radius: 14px 14px 14px 0; align-self: flex-start; max-width: 85%; font-size: 13.5px; margin-top: 8px; border: 1px solid var(--gold); line-height:1.5; position: relative;";
-        msgEl.innerHTML = `<span style="display: block; font-size: 11px; font-weight: bold; color: var(--gold); margin-bottom: 2px;">💬 Phản hồi từ Cửa hàng:</span>${normalizeChatReply(text)}`;
       } else {
         msgEl.style.cssText = "background: #f8efe3; padding: 10px 14px; border-radius: 14px 14px 14px 0; align-self: flex-start; max-width: 85%; font-size: 13.5px; margin-top: 8px; border: 1px solid rgba(58,33,20,0.06);line-height:1.5;";
-        msgEl.innerHTML = normalizeChatReply(text);
+        msgEl.innerHTML = text;
       }
 
       list.appendChild(msgEl);
@@ -8133,7 +7450,6 @@ Khi chuyển khoản, bạn nhớ ghi đúng mã đơn <strong>VPC-DH-...</stron
   updateCartCount();
   renderCart();
   renderBlog();
-  loadBlogData();
 
   const results = await Promise.allSettled([
     renderFeatured(),
@@ -8168,8 +7484,7 @@ async function loadReviews() {
   try {
     const response = await fetch(`${API_URL}/api/reviews`);
     if (!response.ok) throw new Error("API reviews lỗi");
-    const result = await response.json();
-    const reviews = Array.isArray(result) ? result : (result.data || []);
+    const reviews = await response.json();
 
     if (!reviews || reviews.length === 0) {
       grid.innerHTML = "<p style='color: var(--coffee-dark); text-align: center; width: 100%; font-style: italic;'>Chưa có đánh giá nào. Hãy đặt hàng và gửi phản hồi đầu tiên nhé ạ!</p>";
@@ -8177,24 +7492,21 @@ async function loadReviews() {
     }
 
     grid.innerHTML = reviews.map(r => {
-      const ho_ten = r.ho_ten || r.customer_name || "Khách hàng";
-      const so_sao = Number(r.so_sao || r.rating || 5);
-      const noi_dung = r.noi_dung || r.comment || "Khách hàng không để lại nội dung phản hồi.";
-      const stars = "★".repeat(so_sao) + "☆".repeat(5 - so_sao);
-      const dateStr = new Date(r.created_at || Date.now()).toLocaleDateString("vi-VN");
-      const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(ho_ten)}&background=f4d17b&color=1f120b&bold=true&size=128`;
+      const stars = "★".repeat(r.so_sao) + "☆".repeat(5 - r.so_sao);
+      const dateStr = new Date(r.created_at).toLocaleDateString("vi-VN");
+      const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(r.ho_ten)}&background=f4d17b&color=1f120b&bold=true&size=128`;
       
       return `
         <div class="testimonial-card">
           <div class="testimonial-stars" style="color: var(--gold); font-size: 18px; margin-bottom: 8px;">${stars}</div>
           <p class="testimonial-text" style="font-size: 14px; line-height: 1.5; color: var(--text); font-style: italic; min-height: 50px;">
-            "${safeText(noi_dung)}"
+            "${safeText(r.noi_dung || 'Khách hàng không để lại nội dung phản hồi.')}"
           </p>
           <div class="testimonial-line" style="height: 1px; background: rgba(58,33,20,0.08); margin: 12px 0;"></div>
           <div class="testimonial-user" style="display: flex; align-items: center; gap: 12px;">
-            <img class="testimonial-avatar" src="${avatarUrl}" alt="${safeText(ho_ten)}" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--gold-light);">
+            <img class="testimonial-avatar" src="${avatarUrl}" alt="${safeText(r.ho_ten)}" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--gold-light);">
             <div>
-              <div class="testimonial-name" style="font-weight: bold; color: var(--coffee-dark); font-size: 14.5px;">${safeText(ho_ten)}</div>
+              <div class="testimonial-name" style="font-weight: bold; color: var(--coffee-dark); font-size: 14.5px;">${safeText(r.ho_ten)}</div>
               <div class="testimonial-role" style="font-size: 12px; color: var(--muted);">Khách đặt hàng (${dateStr})</div>
             </div>
           </div>
@@ -8272,27 +7584,27 @@ async function submitReview(event) {
 initWebsite();
 </script>
 <!-- REVIEW MODAL -->
-<div class="modal-backdrop" id="reviewModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 999999; align-items: center; justify-content: center; padding: 18px;">
+<div class="modal-backdrop" id="reviewModal" style="display: none; position: fixed; inset: 0; background: rgba(31,18,11,0.72); z-index: 999999; align-items: center; justify-content: center; padding: 18px;">
   <div class="modal-box" style="width: min(460px, 100%); background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 24px; border: 1px solid var(--gold);">
     <div class="modal-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eadac7; padding-bottom: 10px;">
-      <h3 style="font-size: 20px; color: var(--coffee-dark); font-weight: 900; margin: 0;">Đánh giá trải nghiệm dịch vụ & đồ uống</h3>
+      <h3 style="font-size: 20px; color: var(--coffee-dark); font-weight: 900; margin: 0;">Đánh giá dịch vụ & sản phẩm</h3>
       <button type="button" onclick="closeReviewModal()" style="border: none; background: transparent; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1;">&times;</button>
     </div>
     <form id="reviewForm" onsubmit="submitReview(event)" style="display: flex; flex-direction: column; gap: 12px;">
       <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
         <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Mã đơn hàng</label>
-        <input id="revOrderCode" readonly style="background: var(--cream-2); color: var(--text); font-weight: bold; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;" />
+        <input id="revOrderCode" readonly style="background: #f1ebd9; color: #5a321f; font-weight: bold; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;" />
       </div>
       <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
         <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Số điện thoại</label>
-        <input id="revPhone" readonly style="background: var(--cream-2); color: var(--text); font-weight: bold; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;" />
+        <input id="revPhone" readonly style="background: #f1ebd9; color: #5a321f; font-weight: bold; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;" />
       </div>
       <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
         <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Họ tên của bạn</label>
         <input id="revName" required placeholder="Nhập tên hiển thị" style="background: #fffcf7; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;" />
       </div>
       <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
-        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Đánh giá chất lượng tại Trung Nguyên Legend Âu Lạc</label>
+        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Đánh giá chất lượng</label>
         <select id="revStars" style="background: #fffcf7; font-weight: bold; color: var(--gold); padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9;">
           <option value="5" selected>★★★★★ - Rất hài lòng (5 sao)</option>
           <option value="4">★★★★☆ - Hài lòng (4 sao)</option>
@@ -8302,13 +7614,15 @@ initWebsite();
         </select>
       </div>
       <div class="form-field full" style="display: flex; flex-direction: column; gap: 4px;">
-        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Nội dung chia sẻ (Khách hàng nói gì về Trung Nguyên Legend Âu Lạc)</label>
+        <label style="font-weight: 700; font-size: 13.5px; color: var(--coffee-dark);">Nội dung chia sẻ (Khách hàng nói gì về VPC)</label>
         <textarea id="revContent" required placeholder="Không gian, đồ uống, thái độ phục vụ thế nào..." style="background: #fffcf7; min-height: 80px; padding: 8px 12px; border-radius: 8px; border: 1px solid #decdb9; font-family: inherit; resize: vertical;"></textarea>
       </div>
       <button class="btn btn-primary" type="submit" style="width: 100%; font-weight: 800; padding: 12px; border-radius: 999px; margin-top: 6px;">Gửi đánh giá</button>
     </form>
   </div>
 </div>
+initWebsite();
+</script>
 </body>
 
 </html>

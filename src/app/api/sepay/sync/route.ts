@@ -25,19 +25,34 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ ok: false, message: "Chưa cấu hình API Key của SePay trên máy chủ." }, { status: 400 });
     }
 
-    const response = await fetch("https://userapi.sepay.vn/v2/transactions?limit=50", {
-      headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json"
+    let page = 1;
+    let hasMore = true;
+    const transactions = [];
+    const limit = 50;
+
+    // Lặp qua tối đa 10 trang để lấy sâu lịch sử giao dịch (500 giao dịch gần nhất)
+    while (hasMore && page <= 10) {
+      const response = await fetch(`https://userapi.sepay.vn/v2/transactions?limit=${limit}&page=${page}`, {
+        headers: {
+          "Authorization": `Bearer ${apiKey}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        console.error(`❌ SePay API sync error page ${page} in Next.js: HTTP ${response.status}`);
+        break;
       }
-    });
 
-    if (!response.ok) {
-      throw new Error(`SePay API trả về mã lỗi: ${response.status}`);
+      const result = await response.json();
+      const pageTxs = result.data || [];
+      if (pageTxs.length === 0) {
+        hasMore = false;
+      } else {
+        transactions.push(...pageTxs);
+        page++;
+      }
     }
-
-    const result = await response.json();
-    const transactions = result.data || [];
     const supabase = createAdminClient();
     const updatedOrders = [];
 
